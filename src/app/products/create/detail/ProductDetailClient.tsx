@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Breadcrumb,
@@ -12,7 +12,8 @@ import {
   Button,
   Tooltip,
   Space,
-  message
+  message,
+  Popover
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -21,6 +22,7 @@ import {
   RightOutlined
 } from '@ant-design/icons'
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
+import ImageUploadModal from '@/components/ImageUploadModal'
 
 // 国家选项
 const countryOptions = [
@@ -118,6 +120,39 @@ export default function ProductCreateClient() {
   const [selectedCategoryPath, setSelectedCategoryPath] = useState<any[]>([])
   const [tempCategoryPath, setTempCategoryPath] = useState<any[]>([])
   const [countryImages, setCountryImages] = useState<Record<string, any[]>>({})
+  const [imageUploadModalVisible, setImageUploadModalVisible] = useState(false)
+  const [currentUploadTarget, setCurrentUploadTarget] = useState<string>('')
+
+  // 从 sessionStorage 读取基础信息
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('productBasicInfo')
+      if (saved) {
+        try {
+          const basicInfo = JSON.parse(saved)
+          setSelectedCountries(basicInfo.selectedCountries || [])
+          setLanguage(basicInfo.language || 'zh')
+          setTitle(basicInfo.title || '')
+          setCountryTitles(basicInfo.countryTitles || {})
+          setCategory(basicInfo.categoryText || '')
+          setSelectedCategoryPath(basicInfo.categoryPath || [])
+          setTempCategoryPath(basicInfo.categoryPath || [])
+          setCountryImages(basicInfo.countryImages || {})
+        } catch (error) {
+          console.error('读取基础信息失败:', error)
+          message.warning('未找到基础信息，请返回重新填写')
+          setTimeout(() => {
+            router.push('/products/create')
+          }, 1500)
+        }
+      } else {
+        message.warning('未找到基础信息，请返回重新填写')
+        setTimeout(() => {
+          router.push('/products/create')
+        }, 1500)
+      }
+    }
+  }, [router])
 
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
@@ -675,8 +710,254 @@ export default function ProductCreateClient() {
               )}
             </div>
           </div>
+
+          {/* 营销图 */}
+          <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+            <div style={{ width: 120, paddingTop: 4 }}>
+              <span style={{ color: '#262626' }}>营销图</span>
+            </div>
+
+            <div>
+              <div style={{ color: '#8C8C8C', fontSize: 10, marginBottom: 12 }}>
+                在营销导购场景，优质的商品图片（1:1白底图、3:4场景图）对导购转化有正向效果。
+              </div>
+
+              {/* 图片上传区域 */}
+              <div style={{ display: 'flex', gap: 17, marginBottom: 12, alignItems: 'flex-end' }}>
+                {/* 1:1白底图 */}
+                <Popover
+                  content={
+                    <div style={{ width: 400 }}>
+                      <div style={{ textAlign: 'center', marginBottom: 16 }}>
+                        <img
+                          src="/marketing-example-1-1.jpg"
+                          alt="示例图片"
+                          style={{ width: 240, height: 240, objectFit: 'contain' }}
+                        />
+                      </div>
+                      <div style={{ fontSize: 12, color: '#262626', lineHeight: '20px' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: 8 }}>规范要求：</div>
+                        <div style={{ marginBottom: 6 }}>
+                          1、图片格式只能为jpg、jpeg、png，且大小不超过5MB；
+                        </div>
+                        <div style={{ marginBottom: 6 }}>
+                          2、图片宽高比例必须为1:1，像素不能低于 800x800（建议 1000x1000）；
+                        </div>
+                        <div style={{ marginBottom: 6 }}>
+                          3、上传图片的背景要求必须为纯白色或透明；
+                        </div>
+                        <div>
+                          4、不允许出现logo水印、边框以及促销牛皮癣等信息；
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  trigger="hover"
+                  placement="right"
+                >
+                  <div>
+                    <div style={{
+                      backgroundColor: '#595959',
+                      color: '#fff',
+                      padding: '3px 8px',
+                      textAlign: 'center',
+                      fontSize: 10,
+                      borderTopLeftRadius: 2,
+                      borderTopRightRadius: 2,
+                      width: 138
+                    }}>
+                      1:1白底图
+                    </div>
+                    <div
+                      onClick={() => {
+                        setCurrentUploadTarget('marketing-1-1')
+                        setImageUploadModalVisible(true)
+                      }}
+                      style={{
+                        border: '1px dashed #d9d9d9',
+                        borderTop: 'none',
+                        borderRadius: '0 0 2px 2px',
+                        width: 138,
+                        height: 138,
+                        position: 'relative',
+                        cursor: 'pointer',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {/* 背景图片 */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundImage: 'url(/marketing-example-1-1.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.4
+                      }} />
+
+                      {/* 半透明遮罩 */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                      }} />
+
+                      {/* 内容层 */}
+                      <div style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        paddingBottom: 24,
+                        zIndex: 1
+                      }}>
+                        <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
+                        <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
+                          添加图片
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Popover>
+
+                {/* 3:4场景图 */}
+                <Popover
+                  content={
+                    <div style={{ width: 400 }}>
+                      <div style={{ textAlign: 'center', marginBottom: 16 }}>
+                        <img
+                          src="/marketing-example-3-4.jpg"
+                          alt="示例图片"
+                          style={{ width: 180, height: 240, objectFit: 'contain' }}
+                        />
+                      </div>
+                      <div style={{ fontSize: 12, color: '#262626', lineHeight: '20px' }}>
+                        <div style={{ fontWeight: 'bold', marginBottom: 8 }}>规范要求：</div>
+                        <div style={{ marginBottom: 6 }}>
+                          1、图片格式只能为jpg、jpeg、png，且大小不超过5MB；
+                        </div>
+                        <div style={{ marginBottom: 6 }}>
+                          2、宽高比例必须为3:4，像素要求不能低于 750x1000；
+                        </div>
+                        <div>
+                          3、不允许出现水印、任何形式的边框以及促销牛皮癣等信息；
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  trigger="hover"
+                  placement="right"
+                >
+                  <div>
+                    <div style={{
+                      backgroundColor: '#595959',
+                      color: '#fff',
+                      padding: '3px 8px',
+                      textAlign: 'center',
+                      fontSize: 10,
+                      borderTopLeftRadius: 2,
+                      borderTopRightRadius: 2,
+                      width: 160
+                    }}>
+                      3:4场景图
+                    </div>
+                    <div
+                      onClick={() => {
+                        setCurrentUploadTarget('marketing-3-4')
+                        setImageUploadModalVisible(true)
+                      }}
+                      style={{
+                        border: '1px dashed #d9d9d9',
+                        borderTop: 'none',
+                        borderRadius: '0 0 2px 2px',
+                        width: 160,
+                        height: 213,
+                        position: 'relative',
+                        cursor: 'pointer',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {/* 背景图片 */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundImage: 'url(/marketing-example-3-4.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.4
+                      }} />
+
+                      {/* 半透明遮罩 */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                      }} />
+
+                      {/* 内容层 */}
+                      <div style={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        paddingBottom: 32,
+                        zIndex: 1
+                      }}>
+                        <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
+                        <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
+                          添加图片
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Popover>
+              </div>
+
+              <Button
+                type="primary"
+                ghost
+                size="small"
+              >
+                Ai 图片优化
+              </Button>
+            </div>
+          </div>
         </Card>
       </div>
+
+      {/* 图片上传弹窗 */}
+      <ImageUploadModal
+        visible={imageUploadModalVisible}
+        onClose={() => setImageUploadModalVisible(false)}
+        onConfirm={(images) => {
+          // TODO: 根据 currentUploadTarget 保存图片到对应位置
+          console.log('选中的图片:', images)
+          console.log('上传目标:', currentUploadTarget)
+          setImageUploadModalVisible(false)
+        }}
+        maxCount={1}
+        sizeLimit={5}
+        minDimensions={{ width: 800, height: 800 }}
+        acceptFormats={['jpg', 'jpeg', 'png']}
+        folder="商品发布"
+      />
     </HeaderOnlyLayout>
   )
 }
