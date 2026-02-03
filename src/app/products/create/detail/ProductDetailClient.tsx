@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Breadcrumb,
@@ -115,6 +115,14 @@ const categoryData = [
   },
 ]
 
+const MAIN_SECTIONS = [
+  { key: 'basic', label: '基本信息' },
+  { key: 'price', label: '价格与库存' },
+  { key: 'description', label: '详细描述' },
+  { key: 'package', label: '包装与物流' },
+  { key: 'other', label: '其它设置' },
+]
+
 export default function ProductCreateClient() {
   const router = useRouter()
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
@@ -138,6 +146,46 @@ export default function ProductCreateClient() {
 
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+
+  const setSectionRef = (key: string) => (node: HTMLDivElement | null) => {
+    sectionRefs.current[key] = node
+  }
+
+  const scrollToSection = (key: string) => {
+    setMainTab(key)
+    const target = sectionRefs.current[key]
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
+        if (visible) {
+          const key = visible.target.getAttribute('data-section')
+          if (key) {
+            setMainTab(prev => (prev === key ? prev : key))
+          }
+        }
+      },
+      {
+        rootMargin: '-120px 0px -60% 0px',
+        threshold: [0, 0.1]
+      }
+    )
+
+    MAIN_SECTIONS.forEach(section => {
+      const node = sectionRefs.current[section.key]
+      if (node) observer.observe(node)
+    })
+
+    return () => observer.disconnect()
+  }, [])
 
   // 添加自定义属性
   const handleAddCustomAttribute = () => {
@@ -397,29 +445,39 @@ export default function ProductCreateClient() {
         </h1>
       </div>
 
-      {/* 主标签导航 - sticky */}
-      <div style={{
-        position: 'sticky',
-        top: 64,
-        zIndex: 100,
-        backgroundColor: '#F5F5F5',
-        paddingLeft: 40,
-        paddingRight: 40
-      }}>
-        <Tabs
-          activeKey={mainTab}
-          onChange={setMainTab}
-          style={{
-            marginBottom: 0,
-            backgroundColor: 'transparent'
-          }}
-          size="large"
-          items={[
+      {/* 主标签导航 */}
+      <Tabs
+        activeKey={mainTab}
+        onChange={scrollToSection}
+        renderTabBar={(props, DefaultTabBar) => (
+          <div style={{
+            position: 'sticky',
+            top: 64,
+            zIndex: 100,
+            backgroundColor: '#F5F5F5',
+            paddingLeft: 40,
+            paddingRight: 40
+          }}>
+            <DefaultTabBar {...props} />
+          </div>
+        )}
+        style={{
+          marginBottom: 0,
+          backgroundColor: 'transparent'
+        }}
+        className="product-create-sections"
+        size="large"
+        items={[
             {
               key: 'basic',
               label: '基本信息',
               children: (
-                <div style={{ padding: '20px 40px 0' }}>
+                <div
+                  ref={setSectionRef('basic')}
+                  id="section-basic"
+                  data-section="basic"
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                >
                   {/* 国家选择卡片 */}
                   <Card
           variant="borderless"
@@ -2229,8 +2287,107 @@ export default function ProductCreateClient() {
               key: 'price',
               label: '价格与库存',
               children: (
-                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
-                  价格与库存模块开发中...
+                <div
+                  ref={setSectionRef('price')}
+                  id="section-price"
+                  data-section="price"
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                >
+                  <Card
+                    variant="borderless"
+                    title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>价格与库存</span>}
+                    style={{ fontSize: 12 }}
+                  >
+                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 120, paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>计价方式</span>
+                      </div>
+                      <Select
+                        size="small"
+                        style={{ width: 240 }}
+                        defaultValue="fixed"
+                        options={[
+                          { label: '一口价', value: 'fixed' },
+                          { label: '多SKU', value: 'sku' },
+                        ]}
+                      />
+                    </div>
+
+                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 120, paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>售价</span>
+                      </div>
+                      <div>
+                        <Space.Compact size="small">
+                          <Input
+                            style={{ width: 200 }}
+                            placeholder="请输入售价"
+                          />
+                          <div style={{
+                            width: 40,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            border: '1px solid #d9d9d9',
+                            borderLeft: 'none',
+                            background: '#fafafa',
+                            color: '#8C8C8C',
+                            fontSize: 12
+                          }}>
+                            USD
+                          </div>
+                        </Space.Compact>
+                        <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
+                          建议填写实际销售价格，系统将根据站点自动换算。
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 120, paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>库存</span>
+                      </div>
+                      <div>
+                        <Input
+                          size="small"
+                          style={{ width: 240 }}
+                          placeholder="请输入库存数量"
+                        />
+                        <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
+                          库存为 0 时商品将下架。
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 120, paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>库存扣减方式</span>
+                      </div>
+                      <Select
+                        size="small"
+                        style={{ width: 240 }}
+                        defaultValue="order"
+                        options={[
+                          { label: '下单扣减', value: 'order' },
+                          { label: '付款扣减', value: 'pay' },
+                        ]}
+                      />
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 120, paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>商家编码</span>
+                      </div>
+                      <Input
+                        size="small"
+                        style={{ width: 240 }}
+                        placeholder="请输入商家编码"
+                      />
+                    </div>
+                  </Card>
                 </div>
               )
             },
@@ -2238,7 +2395,12 @@ export default function ProductCreateClient() {
               key: 'description',
               label: '详细描述',
               children: (
-                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                <div
+                  ref={setSectionRef('description')}
+                  id="section-description"
+                  data-section="description"
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                >
                   详细描述模块开发中...
                 </div>
               )
@@ -2247,7 +2409,12 @@ export default function ProductCreateClient() {
               key: 'package',
               label: '包装与物流',
               children: (
-                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                <div
+                  ref={setSectionRef('package')}
+                  id="section-package"
+                  data-section="package"
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                >
                   包装与物流模块开发中...
                 </div>
               )
@@ -2256,14 +2423,28 @@ export default function ProductCreateClient() {
               key: 'other',
               label: '其它设置',
               children: (
-                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                <div
+                  ref={setSectionRef('other')}
+                  id="section-other"
+                  data-section="other"
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                >
                   其它设置模块开发中...
                 </div>
               )
             }
-          ]}
-        />
-      </div>
+        ]}
+      />
+
+      <style jsx global>{`
+        .product-create-sections .ant-tabs-content {
+          display: block;
+        }
+        .product-create-sections .ant-tabs-tabpane {
+          display: block !important;
+          height: auto !important;
+        }
+      `}</style>
 
       {/* 图片上传弹窗 */}
       <ImageUploadModal
