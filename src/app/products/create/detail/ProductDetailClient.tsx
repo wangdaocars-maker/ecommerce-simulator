@@ -1590,7 +1590,8 @@ export default function ProductCreateClient() {
         placement="right"
         open={customsDrawerVisible}
         onClose={() => setCustomsDrawerVisible(false)}
-        width={800}
+        size="large"
+        styles={{ body: { paddingTop: 24 } }}
         footer={
           <div style={{ textAlign: 'right' }}>
             <Button
@@ -1613,7 +1614,7 @@ export default function ProductCreateClient() {
       >
         {/* 提示信息 */}
         <Alert
-          message="您的商品将基于您填写的海关监管属性（请参考美国海关监管属性规范）进行美国海关进口申报，因此 请务必如实填写，否则您将承担因此导致的清关失败后果及相关责任。"
+          description="您的商品将基于您填写的海关监管属性（请参考美国海关监管属性规范）进行美国海关进口申报，因此 请务必如实填写，否则您将承担因此导致的清关失败后果及相关责任。"
           type="info"
           showIcon
           closable
