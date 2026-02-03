@@ -19,7 +19,9 @@ import {
   QuestionCircleOutlined,
   PlusOutlined,
   SearchOutlined,
-  RightOutlined
+  RightOutlined,
+  UpOutlined,
+  DownOutlined
 } from '@ant-design/icons'
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
 import ImageUploadModal from '@/components/ImageUploadModal'
@@ -124,6 +126,46 @@ export default function ProductCreateClient() {
   const [imageUploadModalVisible, setImageUploadModalVisible] = useState(false)
   const [currentUploadTarget, setCurrentUploadTarget] = useState<string>('')
   const [videoUploadModalVisible, setVideoUploadModalVisible] = useState(false)
+  // 自定义属性列表
+  const [customAttributes, setCustomAttributes] = useState<Array<{ id: string; name: string; value: string }>>([])
+
+  // 添加自定义属性
+  const handleAddCustomAttribute = () => {
+    const newAttr = {
+      id: Date.now().toString(),
+      name: '',
+      value: ''
+    }
+    setCustomAttributes([...customAttributes, newAttr])
+  }
+
+  // 删除自定义属性
+  const handleDeleteCustomAttribute = (id: string) => {
+    setCustomAttributes(customAttributes.filter(attr => attr.id !== id))
+  }
+
+  // 上移自定义属性
+  const handleMoveUpCustomAttribute = (index: number) => {
+    if (index === 0) return
+    const newAttrs = [...customAttributes]
+    ;[newAttrs[index - 1], newAttrs[index]] = [newAttrs[index], newAttrs[index - 1]]
+    setCustomAttributes(newAttrs)
+  }
+
+  // 下移自定义属性
+  const handleMoveDownCustomAttribute = (index: number) => {
+    if (index === customAttributes.length - 1) return
+    const newAttrs = [...customAttributes]
+    ;[newAttrs[index], newAttrs[index + 1]] = [newAttrs[index + 1], newAttrs[index]]
+    setCustomAttributes(newAttrs)
+  }
+
+  // 更新自定义属性
+  const handleUpdateCustomAttribute = (id: string, field: 'name' | 'value', newValue: string) => {
+    setCustomAttributes(customAttributes.map(attr =>
+      attr.id === id ? { ...attr, [field]: newValue } : attr
+    ))
+  }
 
   // 从 sessionStorage 读取基础信息
   useEffect(() => {
@@ -1401,17 +1443,73 @@ export default function ProductCreateClient() {
                     </div>
                   </div>
 
-                  {/* 最后一行：添加自定义属性 */}
+                  {/* 自定义属性列表 */}
+                  {customAttributes.map((attr, index) => (
+                    <div key={attr.id} style={{ display: 'flex', gap: 100 }}>
+                      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>添加自定义属性</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
+                          <Input
+                            placeholder="属性名 - 例如：Color"
+                            style={{ width: 400 }}
+                            size="middle"
+                            value={attr.name}
+                            onChange={(e) => handleUpdateCustomAttribute(attr.id, 'name', e.target.value)}
+                          />
+                          <Input
+                            placeholder="属性值 - 例如：Red"
+                            style={{ width: 400 }}
+                            size="middle"
+                            value={attr.value}
+                            onChange={(e) => handleUpdateCustomAttribute(attr.id, 'value', e.target.value)}
+                          />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <Button
+                              type="text"
+                              size="small"
+                              icon={<UpOutlined />}
+                              disabled={index === 0}
+                              onClick={() => handleMoveUpCustomAttribute(index)}
+                              style={{ padding: 4 }}
+                            />
+                            <Button
+                              type="text"
+                              size="small"
+                              icon={<DownOutlined />}
+                              disabled={index === customAttributes.length - 1}
+                              onClick={() => handleMoveDownCustomAttribute(index)}
+                              style={{ padding: 4 }}
+                            />
+                            <Button
+                              type="link"
+                              size="small"
+                              onClick={() => handleDeleteCustomAttribute(attr.id)}
+                              style={{ padding: 0 }}
+                            >
+                              删除
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ flex: 1 }}></div>
+                    </div>
+                  ))}
+
+                  {/* 添加自定义属性按钮 */}
                   <div style={{ display: 'flex', gap: 100 }}>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
                       <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
-                        <span style={{ color: '#262626' }}>添加自定义属性</span>
+                        {customAttributes.length === 0 && (
+                          <span style={{ color: '#262626' }}>添加自定义属性</span>
+                        )}
                       </div>
                       <div style={{ marginLeft: 12, flex: 1 }}>
                         <Button
                           icon={<PlusOutlined />}
                           size="middle"
-                          // TODO: 实现添加自定义属性功能
+                          onClick={handleAddCustomAttribute}
                         >
                           添加自定义属性
                         </Button>
