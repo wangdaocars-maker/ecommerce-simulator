@@ -1589,7 +1589,7 @@ export default function ProductCreateClient() {
                   key: 'all',
                   label: '全部资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 欧盟 - 完整内容 */}
                       <div style={{ marginBottom: 48 }}>
                         <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>欧盟</h4>
@@ -1857,7 +1857,7 @@ export default function ProductCreateClient() {
                   key: 'eu',
                   label: '欧盟资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 欧盟说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         销往欧盟的儿童玩具产品应满足玩具安全法规Toy safety Directive 2009/48/EU，无线电玩具还需满足无线指令Directive 2014/53/EU带要求，所有带电玩具满足RoHS指令Directive 2011/65/EU的相关要求，并向平台提供符合性声明文件及其他产品合规文件。
@@ -1949,7 +1949,7 @@ export default function ProductCreateClient() {
                   key: 'uk',
                   label: '英国资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 英国说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         根据欧盟/英国法规要求，销往欧盟市场的商品须上传外包装标签图，应标明如下信息：生产企业信息、和CE/UKCA标识（如适用）。商品资质的审核结果查询请访问资质中心【<a href="https://gsp.aliexpress.com/apps/product/qualitycenter?" target="_blank" rel="noopener noreferrer" style={{ color: '#1677FF' }}>https://gsp.aliexpress.com/apps/product/qualitycenter?</a>】
@@ -1974,7 +1974,7 @@ export default function ProductCreateClient() {
                   key: 'kr',
                   label: '韩国资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 韩国说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         平台加强了售往韩国的儿童玩具、母婴产品、电子电器、小家电、运动户外、安全防护、家居用品、美容健康等品类的商品管控，商家需确保商品符合韩国当地的相关法律法规要求，请商家积极上传KC、CE或3C等该商品的全部认证，以便韩国消费者了解该产品的认证信息。
@@ -2067,7 +2067,7 @@ export default function ProductCreateClient() {
                   key: 'br',
                   label: '巴西资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 巴西说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         玩具在巴西销售时需要符合巴西INMETRO的相关要求。
@@ -2108,7 +2108,7 @@ export default function ProductCreateClient() {
                   key: 'tr',
                   label: '土耳其资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 土耳其说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。
@@ -2141,7 +2141,7 @@ export default function ProductCreateClient() {
                   key: 'mx',
                   label: '墨西哥资质',
                   children: (
-                    <div style={{ padding: '24px 0', maxWidth: 1200 }}>
+                    <div style={{ padding: '24px 0', maxWidth: 840 }}>
                       {/* 墨西哥说明 */}
                       <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
                         平台拟进一步加强售往墨西哥的电子电器、玩具、医疗器械、保健食品、化妆品等品类的商品合规管控，商家需确保自己提供的商品符合墨西哥当地的相关法律法规要求。
