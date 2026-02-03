@@ -397,11 +397,25 @@ export default function ProductCreateClient() {
         </h1>
 
         {/* 主标签导航 */}
-        <Tabs
-          activeKey={mainTab}
-          onChange={setMainTab}
-          style={{ marginBottom: 0 }}
-          items={[
+        <div style={{
+          position: 'sticky',
+          top: 64,
+          zIndex: 100,
+          backgroundColor: '#fff',
+          marginLeft: -40,
+          marginRight: -40,
+          paddingLeft: 40,
+          paddingRight: 40,
+          borderBottom: '1px solid #f0f0f0'
+        }}>
+          <Tabs
+            activeKey={mainTab}
+            onChange={setMainTab}
+            style={{
+              marginBottom: 0
+            }}
+            size="large"
+            items={[
             {
               key: 'basic',
               label: '基本信息',
@@ -2249,7 +2263,8 @@ export default function ProductCreateClient() {
               )
             }
           ]}
-        />
+          />
+        </div>
       </div>
 
       {/* 图片上传弹窗 */}
