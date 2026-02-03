@@ -13,7 +13,9 @@ import {
   Tooltip,
   Space,
   message,
-  Popover
+  Popover,
+  Drawer,
+  Alert
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -128,6 +130,8 @@ export default function ProductCreateClient() {
   const [videoUploadModalVisible, setVideoUploadModalVisible] = useState(false)
   // 自定义属性列表
   const [customAttributes, setCustomAttributes] = useState<Array<{ id: string; name: string; value: string }>>([])
+  // 海关监管属性抽屉
+  const [customsDrawerVisible, setCustomsDrawerVisible] = useState(false)
 
   // 添加自定义属性
   const handleAddCustomAttribute = () => {
@@ -1522,6 +1526,34 @@ export default function ProductCreateClient() {
             </div>
           </div>
         </Card>
+
+        {/* 海关监管属性 */}
+        <Card
+          variant="borderless"
+          title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>海关监管属性</span>}
+          style={{ fontSize: 12, marginTop: 17 }}
+        >
+          <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+            <div style={{ width: 120, paddingTop: 4 }}>
+              <span style={{ color: '#ff4d4f' }}>* </span>
+              <span style={{ color: '#262626' }}>海关监管属性</span>
+              <Tooltip title="请填写符合海关要求的商品属性信息">
+                <QuestionCircleOutlined
+                  style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }}
+                />
+              </Tooltip>
+            </div>
+
+            <div>
+              <Button
+                size="middle"
+                onClick={() => setCustomsDrawerVisible(true)}
+              >
+                去设置
+              </Button>
+            </div>
+          </div>
+        </Card>
       </div>
 
       {/* 图片上传弹窗 */}
@@ -1551,6 +1583,48 @@ export default function ProductCreateClient() {
           setVideoUploadModalVisible(false)
         }}
       />
+
+      {/* 海关监管属性抽屉 */}
+      <Drawer
+        title="海关监管属性"
+        placement="right"
+        open={customsDrawerVisible}
+        onClose={() => setCustomsDrawerVisible(false)}
+        width={800}
+        footer={
+          <div style={{ textAlign: 'right' }}>
+            <Button
+              onClick={() => setCustomsDrawerVisible(false)}
+              style={{ marginRight: 8 }}
+            >
+              取消
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                // TODO: 保存海关监管属性
+                setCustomsDrawerVisible(false)
+              }}
+            >
+              确定
+            </Button>
+          </div>
+        }
+      >
+        {/* 提示信息 */}
+        <Alert
+          message="您的商品将基于您填写的海关监管属性（请参考美国海关监管属性规范）进行美国海关进口申报，因此 请务必如实填写，否则您将承担因此导致的清关失败后果及相关责任。"
+          type="info"
+          showIcon
+          closable
+          style={{ marginBottom: 24 }}
+        />
+
+        {/* TODO: 添加海关监管属性表单内容 */}
+        <div style={{ minHeight: 400 }}>
+          {/* 这里将添加海关监管属性的表单字段 */}
+        </div>
+      </Drawer>
     </HeaderOnlyLayout>
   )
 }
