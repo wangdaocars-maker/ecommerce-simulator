@@ -15,7 +15,8 @@ import {
   message,
   Popover,
   Drawer,
-  Alert
+  Alert,
+  Tabs
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -132,6 +133,8 @@ export default function ProductCreateClient() {
   const [customAttributes, setCustomAttributes] = useState<Array<{ id: string; name: string; value: string }>>([])
   // 海关监管属性抽屉
   const [customsDrawerVisible, setCustomsDrawerVisible] = useState(false)
+  // 资质信息标签页
+  const [qualificationTab, setQualificationTab] = useState('all')
 
   // 添加自定义属性
   const handleAddCustomAttribute = () => {
@@ -1552,6 +1555,122 @@ export default function ProductCreateClient() {
                 去设置
               </Button>
             </div>
+          </div>
+        </Card>
+
+        {/* 资质信息 */}
+        <Card
+          variant="borderless"
+          title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>资质信息</span>}
+          style={{ fontSize: 12, marginTop: 17 }}
+        >
+          <div style={{ marginBottom: 17 }}>
+            {/* 提示信息 */}
+            <div
+              style={{
+                backgroundColor: '#FFF7E6',
+                border: '1px solid #FFD591',
+                borderRadius: 4,
+                padding: '12px 16px',
+                marginBottom: 17,
+                color: '#D46B08',
+                fontSize: 12
+              }}
+            >
+              如果您在以下国家/地区售卖商品，请提交该国家/地区要求的商品资质，否则商品可能无法在该国家/地区展示
+            </div>
+
+            {/* 国家/地区标签页 */}
+            <Tabs
+              activeKey={qualificationTab}
+              onChange={setQualificationTab}
+              items={[
+                {
+                  key: 'all',
+                  label: '全部资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 这里将显示所有国家的资质信息 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'eu',
+                  label: '欧盟资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 欧盟资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无欧盟资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'uk',
+                  label: '英国资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 英国资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无英国资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'kr',
+                  label: '韩国资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 韩国资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无韩国资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'br',
+                  label: '巴西资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 巴西资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无巴西资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'tr',
+                  label: '土耳其资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 土耳其资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无土耳其资质信息
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  key: 'mx',
+                  label: '墨西哥资质',
+                  children: (
+                    <div style={{ minHeight: 200, padding: '24px 0' }}>
+                      {/* TODO: 墨西哥资质内容 */}
+                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
+                        暂无墨西哥资质信息
+                      </div>
+                    </div>
+                  )
+                }
+              ]}
+            />
           </div>
         </Card>
       </div>
