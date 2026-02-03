@@ -376,7 +376,7 @@ export default function ProductCreateClient() {
 
   return (
     <HeaderOnlyLayout>
-      <div style={{ padding: '17px 40px' }}>
+      <div style={{ padding: '17px 40px 0' }}>
         {/* 面包屑导航 */}
         <Breadcrumb
           items={[
@@ -395,34 +395,33 @@ export default function ProductCreateClient() {
         }}>
           发布商品
         </h1>
+      </div>
 
-        {/* 主标签导航 */}
-        <div style={{
-          position: 'sticky',
-          top: 64,
-          zIndex: 100,
-          backgroundColor: '#F5F5F5',
-          marginLeft: -40,
-          marginRight: -40,
-          paddingLeft: 40,
-          paddingRight: 40
-        }}>
-          <Tabs
-            activeKey={mainTab}
-            onChange={setMainTab}
-            style={{
-              marginBottom: 0,
-              backgroundColor: 'transparent'
-            }}
-            size="large"
-            items={[
+      {/* 主标签导航 - sticky */}
+      <div style={{
+        position: 'sticky',
+        top: 64,
+        zIndex: 100,
+        backgroundColor: '#F5F5F5',
+        paddingLeft: 40,
+        paddingRight: 40
+      }}>
+        <Tabs
+          activeKey={mainTab}
+          onChange={setMainTab}
+          style={{
+            marginBottom: 0,
+            backgroundColor: 'transparent'
+          }}
+          size="large"
+          items={[
             {
               key: 'basic',
               label: '基本信息',
               children: (
-                <div style={{ paddingTop: 20 }}>
-        {/* 国家选择卡片 */}
-        <Card
+                <div style={{ padding: '20px 40px 0' }}>
+                  {/* 国家选择卡片 */}
+                  <Card
           variant="borderless"
           style={{ marginBottom: 20, fontSize: 12 }}
         >
@@ -2263,8 +2262,7 @@ export default function ProductCreateClient() {
               )
             }
           ]}
-          />
-        </div>
+        />
       </div>
 
       {/* 图片上传弹窗 */}
