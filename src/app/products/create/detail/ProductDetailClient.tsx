@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons'
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
 import ImageUploadModal from '@/components/ImageUploadModal'
+import VideoUploadModal from '@/components/VideoUploadModal'
 
 // 国家选项
 const countryOptions = [
@@ -122,6 +123,7 @@ export default function ProductCreateClient() {
   const [countryImages, setCountryImages] = useState<Record<string, any[]>>({})
   const [imageUploadModalVisible, setImageUploadModalVisible] = useState(false)
   const [currentUploadTarget, setCurrentUploadTarget] = useState<string>('')
+  const [videoUploadModalVisible, setVideoUploadModalVisible] = useState(false)
 
   // 从 sessionStorage 读取基础信息
   useEffect(() => {
@@ -939,6 +941,29 @@ export default function ProductCreateClient() {
               </Button>
             </div>
           </div>
+
+          {/* 商品视频 */}
+          <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+            <div style={{ width: 120, paddingTop: 4 }}>
+              <span style={{ color: '#262626' }}>商品视频</span>
+            </div>
+
+            <div>
+              <Button
+                type="primary"
+                ghost
+                size="middle"
+                icon={<span style={{ marginRight: 4 }}>↑</span>}
+                style={{ marginBottom: 12 }}
+                onClick={() => setVideoUploadModalVisible(true)}
+              >
+                上传视频
+              </Button>
+              <div style={{ color: '#8C8C8C', fontSize: 10 }}>
+                建议视频比例为 1:1或者16:9，视频时长在30秒内，视频大小在2GB 内。
+              </div>
+            </div>
+          </div>
         </Card>
       </div>
 
@@ -957,6 +982,17 @@ export default function ProductCreateClient() {
         minDimensions={{ width: 800, height: 800 }}
         acceptFormats={['jpg', 'jpeg', 'png']}
         folder="商品发布"
+      />
+
+      {/* 视频上传弹窗 */}
+      <VideoUploadModal
+        visible={videoUploadModalVisible}
+        onClose={() => setVideoUploadModalVisible(false)}
+        onConfirm={(video) => {
+          // TODO: 保存视频信息
+          console.log('选中的视频:', video)
+          setVideoUploadModalVisible(false)
+        }}
       />
     </HeaderOnlyLayout>
   )
