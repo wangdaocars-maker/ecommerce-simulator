@@ -136,6 +136,9 @@ export default function ProductCreateClient() {
   // 资质信息标签页
   const [qualificationTab, setQualificationTab] = useState('all')
 
+  // 主标签页
+  const [mainTab, setMainTab] = useState('basic')
+
   // 添加自定义属性
   const handleAddCustomAttribute = () => {
     const newAttr = {
@@ -393,6 +396,17 @@ export default function ProductCreateClient() {
           发布商品
         </h1>
 
+        {/* 主标签导航 */}
+        <Tabs
+          activeKey={mainTab}
+          onChange={setMainTab}
+          style={{ marginBottom: 0 }}
+          items={[
+            {
+              key: 'basic',
+              label: '基本信息',
+              children: (
+                <div style={{ paddingTop: 20 }}>
         {/* 国家选择卡片 */}
         <Card
           variant="borderless"
@@ -2195,6 +2209,47 @@ export default function ProductCreateClient() {
             />
           </div>
         </Card>
+                </div>
+              )
+            },
+            {
+              key: 'price',
+              label: '价格与库存',
+              children: (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                  价格与库存模块开发中...
+                </div>
+              )
+            },
+            {
+              key: 'description',
+              label: '详细描述',
+              children: (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                  详细描述模块开发中...
+                </div>
+              )
+            },
+            {
+              key: 'package',
+              label: '包装与物流',
+              children: (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                  包装与物流模块开发中...
+                </div>
+              )
+            },
+            {
+              key: 'other',
+              label: '其它设置',
+              children: (
+                <div style={{ padding: '40px 0', textAlign: 'center', color: '#8C8C8C' }}>
+                  其它设置模块开发中...
+                </div>
+              )
+            }
+          ]}
+        />
       </div>
 
       {/* 图片上传弹窗 */}
