@@ -13,12 +13,13 @@ interface HeaderOnlyLayoutProps {
 export default function HeaderOnlyLayout({ children }: HeaderOnlyLayoutProps) {
   return (
     <SessionProvider>
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: '100vh', overflow: 'visible' }}>
         <Header />
         <Content style={{
           marginTop: 64,
           backgroundColor: '#F5F5F5',
-          minHeight: 'calc(100vh - 64px)'
+          minHeight: 'calc(100vh - 64px)',
+          overflow: 'visible'
         }}>
           {children}
         </Content>
