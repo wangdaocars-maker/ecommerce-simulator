@@ -1589,10 +1589,66 @@ export default function ProductCreateClient() {
                   key: 'all',
                   label: '全部资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 这里将显示所有国家的资质信息 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 欧盟 */}
+                      <div style={{ marginBottom: 40 }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>欧盟</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          销往欧盟的儿童玩具产品应满足玩具安全法规Toy safety Directive 2009/48/EU，无线电玩具还需满足无线指令Directive 2014/53/EU带要求，所有带电玩具满足RoHS指令Directive 2011/65/EU的相关要求，并向平台提供符合性声明文件及其他产品合规文件。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        {/* 这里会包含欧盟的所有字段，与单独的欧盟标签页内容相同 */}
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「欧盟资质」标签页查看详细字段</div>
+                      </div>
+
+                      {/* 英国 */}
+                      <div style={{ marginBottom: 40, paddingTop: 24, borderTop: '1px solid #F0F0F0' }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>英国</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          根据欧盟/英国法规要求，销往欧盟市场的商品须上传外包装标签图，应标明如下信息：生产企业信息、和CE/UKCA标识（如适用）。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「英国资质」标签页查看详细字段</div>
+                      </div>
+
+                      {/* 韩国 */}
+                      <div style={{ marginBottom: 40, paddingTop: 24, borderTop: '1px solid #F0F0F0' }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>韩国</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          平台加强了售往韩国的儿童玩具、母婴产品、电子电器、小家电、运动户外、安全防护、家居用品、美容健康等品类的商品管控。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「韩国资质」标签页查看详细字段</div>
+                      </div>
+
+                      {/* 巴西 */}
+                      <div style={{ marginBottom: 40, paddingTop: 24, borderTop: '1px solid #F0F0F0' }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>巴西</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          玩具在巴西销售时需要符合巴西INMETRO的相关要求。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「巴西资质」标签页查看详细字段</div>
+                      </div>
+
+                      {/* 土耳其 */}
+                      <div style={{ marginBottom: 40, paddingTop: 24, borderTop: '1px solid #F0F0F0' }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>土耳其</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址等。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「土耳其资质」标签页查看详细字段</div>
+                      </div>
+
+                      {/* 墨西哥 */}
+                      <div style={{ marginBottom: 24, paddingTop: 24, borderTop: '1px solid #F0F0F0' }}>
+                        <h4 style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 16, color: '#262626' }}>墨西哥</h4>
+                        <div style={{ color: '#595959', fontSize: 12, lineHeight: '20px', marginBottom: 24 }}>
+                          平台拟进一步加强售往墨西哥的电子电器、玩具、医疗器械、保健食品、化妆品等品类的商品合规管控。
+                          <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>详细说明 &gt;&gt;</Button>
+                        </div>
+                        <div style={{ color: '#8C8C8C', fontSize: 12 }}>请切换到「墨西哥资质」标签页查看详细字段</div>
                       </div>
                     </div>
                   )
@@ -1601,10 +1657,90 @@ export default function ProductCreateClient() {
                   key: 'eu',
                   label: '欧盟资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 欧盟资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无欧盟资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 欧盟说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        销往欧盟的儿童玩具产品应满足玩具安全法规Toy safety Directive 2009/48/EU，无线电玩具还需满足无线指令Directive 2014/53/EU带要求，所有带电玩具满足RoHS指令Directive 2011/65/EU的相关要求，并向平台提供符合性声明文件及其他产品合规文件。
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* 检测报告 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>检测报告</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传产品的检测报告。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 产品安全信息/警示语 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>产品安全信息/警示语</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Input.TextArea
+                            placeholder="请输入"
+                            rows={3}
+                            style={{ width: 600 }}
+                          />
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            （选填）如商品具有特殊的安全信息/警示语，请填写。请勿使用特殊符号（如引号、斜杠等），且长度勿超过200字符。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* REACH检测报告 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>REACH检测报告</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请提交商品的REACH检测报告。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 欧盟CE-DoC */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>欧盟CE-DoC</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请提供产品的符合性声明文件。模版可参考：<br />
+                            <a
+                              href="https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: '#1677FF' }}
+                            >
+                              https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx
+                            </a>。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 外包装/标签实拍图-欧盟 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-欧盟</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传发往欧盟的商品包装实物图，应包含生产企业信息、欧盟责任人信息和CE标志
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )
@@ -1613,10 +1749,23 @@ export default function ProductCreateClient() {
                   key: 'uk',
                   label: '英国资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 英国资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无英国资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 英国说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        根据欧盟/英国法规要求，销往欧盟市场的商品须上传外包装标签图，应标明如下信息：生产企业信息、和CE/UKCA标识（如适用）。商品资质的审核结果查询请访问资质中心【<a href="https://gsp.aliexpress.com/apps/product/qualitycenter?" target="_blank" rel="noopener noreferrer" style={{ color: '#1677FF' }}>https://gsp.aliexpress.com/apps/product/qualitycenter?</a>】
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* 外包装/标签实拍图-英国 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-英国</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                        </div>
                       </div>
                     </div>
                   )
@@ -1625,10 +1774,91 @@ export default function ProductCreateClient() {
                   key: 'kr',
                   label: '韩国资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 韩国资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无韩国资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 韩国说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        平台加强了售往韩国的儿童玩具、母婴产品、电子电器、小家电、运动户外、安全防护、家居用品、美容健康等品类的商品管控，商家需确保商品符合韩国当地的相关法律法规要求，请商家积极上传KC、CE或3C等该商品的全部认证，以便韩国消费者了解该产品的认证信息。
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* KC认证证书_安全 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>KC认证证书_安全</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传清晰且带KC认证编号的KC认证证书
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* KC认证编号（安全） */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>KC认证编号（安全）</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Input placeholder="请输入" style={{ width: 400 }} />
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请填写完整的KC认证编号。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 外包装/标签实拍图-韩国 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-韩国</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            商品实物包装标签图需含KC标志、产品名称、原产国、制造商/进口商名称和地址信息，儿童用品需要包含适用年龄。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* CE认证 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>CE认证</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传清晰符合法规要求的欧盟CE证书（如无韩国KC证书，请上传此证书）。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 检测报告 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>检测报告</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传清晰符合法规要求的欧盟CE检测报告（如无韩国KC资质，请上传此报告）。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 中国3C认证 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>中国3C认证</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            相关品类的中国3C认证书是中国商品出口至相关国家市场的必要资质，同时也是证明商品质量优劣的重要参考。平台相关品类的合规管控会依据该资质，当前平台已开放中国3C认证证书的资质提交入口，请商家积极上传。
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )
@@ -1637,10 +1867,39 @@ export default function ProductCreateClient() {
                   key: 'br',
                   label: '巴西资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 巴西资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无巴西资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 巴西说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        玩具在巴西销售时需要符合巴西INMETRO的相关要求。
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* 巴西INMETRO认证 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>巴西INMETRO认证</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传巴西INMETRO认证证书或官网收录截屏的清晰图片，大小需在3M之内
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 外包装/标签实拍图-巴西 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-巴西</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传包含生产企业名称和认证LOGO的清晰图片，大小需在3M之内
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )
@@ -1649,10 +1908,31 @@ export default function ProductCreateClient() {
                   key: 'tr',
                   label: '土耳其资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 土耳其资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无土耳其资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 土耳其说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* 外包装/标签实拍图-土耳其 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-土耳其</span>
+                          <Tooltip title="查看土代标签模版样例">
+                            <QuestionCircleOutlined
+                              style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }}
+                            />
+                          </Tooltip>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。点击"上传本地文件"左侧的问号可查看土代标签模版样例。
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )
@@ -1661,10 +1941,52 @@ export default function ProductCreateClient() {
                   key: 'mx',
                   label: '墨西哥资质',
                   children: (
-                    <div style={{ minHeight: 200, padding: '24px 0' }}>
-                      {/* TODO: 墨西哥资质内容 */}
-                      <div style={{ color: '#8C8C8C', textAlign: 'center' }}>
-                        暂无墨西哥资质信息
+                    <div style={{ padding: '24px 0' }}>
+                      {/* 墨西哥说明 */}
+                      <div style={{ marginBottom: 24, color: '#595959', fontSize: 12, lineHeight: '20px' }}>
+                        平台拟进一步加强售往墨西哥的电子电器、玩具、医疗器械、保健食品、化妆品等品类的商品合规管控，商家需确保自己提供的商品符合墨西哥当地的相关法律法规要求。
+                        <Button type="link" size="small" style={{ padding: 0, marginLeft: 4 }}>
+                          详细说明 &gt;&gt;
+                        </Button>
+                      </div>
+
+                      {/* 墨西哥NOM认证 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>墨西哥NOM认证</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请上传清晰且有效的产品NOM认证证书。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 外包装/标签实拍图-墨西哥 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>外包装/标签实拍图-墨西哥</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            商品实物包装标签图需含NOM标志、产品名称、制造商/进口商名称和地址信息、原产国等。
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 墨西哥NOM证书编号 */}
+                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
+                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <span style={{ color: '#262626' }}>墨西哥NOM证书编号</span>
+                        </div>
+                        <div style={{ marginLeft: 12, flex: 1 }}>
+                          <Input placeholder="请输入" style={{ width: 400 }} />
+                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                            请填写正确的NOM证书编号。
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )
