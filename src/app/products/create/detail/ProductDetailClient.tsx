@@ -964,6 +964,465 @@ export default function ProductCreateClient() {
               </div>
             </div>
           </div>
+
+          {/* 商品属性 */}
+          <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
+            <div style={{ width: 120, paddingTop: 4 }}>
+              <span style={{ color: '#ff4d4f' }}>* </span>
+              <span style={{ color: '#262626' }}>商品属性</span>
+              <Tooltip title="填写商品的详细属性信息">
+                <QuestionCircleOutlined
+                  style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }}
+                />
+              </Tooltip>
+            </div>
+
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  backgroundColor: '#FAFAFA',
+                  border: '1px solid #E8E8E8',
+                  borderRadius: 4,
+                  padding: '24px'
+                }}
+              >
+                {/* 两列表单布局 */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  {/* 第一行：品牌 | 产品类型 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>品牌</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现品牌选择功能
+                        />
+                        <div style={{ marginTop: 8 }}>
+                          <span style={{ color: '#8C8C8C', fontSize: 12 }}>找不到品牌？ </span>
+                          <Button
+                            type="link"
+                            size="small"
+                            style={{ padding: 0, height: 'auto', fontSize: 12 }}
+                            // TODO: 实现申请品牌功能
+                          >
+                            申请品牌
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>产品类型</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现产品类型选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第二行：适用年龄 | 高关注化学品 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>适用年龄</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Button
+                          size="middle"
+                          // TODO: 实现设置功能
+                        >
+                          设置
+                        </Button>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>高关注化学品</span>
+                        <Tooltip title="高关注物质(SVHC)是指具有持久性、生物累积性、毒性(PBT)或高持久性、高生物累积性(vPvB)等特性的化学物质">
+                          <QuestionCircleOutlined
+                            style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }}
+                          />
+                        </Tooltip>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Button
+                          size="middle"
+                          // TODO: 实现设置功能
+                        >
+                          设置
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第三行：产地 | 性别 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#ff4d4f' }}>* </span>
+                        <span style={{ color: '#262626' }}>产地（国家或地区）</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现产地选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>性别</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现性别选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第四行：警告 | 玩偶类型 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>警告</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现警告输入功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>玩偶类型</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现玩偶类型选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第五行：尺寸 | 动漫电影游戏名称 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>尺寸</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现尺寸输入功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>动漫电影游戏名称</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现动漫电影游戏名称选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第六行：比例 | 遥控 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>比例</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入或从列表选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现比例输入/选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>遥控</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现遥控选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第七行：认证 | 按动漫来源 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>认证</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Button
+                          size="middle"
+                          // TODO: 实现设置功能
+                        >
+                          设置
+                        </Button>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>按动漫来源</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入或从列表选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现按动漫来源输入/选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第八行：玩具娃娃适合各种场合 | 状态 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>玩具娃娃适合各种场合</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Button
+                          size="middle"
+                          // TODO: 实现设置功能
+                        >
+                          设置
+                        </Button>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>状态</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现状态选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第九行：兵人配件 | 动漫电影游戏人物角色 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>兵人配件</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Checkbox.Group
+                          style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+                          // TODO: 实现兵人配件选择功能
+                        >
+                          <Checkbox value="soldier-f">兵人成品(Soldier F</Checkbox>
+                          <Checkbox value="soldier">兵人套装(SOLDIER</Checkbox>
+                          <Checkbox value="soldier-p">兵人散件(Soldier P</Checkbox>
+                        </Checkbox.Group>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>动漫电影游戏人物角色</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现动漫电影游戏人物角色输入功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第十行：系列 | 版本 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>系列</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现系列选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>版本</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入或从列表选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现版本输入/选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第十一行：商品属性 | 型号 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>商品属性</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现商品属性选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>型号</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现型号输入功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第十二行：完成度 | 主题 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>完成度</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现完成度选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>主题</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入或从列表选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现主题输入/选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第十三行：材质 | 是否原盒包装 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>材质</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Input
+                          placeholder="请输入或从列表选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现材质输入/选择功能
+                        />
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>是否原盒包装</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Select
+                          placeholder="请选择"
+                          style={{ width: 280 }}
+                          size="middle"
+                          // TODO: 实现是否原盒包装选择功能
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 最后一行：添加自定义属性 */}
+                  <div style={{ display: 'flex', gap: 100 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
+                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <span style={{ color: '#262626' }}>添加自定义属性</span>
+                      </div>
+                      <div style={{ marginLeft: 12, flex: 1 }}>
+                        <Button
+                          icon={<PlusOutlined />}
+                          size="middle"
+                          // TODO: 实现添加自定义属性功能
+                        >
+                          添加自定义属性
+                        </Button>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1 }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </Card>
       </div>
 
