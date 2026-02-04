@@ -181,6 +181,11 @@ export default function ProductCreateClient() {
   const [regionalPriceAdjustments, setRegionalPriceAdjustments] = useState<Record<string, { operator: string; value: string }>>({})
   const [regionalPriceVisible, setRegionalPriceVisible] = useState(false)
 
+  // 批发价
+  const [wholesaleEnabled, setWholesaleEnabled] = useState(false)
+  const [wholesaleMinQuantity, setWholesaleMinQuantity] = useState('')
+  const [wholesaleDiscount, setWholesaleDiscount] = useState('')
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -2921,6 +2926,88 @@ export default function ProductCreateClient() {
                                   </div>
                                 )
                               })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 批发价 */}
+                    <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid #f0f0f0' }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        批发价
+                        <Tooltip title="设置起批量和批发折扣">
+                          <span style={{ color: '#8c8c8c', cursor: 'help', fontSize: 14 }}>ⓘ</span>
+                        </Tooltip>
+                      </div>
+
+                      <Checkbox
+                        checked={wholesaleEnabled}
+                        onChange={(e) => setWholesaleEnabled(e.target.checked)}
+                      >
+                        支持
+                      </Checkbox>
+
+                      {wholesaleEnabled && (
+                        <div style={{ marginTop: 16 }}>
+                          {/* 批发设置说明 */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, fontSize: 12 }}>
+                            <span>支持  设置起批量为</span>
+                            <Input
+                              size="small"
+                              style={{ width: 120 }}
+                              value={wholesaleMinQuantity}
+                              onChange={(e) => setWholesaleMinQuantity(e.target.value)}
+                            />
+                            <span>件，批发价会在零售价基础上减免</span>
+                            <Input
+                              size="small"
+                              style={{ width: 80 }}
+                              value={wholesaleDiscount}
+                              onChange={(e) => setWholesaleDiscount(e.target.value)}
+                            />
+                            <span>%off，即{wholesaleDiscount ? (100 - parseFloat(wholesaleDiscount || '0')) / 10 : 9.90} 折。</span>
+                          </div>
+
+                          {/* 批发价表格 */}
+                          <div style={{ border: '1px solid #d9d9d9', borderRadius: 4, overflow: 'hidden' }}>
+                            {/* 表头 */}
+                            <div style={{
+                              display: 'grid',
+                              gridTemplateColumns: '360px 360px 360px',
+                              background: '#F0F0F0',
+                              borderBottom: '1px solid #d9d9d9',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                              color: '#262626'
+                            }}>
+                              <div style={{ padding: '12px 16px', borderRight: '1px solid #d9d9d9' }}>
+                                零售价
+                              </div>
+                              <div style={{ padding: '12px 16px', borderRight: '1px solid #d9d9d9' }}>
+                                起批量(件)
+                              </div>
+                              <div style={{ padding: '12px 16px' }}>
+                                批发价
+                              </div>
+                            </div>
+
+                            {/* 内容行 */}
+                            <div style={{
+                              display: 'grid',
+                              gridTemplateColumns: '360px 360px 360px',
+                              fontSize: 12,
+                              background: '#fff'
+                            }}>
+                              <div style={{ padding: '16px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center', minHeight: 52 }}>
+                                {/* 零售价会自动显示 */}
+                              </div>
+                              <div style={{ padding: '16px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center', minHeight: 52 }}>
+                                {/* 起批量会自动显示 */}
+                              </div>
+                              <div style={{ padding: '16px', display: 'flex', alignItems: 'center', minHeight: 52 }}>
+                                <span style={{ color: '#262626' }}>0.00</span>
+                              </div>
                             </div>
                           </div>
                         </div>
