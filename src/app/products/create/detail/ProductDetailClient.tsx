@@ -467,29 +467,31 @@ export default function ProductCreateClient() {
 
   return (
     <HeaderOnlyLayout>
-      <div style={{ padding: '17px 40px 0' }}>
-        {/* 面包屑导航 */}
-        <Breadcrumb
-          items={[
-            { title: '商品管理' },
-            { title: '发布商品' },
-          ]}
-          style={{ marginBottom: 11, fontSize: 10, color: '#8C8C8C' }}
-        />
+      {/* 左右分栏容器 */}
+      <div style={{ display: 'flex', gap: 24, padding: '17px 40px 0', alignItems: 'flex-start' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* 面包屑导航 */}
+          <Breadcrumb
+            items={[
+              { title: '商品管理' },
+              { title: '发布商品' },
+            ]}
+            style={{ marginBottom: 11, fontSize: 10, color: '#8C8C8C' }}
+          />
 
-        {/* 页面标题 */}
-        <h1 style={{
-          fontSize: 17,
-          fontWeight: 'bold',
-          color: '#000',
-          marginBottom: 17
-        }}>
-          发布商品
-        </h1>
-      </div>
+          {/* 页面标题 */}
+          <h1 style={{
+            fontSize: 17,
+            fontWeight: 'bold',
+            color: '#000',
+            marginBottom: 17
+          }}>
+            发布商品
+          </h1>
 
-      {/* 主标签导航 */}
-      <Tabs
+          {/* 主标签导航 */}
+          <Tabs
         activeKey={mainTab}
         onChange={scrollToSection}
         renderTabBar={(props, DefaultTabBar) => (
@@ -498,8 +500,10 @@ export default function ProductCreateClient() {
             top: 64,
             zIndex: 100,
             backgroundColor: '#F5F5F5',
-            paddingLeft: 40,
-            paddingRight: 40
+            marginLeft: -17,
+            marginRight: -17,
+            paddingLeft: 17,
+            paddingRight: 17
           }}>
             <DefaultTabBar {...props} />
           </div>
@@ -520,7 +524,7 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('basic')}
                   id="section-basic"
                   data-section="basic"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
                 >
                   {/* 国家选择卡片 */}
                   <Card
@@ -1167,16 +1171,16 @@ export default function ProductCreateClient() {
                 {/* 两列表单布局 */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   {/* 第一行：品牌 | 产品类型 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
                         <span style={{ color: '#262626' }}>品牌</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现品牌选择功能
                         />
@@ -1193,15 +1197,15 @@ export default function ProductCreateClient() {
                         </div>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
                         <span style={{ color: '#262626' }}>产品类型</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现产品类型选择功能
                         />
@@ -1210,13 +1214,13 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第二行：适用年龄 | 高关注化学品 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
                         <span style={{ color: '#262626' }}>适用年龄</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
                           // TODO: 实现设置功能
@@ -1225,8 +1229,8 @@ export default function ProductCreateClient() {
                         </Button>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
                         <span style={{ color: '#262626' }}>高关注化学品</span>
                         <Tooltip title="高关注物质(SVHC)是指具有持久性、生物累积性、毒性(PBT)或高持久性、高生物累积性(vPvB)等特性的化学物质">
@@ -1235,7 +1239,7 @@ export default function ProductCreateClient() {
                           />
                         </Tooltip>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
                           // TODO: 实现设置功能
@@ -1247,29 +1251,29 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第三行：产地 | 性别 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
                         <span style={{ color: '#262626' }}>产地（国家或地区）</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现产地选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>性别</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现性别选择功能
                         />
@@ -1278,28 +1282,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第四行：警告 | 玩偶类型 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>警告</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现警告输入功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>玩偶类型</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现玩偶类型选择功能
                         />
@@ -1308,28 +1312,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第五行：尺寸 | 动漫电影游戏名称 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>尺寸</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现尺寸输入功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>动漫电影游戏名称</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现动漫电影游戏名称选择功能
                         />
@@ -1338,28 +1342,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第六行：比例 | 遥控 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>比例</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入或从列表选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现比例输入/选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>遥控</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现遥控选择功能
                         />
@@ -1368,12 +1372,12 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第七行：认证 | 按动漫来源 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>认证</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
                           // TODO: 实现设置功能
@@ -1382,14 +1386,14 @@ export default function ProductCreateClient() {
                         </Button>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>按动漫来源</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入或从列表选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现按动漫来源输入/选择功能
                         />
@@ -1398,12 +1402,12 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第八行：玩具娃娃适合各种场合 | 状态 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>玩具娃娃适合各种场合</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
                           // TODO: 实现设置功能
@@ -1412,14 +1416,14 @@ export default function ProductCreateClient() {
                         </Button>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>状态</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现状态选择功能
                         />
@@ -1428,12 +1432,12 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第九行：兵人配件 | 动漫电影游戏人物角色 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>兵人配件</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Checkbox.Group
                           style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
                           // TODO: 实现兵人配件选择功能
@@ -1444,14 +1448,14 @@ export default function ProductCreateClient() {
                         </Checkbox.Group>
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>动漫电影游戏人物角色</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现动漫电影游戏人物角色输入功能
                         />
@@ -1460,28 +1464,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第十行：系列 | 版本 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>系列</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现系列选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>版本</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入或从列表选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现版本输入/选择功能
                         />
@@ -1490,28 +1494,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第十一行：商品属性 | 型号 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>商品属性</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现商品属性选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>型号</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现型号输入功能
                         />
@@ -1520,28 +1524,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第十二行：完成度 | 主题 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>完成度</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现完成度选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>主题</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入或从列表选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现主题输入/选择功能
                         />
@@ -1550,28 +1554,28 @@ export default function ProductCreateClient() {
                   </div>
 
                   {/* 第十三行：材质 | 是否原盒包装 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>材质</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Input
                           placeholder="请输入或从列表选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现材质输入/选择功能
                         />
                       </div>
                     </div>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 180, textAlign: 'right', paddingTop: 4 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>是否原盒包装</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Select
                           placeholder="请选择"
-                          style={{ width: 280 }}
+                          style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
                           // TODO: 实现是否原盒包装选择功能
                         />
@@ -1581,9 +1585,9 @@ export default function ProductCreateClient() {
 
                   {/* 自定义属性列表 */}
                   {customAttributes.map((attr, index) => (
-                    <div key={attr.id} style={{ display: 'flex', gap: 100 }}>
-                      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                    <div key={attr.id} style={{ display: 'flex', gap: 40 }}>
+                      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>添加自定义属性</span>
                         </div>
                         <div style={{ marginLeft: 12, flex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -1634,14 +1638,14 @@ export default function ProductCreateClient() {
                   ))}
 
                   {/* 添加自定义属性按钮 */}
-                  <div style={{ display: 'flex', gap: 100 }}>
-                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 40 }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
+                      <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         {customAttributes.length === 0 && (
                           <span style={{ color: '#262626' }}>添加自定义属性</span>
                         )}
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           icon={<PlusOutlined />}
                           size="middle"
@@ -1728,20 +1732,20 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 检测报告 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>检测报告</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请上传产品的检测报告。</div>
                           </div>
                         </div>
                         {/* 产品安全信息/警示语 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>产品安全信息/警示语</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Input.TextArea placeholder="请输入" rows={3} style={{ width: 600 }} />
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               （选填）如商品具有特殊的安全信息/警示语，请填写。请勿使用特殊符号（如引号、斜杠等），且长度勿超过200字符。
@@ -1750,20 +1754,20 @@ export default function ProductCreateClient() {
                         </div>
                         {/* REACH检测报告 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>REACH检测报告</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请提交商品的REACH检测报告。</div>
                           </div>
                         </div>
                         {/* 欧盟CE-DoC */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>欧盟CE-DoC</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请提供产品的符合性声明文件。模版可参考：<br />
@@ -1775,10 +1779,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 外包装/标签实拍图-欧盟 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-欧盟</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请上传发往欧盟的商品包装实物图，应包含生产企业信息、欧盟责任人信息和CE标志
@@ -1796,10 +1800,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 外包装/标签实拍图-英国 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-英国</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           </div>
                         </div>
@@ -1814,30 +1818,30 @@ export default function ProductCreateClient() {
                         </div>
                         {/* KC认证证书_安全 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>KC认证证书_安全</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请上传清晰且带KC认证编号的KC认证证书</div>
                           </div>
                         </div>
                         {/* KC认证编号（安全） */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>KC认证编号（安全）</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Input placeholder="请输入" style={{ width: 400 }} />
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请填写完整的KC认证编号。</div>
                           </div>
                         </div>
                         {/* 外包装/标签实拍图-韩国 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-韩国</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               商品实物包装标签图需含KC标志、产品名称、原产国、制造商/进口商名称和地址信息，儿童用品需要包含适用年龄。
@@ -1846,10 +1850,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* CE认证 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>CE认证</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请上传清晰符合法规要求的欧盟CE证书（如无韩国KC证书，请上传此证书）。
@@ -1858,10 +1862,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 检测报告 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>检测报告</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请上传清晰符合法规要求的欧盟CE检测报告（如无韩国KC资质，请上传此报告）。
@@ -1870,10 +1874,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 中国3C认证 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>中国3C认证</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               相关品类的中国3C认证书是中国商品出口至相关国家市场的必要资质，同时也是证明商品质量优劣的重要参考。平台相关品类的合规管控会依据该资质，当前平台已开放中国3C认证证书的资质提交入口，请商家积极上传。
@@ -1891,10 +1895,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 巴西INMETRO认证 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>巴西INMETRO认证</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请上传巴西INMETRO认证证书或官网收录截屏的清晰图片，大小需在3M之内
@@ -1903,10 +1907,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 外包装/标签实拍图-巴西 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-巴西</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请上传包含生产企业名称和认证LOGO的清晰图片，大小需在3M之内
@@ -1924,13 +1928,13 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 外包装/标签实拍图-土耳其 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-土耳其</span>
                             <Tooltip title="查看土代标签模版样例">
                               <QuestionCircleOutlined style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }} />
                             </Tooltip>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。点击"上传本地文件"左侧的问号可查看土代标签模版样例。
@@ -1948,20 +1952,20 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 墨西哥NOM认证 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>墨西哥NOM认证</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请上传清晰且有效的产品NOM认证证书。</div>
                           </div>
                         </div>
                         {/* 外包装/标签实拍图-墨西哥 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>外包装/标签实拍图-墨西哥</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Button icon={<PlusOutlined />}>上传本地文件</Button>
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                               商品实物包装标签图需含NOM标志、产品名称、制造商/进口商名称和地址信息、原产国等。
@@ -1970,10 +1974,10 @@ export default function ProductCreateClient() {
                         </div>
                         {/* 墨西哥NOM证书编号 */}
                         <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                          <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                          <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                             <span style={{ color: '#262626' }}>墨西哥NOM证书编号</span>
                           </div>
-                          <div style={{ marginLeft: 12, flex: 1 }}>
+                          <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                             <Input placeholder="请输入" style={{ width: 400 }} />
                             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>请填写正确的NOM证书编号。</div>
                           </div>
@@ -1997,10 +2001,10 @@ export default function ProductCreateClient() {
 
                       {/* 检测报告 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>检测报告</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传产品的检测报告。
@@ -2010,10 +2014,10 @@ export default function ProductCreateClient() {
 
                       {/* 产品安全信息/警示语 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>产品安全信息/警示语</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Input.TextArea
                             placeholder="请输入"
                             rows={3}
@@ -2027,10 +2031,10 @@ export default function ProductCreateClient() {
 
                       {/* REACH检测报告 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>REACH检测报告</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请提交商品的REACH检测报告。
@@ -2040,10 +2044,10 @@ export default function ProductCreateClient() {
 
                       {/* 欧盟CE-DoC */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>欧盟CE-DoC</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请提供产品的符合性声明文件。模版可参考：<br />
@@ -2061,10 +2065,10 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-欧盟 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-欧盟</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传发往欧盟的商品包装实物图，应包含生产企业信息、欧盟责任人信息和CE标志
@@ -2089,10 +2093,10 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-英国 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-英国</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                         </div>
                       </div>
@@ -2114,10 +2118,10 @@ export default function ProductCreateClient() {
 
                       {/* KC认证证书_安全 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>KC认证证书_安全</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传清晰且带KC认证编号的KC认证证书
@@ -2127,10 +2131,10 @@ export default function ProductCreateClient() {
 
                       {/* KC认证编号（安全） */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>KC认证编号（安全）</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Input placeholder="请输入" style={{ width: 400 }} />
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请填写完整的KC认证编号。
@@ -2140,10 +2144,10 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-韩国 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-韩国</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             商品实物包装标签图需含KC标志、产品名称、原产国、制造商/进口商名称和地址信息，儿童用品需要包含适用年龄。
@@ -2153,10 +2157,10 @@ export default function ProductCreateClient() {
 
                       {/* CE认证 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>CE认证</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传清晰符合法规要求的欧盟CE证书（如无韩国KC证书，请上传此证书）。
@@ -2166,10 +2170,10 @@ export default function ProductCreateClient() {
 
                       {/* 检测报告 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>检测报告</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传清晰符合法规要求的欧盟CE检测报告（如无韩国KC资质，请上传此报告）。
@@ -2179,10 +2183,10 @@ export default function ProductCreateClient() {
 
                       {/* 中国3C认证 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>中国3C认证</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             相关品类的中国3C认证书是中国商品出口至相关国家市场的必要资质，同时也是证明商品质量优劣的重要参考。平台相关品类的合规管控会依据该资质，当前平台已开放中国3C认证证书的资质提交入口，请商家积极上传。
@@ -2207,10 +2211,10 @@ export default function ProductCreateClient() {
 
                       {/* 巴西INMETRO认证 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>巴西INMETRO认证</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传巴西INMETRO认证证书或官网收录截屏的清晰图片，大小需在3M之内
@@ -2220,10 +2224,10 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-巴西 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-巴西</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传包含生产企业名称和认证LOGO的清晰图片，大小需在3M之内
@@ -2248,7 +2252,7 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-土耳其 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-土耳其</span>
                           <Tooltip title="查看土代标签模版样例">
                             <QuestionCircleOutlined
@@ -2256,7 +2260,7 @@ export default function ProductCreateClient() {
                             />
                           </Tooltip>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。点击"上传本地文件"左侧的问号可查看土代标签模版样例。
@@ -2281,10 +2285,10 @@ export default function ProductCreateClient() {
 
                       {/* 墨西哥NOM认证 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>墨西哥NOM认证</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请上传清晰且有效的产品NOM认证证书。
@@ -2294,10 +2298,10 @@ export default function ProductCreateClient() {
 
                       {/* 外包装/标签实拍图-墨西哥 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>外包装/标签实拍图-墨西哥</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Button icon={<PlusOutlined />}>上传本地文件</Button>
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             商品实物包装标签图需含NOM标志、产品名称、制造商/进口商名称和地址信息、原产国等。
@@ -2307,10 +2311,10 @@ export default function ProductCreateClient() {
 
                       {/* 墨西哥NOM证书编号 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 200, textAlign: 'right', paddingTop: 4 }}>
+                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>墨西哥NOM证书编号</span>
                         </div>
-                        <div style={{ marginLeft: 12, flex: 1 }}>
+                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                           <Input placeholder="请输入" style={{ width: 400 }} />
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             请填写正确的NOM证书编号。
@@ -2336,7 +2340,7 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('price')}
                   id="section-price"
                   data-section="price"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
                 >
                   <Card
                     variant="borderless"
@@ -3050,7 +3054,7 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('description')}
                   id="section-description"
                   data-section="description"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
                 >
                   <Card title="详细描述" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
                     <div style={{ marginBottom: 24 }}>
@@ -3461,7 +3465,7 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('package')}
                   id="section-package"
                   data-section="package"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
                 >
                   <Card title="包装与物流" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
                     <div>
@@ -3667,7 +3671,7 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('other')}
                   id="section-other"
                   data-section="other"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
+                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
                 >
                   <Card title="其它设置" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
                     <div>
@@ -3951,6 +3955,64 @@ export default function ProductCreateClient() {
             }
         ]}
       />
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{
+          width: 280,
+          flexShrink: 0
+        }}>
+          <div style={{
+            position: 'sticky',
+            top: 80,
+            background: '#fff',
+            borderRadius: 8,
+            padding: '20px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+          }}>
+            <div style={{ fontSize: 16, fontWeight: 'bold', color: '#262626', marginBottom: 20 }}>
+              0 项商品信息完整度待优化
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { key: 'basic', label: '基本信息' },
+                { key: 'price', label: '价格与库存' },
+                { key: 'description', label: '详细描述' },
+                { key: 'package', label: '包装与物流' },
+                { key: 'other', label: '其它设置' }
+              ].map(item => (
+                <div
+                  key={item.key}
+                  onClick={() => scrollToSection(item.key)}
+                  style={{
+                    fontSize: 14,
+                    color: mainTab === item.key ? '#262626' : '#595959',
+                    cursor: 'pointer',
+                    paddingLeft: 12,
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    borderLeft: mainTab === item.key ? '3px solid #1677ff' : '3px solid transparent',
+                    fontWeight: mainTab === item.key ? 500 : 400,
+                    transition: 'all 0.3s'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (mainTab !== item.key) {
+                      e.currentTarget.style.color = '#262626'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (mainTab !== item.key) {
+                      e.currentTarget.style.color = '#595959'
+                    }
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* 底部操作栏 */}
       <div style={{
