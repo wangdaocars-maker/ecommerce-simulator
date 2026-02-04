@@ -4210,10 +4210,10 @@ export default function ProductCreateClient() {
       </div>
 
       <style jsx global>{`
-        .product-create-sections .ant-tabs-content {
+        .product-create-sections > .ant-tabs-content-holder > .ant-tabs-content {
           display: block;
         }
-        .product-create-sections .ant-tabs-tabpane {
+        .product-create-sections > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane {
           display: block !important;
           height: auto !important;
         }
