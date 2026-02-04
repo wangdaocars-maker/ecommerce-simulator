@@ -47,6 +47,7 @@ interface ProductTableProps {
   onDelete: (id: string) => void
   onBatchOffline: () => void
   onBatchDelete: () => void
+  onExport: () => void
 }
 
 export default function ProductTable({
@@ -58,6 +59,7 @@ export default function ProductTable({
   onDelete,
   onBatchOffline,
   onBatchDelete,
+  onExport,
 }: ProductTableProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[]>(defaultColumnConfig)
@@ -539,8 +541,17 @@ export default function ProductTable({
           <Button onClick={onBatchOffline} disabled={selectedRowKeys.length === 0}>
             下架
           </Button>
-          <Dropdown menu={{ items: [{ key: 'excel', label: '导出为 Excel' }] }}>
-            <Button>
+          <Dropdown
+            menu={{
+              items: [{ key: 'excel', label: '导出为 Excel' }],
+              onClick: ({ key }) => {
+                if (key === 'excel') {
+                  onExport()
+                }
+              }
+            }}
+          >
+            <Button disabled={selectedRowKeys.length === 0}>
               导出 <DownOutlined />
             </Button>
           </Dropdown>

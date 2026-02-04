@@ -8,7 +8,6 @@ import {
   Checkbox,
   Select,
   Input,
-  Upload,
   Button,
   Tooltip,
   Space,
@@ -65,6 +64,32 @@ const MAIN_SECTIONS = [
   { key: 'other', label: '其它设置' },
 ]
 
+// 认证选项
+const certificationOptions = [
+  { label: 'CE认证(CE)', value: 'ce' },
+  { label: '圆点(Dot)', value: 'dot' },
+  { label: 'EAC(EAC)', value: 'eac' },
+  { label: 'EPA(EPA)', value: 'epa' },
+  { label: 'FCC(FCC)', value: 'fcc' },
+  { label: 'GMP(GMP)', value: 'gmp' },
+  { label: 'RoHS认证(RoHS)', value: 'rohs' },
+  { label: 'TGA(TGA)', value: 'tga' },
+  { label: 'UL认证(UL)', value: 'ul' },
+  { label: 'KC(KC)', value: 'kc' },
+  { label: 'pse(pse)', value: 'pse' },
+  { label: 'WEEE(weee)', value: 'weee' },
+  { label: '无(None)', value: 'none' },
+]
+
+// 玩具娃娃适合场合选项
+const occasionOptions = [
+  { label: '圣诞节(Christmas)', value: 'christmas' },
+  { label: '复活节(Easter)', value: 'easter' },
+  { label: '万圣节(Halloween)', value: 'halloween' },
+  { label: '新年(New Year)', value: 'new_year' },
+  { label: '情人节(Valentine\'s)', value: 'valentines' },
+]
+
 export default function ProductCreateClient() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -94,6 +119,31 @@ export default function ProductCreateClient() {
   const [customsDrawerVisible, setCustomsDrawerVisible] = useState(false)
   // 资质信息标签页
   const [qualificationTab, setQualificationTab] = useState('all')
+
+  // 商品属性相关状态
+  const [brand, setBrand] = useState<string | undefined>(undefined)
+  const [productTypeAttr, setProductTypeAttr] = useState<string | undefined>(undefined)
+  const [originCountry, setOriginCountry] = useState<string | undefined>(undefined)
+  const [gender, setGender] = useState<string | undefined>(undefined)
+  const [dollType, setDollType] = useState<string | undefined>(undefined)
+  const [animeGameName, setAnimeGameName] = useState<string | undefined>(undefined)
+  const [remoteControl, setRemoteControl] = useState<string | undefined>(undefined)
+  const [stockStatus, setStockStatus] = useState<string | undefined>(undefined)
+  const [scaleRatio, setScaleRatio] = useState<string | undefined>(undefined)
+  const [seriesAttr, setSeriesAttr] = useState<string | undefined>(undefined)
+  const [productAttribute, setProductAttribute] = useState<string | undefined>(undefined)
+  const [completionLevel, setCompletionLevel] = useState<string | undefined>(undefined)
+  const [materialAttr, setMaterialAttr] = useState<string | undefined>(undefined)
+
+  // 认证弹窗
+  const [certificationModalVisible, setCertificationModalVisible] = useState(false)
+  const [selectedCertifications, setSelectedCertifications] = useState<string[]>([])
+  const [certificationSearch, setCertificationSearch] = useState('')
+
+  // 玩具娃娃适合场合弹窗
+  const [occasionModalVisible, setOccasionModalVisible] = useState(false)
+  const [selectedOccasions, setSelectedOccasions] = useState<string[]>([])
+  const [occasionSearch, setOccasionSearch] = useState('')
 
   // 价格与库存相关状态
   const [minUnit, setMinUnit] = useState('piece')
@@ -456,52 +506,110 @@ export default function ProductCreateClient() {
   // 渲染图片上传区域
   const renderImageUploadArea = (countryCode: string) => {
     const isDefault = countryCode === 'default'
+    const images = countryImages[countryCode] || []
+
     return (
       <div style={{ display: 'flex', gap: 11, marginBottom: 8 }}>
-        {imageLabels.map((label, index) => (
-          <div key={index} style={{ width: 105 }}>
-            {/* 图片标签 */}
-            <div style={{
-              backgroundColor: '#595959',
-              color: '#fff',
-              padding: '3px 6px',
-              textAlign: 'center',
-              fontSize: 10,
-              borderTopLeftRadius: 2,
-              borderTopRightRadius: 2,
-            }}>
-              {label}
-            </div>
+        {imageLabels.map((label, index) => {
+          const imageUrl = images[index]
+          const hasImage = !!imageUrl
 
-            {/* 上传区域 */}
-            <Upload
-              listType="picture-card"
-              showUploadList={false}
-              style={{ width: '100%' }}
-            >
+          return (
+            <div key={index} style={{ width: 105 }}>
+              {/* 图片标签 */}
               <div style={{
-                border: index === 0 && isDefault ? '1px solid #1677FF' : '1px dashed #d9d9d9',
-                borderTop: 'none',
-                borderRadius: '0 0 2px 2px',
-                width: 105,
-                height: 105,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
+                backgroundColor: '#595959',
+                color: '#fff',
+                padding: '3px 6px',
+                textAlign: 'center',
+                fontSize: 10,
+                borderTopLeftRadius: 2,
+                borderTopRightRadius: 2,
               }}>
-                <PlusOutlined style={{
-                  fontSize: 17,
-                  color: index === 0 && isDefault ? '#1677FF' : '#D9D9D9'
-                }} />
-                <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
-                  添加图片
-                </div>
+                {label}
               </div>
-            </Upload>
-          </div>
-        ))}
+
+              {/* 上传/显示区域 */}
+              <div
+                onClick={() => {
+                  if (!hasImage) {
+                    setCurrentUploadTarget(countryCode)
+                    setImageUploadModalVisible(true)
+                  }
+                }}
+                style={{
+                  borderLeft: index === 0 && isDefault && !hasImage ? '1px solid #1677FF' : '1px dashed #d9d9d9',
+                  borderRight: index === 0 && isDefault && !hasImage ? '1px solid #1677FF' : '1px dashed #d9d9d9',
+                  borderBottom: index === 0 && isDefault && !hasImage ? '1px solid #1677FF' : '1px dashed #d9d9d9',
+                  borderTop: 'none',
+                  borderRadius: '0 0 2px 2px',
+                  width: 105,
+                  height: 105,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: hasImage ? 'default' : 'pointer',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                {hasImage ? (
+                  <>
+                    <img
+                      src={imageUrl}
+                      alt={label}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                    {/* 删除按钮 */}
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const newImages = [...images]
+                        newImages.splice(index, 1)
+                        setCountryImages(prev => ({
+                          ...prev,
+                          [countryCode]: newImages
+                        }))
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 4,
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        color: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        fontSize: 12,
+                      }}
+                    >
+                      ×
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <PlusOutlined style={{
+                      fontSize: 17,
+                      color: index === 0 && isDefault ? '#1677FF' : '#D9D9D9'
+                    }} />
+                    <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
+                      添加图片
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -1107,60 +1215,103 @@ export default function ProductCreateClient() {
                     </div>
                     <div
                       onClick={() => {
-                        setCurrentUploadTarget('marketing-1-1')
-                        setImageUploadModalVisible(true)
+                        if (!countryImages['marketing-1-1']?.[0]) {
+                          setCurrentUploadTarget('marketing-1-1')
+                          setImageUploadModalVisible(true)
+                        }
                       }}
                       style={{
-                        border: '1px dashed #d9d9d9',
+                        borderLeft: '1px dashed #d9d9d9',
+                        borderRight: '1px dashed #d9d9d9',
+                        borderBottom: '1px dashed #d9d9d9',
                         borderTop: 'none',
                         borderRadius: '0 0 2px 2px',
                         width: 138,
                         height: 138,
                         position: 'relative',
-                        cursor: 'pointer',
+                        cursor: countryImages['marketing-1-1']?.[0] ? 'default' : 'pointer',
                         overflow: 'hidden'
                       }}
                     >
-                      {/* 背景图片 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundImage: 'url(/marketing-example-1-1.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        opacity: 0.4
-                      }} />
+                      {countryImages['marketing-1-1']?.[0] ? (
+                        <>
+                          <img
+                            src={countryImages['marketing-1-1'][0]}
+                            alt="1:1白底图"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setCountryImages(prev => {
+                                const newImages = { ...prev }
+                                delete newImages['marketing-1-1']
+                                return newImages
+                              })
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: 4,
+                              right: 4,
+                              width: 20,
+                              height: 20,
+                              borderRadius: '50%',
+                              backgroundColor: 'rgba(0,0,0,0.5)',
+                              color: '#fff',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              fontSize: 12,
+                            }}
+                          >
+                            ×
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* 背景图片 */}
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundImage: 'url(/marketing-example-1-1.jpg)',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            opacity: 0.4
+                          }} />
 
-                      {/* 半透明遮罩 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
-                      }} />
+                          {/* 半透明遮罩 */}
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                          }} />
 
-                      {/* 内容层 */}
-                      <div style={{
-                        position: 'relative',
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        paddingBottom: 24,
-                        zIndex: 1
-                      }}>
-                        <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
-                        <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
-                          添加图片
-                        </div>
-                      </div>
+                          {/* 内容层 */}
+                          <div style={{
+                            position: 'relative',
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'flex-end',
+                            paddingBottom: 24,
+                            zIndex: 1
+                          }}>
+                            <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
+                            <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
+                              添加图片
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </Popover>
@@ -1208,60 +1359,103 @@ export default function ProductCreateClient() {
                     </div>
                     <div
                       onClick={() => {
-                        setCurrentUploadTarget('marketing-3-4')
-                        setImageUploadModalVisible(true)
+                        if (!countryImages['marketing-3-4']?.[0]) {
+                          setCurrentUploadTarget('marketing-3-4')
+                          setImageUploadModalVisible(true)
+                        }
                       }}
                       style={{
-                        border: '1px dashed #d9d9d9',
+                        borderLeft: '1px dashed #d9d9d9',
+                        borderRight: '1px dashed #d9d9d9',
+                        borderBottom: '1px dashed #d9d9d9',
                         borderTop: 'none',
                         borderRadius: '0 0 2px 2px',
                         width: 160,
                         height: 213,
                         position: 'relative',
-                        cursor: 'pointer',
+                        cursor: countryImages['marketing-3-4']?.[0] ? 'default' : 'pointer',
                         overflow: 'hidden'
                       }}
                     >
-                      {/* 背景图片 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundImage: 'url(/marketing-example-3-4.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        opacity: 0.4
-                      }} />
+                      {countryImages['marketing-3-4']?.[0] ? (
+                        <>
+                          <img
+                            src={countryImages['marketing-3-4'][0]}
+                            alt="3:4场景图"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setCountryImages(prev => {
+                                const newImages = { ...prev }
+                                delete newImages['marketing-3-4']
+                                return newImages
+                              })
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: 4,
+                              right: 4,
+                              width: 20,
+                              height: 20,
+                              borderRadius: '50%',
+                              backgroundColor: 'rgba(0,0,0,0.5)',
+                              color: '#fff',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              fontSize: 12,
+                            }}
+                          >
+                            ×
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {/* 背景图片 */}
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundImage: 'url(/marketing-example-3-4.jpg)',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            opacity: 0.4
+                          }} />
 
-                      {/* 半透明遮罩 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
-                      }} />
+                          {/* 半透明遮罩 */}
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                          }} />
 
-                      {/* 内容层 */}
-                      <div style={{
-                        position: 'relative',
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        paddingBottom: 32,
-                        zIndex: 1
-                      }}>
-                        <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
-                        <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
-                          添加图片
-                        </div>
-                      </div>
+                          {/* 内容层 */}
+                          <div style={{
+                            position: 'relative',
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'flex-end',
+                            paddingBottom: 32,
+                            zIndex: 1
+                          }}>
+                            <PlusOutlined style={{ fontSize: 24, color: '#1677FF' }} />
+                            <div style={{ marginTop: 8, color: '#595959', fontSize: 11 }}>
+                              添加图片
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </Popover>
@@ -1335,7 +1529,13 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现品牌选择功能
+                          value={brand}
+                          onChange={setBrand}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: 'NONE(NONE)', value: 'none' }
+                          ]}
                         />
                         <div style={{ marginTop: 8 }}>
                           <span style={{ color: '#8C8C8C', fontSize: 12 }}>找不到品牌？ </span>
@@ -1360,7 +1560,19 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现产品类型选择功能
+                          value={productTypeAttr}
+                          onChange={setProductTypeAttr}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: 'Puppets', value: 'puppets' },
+                            { label: '搪胶公仔', value: 'vinyl_figure' },
+                            { label: '模型', value: 'model' },
+                            { label: '打火机/烟盒/烟灰缸', value: 'lighter_cigarette' },
+                            { label: '游戏收藏卡', value: 'game_cards' },
+                            { label: '礼包/密保', value: 'gift_pack' },
+                            { label: '灯牌', value: 'light_sign' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1415,7 +1627,32 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现产地选择功能
+                          value={originCountry}
+                          onChange={setOriginCountry}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '中国', value: 'CN' },
+                            { label: '美国', value: 'US' },
+                            { label: '日本', value: 'JP' },
+                            { label: '韩国', value: 'KR' },
+                            { label: '德国', value: 'DE' },
+                            { label: '英国', value: 'GB' },
+                            { label: '法国', value: 'FR' },
+                            { label: '意大利', value: 'IT' },
+                            { label: '西班牙', value: 'ES' },
+                            { label: '加拿大', value: 'CA' },
+                            { label: '澳大利亚', value: 'AU' },
+                            { label: '印度', value: 'IN' },
+                            { label: '巴西', value: 'BR' },
+                            { label: '俄罗斯', value: 'RU' },
+                            { label: '墨西哥', value: 'MX' },
+                            { label: '泰国', value: 'TH' },
+                            { label: '越南', value: 'VN' },
+                            { label: '印度尼西亚', value: 'ID' },
+                            { label: '马来西亚', value: 'MY' },
+                            { label: '新加坡', value: 'SG' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1428,7 +1665,14 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现性别选择功能
+                          value={gender}
+                          onChange={setGender}
+                          allowClear
+                          options={[
+                            { label: 'Girls', value: 'girls' },
+                            { label: '男童', value: 'boys' },
+                            { label: '男女通用', value: 'unisex' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1458,7 +1702,13 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现玩偶类型选择功能
+                          value={dollType}
+                          onChange={setDollType}
+                          allowClear
+                          options={[
+                            { label: '模型', value: 'model' },
+                            { label: '机器动物', value: 'robot_animal' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1488,7 +1738,20 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现动漫电影游戏名称选择功能
+                          value={animeGameName}
+                          onChange={setAnimeGameName}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '冰雪奇缘', value: 'frozen' },
+                            { label: '战锤40000', value: 'warhammer_40k' },
+                            { label: '曼达洛人', value: 'mandalorian' },
+                            { label: 'cinnamoroll', value: 'cinnamoroll' },
+                            { label: '复仇者联盟', value: 'avengers' },
+                            { label: '刀剑神域', value: 'sword_art_online' },
+                            { label: '米老鼠', value: 'mickey_mouse' },
+                            { label: '数码宝贝', value: 'digimon' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1501,11 +1764,26 @@ export default function ProductCreateClient() {
                         <span style={{ color: '#262626' }}>比例</span>
                       </div>
                       <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                        <Input
+                        <Select
                           placeholder="请输入或从列表选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现比例输入/选择功能
+                          value={scaleRatio}
+                          onChange={setScaleRatio}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '1/60(1/60)', value: '1/60' },
+                            { label: '1/100(1/100)', value: '1/100' },
+                            { label: '1/144(1/144)', value: '1/144' },
+                            { label: '1/200(1/200)', value: '1/200' },
+                            { label: '1/72(1/72)', value: '1/72' },
+                            { label: '1/48(1/48)', value: '1/48' },
+                            { label: '1/55(1/55)', value: '1/55' },
+                            { label: '1/65(1/65)', value: '1/65' },
+                            { label: '1/12(1/12)', value: '1/12' },
+                            { label: '1/170(1/170)', value: '1/170' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1518,7 +1796,13 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现遥控选择功能
+                          value={remoteControl}
+                          onChange={setRemoteControl}
+                          allowClear
+                          options={[
+                            { label: '是(Yes)', value: 'yes' },
+                            { label: '否(No)', value: 'no' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1530,13 +1814,18 @@ export default function ProductCreateClient() {
                       <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>认证</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Button
                           size="middle"
-                          // TODO: 实现设置功能
+                          onClick={() => setCertificationModalVisible(true)}
                         >
                           设置
                         </Button>
+                        {selectedCertifications.length > 0 && (
+                          <span style={{ color: '#8C8C8C', fontSize: 12 }}>
+                            已选{selectedCertifications.length}项
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
@@ -1560,13 +1849,18 @@ export default function ProductCreateClient() {
                       <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>玩具娃娃适合各种场合</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Button
                           size="middle"
-                          // TODO: 实现设置功能
+                          onClick={() => setOccasionModalVisible(true)}
                         >
                           设置
                         </Button>
+                        {selectedOccasions.length > 0 && (
+                          <span style={{ color: '#8C8C8C', fontSize: 12 }}>
+                            已选{selectedOccasions.length}项
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
@@ -1578,7 +1872,13 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现状态选择功能
+                          value={stockStatus}
+                          onChange={setStockStatus}
+                          allowClear
+                          options={[
+                            { label: '现货/库存', value: 'in_stock' },
+                            { label: '预售', value: 'pre_sale' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1627,7 +1927,20 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现系列选择功能
+                          value={seriesAttr}
+                          onChange={setSeriesAttr}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '拼装/组装(Assembly/Assembling)', value: 'assembly' },
+                            { label: '电动(Battery Operated)', value: 'battery_operated' },
+                            { label: '树脂(Resin)', value: 'resin' },
+                            { label: '机器人(Robot)', value: 'robot' },
+                            { label: 'Puppets(Puppets)', value: 'puppets' },
+                            { label: '不倒翁(Tumbler)', value: 'tumbler' },
+                            { label: '模型(Model)', value: 'model' },
+                            { label: '数码电器家电(Digital Electric Apparatus & Household Apparatus)', value: 'digital_electric' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1657,7 +1970,19 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现商品属性选择功能
+                          value={productAttribute}
+                          onChange={setProductAttribute}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '周边(Peripherals)', value: 'peripherals' },
+                            { label: '成品(Finished Goods)', value: 'finished_goods' },
+                            { label: '拼装(Assembly)', value: 'assembly' },
+                            { label: '主体(Subject)', value: 'subject' },
+                            { label: '配件(Accessories)', value: 'accessories' },
+                            { label: 'parts(Parts)', value: 'parts' },
+                            { label: '机体(Robot Body)', value: 'robot_body' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1687,7 +2012,13 @@ export default function ProductCreateClient() {
                           placeholder="请选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现完成度选择功能
+                          value={completionLevel}
+                          onChange={setCompletionLevel}
+                          allowClear
+                          options={[
+                            { label: '成品(Finished Goods)', value: 'finished' },
+                            { label: '半成品(Semi-finished Product)', value: 'semi_finished' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -1713,11 +2044,27 @@ export default function ProductCreateClient() {
                         <span style={{ color: '#262626' }}>材质</span>
                       </div>
                       <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                        <Input
+                        <Select
                           placeholder="请输入或从列表选择"
                           style={{ width: '100%', maxWidth: 280 }}
                           size="middle"
-                          // TODO: 实现材质输入/选择功能
+                          value={materialAttr}
+                          onChange={setMaterialAttr}
+                          allowClear
+                          showSearch
+                          options={[
+                            { label: '棉(COTTON)', value: 'cotton' },
+                            { label: '聚酯纤维(POLYESTER)', value: 'polyester' },
+                            { label: '丝绸(Silk)', value: 'silk' },
+                            { label: '亚克力(Acrylic)', value: 'acrylic' },
+                            { label: '拉绒(Fleece)', value: 'fleece' },
+                            { label: '无纺(Non-Woven)', value: 'non_woven' },
+                            { label: '羊毛(Wool)', value: 'wool' },
+                            { label: '亚麻(Linen)', value: 'linen' },
+                            { label: '橡胶(Rubber)', value: 'rubber' },
+                            { label: '皮革(Leather)', value: 'leather' },
+                            { label: 'PVC(PVC)', value: 'pvc' }
+                          ]}
                         />
                       </div>
                     </div>
@@ -4226,11 +4573,21 @@ export default function ProductCreateClient() {
         onConfirm={(images) => {
           // 根据 currentUploadTarget 保存图片到对应位置
           if (images.length > 0) {
-            const targetKey = resolveImageTargetKey(currentUploadTarget, selectedCountries)
-            setCountryImages(prev => ({
-              ...prev,
-              [targetKey]: [...(prev[targetKey] || []), ...images]
-            }))
+            // 营销图只存储一张图片
+            const isMarketingImage = currentUploadTarget.startsWith('marketing-')
+            if (isMarketingImage) {
+              setCountryImages(prev => ({
+                ...prev,
+                [currentUploadTarget]: [images[0]]
+              }))
+            } else {
+              // 普通商品图追加到数组
+              const targetKey = resolveImageTargetKey(currentUploadTarget, selectedCountries)
+              setCountryImages(prev => ({
+                ...prev,
+                [targetKey]: [...(prev[targetKey] || []), ...images]
+              }))
+            }
           }
           setImageUploadModalVisible(false)
         }}
@@ -4251,6 +4608,134 @@ export default function ProductCreateClient() {
           setVideoUploadModalVisible(false)
         }}
       />
+
+      {/* 认证选择弹窗 */}
+      <Modal
+        title="请选择"
+        open={certificationModalVisible}
+        onCancel={() => setCertificationModalVisible(false)}
+        width={800}
+        footer={[
+          <Button key="cancel" onClick={() => setCertificationModalVisible(false)}>
+            取消
+          </Button>,
+          <Button key="confirm" type="primary" onClick={() => setCertificationModalVisible(false)}>
+            确定
+          </Button>
+        ]}
+      >
+        <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ flex: 1 }}>
+            <Input
+              placeholder="搜索"
+              prefix={<SearchOutlined />}
+              value={certificationSearch}
+              onChange={(e) => setCertificationSearch(e.target.value)}
+              style={{ marginBottom: 16 }}
+            />
+            <Checkbox
+              checked={selectedCertifications.length === certificationOptions.length}
+              indeterminate={selectedCertifications.length > 0 && selectedCertifications.length < certificationOptions.length}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedCertifications(certificationOptions.map(opt => opt.value))
+                } else {
+                  setSelectedCertifications([])
+                }
+              }}
+              style={{ marginBottom: 16 }}
+            >
+              全选
+            </Checkbox>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              {certificationOptions
+                .filter(opt => !certificationSearch || opt.label.toLowerCase().includes(certificationSearch.toLowerCase()))
+                .map(opt => (
+                  <Checkbox
+                    key={opt.value}
+                    checked={selectedCertifications.includes(opt.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCertifications(prev => [...prev, opt.value])
+                      } else {
+                        setSelectedCertifications(prev => prev.filter(v => v !== opt.value))
+                      }
+                    }}
+                  >
+                    {opt.label}
+                  </Checkbox>
+                ))}
+            </div>
+          </div>
+          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
+            已选{selectedCertifications.length}
+          </div>
+        </div>
+      </Modal>
+
+      {/* 玩具娃娃适合场合弹窗 */}
+      <Modal
+        title="请选择"
+        open={occasionModalVisible}
+        onCancel={() => setOccasionModalVisible(false)}
+        width={800}
+        footer={[
+          <Button key="cancel" onClick={() => setOccasionModalVisible(false)}>
+            取消
+          </Button>,
+          <Button key="confirm" type="primary" onClick={() => setOccasionModalVisible(false)}>
+            确定
+          </Button>
+        ]}
+      >
+        <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ flex: 1 }}>
+            <Input
+              placeholder="搜索"
+              prefix={<SearchOutlined />}
+              value={occasionSearch}
+              onChange={(e) => setOccasionSearch(e.target.value)}
+              style={{ marginBottom: 16 }}
+            />
+            <Checkbox
+              checked={selectedOccasions.length === occasionOptions.length}
+              indeterminate={selectedOccasions.length > 0 && selectedOccasions.length < occasionOptions.length}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedOccasions(occasionOptions.map(opt => opt.value))
+                } else {
+                  setSelectedOccasions([])
+                }
+              }}
+              style={{ marginBottom: 16 }}
+            >
+              全选
+            </Checkbox>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              {occasionOptions
+                .filter(opt => !occasionSearch || opt.label.toLowerCase().includes(occasionSearch.toLowerCase()))
+                .map(opt => (
+                  <Checkbox
+                    key={opt.value}
+                    checked={selectedOccasions.includes(opt.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedOccasions(prev => [...prev, opt.value])
+                      } else {
+                        setSelectedOccasions(prev => prev.filter(v => v !== opt.value))
+                      }
+                    }}
+                  >
+                    {opt.label}
+                  </Checkbox>
+                ))}
+            </div>
+          </div>
+          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
+            已选{selectedOccasions.length}
+          </div>
+        </div>
+      </Modal>
 
       {/* 海关监管属性抽屉 */}
       <Drawer

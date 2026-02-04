@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // 这些库需要排除在 webpack 打包之外
+  serverExternalPackages: ['sharp', 'xlsx'],
 }
 
 export default nextConfig

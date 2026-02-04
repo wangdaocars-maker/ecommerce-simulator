@@ -7,6 +7,12 @@ import { getCurrentUserId } from '@/lib/api-utils'
 // 使用 Node runtime（非 edge）
 export const runtime = 'nodejs'
 
+// 动态导入 sharp 以避免构建时问题
+async function getSharp() {
+  const sharp = await import('sharp')
+  return sharp.default
+}
+
 // 允许的文件类型
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime']
@@ -78,23 +84,51 @@ export async function POST(request: Request) {
     const ext = file.name.split('.').pop() || (isImage ? 'jpg' : 'mp4')
     const timestamp = Date.now()
     const randomStr = generateRandomString(8)
-    const filename = `${timestamp}_${randomStr}.${ext}`
 
     // 存储目录：public/uploads/{userId}/
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', String(userId))
     await mkdir(uploadDir, { recursive: true })
 
-    const filePath = path.join(uploadDir, filename)
-    const url = `/uploads/${userId}/${filename}`
-
-    // 写入文件
+    // 读取文件内容
     const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    await writeFile(filePath, buffer)
+    let buffer: Buffer = Buffer.from(bytes)
+    let compressedSize = buffer.length
 
-    // 获取图片尺寸（简化处理，实际项目可使用 sharp 等库）
+    // 获取图片尺寸
     let width: number | undefined
     let height: number | undefined
+
+    // 图片压缩处理
+    if (isImage) {
+      try {
+        const sharpInstance = await getSharp()
+        // 压缩为 WebP 格式，最大宽度 1280px，质量 80
+        const compressed = await sharpInstance(buffer)
+          .resize(1280, null, { withoutEnlargement: true })
+          .webp({ quality: 80 })
+          .toBuffer()
+
+        // 获取压缩后的尺寸信息
+        const metadata = await sharpInstance(compressed).metadata()
+        width = metadata.width
+        height = metadata.height
+
+        buffer = Buffer.from(compressed)
+        compressedSize = compressed.length
+      } catch (err) {
+        console.error('Image compression failed:', err)
+        // 压缩失败时使用原图
+      }
+    }
+
+    // 压缩后使用 webp 扩展名
+    const finalExt = isImage ? 'webp' : ext
+    const finalFilename = `${timestamp}_${randomStr}.${finalExt}`
+    const filePath = path.join(uploadDir, finalFilename)
+    const url = `/uploads/${userId}/${finalFilename}`
+
+    // 写入文件
+    await writeFile(filePath, buffer)
 
     // 创建媒体记录
     const media = await prisma.media.create({
@@ -104,7 +138,7 @@ export async function POST(request: Request) {
         path: filePath,
         url,
         type: isImage ? 'image' : 'video',
-        size: file.size,
+        size: compressedSize,
         width,
         height,
         duration: duration ? parseInt(duration) : undefined,
@@ -122,7 +156,9 @@ export async function POST(request: Request) {
         size: media.size,
         width: media.width,
         height: media.height,
-        duration: media.duration
+        duration: media.duration,
+        originalSize: file.size,
+        compressedSize
       }
     })
   } catch (error) {

@@ -224,6 +224,43 @@ export default function ProductsClient() {
     setFilterType('all')
   }
 
+  // 导出商品
+  const handleExport = async () => {
+    if (selectedRowKeys.length === 0) {
+      message.warning('请先选择要导出的商品')
+      return
+    }
+
+    try {
+      const res = await fetch('/api/products/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'export',
+          ids: selectedRowKeys.map(k => parseInt(k)),
+        }),
+      })
+
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `商品导出_${new Date().toISOString().slice(0, 10)}.xlsx`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+        message.success('导出成功')
+      } else {
+        const result = await res.json()
+        message.error(result.error || '导出失败')
+      }
+    } catch {
+      message.error('网络错误')
+    }
+  }
+
   // 批量上传下拉菜单
   const batchUploadMenu: MenuProps = {
     items: [
@@ -471,6 +508,7 @@ export default function ProductsClient() {
           onDelete={handleDelete}
           onBatchOffline={handleBatchOffline}
           onBatchDelete={handleBatchDelete}
+          onExport={handleExport}
         />
       </div>
     </div>

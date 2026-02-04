@@ -63,6 +63,8 @@ export default function ImageUploadModal({
           maxCount={maxCount}
           selectedImages={selectedImages}
           onSelectChange={setSelectedImages}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
         />
       )
     }

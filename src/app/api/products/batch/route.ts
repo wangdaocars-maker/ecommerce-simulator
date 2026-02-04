@@ -1,12 +1,22 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUserId } from '@/lib/api-utils'
+import * as XLSX from 'xlsx'
 
 type BatchAction = 'offline' | 'delete' | 'export' | 'online'
 
 interface BatchRequest {
   action: BatchAction
   ids: number[]
+}
+
+// 状态映射
+const statusMap: Record<string, string> = {
+  draft: '草稿',
+  reviewing: '审核中',
+  published: '已发布',
+  rejected: '审核不通过',
+  offline: '已下架',
 }
 
 /**
@@ -33,12 +43,66 @@ export async function POST(request: Request) {
       )
     }
 
-    // 导出功能暂未实现
+    // 导出功能
     if (action === 'export') {
-      return NextResponse.json(
-        { success: false, error: '导出功能暂未实现' },
-        { status: 501 }
-      )
+      const products = await prisma.product.findMany({
+        where: {
+          id: { in: ids },
+          userId,
+          deletedAt: null
+        },
+        include: {
+          category: { select: { name: true } }
+        }
+      })
+
+      if (products.length === 0) {
+        return NextResponse.json(
+          { success: false, error: '没有可导出的商品' },
+          { status: 400 }
+        )
+      }
+
+      // 构建 Excel 数据
+      const data = products.map(p => ({
+        '商品ID': p.id,
+        '商品标题': p.title,
+        '类目': p.category?.name || '-',
+        'SKU': p.sku || '-',
+        '零售价(CNY)': p.price,
+        '库存': p.stock,
+        '状态': statusMap[p.status] || p.status,
+        '创建时间': p.createdAt.toISOString().slice(0, 19).replace('T', ' '),
+        '更新时间': p.updatedAt.toISOString().slice(0, 19).replace('T', ' '),
+      }))
+
+      // 生成 Excel
+      const wb = XLSX.utils.book_new()
+      const ws = XLSX.utils.json_to_sheet(data)
+
+      // 设置列宽
+      ws['!cols'] = [
+        { wch: 10 },  // 商品ID
+        { wch: 40 },  // 商品标题
+        { wch: 20 },  // 类目
+        { wch: 15 },  // SKU
+        { wch: 12 },  // 零售价
+        { wch: 8 },   // 库存
+        { wch: 12 },  // 状态
+        { wch: 20 },  // 创建时间
+        { wch: 20 },  // 更新时间
+      ]
+
+      XLSX.utils.book_append_sheet(wb, ws, '商品列表')
+
+      const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' })
+
+      return new Response(buffer, {
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'Content-Disposition': 'attachment; filename=products.xlsx'
+        }
+      })
     }
 
     // 验证所有商品都属于当前用户
