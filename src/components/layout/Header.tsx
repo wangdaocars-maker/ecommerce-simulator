@@ -78,7 +78,10 @@ export default function Header() {
         {/* 左侧：Logo + 店铺信息 */}
         <div className="flex items-center gap-4">
           {/* 跨境卖家中心 Logo */}
-          <div className="flex items-center gap-3">
+          <div
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => router.push('/')}
+          >
             <div className="w-8 h-8 bg-[#1677ff] rounded flex items-center justify-center">
               <svg
                 width="20"
