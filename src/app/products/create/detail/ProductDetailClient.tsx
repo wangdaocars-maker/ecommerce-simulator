@@ -213,6 +213,8 @@ export default function ProductCreateClient() {
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const isProgrammaticScroll = useRef(false)
+  const scrollRaf = useRef<number | null>(null)
 
   const setSectionRef = (key: string) => (node: HTMLDivElement | null) => {
     sectionRefs.current[key] = node
@@ -220,59 +222,53 @@ export default function ProductCreateClient() {
 
   const scrollToSection = (key: string) => {
     setMainTab(key)
+    isProgrammaticScroll.current = true
     const target = sectionRefs.current[key]
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+    window.setTimeout(() => {
+      isProgrammaticScroll.current = false
+    }, 400)
   }
 
   useEffect(() => {
     setMainTab('basic')
   }, [])
 
-  // 监听滚动，自动更新高亮导航
-  useEffect(() => {
-    // 延迟执行，确保DOM已渲染
-    const timer = setTimeout(() => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          // 找出所有正在intersecting的section
-          const intersectingSections = entries
-            .filter(entry => entry.isIntersecting)
-            .map(entry => ({
-              key: entry.target.getAttribute('data-section'),
-              ratio: entry.intersectionRatio,
-              top: entry.boundingClientRect.top
-            }))
-            .filter(item => item.key)
-            .sort((a, b) => a.top - b.top) // 按top位置排序
-
-          // 选择最靠近顶部的section
-          if (intersectingSections.length > 0) {
-            setMainTab(intersectingSections[0].key!)
-          }
-        },
-        {
-          rootMargin: '-120px 0px -50% 0px',
-          threshold: [0, 0.1, 0.5, 1]
-        }
-      )
-
-      // 观察所有section
-      Object.values(sectionRefs.current).forEach((ref) => {
-        if (ref) {
-          observer.observe(ref)
-        }
-      })
-
-      // 清理函数
-      return () => {
-        observer.disconnect()
+  const updateActiveByScroll = () => {
+    const offset = 120
+    let active = MAIN_SECTIONS[0]?.key || 'basic'
+    MAIN_SECTIONS.forEach(section => {
+      const node = sectionRefs.current[section.key]
+      if (!node) return
+      const top = node.getBoundingClientRect().top
+      if (top - offset <= 0) {
+        active = section.key
       }
-    }, 100)
+    })
+    setMainTab(prev => (prev === active ? prev : active))
+  }
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (isProgrammaticScroll.current) return
+      if (scrollRaf.current != null) return
+      scrollRaf.current = window.requestAnimationFrame(() => {
+        scrollRaf.current = null
+        updateActiveByScroll()
+      })
+    }
+
+    updateActiveByScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
 
     return () => {
-      clearTimeout(timer)
+      window.removeEventListener('scroll', onScroll)
+      if (scrollRaf.current != null) {
+        window.cancelAnimationFrame(scrollRaf.current)
+        scrollRaf.current = null
+      }
     }
   }, [])
 
@@ -4006,11 +4002,12 @@ export default function ProductCreateClient() {
         {/* 右侧锚点导航 */}
         <div style={{
           width: 280,
-          flexShrink: 0
+          flexShrink: 0,
+          position: 'sticky',
+          top: 80,
+          alignSelf: 'flex-start'
         }}>
           <div style={{
-            position: 'sticky',
-            top: 80,
             background: '#fff',
             borderRadius: 8,
             padding: '20px',
