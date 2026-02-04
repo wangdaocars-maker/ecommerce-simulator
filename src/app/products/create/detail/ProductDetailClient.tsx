@@ -189,6 +189,7 @@ export default function ProductCreateClient() {
   // 详细描述
   const [descriptionLanguage, setDescriptionLanguage] = useState('English')
   const [pcDescription, setPcDescription] = useState('')
+  const [selectedAppTemplate, setSelectedAppTemplate] = useState<string | null>(null)
 
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
@@ -3273,6 +3274,158 @@ export default function ProductCreateClient() {
                             }}
                             placeholder="请输入商品详细描述..."
                           />
+                        </div>
+                      </div>
+
+                      {/* APP详描编辑 */}
+                      <div style={{ marginTop: 40 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          APP详描编辑
+                          <Tooltip title="为移动端APP编辑商品详细描述">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+
+                        {/* 导入PC详描按钮 */}
+                        <div style={{ marginBottom: 24 }}>
+                          <Button
+                            size="small"
+                            style={{
+                              background: '#f5f5f5',
+                              border: '1px solid #d9d9d9',
+                              borderRadius: 4,
+                              color: '#8c8c8c',
+                              padding: '4px 15px'
+                            }}
+                          >
+                            导入PC详描
+                          </Button>
+                        </div>
+
+                        {/* 模板选择区域 */}
+                        <div style={{ display: 'flex', gap: 24 }}>
+                          {/* 空白模板 */}
+                          <div
+                            onClick={() => setSelectedAppTemplate('blank')}
+                            style={{
+                              width: 260,
+                              border: selectedAppTemplate === 'blank' ? '2px solid #1677ff' : '1px solid #d9d9d9',
+                              borderRadius: 8,
+                              padding: 24,
+                              cursor: 'pointer',
+                              transition: 'all 0.3s',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              minHeight: 300
+                            }}
+                          >
+                            <svg viewBox="0 0 200 200" width="120" height="120" fill="none" style={{ marginBottom: 16 }}>
+                              <rect x="40" y="20" width="120" height="160" rx="4" stroke="#d9d9d9" strokeWidth="2" fill="#fafafa"/>
+                              <line x1="60" y1="40" x2="140" y2="40" stroke="#d9d9d9" strokeWidth="2"/>
+                              <line x1="60" y1="60" x2="140" y2="60" stroke="#d9d9d9" strokeWidth="2"/>
+                              <line x1="60" y1="80" x2="100" y2="80" stroke="#d9d9d9" strokeWidth="2"/>
+                            </svg>
+                            <div style={{ fontSize: 14, color: '#8c8c8c', textAlign: 'center' }}>空白模板</div>
+                          </div>
+
+                          {/* 玩具行业详描模板 */}
+                          <div
+                            onClick={() => setSelectedAppTemplate('toy')}
+                            style={{
+                              width: 260,
+                              border: selectedAppTemplate === 'toy' ? '2px solid #1677ff' : '1px solid #d9d9d9',
+                              borderRadius: 8,
+                              overflow: 'hidden',
+                              cursor: 'pointer',
+                              transition: 'all 0.3s',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              minHeight: 300
+                            }}
+                          >
+                            <div style={{ flex: 1, background: '#fff', padding: 16 }}>
+                              <div style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 8, color: '#262626' }}>
+                                Item Description
+                              </div>
+                              <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4, color: '#262626' }}>
+                                Selling Point
+                              </div>
+                              <div style={{ fontSize: 12, color: '#8c8c8c', marginBottom: 12, lineHeight: 1.5 }}>
+                                Describe the details of the selling point above, attracting and providing trust to your potential users.
+                              </div>
+                              <div style={{
+                                width: '100%',
+                                height: 160,
+                                background: '#f0f0f0',
+                                borderRadius: 4,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative'
+                              }}>
+                                <div style={{
+                                  position: 'absolute',
+                                  inset: 0,
+                                  background: 'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)',
+                                  opacity: 0.3
+                                }} />
+                                <svg viewBox="0 0 24 24" width="48" height="48" fill="#8c8c8c">
+                                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                </svg>
+                              </div>
+                            </div>
+                            <div style={{
+                              padding: '12px 16px',
+                              background: '#fafafa',
+                              borderTop: '1px solid #d9d9d9',
+                              fontSize: 14,
+                              color: '#262626',
+                              textAlign: 'center',
+                              fontWeight: 500
+                            }}>
+                              玩具行业详描模板
+                            </div>
+                          </div>
+
+                          {/* 查看更多详描模板 */}
+                          <div
+                            style={{
+                              width: 260,
+                              border: '1px solid #d9d9d9',
+                              borderRadius: 8,
+                              padding: 24,
+                              cursor: 'pointer',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              minHeight: 300,
+                              transition: 'all 0.3s'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = '#1677ff'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = '#d9d9d9'
+                            }}
+                          >
+                            <div style={{
+                              fontSize: 18,
+                              color: '#1677ff',
+                              textAlign: 'center',
+                              lineHeight: 1.6,
+                              fontWeight: 500
+                            }}>
+                              查看更<br />多详描<br />模板
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
