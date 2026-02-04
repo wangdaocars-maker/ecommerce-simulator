@@ -16,7 +16,8 @@ import {
   Popover,
   Drawer,
   Alert,
-  Tabs
+  Tabs,
+  Modal
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -150,6 +151,26 @@ export default function ProductCreateClient() {
   const [colorSystem, setColorSystem] = useState('')
   const [customColorName, setCustomColorName] = useState('')
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+
+  // 插头类型和发货地
+  const [plugTypeModalVisible, setPlugTypeModalVisible] = useState(false)
+  const [selectedPlugTypes, setSelectedPlugTypes] = useState<string[]>([])
+  const [shippingLocationModalVisible, setShippingLocationModalVisible] = useState(false)
+  const [selectedShippingLocations, setSelectedShippingLocations] = useState<string[]>([])
+  const [plugTypeSearch, setPlugTypeSearch] = useState('')
+  const [shippingLocationSearch, setShippingLocationSearch] = useState('')
+
+  // 价格库存表格
+  const [retailPrice, setRetailPrice] = useState('')
+  const [productValue, setProductValue] = useState('')
+  const [inventory, setInventory] = useState('')
+  const [isPresale, setIsPresale] = useState('')
+  const [weight, setWeight] = useState('')
+  const [packageLength, setPackageLength] = useState('')
+  const [packageWidth, setPackageWidth] = useState('')
+  const [packageHeight, setPackageHeight] = useState('')
+  const [productType, setProductType] = useState('normal')
+  const [skuCode, setSkuCode] = useState('')
 
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
@@ -2484,6 +2505,245 @@ export default function ProductCreateClient() {
                           </div>
                       </Checkbox.Group>
                     </div>
+
+                    {/* 插头类型 */}
+                    <div style={{ marginTop: 17 }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
+                        插头类型
+                      </div>
+                      <Button
+                        size="small"
+                        style={{ width: 100 }}
+                        onClick={() => setPlugTypeModalVisible(true)}
+                      >
+                        设置
+                      </Button>
+                      {selectedPlugTypes.length > 0 && (
+                        <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                          已选 {selectedPlugTypes.length} 项
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 发货地 */}
+                    <div style={{ marginTop: 17 }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
+                        发货地
+                      </div>
+                      <Button
+                        size="small"
+                        style={{ width: 100 }}
+                        onClick={() => setShippingLocationModalVisible(true)}
+                      >
+                        设置
+                      </Button>
+                      {selectedShippingLocations.length > 0 && (
+                        <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
+                          已选 {selectedShippingLocations.length} 项
+                        </div>
+                      )}
+                    </div>
+
+                    {/* 价格库存表格 */}
+                    <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid #f0f0f0' }}>
+                      {/* 提示信息和批量填充 */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, alignItems: 'center' }}>
+                        <div style={{ fontSize: 12, color: '#262626' }}>
+                          请参考<a href="#" style={{ color: '#1677ff' }}>重量和尺寸测量规范示例</a>准确测量和填写重量和包装尺寸。
+                        </div>
+                        <Button size="small" style={{ fontSize: 12 }}>批量填充</Button>
+                      </div>
+
+                      {/* 表格 */}
+                      <div style={{ border: '1px solid #d9d9d9', borderRadius: 4 }}>
+                        {/* 表头 */}
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: '120px 120px 120px 120px 100px 280px 120px 120px',
+                          background: '#fafafa',
+                          borderBottom: '1px solid #d9d9d9',
+                          fontSize: 12,
+                          fontWeight: 'bold'
+                        }}>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                            零售价(CNY)
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            货值(CNY)
+                            <Tooltip title="帮助信息">
+                              <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>ⓘ</span>
+                            </Tooltip>
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                            商家仓库存
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                            是否预销
+                            <Tooltip title="帮助信息">
+                              <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>ⓘ</span>
+                            </Tooltip>
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                            重量 (kg)
+                            <Tooltip title="帮助信息">
+                              <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>ⓘ</span>
+                            </Tooltip>
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                            包装尺寸 (cm)
+                            <Tooltip title="帮助信息">
+                              <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>ⓘ</span>
+                            </Tooltip>
+                          </div>
+                          <div style={{ padding: '12px 8px', borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            特殊商品类型
+                            <Tooltip title="帮助信息">
+                              <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>ⓘ</span>
+                            </Tooltip>
+                          </div>
+                          <div style={{ padding: '12px 8px', display: 'flex', alignItems: 'center' }}>
+                            SKU编码
+                          </div>
+                        </div>
+
+                        {/* 输入行 */}
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: '120px 120px 120px 120px 100px 280px 120px 120px',
+                          fontSize: 12,
+                          minHeight: 40
+                        }}>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <Input
+                              size="small"
+                              value={retailPrice}
+                              onChange={(e) => setRetailPrice(e.target.value)}
+                              style={{ width: '100%' }}
+                            />
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <Input
+                              size="small"
+                              value={productValue}
+                              onChange={(e) => setProductValue(e.target.value)}
+                              style={{ width: '100%' }}
+                            />
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', position: 'relative', display: 'flex', alignItems: 'center' }}>
+                            <Input
+                              size="small"
+                              value={inventory}
+                              onChange={(e) => setInventory(e.target.value)}
+                              style={{ width: '100%', borderColor: '#ff4d4f' }}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              bottom: -18,
+                              left: 8,
+                              color: '#ff4d4f',
+                              fontSize: 11,
+                              whiteSpace: 'nowrap'
+                            }}>
+                              必填项
+                            </div>
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <Select
+                              size="small"
+                              placeholder="是否预销"
+                              value={isPresale}
+                              onChange={setIsPresale}
+                              style={{ width: '100%' }}
+                              options={[
+                                { label: '是', value: 'yes' },
+                                { label: '否', value: 'no' },
+                              ]}
+                            />
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <Input
+                              size="small"
+                              placeholder="重量"
+                              value={weight}
+                              onChange={(e) => setWeight(e.target.value)}
+                              style={{ width: '100%' }}
+                            />
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', gap: 4, alignItems: 'center', position: 'relative' }}>
+                            <Input
+                              size="small"
+                              placeholder="长"
+                              value={packageLength}
+                              onChange={(e) => setPackageLength(e.target.value)}
+                              style={{ width: 70, borderColor: '#ff4d4f' }}
+                            />
+                            <span>×</span>
+                            <Input
+                              size="small"
+                              placeholder="宽"
+                              value={packageWidth}
+                              onChange={(e) => setPackageWidth(e.target.value)}
+                              style={{ width: 70, borderColor: '#ff4d4f' }}
+                            />
+                            <span>×</span>
+                            <Input
+                              size="small"
+                              placeholder="高"
+                              value={packageHeight}
+                              onChange={(e) => setPackageHeight(e.target.value)}
+                              style={{ width: 70, borderColor: '#ff4d4f' }}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              bottom: -18,
+                              left: 8,
+                              color: '#ff4d4f',
+                              fontSize: 11,
+                              whiteSpace: 'nowrap'
+                            }}>
+                              长必填、宽必填、高必填
+                            </div>
+                          </div>
+                          <div style={{ padding: 8, borderRight: '1px solid #d9d9d9', display: 'flex', alignItems: 'center' }}>
+                            <Select
+                              size="small"
+                              placeholder="普货"
+                              value={productType}
+                              onChange={setProductType}
+                              style={{ width: '100%' }}
+                              options={[
+                                { label: '普货', value: 'normal' },
+                                { label: '特殊商品', value: 'special' },
+                              ]}
+                            />
+                          </div>
+                          <div style={{ padding: 8, position: 'relative', display: 'flex', alignItems: 'center' }}>
+                            <Input
+                              size="small"
+                              value={skuCode}
+                              onChange={(e) => setSkuCode(e.target.value)}
+                              maxLength={50}
+                              style={{ width: '100%' }}
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              bottom: -18,
+                              right: 8,
+                              color: '#8c8c8c',
+                              fontSize: 11,
+                              whiteSpace: 'nowrap'
+                            }}>
+                              {skuCode.length}/50
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </Card>
                 </div>
               )
@@ -2616,6 +2876,220 @@ export default function ProductCreateClient() {
           {/* 这里将添加海关监管属性的表单字段 */}
         </div>
       </Drawer>
+
+      {/* 插头类型选择Modal */}
+      <Modal
+        title="请选择"
+        open={plugTypeModalVisible}
+        onCancel={() => setPlugTypeModalVisible(false)}
+        width={1200}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
+            <Button onClick={() => setPlugTypeModalVisible(false)}>取消</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setPlugTypeModalVisible(false)
+              }}
+            >
+              确定
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ padding: '20px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+              <Input
+                placeholder="搜索"
+                prefix={<span>🔍</span>}
+                style={{ width: 500 }}
+                value={plugTypeSearch}
+                onChange={(e) => setPlugTypeSearch(e.target.value)}
+              />
+              <Checkbox
+                checked={selectedPlugTypes.length === 4}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedPlugTypes(['usb', 'battery', 'eu_plug', 'us_plug'])
+                  } else {
+                    setSelectedPlugTypes([])
+                  }
+                }}
+              >
+                全选
+              </Checkbox>
+            </div>
+            <div style={{ color: '#8C8C8C' }}>已选{selectedPlugTypes.length}</div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 20px' }}>
+            <Checkbox
+              checked={selectedPlugTypes.includes('usb')}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedPlugTypes([...selectedPlugTypes, 'usb'])
+                } else {
+                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'usb'))
+                }
+              }}
+            >
+              USB
+            </Checkbox>
+            <Checkbox
+              checked={selectedPlugTypes.includes('battery')}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedPlugTypes([...selectedPlugTypes, 'battery'])
+                } else {
+                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'battery'))
+                }
+              }}
+            >
+              纽扣电池
+            </Checkbox>
+            <Checkbox
+              checked={selectedPlugTypes.includes('eu_plug')}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedPlugTypes([...selectedPlugTypes, 'eu_plug'])
+                } else {
+                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'eu_plug'))
+                }
+              }}
+            >
+              eu plug
+            </Checkbox>
+            <Checkbox
+              checked={selectedPlugTypes.includes('us_plug')}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedPlugTypes([...selectedPlugTypes, 'us_plug'])
+                } else {
+                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'us_plug'))
+                }
+              }}
+            >
+              美规
+            </Checkbox>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 发货地选择Modal */}
+      <Modal
+        title="请选择"
+        open={shippingLocationModalVisible}
+        onCancel={() => setShippingLocationModalVisible(false)}
+        width={1200}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
+            <Button onClick={() => setShippingLocationModalVisible(false)}>取消</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setShippingLocationModalVisible(false)
+              }}
+            >
+              确定
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ padding: '20px 0' }}>
+          {/* 提示信息 */}
+          <Alert
+            description={
+              <span>
+                中国大陆发货地不可和非中国大陆发货地同时勾选，具体可点击《
+                <a href="#" style={{ color: '#1677ff' }}>全球速卖通商品发货地属性变更规则</a>
+                》
+              </span>
+            }
+            type="info"
+            showIcon
+            closable
+            style={{ marginBottom: 20 }}
+          />
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+              <Input
+                placeholder="搜索"
+                prefix={<span>🔍</span>}
+                style={{ width: 400 }}
+                value={shippingLocationSearch}
+                onChange={(e) => setShippingLocationSearch(e.target.value)}
+              />
+              <Checkbox
+                checked={selectedShippingLocations.length === 28}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedShippingLocations([
+                      'jp', 'ca', 'ng', 'za', 'cn', 'cl', 'br', 'tr',
+                      'ua', 'ae', 'il', 'cz', 'pl', 'us', 'uk', 'de',
+                      'es', 'au', 'ru', 'id', 'fr', 'it', 'vn', 'hu',
+                      'lv', 'sa', 'be', 'kr'
+                    ])
+                  } else {
+                    setSelectedShippingLocations([])
+                  }
+                }}
+              >
+                全选
+              </Checkbox>
+            </div>
+            <div style={{ color: '#8C8C8C' }}>已选{selectedShippingLocations.length}</div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 20px' }}>
+            {[
+              { label: '日本(JP)', value: 'jp' },
+              { label: '加拿大(CA)', value: 'ca' },
+              { label: '尼日利亚(NG)', value: 'ng' },
+              { label: '南非(ZA)', value: 'za' },
+              { label: '中国大陆', value: 'cn' },
+              { label: '智利(CL)', value: 'cl' },
+              { label: '巴西(BR)', value: 'br' },
+              { label: '土耳其(TR)', value: 'tr' },
+              { label: '乌克兰(UA)', value: 'ua' },
+              { label: '阿联酋(AE)', value: 'ae' },
+              { label: '以色列(IL)', value: 'il' },
+              { label: '捷克', value: 'cz' },
+              { label: '波兰(PL)', value: 'pl' },
+              { label: '美国(US)', value: 'us' },
+              { label: '英国(UK)', value: 'uk' },
+              { label: '德国(DE)', value: 'de' },
+              { label: '西班牙(ES)', value: 'es' },
+              { label: '澳大利亚(AU)', value: 'au' },
+              { label: '俄罗斯(RU)', value: 'ru' },
+              { label: '印度尼西亚(ID)', value: 'id' },
+              { label: '法国(FR)', value: 'fr' },
+              { label: '意大利(IT)', value: 'it' },
+              { label: '越南(VN)', value: 'vn' },
+              { label: '匈牙利(HU)', value: 'hu' },
+              { label: '拉脱维亚(LV)', value: 'lv' },
+              { label: '沙特阿拉伯(SA)', value: 'sa' },
+              { label: '比利时(BE)', value: 'be' },
+              { label: '韩国(KR)', value: 'kr' },
+            ].map((country) => (
+              <Checkbox
+                key={country.value}
+                checked={selectedShippingLocations.includes(country.value)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedShippingLocations([...selectedShippingLocations, country.value])
+                  } else {
+                    setSelectedShippingLocations(selectedShippingLocations.filter(l => l !== country.value))
+                  }
+                }}
+              >
+                {country.label}
+              </Checkbox>
+            ))}
+          </div>
+        </div>
+      </Modal>
     </HeaderOnlyLayout>
   )
 }
