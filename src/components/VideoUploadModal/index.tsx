@@ -4,6 +4,7 @@ import { Modal, Tabs } from 'antd'
 import { useState } from 'react'
 import UploadTab from './UploadTab'
 import MediaTab from './MediaTab'
+import type { MediaItem } from '@/types/media'
 
 interface VideoUploadModalProps {
   visible: boolean
@@ -17,12 +18,16 @@ export default function VideoUploadModal({
   onConfirm
 }: VideoUploadModalProps) {
   const [activeTab, setActiveTab] = useState('upload')
-  const [selectedVideo, setSelectedVideo] = useState<any>(null)
+  const [selectedVideo, setSelectedVideo] = useState<MediaItem | null>(null)
 
   const handleConfirm = () => {
-    // TODO: 实现确认逻辑
     if (selectedVideo) {
-      onConfirm(selectedVideo)
+      onConfirm({
+        url: selectedVideo.url,
+        name: selectedVideo.filename,
+        cover: '', // 从媒体中心选择的视频暂无封面
+        duration: selectedVideo.duration || 0
+      })
     }
     onClose()
   }
@@ -32,13 +37,19 @@ export default function VideoUploadModal({
     onClose()
   }
 
+  const handleUploadSuccess = (video: { url: string; name: string; cover: string; duration: number }) => {
+    onConfirm(video)
+  }
+
   const tabItems = [
     {
       key: 'upload',
       label: '本地上传',
       children: (
         <UploadTab
-          onUploadSuccess={(video) => setSelectedVideo(video)}
+          onUploadSuccess={handleUploadSuccess}
+          onConfirm={onClose}
+          onCancel={handleCancel}
         />
       )
     },

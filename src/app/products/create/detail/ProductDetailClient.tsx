@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Breadcrumb,
   Card,
@@ -30,6 +30,8 @@ import {
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
 import ImageUploadModal from '@/components/ImageUploadModal'
 import VideoUploadModal from '@/components/VideoUploadModal'
+import { validateProductForm, validateDraftForm } from '@/lib/validation/product'
+import type { Category } from '@/types/category'
 
 // 国家选项
 const countryOptions = [
@@ -126,6 +128,9 @@ const MAIN_SECTIONS = [
 
 export default function ProductCreateClient() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const categoryIdFromUrl = searchParams.get('categoryId')
+  const [submitting, setSubmitting] = useState(false)
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
   const [language, setLanguage] = useState('zh')
   const [title, setTitle] = useState('')
@@ -310,7 +315,25 @@ export default function ProductCreateClient() {
     ))
   }
 
-  // 从 sessionStorage 读取基础信息
+  // 从 API 获取类目路径（用于刷新页面恢复）
+  const fetchCategoryPath = useCallback(async (categoryId: string) => {
+    try {
+      const res = await fetch(`/api/categories/path?id=${categoryId}`)
+      const result = await res.json()
+      if (result.success && result.data.path.length > 0) {
+        const path = result.data.path as Category[]
+        setSelectedCategoryPath(path)
+        setTempCategoryPath(path)
+        setCategory(path.map((c: Category) => c.name).join(' > '))
+        return true
+      }
+    } catch (error) {
+      console.error('获取类目路径失败:', error)
+    }
+    return false
+  }, [])
+
+  // 从 sessionStorage 读取基础信息，或从 URL 恢复类目
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = sessionStorage.getItem('productBasicInfo')
@@ -327,11 +350,19 @@ export default function ProductCreateClient() {
           setCountryImages(basicInfo.countryImages || {})
         } catch (error) {
           console.error('读取基础信息失败:', error)
-          message.warning('未找到基础信息，请返回重新填写')
-          setTimeout(() => {
-            router.push('/products/create')
-          }, 1500)
+          // 尝试从 URL 恢复类目
+          if (categoryIdFromUrl) {
+            fetchCategoryPath(categoryIdFromUrl)
+          } else {
+            message.warning('未找到基础信息，请返回重新填写')
+            setTimeout(() => {
+              router.push('/products/create')
+            }, 1500)
+          }
         }
+      } else if (categoryIdFromUrl) {
+        // sessionStorage 为空但 URL 有 categoryId，尝试恢复类目
+        fetchCategoryPath(categoryIdFromUrl)
       } else {
         message.warning('未找到基础信息，请返回重新填写')
         setTimeout(() => {
@@ -339,7 +370,7 @@ export default function ProductCreateClient() {
         }, 1500)
       }
     }
-  }, [router])
+  }, [router, categoryIdFromUrl, fetchCategoryPath])
 
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
@@ -505,6 +536,129 @@ export default function ProductCreateClient() {
         ))}
       </div>
     )
+  }
+
+  // 计算提交时的 images 和 mainImage
+  const getImagesForSubmit = () => {
+    // 优先取 default，否则取第一个有内容的国家
+    const defaultImages = countryImages['default'] || []
+    if (defaultImages.length > 0) {
+      return { images: defaultImages, mainImage: defaultImages[0] }
+    }
+
+    // 遍历选中国家，取第一个有图片的
+    for (const country of selectedCountries) {
+      const imgs = countryImages[country] || []
+      if (imgs.length > 0) {
+        return { images: imgs, mainImage: imgs[0] }
+      }
+    }
+
+    return { images: [] as string[], mainImage: undefined }
+  }
+
+  // 提交商品（发布或保存草稿）
+  const handleSubmit = async (asDraft: boolean = false) => {
+    setSubmitting(true)
+
+    try {
+      // 0. 计算 images 和 mainImage
+      const { images, mainImage } = getImagesForSubmit()
+
+      // 1. 验证表单
+      const formData = {
+        title,
+        categoryId: selectedCategoryPath.length > 0 ? selectedCategoryPath[selectedCategoryPath.length - 1].id : undefined,
+        price: parseFloat(retailPrice) || 0,
+        stock: parseInt(inventory) || 0,
+        images,
+        description: pcDescription,
+        wholesaleEnabled,
+        wholesaleMinQuantity: wholesaleMinQuantity ? parseInt(wholesaleMinQuantity) : undefined,
+        wholesaleDiscount: wholesaleDiscount ? parseFloat(wholesaleDiscount) : undefined,
+      }
+
+      const errors = asDraft ? validateDraftForm(formData) : validateProductForm(formData)
+      if (errors.length > 0) {
+        message.error(errors[0].message)
+        setSubmitting(false)
+        return
+      }
+
+      // 2. 构建请求数据
+      const productData = {
+        title,
+        countries: selectedCountries,
+        countryTitles,
+        countryImages: JSON.stringify(countryImages),
+        language,
+        categoryId: selectedCategoryPath.length > 0 ? selectedCategoryPath[selectedCategoryPath.length - 1].id : null,
+        price: parseFloat(retailPrice) || 0,
+        comparePrice: productValue ? parseFloat(productValue) : null,
+        stock: parseInt(inventory) || 0,
+        sku: skuCode || null,
+        minUnit,
+        salesMethod,
+        productValue: productValue ? parseFloat(productValue) : null,
+        isPresale: isPresale === 'yes',
+        productType,
+        colorSystem: colorSystem || null,
+        customColorName: customColorName || null,
+        selectedSizes: JSON.stringify(selectedSizes),
+        plugTypes: JSON.stringify(selectedPlugTypes),
+        shippingLocations: JSON.stringify(selectedShippingLocations),
+        customAttributes: JSON.stringify(customAttributes),
+        wholesaleEnabled,
+        wholesaleMinQuantity: wholesaleMinQuantity ? parseInt(wholesaleMinQuantity) : null,
+        wholesaleDiscount: wholesaleDiscount ? parseFloat(wholesaleDiscount) : null,
+        selectedRegions: JSON.stringify(selectedRegions),
+        regionalPrices: JSON.stringify(regionalPrices),
+        priceAdjustMethod,
+        regionalPriceAdjustments: JSON.stringify(regionalPriceAdjustments),
+        description: pcDescription,
+        descriptionLang: descriptionLanguage,
+        appTemplateId: selectedAppTemplate,
+        images: JSON.stringify(images),
+        mainImage,
+        weight: weight ? parseFloat(weight) : null,
+        packageSize: packageLength && packageWidth && packageHeight
+          ? JSON.stringify({ length: parseFloat(packageLength), width: parseFloat(packageWidth), height: parseFloat(packageHeight) })
+          : null,
+        shippingTemplate: shippingTemplate || null,
+        serviceTemplate: serviceTemplate || null,
+        customWeight,
+        priceIncludesTax,
+        saleType,
+        inventoryDeduction,
+        alipaySupported,
+        euResponsiblePerson: euResponsiblePerson || null,
+        manufacturer: manufacturer || null,
+        status: asDraft ? 'draft' : 'reviewing',
+      }
+
+      // 3. 发送请求
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productData),
+      })
+
+      const result = await res.json()
+
+      if (result.success) {
+        message.success(asDraft ? '已保存为草稿' : '商品已提交审核')
+        // 清除 sessionStorage
+        sessionStorage.removeItem('productBasicInfo')
+        router.push('/products')
+      } else {
+        message.error(result.error || '操作失败')
+      }
+    } catch (error) {
+      console.error('提交失败:', error)
+      message.error('网络错误，请稍后重试')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -4070,20 +4224,20 @@ export default function ProductCreateClient() {
         <Button
           type="primary"
           size="large"
+          loading={submitting}
           style={{
             minWidth: 200,
             height: 48,
             fontSize: 16,
             fontWeight: 500
           }}
-          onClick={() => {
-            message.info('提交功能开发中...')
-          }}
+          onClick={() => handleSubmit(false)}
         >
           提交
         </Button>
         <Button
           size="large"
+          loading={submitting}
           style={{
             minWidth: 200,
             height: 48,
@@ -4092,11 +4246,9 @@ export default function ProductCreateClient() {
             borderColor: '#1677ff',
             color: '#1677ff'
           }}
-          onClick={() => {
-            message.info('保存功能开发中...')
-          }}
+          onClick={() => handleSubmit(true)}
         >
-          保存
+          保存草稿
         </Button>
       </div>
 
@@ -4115,12 +4267,16 @@ export default function ProductCreateClient() {
         visible={imageUploadModalVisible}
         onClose={() => setImageUploadModalVisible(false)}
         onConfirm={(images) => {
-          // TODO: 根据 currentUploadTarget 保存图片到对应位置
-          console.log('选中的图片:', images)
-          console.log('上传目标:', currentUploadTarget)
+          // 根据 currentUploadTarget 保存图片到对应位置
+          if (currentUploadTarget && images.length > 0) {
+            setCountryImages(prev => ({
+              ...prev,
+              [currentUploadTarget]: [...(prev[currentUploadTarget] || []), ...images]
+            }))
+          }
           setImageUploadModalVisible(false)
         }}
-        maxCount={1}
+        maxCount={6}
         sizeLimit={5}
         minDimensions={{ width: 800, height: 800 }}
         acceptFormats={['jpg', 'jpeg', 'png']}

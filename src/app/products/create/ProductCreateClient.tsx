@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Breadcrumb,
@@ -12,7 +12,8 @@ import {
   Button,
   Tooltip,
   Space,
-  message
+  message,
+  Spin
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -21,6 +22,7 @@ import {
   RightOutlined
 } from '@ant-design/icons'
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
+import type { Category } from '@/types/category'
 
 // 国家选项
 const countryOptions = [
@@ -43,70 +45,6 @@ const imageLabels = [
   '商品细节图',
 ]
 
-// 类目数据（示例数据，实际应该从后端获取）
-const categoryData = [
-  {
-    id: 1,
-    name: '玩具',
-    children: [
-      {
-        id: 11,
-        name: '减压玩具',
-        children: [
-          { id: 111, name: '减压魔方' },
-          { id: 112, name: '减压陀螺（指尖陀螺）' },
-          { id: 113, name: '减压滚轮' },
-          { id: 114, name: '捏捏乐' },
-        ]
-      },
-      {
-        id: 12,
-        name: '非遥控模型（不包含拼搭）',
-        children: [
-          { id: 121, name: '汽车模型' },
-          { id: 122, name: '飞机模型' },
-        ]
-      },
-      {
-        id: 13,
-        name: '收藏爱好',
-        children: [
-          { id: 131, name: '手办' },
-          { id: 132, name: '盲盒' },
-        ]
-      },
-      {
-        id: 14,
-        name: '高科技玩具'
-      },
-      {
-        id: 15,
-        name: '谷子（二次元为主的IP类周边）'
-      },
-      {
-        id: 16,
-        name: '儿童手工制作/创意DIY玩具'
-      },
-    ]
-  },
-  {
-    id: 2,
-    name: '母婴（含儿童服装/童鞋/儿童用品）',
-    children: [
-      { id: 21, name: '婴儿奶粉' },
-      { id: 22, name: '纸尿裤' },
-    ]
-  },
-  {
-    id: 3,
-    name: '接发与发套'
-  },
-  {
-    id: 4,
-    name: '其他特殊类'
-  },
-]
-
 export default function ProductCreateClient() {
   const router = useRouter()
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
@@ -115,9 +53,37 @@ export default function ProductCreateClient() {
   const [countryTitles, setCountryTitles] = useState<Record<string, string>>({})
   const [category, setCategory] = useState('')
   const [categoryModalVisible, setCategoryModalVisible] = useState(false)
-  const [selectedCategoryPath, setSelectedCategoryPath] = useState<any[]>([])
-  const [tempCategoryPath, setTempCategoryPath] = useState<any[]>([])
-  const [countryImages, setCountryImages] = useState<Record<string, any[]>>({})
+  const [selectedCategoryPath, setSelectedCategoryPath] = useState<Category[]>([])
+  const [tempCategoryPath, setTempCategoryPath] = useState<Category[]>([])
+  const [countryImages, setCountryImages] = useState<Record<string, string[]>>({})
+
+  // 类目数据状态
+  const [categoryData, setCategoryData] = useState<Category[]>([])
+  const [categoryLoading, setCategoryLoading] = useState(false)
+
+  // 获取类目数据
+  const fetchCategories = useCallback(async () => {
+    setCategoryLoading(true)
+    try {
+      const res = await fetch('/api/categories')
+      const result = await res.json()
+      if (result.success) {
+        setCategoryData(result.data.categories)
+      } else {
+        message.error(result.error || '获取类目失败')
+      }
+    } catch (error) {
+      console.error('获取类目失败:', error)
+      message.error('网络错误，请稍后重试')
+    } finally {
+      setCategoryLoading(false)
+    }
+  }, [])
+
+  // 初始加载类目
+  useEffect(() => {
+    fetchCategories()
+  }, [fetchCategories])
 
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
@@ -146,8 +112,8 @@ export default function ProductCreateClient() {
   }
 
   // 处理类目选择
-  const handleCategorySelect = (category: any, level: number) => {
-    const newPath = [...tempCategoryPath.slice(0, level), category]
+  const handleCategorySelect = (cat: Category, level: number) => {
+    const newPath = [...tempCategoryPath.slice(0, level), cat]
     setTempCategoryPath(newPath)
   }
 
@@ -193,7 +159,7 @@ export default function ProductCreateClient() {
   }
 
   // 渲染类目列
-  const renderCategoryColumn = (data: any[], level: number) => {
+  const renderCategoryColumn = (data: Category[], level: number) => {
     return (
       <div style={{
         flex: 1,
@@ -224,7 +190,7 @@ export default function ProductCreateClient() {
               }}
             >
               <span style={{ fontSize: 12 }}>{item.name}</span>
-              {item.children && <RightOutlined style={{ fontSize: 10, color: '#8C8C8C' }} />}
+              {item.children && item.children.length > 0 && <RightOutlined style={{ fontSize: 10, color: '#8C8C8C' }} />}
             </div>
           ))}
         </div>
@@ -614,19 +580,24 @@ export default function ProductCreateClient() {
                   marginTop: 4
                 }}>
                   {/* 类目列展示区域 */}
-                  <div style={{ display: 'flex', borderBottom: '1px solid #E8E8E8' }}>
-                    {/* 第一列 */}
-                    {renderCategoryColumn(categoryData, 0)}
+                  <Spin spinning={categoryLoading}>
+                    <div style={{ display: 'flex', borderBottom: '1px solid #E8E8E8', minHeight: 350 }}>
+                      {/* 第一列 */}
+                      {categoryData.length > 0 && renderCategoryColumn(categoryData, 0)}
 
-                    {/* 第二列 */}
-                    {tempCategoryPath[0]?.children && renderCategoryColumn(tempCategoryPath[0].children, 1)}
+                      {/* 第二列 */}
+                      {tempCategoryPath[0]?.children && tempCategoryPath[0].children.length > 0 &&
+                        renderCategoryColumn(tempCategoryPath[0].children, 1)}
 
-                    {/* 第三列 */}
-                    {tempCategoryPath[1]?.children && renderCategoryColumn(tempCategoryPath[1].children, 2)}
+                      {/* 第三列 */}
+                      {tempCategoryPath[1]?.children && tempCategoryPath[1].children.length > 0 &&
+                        renderCategoryColumn(tempCategoryPath[1].children, 2)}
 
-                    {/* 第四列 */}
-                    {tempCategoryPath[2]?.children && renderCategoryColumn(tempCategoryPath[2].children, 3)}
-                  </div>
+                      {/* 第四列 */}
+                      {tempCategoryPath[2]?.children && tempCategoryPath[2].children.length > 0 &&
+                        renderCategoryColumn(tempCategoryPath[2].children, 3)}
+                    </div>
+                  </Spin>
 
                   {/* 当前选择路径 */}
                   <div style={{ padding: '12px 16px', color: '#262626', fontSize: 12 }}>

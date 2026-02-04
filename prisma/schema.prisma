@@ -19,8 +19,14 @@ model User {
   email     String?
   role      String    @default("student") // student/teacher/admin
 
+  // 发品限制
+  productLimit  Int    @default(3000) // 发品上限
+  draftLimit    Int    @default(500)  // 草稿上限
+
   // 关联
-  products  Product[]
+  products      Product[]
+  productGroups ProductGroup[]
+  media         Media[]
 
   // 时间
   createdAt DateTime  @default(now())
@@ -40,47 +46,171 @@ model Product {
   categoryId      Int?
   category        Category? @relation(fields: [categoryId], references: [id])
 
-  // 基本信息
+  // ====== 多国家支持 ======
+  countries       String    @default("[]")   // JSON: ["es", "fr", "br"]
+  countryTitles   String    @default("{}")   // JSON: {"es": "西语标题", "fr": "法语标题"}
+  countryImages   String    @default("{}")   // JSON: {"default": [...], "es": [...]}
+  language        String    @default("zh")   // 发布语言
+
+  // ====== 基本信息 ======
   brand           String?   // 品牌
   model           String?   // 型号
   keywords        String?   // 关键词
 
-  // 价格库存
-  price           Float     // 价格
+  // ====== 价格库存 ======
+  price           Float     // 零售价
   comparePrice    Float?    // 划线价
   stock           Int       // 库存
-  sku             String?   // SKU
+  sku             String?   // SKU编码
+  minUnit         String    @default("piece")  // 最小销售单位：piece/box/set
+  salesMethod     String    @default("piece")  // 销售方式
+  productValue    Float?    // 商品货值
+  isPresale       Boolean   @default(false)    // 是否预售
+  productType     String    @default("normal") // normal/digital
 
-  // 详细描述
+  // ====== 商品属性（详情页字段）======
+  colorSystem     String?   // 颜色系统
+  customColorName String?   // 自定义颜色名
+  selectedSizes   String    @default("[]")     // JSON: ["S", "M", "L"]
+  plugTypes       String    @default("[]")     // JSON: ["EU", "US", "UK"]
+  shippingLocations String  @default("[]")     // JSON: ["CN", "HK", "TW"]
+  customAttributes String   @default("[]")     // JSON: [{id, name, value}]
+
+  // ====== 批发价 ======
+  wholesaleEnabled     Boolean @default(false)
+  wholesaleMinQuantity Int?    // 批发最小数量
+  wholesaleDiscount    Float?  // 批发折扣率 (0-100)
+
+  // ====== 区域定价 ======
+  selectedRegions      String  @default("[]")   // JSON: ["ru", "us", "de"]
+  regionalPrices       String  @default("{}")   // JSON: {"ru": "100", "us": "120"}
+  priceAdjustMethod    String  @default("direct") // direct/ratio/amount
+  regionalPriceAdjustments String @default("{}")  // JSON: {"ru": {operator, value}}
+
+  // ====== 详细描述 ======
   shortDesc       String?   // 简短描述
-  description     String    // 详细描述（富文本）
+  description     String    @default("")  // 详细描述（富文本HTML）
+  descriptionLang String    @default("English") // 描述语言
+  appTemplateId   String?   // APP端详情模板ID
 
-  // 图片 (JSON 数组)
-  images          String    @default("[]") // JSON 字符串
+  // ====== 图片视频 ======
+  images          String    @default("[]")   // JSON 数组
   mainImage       String?   // 主图 URL
+  video           String?   // 视频 URL
+  videoCover      String?   // 视频封面
 
-  // 物流
-  weight          Float?    // 重量（kg）
-  packageSize     String?   // 包装尺寸 JSON: {length, width, height} (cm)
-  shippingTemplate Int?     // 运费模板 ID
+  // ====== 物流包装（复用现有字段）======
+  weight          Float?    // 商品重量/物流重量（kg）
+  packageSize     String?   // JSON: {length, width, height} (cm)
+  shippingTemplate String?  // 运费模板名称（String存名称）
+  serviceTemplate String?   // 服务模板名称
+  customWeight    Boolean   @default(false) // 是否自定义重量
 
-  // 状态
-  status          String    @default("draft") // draft/published/offline
+  // ====== 其它设置 ======
+  priceIncludesTax   String  @default("include") // include/exclude
+  saleType           String  @default("normal")  // normal/presale
+  inventoryDeduction String  @default("payment") // order/payment
+  alipaySupported    Boolean @default(true)
+  euResponsiblePerson  String? // 欧盟责任人
+  manufacturer        String? // 制造商
 
-  // 时间
+  // ====== 运营数据（表格展示用）======
+  sales30d           Int     @default(0)   // 近30日销量
+  views30d           Int     @default(0)   // 近30日曝光
+  visitors30d        Int     @default(0)   // 近30日访客
+  conversion30d      Float   @default(0)   // 近30日转化率
+  paymentAmount30d   Float   @default(0)   // 近30日支付金额
+  payingBuyers30d    Int     @default(0)   // 近30日支付买家数
+  avgOrderValue30d   Float   @default(0)   // 近30日客单价
+  chartData          String  @default("[]") // 曝光趋势图数据 JSON
+  visitorsChartData  String  @default("[]") // 访客趋势图数据 JSON
+
+  // ====== 优化建议（表格展示用）======
+  optimizationStatus String? // 优化状态：如"影响转化"
+  optimizationTasks  Int     @default(0)   // 优化任务数
+  optimizationWarnings String @default("[]") // JSON: ["6个国家/地区已屏蔽"]
+
+  // ====== 特殊标记（筛选用）======
+  hasSale         Boolean   @default(false) // 是否有SALE标签
+  isFlash         Boolean   @default(false) // 是否闪电推商品
+
+  // ====== 状态（不含 deleted，软删用 deletedAt）======
+  status          String    @default("draft") // draft/reviewing/published/rejected/offline
+
+  // ====== 软删除（独立于 status）======
+  deletedAt       DateTime? // 软删除时间戳，非空表示已删除
+
+  // ====== 时间 ======
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
+  // ====== 关联：多对多分组 ======
+  groups          ProductToGroup[]
+
   @@index([userId])
   @@index([status])
+  @@index([deletedAt])
+}
+
+// 商品分组表
+model ProductGroup {
+  id        Int       @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products  ProductToGroup[]
+  createdAt DateTime  @default(now())
+
+  @@unique([name, userId])
+  @@index([userId])
+}
+
+// 商品-分组中间表
+model ProductToGroup {
+  id         Int          @id @default(autoincrement())
+  productId  Int
+  groupId    Int
+  product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  group      ProductGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, groupId])
+  @@index([productId])
+  @@index([groupId])
+}
+
+// 媒体文件表
+model Media {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  filename    String   // 原始文件名
+  path        String   // 服务器存储路径
+  url         String   // 访问URL
+  type        String   // image/video
+  size        Int      // 文件大小(bytes)
+  width       Int?     // 图片宽度
+  height      Int?     // 图片高度
+  duration    Int?     // 视频时长(秒)
+  folder      String   @default("未分组") // 所属文件夹
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([folder])
+  @@index([type])
 }
 
 // 类目表
 model Category {
-  id        Int       @id @default(autoincrement())
-  name      String
-  parentId  Int?      // 父类目 ID
-  level     Int       @default(1) // 1/2/3 级类目
-  products  Product[]
-  createdAt DateTime  @default(now())
+  id           Int        @id @default(autoincrement())
+  name         String
+  parentId     Int?      // 父类目 ID
+  level        Int        @default(1) // 1/2/3 级类目
+  sortOrder    Int        @default(0)
+  products     Product[]
+  parent       Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children     Category[] @relation("CategoryTree")
+  createdAt    DateTime   @default(now())
+
+  @@index([parentId])
+  @@index([level])
 }

@@ -1,8 +1,9 @@
 'use client'
 
-import { Upload, Select, Button } from 'antd'
-import { InboxOutlined } from '@ant-design/icons'
-import type { UploadProps } from 'antd'
+import { useState, useEffect } from 'react'
+import { Upload, Select, Button, message, Modal, Input } from 'antd'
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons'
+import type { UploadProps, UploadFile } from 'antd'
 
 const { Dragger } = Upload
 
@@ -13,6 +14,13 @@ interface UploadTabProps {
   acceptFormats: string[]
   defaultFolder: string
   onUploadSuccess: (urls: string[]) => void
+  onConfirm?: () => void
+  onCancel?: () => void
+}
+
+interface FolderOption {
+  name: string
+  count: number
 }
 
 export default function UploadTab({
@@ -21,52 +29,183 @@ export default function UploadTab({
   minDimensions,
   acceptFormats,
   defaultFolder,
-  onUploadSuccess
+  onUploadSuccess,
+  onConfirm,
+  onCancel
 }: UploadTabProps) {
+  const [selectedFolder, setSelectedFolder] = useState(defaultFolder)
+  const [folders, setFolders] = useState<FolderOption[]>([])
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [uploadedUrls, setUploadedUrls] = useState<string[]>([])
+  const [uploading, setUploading] = useState(false)
+  const [newFolderModalVisible, setNewFolderModalVisible] = useState(false)
+  const [newFolderName, setNewFolderName] = useState('')
+
+  // 获取文件夹列表
+  useEffect(() => {
+    fetchFolders()
+  }, [])
+
+  const fetchFolders = async () => {
+    try {
+      const res = await fetch('/api/media/folders')
+      const result = await res.json()
+      if (result.success) {
+        setFolders(result.data.folders)
+      }
+    } catch (error) {
+      console.error('获取文件夹失败:', error)
+    }
+  }
+
+  // 创建新文件夹
+  const handleCreateFolder = async () => {
+    if (!newFolderName.trim()) {
+      message.error('请输入文件夹名称')
+      return
+    }
+
+    try {
+      const res = await fetch('/api/media/folders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newFolderName.trim() })
+      })
+      const result = await res.json()
+      if (result.success) {
+        message.success('文件夹创建成功')
+        setFolders([...folders, result.data.folder])
+        setSelectedFolder(newFolderName.trim())
+        setNewFolderModalVisible(false)
+        setNewFolderName('')
+      } else {
+        message.error(result.error || '创建失败')
+      }
+    } catch {
+      message.error('网络错误')
+    }
+  }
+
+  // 检查图片尺寸
+  const checkImageDimensions = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        URL.revokeObjectURL(img.src)
+        if (img.width < minDimensions.width || img.height < minDimensions.height) {
+          message.error(`图片尺寸不足，最小要求 ${minDimensions.width}x${minDimensions.height}`)
+          resolve(false)
+        } else {
+          resolve(true)
+        }
+      }
+      img.onerror = () => {
+        resolve(false)
+      }
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  // 上传单个文件
+  const uploadFile = async (file: File): Promise<string | null> => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', selectedFolder)
+
+    try {
+      const res = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const result = await res.json()
+      if (result.success) {
+        return result.data.url
+      } else {
+        message.error(result.error || '上传失败')
+        return null
+      }
+    } catch {
+      message.error('上传失败')
+      return null
+    }
+  }
+
+  // 确认上传
+  const handleConfirmUpload = async () => {
+    if (fileList.length === 0) {
+      message.warning('请先选择要上传的图片')
+      return
+    }
+
+    setUploading(true)
+    const urls: string[] = []
+
+    for (const file of fileList) {
+      if (file.originFileObj) {
+        const url = await uploadFile(file.originFileObj)
+        if (url) {
+          urls.push(url)
+        }
+      }
+    }
+
+    setUploading(false)
+
+    if (urls.length > 0) {
+      message.success(`成功上传 ${urls.length} 张图片`)
+      setUploadedUrls(urls)
+      onUploadSuccess(urls)
+      setFileList([])
+      onConfirm?.()
+    }
+  }
+
   const uploadProps: UploadProps = {
     name: 'file',
     multiple: maxCount > 1,
     maxCount: maxCount,
     accept: acceptFormats.map(f => `.${f}`).join(','),
-    // TODO: 实现上传功能
-    // action: '/api/media/upload',
-    beforeUpload: (file) => {
-      // TODO: 实现文件校验
+    fileList,
+    beforeUpload: async (file) => {
       // 1. 检查文件格式
       const isValidFormat = acceptFormats.some(format =>
         file.type === `image/${format}` || file.name.toLowerCase().endsWith(`.${format}`)
       )
       if (!isValidFormat) {
-        console.error(`文件格式不支持！仅支持 ${acceptFormats.join(', ')} 格式`)
-        return false
+        message.error(`文件格式不支持！仅支持 ${acceptFormats.join(', ')} 格式`)
+        return Upload.LIST_IGNORE
       }
 
       // 2. 检查文件大小
       const isValidSize = file.size / 1024 / 1024 < sizeLimit
       if (!isValidSize) {
-        console.error(`文件大小超出限制！最大 ${sizeLimit}MB`)
-        return false
+        message.error(`文件大小超出限制！最大 ${sizeLimit}MB`)
+        return Upload.LIST_IGNORE
       }
 
-      // TODO: 3. 检查图片尺寸（需要异步加载图片）
-      // 需要创建 Image 对象，onload 后检查 width 和 height
+      // 3. 检查图片尺寸
+      const isValidDimensions = await checkImageDimensions(file)
+      if (!isValidDimensions) {
+        return Upload.LIST_IGNORE
+      }
 
-      return false // 暂时阻止实际上传
+      return false // 手动上传，不自动上传
     },
     onChange(info) {
-      // TODO: 实现上传状态处理
-      const { status } = info.file
-      if (status === 'done') {
-        console.log(`${info.file.name} 上传成功`)
-        // onUploadSuccess([info.file.response.url])
-      } else if (status === 'error') {
-        console.error(`${info.file.name} 上传失败`)
-      }
+      setFileList(info.fileList)
+    },
+    onRemove(file) {
+      setFileList(prev => prev.filter(f => f.uid !== file.uid))
     },
     onDrop(e) {
       console.log('拖拽文件:', e.dataTransfer.files)
     }
   }
+
+  const folderOptions = folders.map(f => ({
+    label: `${f.name} (${f.count})`,
+    value: f.name
+  }))
 
   return (
     <div style={{ padding: '24px' }}>
@@ -77,22 +216,18 @@ export default function UploadTab({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Select
-            defaultValue={defaultFolder}
+            value={selectedFolder}
+            onChange={setSelectedFolder}
             style={{ width: 300 }}
             size="middle"
-            // TODO: 实现文件夹列表获取
-            // options={folderOptions}
-            options={[
-              { label: '商品发布', value: '商品发布' },
-              { label: '店铺资料', value: '店铺资料' },
-              { label: '未分组图片', value: '未分组' }
-            ]}
+            options={folderOptions}
+            placeholder="选择文件夹"
           />
           <Button
             type="link"
+            icon={<PlusOutlined />}
             style={{ padding: 0 }}
-            // TODO: 实现创建新文件夹
-            onClick={() => console.log('创建新文件夹')}
+            onClick={() => setNewFolderModalVisible(true)}
           >
             创建新文件夹
           </Button>
@@ -118,25 +253,41 @@ export default function UploadTab({
 
       {/* 底部按钮 */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Button
-          type="link"
-          style={{ padding: 0 }}
-          // TODO: 实现跳转到媒体中心
-          onClick={() => console.log('前往媒体中心')}
-        >
+        <Button type="link" style={{ padding: 0 }}>
           前往媒体中心
         </Button>
         <div style={{ display: 'flex', gap: 8 }}>
           <Button
-            type="default"
-            disabled
-            // TODO: 根据是否有上传文件来控制禁用状态
+            type="primary"
+            loading={uploading}
+            disabled={fileList.length === 0}
+            onClick={handleConfirmUpload}
           >
-            确认上传
+            确认上传 {fileList.length > 0 && `(${fileList.length})`}
           </Button>
-          <Button type="default">取消</Button>
+          <Button onClick={onCancel}>取消</Button>
         </div>
       </div>
+
+      {/* 创建文件夹弹窗 */}
+      <Modal
+        title="创建新文件夹"
+        open={newFolderModalVisible}
+        onOk={handleCreateFolder}
+        onCancel={() => {
+          setNewFolderModalVisible(false)
+          setNewFolderName('')
+        }}
+        okText="创建"
+        cancelText="取消"
+      >
+        <Input
+          placeholder="请输入文件夹名称"
+          value={newFolderName}
+          onChange={(e) => setNewFolderName(e.target.value)}
+          onPressEnter={handleCreateFolder}
+        />
+      </Modal>
     </div>
   )
 }

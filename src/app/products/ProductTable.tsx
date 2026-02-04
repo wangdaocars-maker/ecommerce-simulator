@@ -1,131 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Table, Checkbox, Button, Dropdown, Space, Popover } from 'antd'
+import { Table, Checkbox, Button, Dropdown, Space, Popover, message } from 'antd'
 import {
   EditOutlined,
   DownOutlined,
   QuestionCircleOutlined,
-  MoreOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
-import Image from 'next/image'
-
-// 商品数据类型
-interface ProductData {
-  key: string
-  id: string
-  title: string
-  image: string
-  hasSale: boolean
-  skuCount: number
-  groups: string[]
-  price: {
-    amount: string
-    hasRange: boolean
-    min?: string
-    max?: string
-  }
-  stock: number
-  optimization: {
-    status: string
-    tasks: number
-    warnings?: string[]
-  }
-  sales30d: number | null
-  views30d: number
-  conversion30d: string
-  chartData: number[]
-  paymentAmount30d: number
-  visitors30d: number
-  visitorsChartData: number[]
-  payingBuyers30d: number
-  avgOrderValue30d: number
-  shippingTemplate: {
-    line1: string
-    line2: string
-  }
-  editTime: {
-    edited: string
-    created: string
-  }
-}
-
-// 模拟数据
-const mockData: ProductData[] = [
-  {
-    key: '1',
-    id: '1005009016721297',
-    title: 'Bandai Original Genuine Fig...',
-    image: '/uploads/products/sample1.jpg',
-    hasSale: true,
-    skuCount: 1,
-    groups: ['GLOBAL / Bandai', 'Gundam / HG 1:144'],
-    price: {
-      amount: 'CNY 248.62',
-      hasRange: false,
-    },
-    stock: 26,
-    optimization: {
-      status: '影响转化',
-      tasks: 1,
-    },
-    sales30d: 6,
-    views30d: 14118,
-    conversion30d: '0.04%',
-    chartData: [100, 120, 110, 130, 125, 135, 140],
-    paymentAmount30d: 164.11,
-    visitors30d: 14118,
-    visitorsChartData: [140, 120, 110, 100, 105, 110, 115],
-    payingBuyers30d: 6,
-    avgOrderValue30d: 27.3517,
-    shippingTemplate: {
-      line1: '10usd 400g PuHuo',
-      line2: 'QYDJ',
-    },
-    editTime: {
-      edited: '2026/01/17 05:20:58 PST',
-      created: '2025/05/12 03:41:55 PST',
-    },
-  },
-  {
-    key: '2',
-    id: '1005010686112631',
-    title: 'Bandai S.H.Figuarts One Pie...',
-    image: '/uploads/products/sample2.jpg',
-    hasSale: true,
-    skuCount: 1,
-    groups: ['GLOBAL / Bandai', 'One Piece / S.H.Figuarts'],
-    price: {
-      amount: 'CNY 1239.12',
-      hasRange: false,
-    },
-    stock: 20,
-    optimization: {
-      status: '影响转化',
-      tasks: 1,
-      warnings: ['6个国家/地区已屏蔽'],
-    },
-    sales30d: null,
-    views30d: 4191,
-    conversion30d: '0.00%',
-    chartData: [80, 90, 95, 100, 85, 75, 70],
-    paymentAmount30d: 0,
-    visitors30d: 4191,
-    visitorsChartData: [100, 95, 90, 85, 80, 75, 70],
-    payingBuyers30d: 0,
-    avgOrderValue30d: 0,
-    shippingTemplate: {
-      line1: '10usd 400g PuHuo',
-      line2: 'QYDJ',
-    },
-    editTime: {
-      edited: '2026/01/17 05:20:58 PST',
-      created: '2025/05/12 03:41:55 PST',
-    },
-  },
-]
+import type { ProductListItem } from '@/types/product'
 
 // 列配置类型
 type ColumnConfig = {
@@ -154,7 +38,27 @@ const defaultColumnConfig: ColumnConfig[] = [
   { key: 'action', label: '操作', visible: true, fixed: true },
 ]
 
-export default function ProductTable() {
+interface ProductTableProps {
+  data: ProductListItem[]
+  loading: boolean
+  selectedRowKeys: string[]
+  onSelectChange: (keys: string[]) => void
+  onEdit: (id: string) => void
+  onDelete: (id: string) => void
+  onBatchOffline: () => void
+  onBatchDelete: () => void
+}
+
+export default function ProductTable({
+  data,
+  loading,
+  selectedRowKeys,
+  onSelectChange,
+  onEdit,
+  onDelete,
+  onBatchOffline,
+  onBatchDelete,
+}: ProductTableProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[]>(defaultColumnConfig)
   const [columnSettingVisible, setColumnSettingVisible] = useState(false)
@@ -162,9 +66,10 @@ export default function ProductTable() {
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id)
     setCopiedId(id)
+    message.success('复制成功')
     setTimeout(() => {
       setCopiedId(null)
-    }, 2000) // 2秒后恢复为复制图标
+    }, 2000)
   }
 
   // 切换列显示状态
@@ -220,15 +125,38 @@ export default function ProductTable() {
     </div>
   )
 
-  const allColumns: ColumnsType<ProductData> = [
+  const allColumns: ColumnsType<ProductListItem> = [
     // 1. 全选列
     {
-      title: <Checkbox />,
+      title: (
+        <Checkbox
+          checked={selectedRowKeys.length > 0 && selectedRowKeys.length === data.length}
+          indeterminate={selectedRowKeys.length > 0 && selectedRowKeys.length < data.length}
+          onChange={(e) => {
+            if (e.target.checked) {
+              onSelectChange(data.map(item => item.key))
+            } else {
+              onSelectChange([])
+            }
+          }}
+        />
+      ),
       dataIndex: 'checkbox',
       key: 'checkbox',
       width: 40,
       fixed: 'left',
-      render: () => <Checkbox />,
+      render: (_, record) => (
+        <Checkbox
+          checked={selectedRowKeys.includes(record.key)}
+          onChange={(e) => {
+            if (e.target.checked) {
+              onSelectChange([...selectedRowKeys, record.key])
+            } else {
+              onSelectChange(selectedRowKeys.filter(k => k !== record.key))
+            }
+          }}
+        />
+      ),
     },
 
     // 2. 商品列
@@ -255,7 +183,10 @@ export default function ProductTable() {
           {/* 商品信息 */}
           <div className="flex-1 min-w-0">
             {/* 商品标题 */}
-            <div className="text-[14px] text-[#262626] font-medium hover:underline cursor-pointer mb-1.5 truncate">
+            <div
+              className="text-[14px] text-[#262626] font-medium hover:underline cursor-pointer mb-1.5 truncate"
+              onClick={() => onEdit(record.id)}
+            >
               {record.title}
             </div>
 
@@ -309,14 +240,22 @@ export default function ProductTable() {
       width: 150,
       render: (groups: string[]) => (
         <div className="text-[12px]">
-          {groups.map((group, index) => (
-            <div key={index} className="text-[#262626]">
-              {group}
-            </div>
-          ))}
-          <div className="text-[#1677ff] text-[11px] cursor-pointer mt-1">
-            更多分组 <DownOutlined className="text-[9px]" />
-          </div>
+          {groups.length > 0 ? (
+            <>
+              {groups.slice(0, 2).map((group, index) => (
+                <div key={index} className="text-[#262626]">
+                  {group}
+                </div>
+              ))}
+              {groups.length > 2 && (
+                <div className="text-[#1677ff] text-[11px] cursor-pointer mt-1">
+                  更多分组 <DownOutlined className="text-[9px]" />
+                </div>
+              )}
+            </>
+          ) : (
+            <span className="text-[#8c8c8c]">未分组</span>
+          )}
         </div>
       ),
     },
@@ -327,7 +266,7 @@ export default function ProductTable() {
       dataIndex: 'price',
       key: 'price',
       width: 160,
-      render: (price: ProductData['price']) => (
+      render: (price: ProductListItem['price']) => (
         <div className="text-[12px]">
           <div className="flex items-center gap-1 mb-1">
             <span>{price.amount}</span>
@@ -360,19 +299,24 @@ export default function ProductTable() {
       dataIndex: 'optimization',
       key: 'optimization',
       width: 180,
-      render: (opt: ProductData['optimization']) => (
+      render: (opt: ProductListItem['optimization']) => (
         <div className="text-[11px]">
-          <div className="text-[#ff4d4f] mb-1">{opt.status}</div>
-          <div className="flex items-center gap-1 text-[#ff4d4f] cursor-pointer mb-1">
-            <span className="w-1 h-1 bg-[#ff4d4f] rounded-full" />
-            <span>{opt.tasks}项优化任务</span>
-            <span>›</span>
-          </div>
+          {opt.status && <div className="text-[#ff4d4f] mb-1">{opt.status}</div>}
+          {opt.tasks > 0 && (
+            <div className="flex items-center gap-1 text-[#ff4d4f] cursor-pointer mb-1">
+              <span className="w-1 h-1 bg-[#ff4d4f] rounded-full" />
+              <span>{opt.tasks}项优化任务</span>
+              <span>›</span>
+            </div>
+          )}
           {opt.warnings?.map((warning, index) => (
             <div key={index} className="text-[#fa8c16]">
               {warning}
             </div>
           ))}
+          {!opt.status && opt.tasks === 0 && !opt.warnings?.length && (
+            <span className="text-[#52c41a]">暂无优化建议</span>
+          )}
         </div>
       ),
     },
@@ -399,7 +343,11 @@ export default function ProductTable() {
       key: 'views30d',
       width: 140,
       render: (views: number, record) => {
-        const chartData = record.chartData
+        const chartData = record.chartData || []
+        if (chartData.length === 0) {
+          return <span className="text-[12px]">{views}</span>
+        }
+
         const maxValue = Math.max(...chartData)
         const width = 120
         const height = 40
@@ -408,7 +356,9 @@ export default function ProductTable() {
         // 计算折线的点
         const points = chartData.map((value, index) => {
           const x = (index / (chartData.length - 1)) * (width - padding * 2) + padding
-          const y = height - padding - ((value / maxValue) * (height - padding * 2))
+          const y = maxValue > 0
+            ? height - padding - ((value / maxValue) * (height - padding * 2))
+            : height / 2
           return `${x},${y}`
         }).join(' ')
 
@@ -455,7 +405,11 @@ export default function ProductTable() {
       key: 'visitors30d',
       width: 140,
       render: (visitors: number, record) => {
-        const chartData = record.visitorsChartData
+        const chartData = record.visitorsChartData || []
+        if (chartData.length === 0) {
+          return <span className="text-[12px]">{visitors}</span>
+        }
+
         const maxValue = Math.max(...chartData)
         const width = 120
         const height = 40
@@ -463,7 +417,9 @@ export default function ProductTable() {
 
         const points = chartData.map((value, index) => {
           const x = (index / (chartData.length - 1)) * (width - padding * 2) + padding
-          const y = height - padding - ((value / maxValue) * (height - padding * 2))
+          const y = maxValue > 0
+            ? height - padding - ((value / maxValue) * (height - padding * 2))
+            : height / 2
           return `${x},${y}`
         }).join(' ')
 
@@ -509,21 +465,21 @@ export default function ProductTable() {
       dataIndex: 'shippingTemplate',
       key: 'shippingTemplate',
       width: 150,
-      render: (template: ProductData['shippingTemplate']) => (
+      render: (template: ProductListItem['shippingTemplate']) => (
         <div className="text-[12px]">
           <div className="text-[#262626]">{template.line1}</div>
-          <div className="text-[#262626]">{template.line2}</div>
+          {template.line2 && <div className="text-[#262626]">{template.line2}</div>}
         </div>
       ),
     },
 
-    // 11. 编辑时间列
+    // 15. 编辑时间列
     {
       title: '编辑时间',
       dataIndex: 'editTime',
       key: 'editTime',
       width: 180,
-      render: (time: ProductData['editTime']) => (
+      render: (time: ProductListItem['editTime']) => (
         <div className="text-[11px]">
           <div className="text-[#262626] mb-1">编辑：{time.edited}</div>
           <div className="text-[#262626]">创建：{time.created}</div>
@@ -531,20 +487,27 @@ export default function ProductTable() {
       ),
     },
 
-    // 12. 操作列
+    // 16. 操作列
     {
       title: '操作',
       key: 'action',
       width: 100,
       fixed: 'right',
-      render: () => (
+      render: (_, record) => (
         <Space size={8}>
-          <a className="text-[#1677ff] text-[12px]">编辑</a>
+          <a className="text-[#1677ff] text-[12px]" onClick={() => onEdit(record.id)}>
+            编辑
+          </a>
           <Dropdown
             menu={{
               items: [
                 { key: 'view', label: '查看' },
-                { key: 'delete', label: '删除' },
+                {
+                  key: 'delete',
+                  label: '删除',
+                  danger: true,
+                  onClick: () => onDelete(record.id)
+                },
               ],
             }}
           >
@@ -572,14 +535,29 @@ export default function ProductTable() {
       <div className="bg-white mb-4 px-4 py-3 flex items-center justify-between border border-gray-200 rounded-lg shadow-md">
         {/* 左侧操作 */}
         <Space size={12}>
-          <span className="text-sm text-[#8c8c8c]">已选 0</span>
-          <Button>下架</Button>
+          <span className="text-sm text-[#8c8c8c]">已选 {selectedRowKeys.length}</span>
+          <Button onClick={onBatchOffline} disabled={selectedRowKeys.length === 0}>
+            下架
+          </Button>
           <Dropdown menu={{ items: [{ key: 'excel', label: '导出为 Excel' }] }}>
             <Button>
               导出 <DownOutlined />
             </Button>
           </Dropdown>
-          <Dropdown menu={{ items: [{ key: 'batch', label: '批量编辑' }] }}>
+          <Dropdown
+            menu={{
+              items: [
+                { key: 'batch-edit', label: '批量编辑' },
+                {
+                  key: 'batch-delete',
+                  label: '批量删除',
+                  danger: true,
+                  onClick: onBatchDelete,
+                  disabled: selectedRowKeys.length === 0
+                },
+              ],
+            }}
+          >
             <Button>
               更多 <DownOutlined />
             </Button>
@@ -607,7 +585,8 @@ export default function ProductTable() {
       <div className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
         <Table
           columns={columns}
-          dataSource={mockData}
+          dataSource={data}
+          loading={loading}
           pagination={false}
           size="middle"
           className="product-table"

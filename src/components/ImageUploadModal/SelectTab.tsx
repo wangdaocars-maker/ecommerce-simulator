@@ -1,115 +1,126 @@
 'use client'
 
-import { useState } from 'react'
-import { DatePicker, Input, Checkbox, Pagination, Select, Button } from 'antd'
+import { useState, useEffect, useCallback } from 'react'
+import { DatePicker, Input, Checkbox, Pagination, Select, Button, Spin, Empty } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
+import type { MediaItem, MediaFolder } from '@/types/media'
 
 const { RangePicker } = DatePicker
-
-interface ImageFile {
-  id: string
-  url: string
-  name: string
-  width: number
-  height: number
-  format: string
-  folder: string
-}
 
 interface SelectTabProps {
   maxCount: number
   selectedImages: string[]
   onSelectChange: (images: string[]) => void
+  onConfirm?: () => void
+  onCancel?: () => void
 }
-
-// TODO: 从后端API获取图片数据
-// Mock 数据用于展示样式
-const mockImages: ImageFile[] = [
-  {
-    id: '1',
-    url: '/marketing-example-1-1.jpg',
-    name: 'DXM202512301234567890',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  },
-  {
-    id: '2',
-    url: '/marketing-example-3-4.jpg',
-    name: 'DXM202512301234567891',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  },
-  {
-    id: '3',
-    url: '/marketing-example-1-1.jpg',
-    name: 'DXM202512301234567892',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  },
-  {
-    id: '4',
-    url: '/marketing-example-3-4.jpg',
-    name: 'DXM202512301234567893',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  },
-  {
-    id: '5',
-    url: '/marketing-example-1-1.jpg',
-    name: 'DXM202512301234567894',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  },
-  {
-    id: '6',
-    url: '/marketing-example-3-4.jpg',
-    name: 'DXM202512301234567895',
-    width: 800,
-    height: 800,
-    format: 'JPG',
-    folder: '商品发布'
-  }
-]
 
 export default function SelectTab({
   maxCount,
   selectedImages,
-  onSelectChange
+  onSelectChange,
+  onConfirm,
+  onCancel
 }: SelectTabProps) {
-  const [currentFolder, setCurrentFolder] = useState('全部图片')
+  const [currentFolder, setCurrentFolder] = useState('全部')
   const [searchKeyword, setSearchKeyword] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(24)
+  const [dateRange, setDateRange] = useState<[string, string] | null>(null)
 
-  const folders = [
-    { name: '全部图片', count: 3317 },
-    { name: '未分组图片', count: 125 },
-    { name: '商品发布', count: 2890 },
-    { name: '店铺资料', count: 302 }
-  ]
+  const [folders, setFolders] = useState<MediaFolder[]>([])
+  const [images, setImages] = useState<MediaItem[]>([])
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
 
-  const handleImageSelect = (imageId: string, checked: boolean) => {
-    // TODO: 实现图片选择逻辑
+  // 获取文件夹列表
+  const fetchFolders = useCallback(async () => {
+    try {
+      const res = await fetch('/api/media/folders')
+      const result = await res.json()
+      if (result.success) {
+        // 添加"全部"选项
+        const allCount = result.data.folders.reduce((sum: number, f: MediaFolder) => sum + f.count, 0)
+        setFolders([{ name: '全部', count: allCount }, ...result.data.folders])
+      }
+    } catch (error) {
+      console.error('获取文件夹失败:', error)
+    }
+  }, [])
+
+  // 获取图片列表
+  const fetchImages = useCallback(async () => {
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({
+        type: 'image',
+        page: String(currentPage),
+        pageSize: String(pageSize)
+      })
+
+      if (currentFolder !== '全部') {
+        params.set('folder', currentFolder)
+      }
+
+      if (searchKeyword.trim()) {
+        params.set('search', searchKeyword.trim())
+      }
+
+      if (dateRange) {
+        params.set('startDate', dateRange[0])
+        params.set('endDate', dateRange[1])
+      }
+
+      const res = await fetch(`/api/media?${params.toString()}`)
+      const result = await res.json()
+
+      if (result.success) {
+        setImages(result.data.items)
+        setTotal(result.data.total)
+      }
+    } catch (error) {
+      console.error('获取图片失败:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [currentFolder, currentPage, pageSize, searchKeyword, dateRange])
+
+  // 初始加载
+  useEffect(() => {
+    fetchFolders()
+  }, [fetchFolders])
+
+  // 加载图片
+  useEffect(() => {
+    fetchImages()
+  }, [fetchImages])
+
+  // 切换文件夹时重置页码
+  const handleFolderChange = (folder: string) => {
+    setCurrentFolder(folder)
+    setCurrentPage(1)
+  }
+
+  // 搜索
+  const handleSearch = () => {
+    setCurrentPage(1)
+    fetchImages()
+  }
+
+  // 图片选择
+  const handleImageSelect = (imageUrl: string, checked: boolean) => {
     if (checked) {
       if (selectedImages.length >= maxCount) {
-        console.warn(`最多只能选择 ${maxCount} 张图片`)
         return
       }
-      onSelectChange([...selectedImages, imageId])
+      onSelectChange([...selectedImages, imageUrl])
     } else {
-      onSelectChange(selectedImages.filter(id => id !== imageId))
+      onSelectChange(selectedImages.filter(url => url !== imageUrl))
     }
   }
+
+  // 计算总页数
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div style={{ display: 'flex', height: 600 }}>
@@ -118,23 +129,27 @@ export default function SelectTab({
         style={{
           width: 200,
           borderRight: '1px solid #F0F0F0',
-          padding: '16px 0'
+          padding: '16px 0',
+          overflowY: 'auto'
         }}
       >
         {folders.map((folder) => (
           <div
             key={folder.name}
-            onClick={() => setCurrentFolder(folder.name)}
+            onClick={() => handleFolderChange(folder.name)}
             style={{
               padding: '8px 24px',
               cursor: 'pointer',
               backgroundColor: currentFolder === folder.name ? '#E6F7FF' : 'transparent',
               color: currentFolder === folder.name ? '#1677FF' : '#262626',
               fontSize: 14,
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              justifyContent: 'space-between'
             }}
           >
-            {folder.name}
+            <span>{folder.name}</span>
+            <span style={{ color: '#8c8c8c' }}>{folder.count}</span>
           </div>
         ))}
       </div>
@@ -153,8 +168,14 @@ export default function SelectTab({
           <RangePicker
             placeholder={['开始日期', '结束日期']}
             style={{ width: 300 }}
-            // TODO: 实现日期筛选
-            onChange={(dates) => console.log('日期范围:', dates)}
+            onChange={(dates, dateStrings) => {
+              if (dates) {
+                setDateRange([dateStrings[0], dateStrings[1]])
+              } else {
+                setDateRange(null)
+              }
+              setCurrentPage(1)
+            }}
           />
           <Input
             placeholder="在当前文件夹搜索图..."
@@ -162,8 +183,7 @@ export default function SelectTab({
             style={{ width: 300 }}
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            // TODO: 实现搜索功能
-            onPressEnter={() => console.log('搜索:', searchKeyword)}
+            onPressEnter={handleSearch}
           />
         </div>
 
@@ -175,93 +195,111 @@ export default function SelectTab({
             overflowY: 'auto'
           }}
         >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(6, 1fr)',
-              gap: 16
-            }}
-          >
-            {mockImages.map((image) => (
+          <Spin spinning={loading}>
+            {images.length === 0 ? (
+              <Empty description="暂无图片" />
+            ) : (
               <div
-                key={image.id}
                 style={{
-                  position: 'relative',
-                  cursor: 'pointer'
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(6, 1fr)',
+                  gap: 16
                 }}
               >
-                {/* 复选框 */}
-                <Checkbox
-                  checked={selectedImages.includes(image.id)}
-                  onChange={(e) => handleImageSelect(image.id, e.target.checked)}
-                  style={{
-                    position: 'absolute',
-                    top: 8,
-                    left: 8,
-                    zIndex: 1
-                  }}
-                />
-
-                {/* 图片 */}
-                <div
-                  style={{
-                    width: '100%',
-                    aspectRatio: '1',
-                    backgroundColor: '#F5F5F5',
-                    border: selectedImages.includes(image.id)
-                      ? '2px solid #1677FF'
-                      : '1px solid #E8E8E8',
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    position: 'relative'
-                  }}
-                >
-                  <img
-                    src={image.url}
-                    alt={image.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                  {/* 格式标签 */}
+                {images.map((image) => (
                   <div
+                    key={image.id}
                     style={{
-                      position: 'absolute',
-                      bottom: 8,
-                      right: 8,
-                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                      color: '#fff',
-                      padding: '2px 6px',
-                      fontSize: 10,
-                      borderRadius: 2
+                      position: 'relative',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => {
+                      const isSelected = selectedImages.includes(image.url)
+                      handleImageSelect(image.url, !isSelected)
                     }}
                   >
-                    {image.format}
-                  </div>
-                </div>
+                    {/* 复选框 */}
+                    <Checkbox
+                      checked={selectedImages.includes(image.url)}
+                      disabled={!selectedImages.includes(image.url) && selectedImages.length >= maxCount}
+                      onChange={(e) => {
+                        e.stopPropagation()
+                        handleImageSelect(image.url, e.target.checked)
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 8,
+                        left: 8,
+                        zIndex: 1
+                      }}
+                    />
 
-                {/* 文件名和尺寸 */}
-                <div style={{ marginTop: 8 }}>
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: '#262626',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    {image.name}
+                    {/* 图片 */}
+                    <div
+                      style={{
+                        width: '100%',
+                        aspectRatio: '1',
+                        backgroundColor: '#F5F5F5',
+                        border: selectedImages.includes(image.url)
+                          ? '2px solid #1677FF'
+                          : '1px solid #E8E8E8',
+                        borderRadius: 4,
+                        overflow: 'hidden',
+                        position: 'relative'
+                      }}
+                    >
+                      <img
+                        src={image.url}
+                        alt={image.filename}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                        onError={(e) => {
+                          e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2YwZjBmMCIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iIGZpbGw9IiM4YzhjOGMiPuWKoOi9veWksei0pTwvdGV4dD48L3N2Zz4='
+                        }}
+                      />
+                      {/* 格式标签 */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: 8,
+                          right: 8,
+                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          color: '#fff',
+                          padding: '2px 6px',
+                          fontSize: 10,
+                          borderRadius: 2,
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        {image.filename.split('.').pop()}
+                      </div>
+                    </div>
+
+                    {/* 文件名和尺寸 */}
+                    <div style={{ marginTop: 8 }}>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: '#262626',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {image.filename}
+                      </div>
+                      <div style={{ fontSize: 12, color: '#8C8C8C' }}>
+                        {image.width && image.height ? `${image.width} * ${image.height}` : '--'}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ fontSize: 12, color: '#8C8C8C' }}>
-                    {image.width} * {image.height}
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+          </Spin>
         </div>
 
         {/* 分页 */}
@@ -275,20 +313,16 @@ export default function SelectTab({
           }}
         >
           <div style={{ fontSize: 14, color: '#262626' }}>
-            共计 <span style={{ color: '#1677FF' }}>3317</span>
+            共计 <span style={{ color: '#1677FF' }}>{total}</span> 张
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Pagination
               current={currentPage}
               pageSize={pageSize}
-              total={3317}
+              total={total}
               showSizeChanger={false}
-              onChange={(page) => {
-                setCurrentPage(page)
-                // TODO: 加载对应页数据
-                console.log('切换到第', page, '页')
-              }}
+              onChange={(page) => setCurrentPage(page)}
             />
 
             <Select
@@ -296,8 +330,6 @@ export default function SelectTab({
               onChange={(value) => {
                 setPageSize(value)
                 setCurrentPage(1)
-                // TODO: 重新加载数据
-                console.log('每页显示', value, '条')
               }}
               style={{ width: 120 }}
               options={[
@@ -312,13 +344,11 @@ export default function SelectTab({
               type="number"
               style={{ width: 60 }}
               min={1}
-              max={139}
-              // TODO: 实现跳转功能
+              max={totalPages}
               onPressEnter={(e) => {
                 const page = parseInt((e.target as HTMLInputElement).value)
-                if (page >= 1 && page <= 139) {
+                if (page >= 1 && page <= totalPages) {
                   setCurrentPage(page)
-                  console.log('跳转到第', page, '页')
                 }
               }}
             />
@@ -336,17 +366,18 @@ export default function SelectTab({
             alignItems: 'center'
           }}
         >
-          <Button
-            type="link"
-            style={{ padding: 0 }}
-            // TODO: 实现跳转到媒体中心
-            onClick={() => console.log('前往媒体中心')}
-          >
-            前往媒体中心
-          </Button>
+          <div style={{ fontSize: 14, color: '#262626' }}>
+            已选择 <span style={{ color: '#1677FF' }}>{selectedImages.length}</span> / {maxCount} 张
+          </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <Button type="default">确定</Button>
-            <Button type="default">取消</Button>
+            <Button
+              type="primary"
+              disabled={selectedImages.length === 0}
+              onClick={onConfirm}
+            >
+              确定
+            </Button>
+            <Button onClick={onCancel}>取消</Button>
           </div>
         </div>
       </div>
