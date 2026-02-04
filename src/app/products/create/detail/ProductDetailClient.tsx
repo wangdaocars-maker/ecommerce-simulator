@@ -172,6 +172,15 @@ export default function ProductCreateClient() {
   const [productType, setProductType] = useState('normal')
   const [skuCode, setSkuCode] = useState('')
 
+  // 区域零售价
+  const [regionalPriceModalVisible, setRegionalPriceModalVisible] = useState(false)
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([])
+  const [regionalPriceSearch, setRegionalPriceSearch] = useState('')
+  const [priceAdjustMethod, setPriceAdjustMethod] = useState('direct') // direct, ratio, amount
+  const [regionalPrices, setRegionalPrices] = useState<Record<string, string>>({})
+  const [regionalPriceAdjustments, setRegionalPriceAdjustments] = useState<Record<string, { operator: string; value: string }>>({})
+  const [regionalPriceVisible, setRegionalPriceVisible] = useState(false)
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -2744,6 +2753,179 @@ export default function ProductCreateClient() {
                         </div>
                       </div>
                     </div>
+
+                    {/* 区域零售价 */}
+                    <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid #f0f0f0' }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        区域零售价
+                        <Tooltip title="为不同国家/地区设置不同的零售价">
+                          <span style={{ color: '#8c8c8c', cursor: 'help', fontSize: 14 }}>ⓘ</span>
+                        </Tooltip>
+                      </div>
+
+                      <Select
+                        size="small"
+                        placeholder="请选择"
+                        style={{ width: '100%' }}
+                        value={selectedRegions.length > 0 ? '已选择' : undefined}
+                        onClick={() => setRegionalPriceModalVisible(true)}
+                        open={false}
+                      />
+
+                      {selectedRegions.length > 0 && (
+                        <div style={{ marginTop: 16 }}>
+                          {/* 调价方式 */}
+                          <div style={{ marginBottom: 16 }}>
+                            <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
+                              调价方式
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Select
+                                size="small"
+                                style={{ width: 400 }}
+                                value={priceAdjustMethod}
+                                onChange={setPriceAdjustMethod}
+                                options={[
+                                  { label: '直接报价', value: 'direct' },
+                                  { label: '调整比例', value: 'ratio' },
+                                  { label: '调整金额', value: 'amount' },
+                                ]}
+                              />
+                              <Button size="small">批量填充</Button>
+                            </div>
+                          </div>
+
+                          {/* 价格表格 */}
+                          <div style={{ border: '1px solid #d9d9d9', borderRadius: 4, overflowX: 'auto' }}>
+                            <div style={{ display: 'flex', minWidth: 'max-content' }}>
+                              {selectedRegions.map((region) => {
+                                const regionNames: Record<string, string> = {
+                                  'ru': '俄罗斯', 'es': '西班牙', 'fr': '法国', 'br': '巴西', 'us': '美国', 'kr': '韩国',
+                                  'sa': '沙特阿拉伯', 'il': '以色列', 'mx': '墨西哥', 'cl': '智利', 'ua': '乌克兰', 'pl': '波兰',
+                                  'by': '白俄罗斯', 'de': '德国', 'uk': '英国', 'nl': '荷兰', 'it': '意大利', 'jp': '日本',
+                                  'au': '澳大利亚', 'ca': '加拿大', 'id': '印度尼西亚', 'my': '马来西亚', 'ph': '菲律宾',
+                                  'vn': '越南', 'sg': '新加坡', 'th': '泰国', 'ae': '阿联酋', 'tr': '土耳其', 'pt': '葡萄牙',
+                                  'be': '比利时', 'co': '哥伦比亚', 'ma': '摩洛哥', 'ch': '瑞士', 'cz': '捷克共和国',
+                                  'nz': '新西兰', 'lt': '立陶宛', 'lv': '拉脱维亚', 'sk': '斯洛伐克共和国', 'no': '挪威',
+                                  'hu': '匈牙利', 'bg': '保加利亚', 'ee': '爱沙尼亚', 'ro': '罗马尼亚', 'pk': '巴基斯坦',
+                                  'hr': '克罗地亚', 'ng': '尼日利亚', 'ie': '爱尔兰', 'at': '奥地利', 'gr': '希腊',
+                                  'si': '斯洛文尼亚', 'mt': '马耳他', 'fi': '芬兰', 'dk': '丹麦', 'lu': '卢森堡',
+                                  'lk': '斯里兰卡'
+                                }
+
+                                return (
+                                  <div
+                                    key={region}
+                                    style={{
+                                      width: 220,
+                                      borderRight: '1px solid #d9d9d9',
+                                      flexShrink: 0
+                                    }}
+                                  >
+                                    {/* 表头 */}
+                                    <div style={{
+                                      padding: '12px 8px',
+                                      background: '#fafafa',
+                                      borderBottom: '1px solid #d9d9d9',
+                                      fontSize: 12,
+                                      fontWeight: 'bold',
+                                      textAlign: 'center'
+                                    }}>
+                                      {regionNames[region] || region} 零售价(CNY)
+                                    </div>
+
+                                    {/* 输入区域 */}
+                                    <div style={{ padding: 8 }}>
+                                      {priceAdjustMethod === 'direct' && (
+                                        <Input
+                                          size="small"
+                                          value={regionalPrices[region] || ''}
+                                          onChange={(e) => setRegionalPrices({ ...regionalPrices, [region]: e.target.value })}
+                                          style={{ width: '100%' }}
+                                        />
+                                      )}
+
+                                      {priceAdjustMethod === 'ratio' && (
+                                        <div>
+                                          <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 8 }}>
+                                            <Select
+                                              size="small"
+                                              style={{ width: 50 }}
+                                              value={regionalPriceAdjustments[region]?.operator || '+'}
+                                              onChange={(value) => {
+                                                setRegionalPriceAdjustments({
+                                                  ...regionalPriceAdjustments,
+                                                  [region]: { ...regionalPriceAdjustments[region], operator: value }
+                                                })
+                                              }}
+                                              options={[
+                                                { label: '+', value: '+' },
+                                                { label: '-', value: '-' },
+                                              ]}
+                                            />
+                                            <Input
+                                              size="small"
+                                              style={{ flex: 1 }}
+                                              value={regionalPriceAdjustments[region]?.value || ''}
+                                              onChange={(e) => {
+                                                setRegionalPriceAdjustments({
+                                                  ...regionalPriceAdjustments,
+                                                  [region]: { operator: regionalPriceAdjustments[region]?.operator || '+', value: e.target.value }
+                                                })
+                                              }}
+                                            />
+                                            <span>%</span>
+                                          </div>
+                                          <div style={{ textAlign: 'center', color: '#8c8c8c', fontSize: 12 }}>
+                                            0.00
+                                          </div>
+                                        </div>
+                                      )}
+
+                                      {priceAdjustMethod === 'amount' && (
+                                        <div>
+                                          <div style={{ display: 'flex', gap: 4, alignItems: 'center', marginBottom: 8 }}>
+                                            <Select
+                                              size="small"
+                                              style={{ width: 50 }}
+                                              value={regionalPriceAdjustments[region]?.operator || '+'}
+                                              onChange={(value) => {
+                                                setRegionalPriceAdjustments({
+                                                  ...regionalPriceAdjustments,
+                                                  [region]: { ...regionalPriceAdjustments[region], operator: value }
+                                                })
+                                              }}
+                                              options={[
+                                                { label: '+', value: '+' },
+                                                { label: '-', value: '-' },
+                                              ]}
+                                            />
+                                            <Input
+                                              size="small"
+                                              style={{ flex: 1 }}
+                                              value={regionalPriceAdjustments[region]?.value || ''}
+                                              onChange={(e) => {
+                                                setRegionalPriceAdjustments({
+                                                  ...regionalPriceAdjustments,
+                                                  [region]: { operator: regionalPriceAdjustments[region]?.operator || '+', value: e.target.value }
+                                                })
+                                              }}
+                                            />
+                                          </div>
+                                          <div style={{ textAlign: 'center', color: '#8c8c8c', fontSize: 12 }}>
+                                            0.00
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </Card>
                 </div>
               )
@@ -3081,6 +3263,134 @@ export default function ProductCreateClient() {
                     setSelectedShippingLocations([...selectedShippingLocations, country.value])
                   } else {
                     setSelectedShippingLocations(selectedShippingLocations.filter(l => l !== country.value))
+                  }
+                }}
+              >
+                {country.label}
+              </Checkbox>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      {/* 区域零售价选择Modal */}
+      <Modal
+        title="请选择"
+        open={regionalPriceModalVisible}
+        onCancel={() => setRegionalPriceModalVisible(false)}
+        width={900}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
+            <Button onClick={() => setRegionalPriceModalVisible(false)}>取消</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setRegionalPriceModalVisible(false)
+              }}
+            >
+              确定
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ padding: '20px 0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+              <Input
+                placeholder="搜索"
+                prefix={<span>🔍</span>}
+                style={{ width: 400 }}
+                value={regionalPriceSearch}
+                onChange={(e) => setRegionalPriceSearch(e.target.value)}
+              />
+              <Checkbox
+                checked={selectedRegions.length === 48}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedRegions([
+                      'ru', 'es', 'fr', 'br', 'us', 'kr', 'sa', 'il', 'mx', 'cl', 'ua', 'pl',
+                      'by', 'de', 'uk', 'nl', 'it', 'jp', 'au', 'ca', 'id', 'my', 'ph', 'vn',
+                      'sg', 'th', 'ae', 'tr', 'pt', 'be', 'co', 'ma', 'ch', 'cz', 'nz', 'lt',
+                      'lv', 'sk', 'no', 'hu', 'bg', 'ee', 'ro', 'pk', 'hr', 'ng', 'ie', 'at',
+                      'gr', 'si', 'mt', 'fi', 'dk', 'lu', 'lk'
+                    ])
+                  } else {
+                    setSelectedRegions([])
+                  }
+                }}
+              >
+                全选
+              </Checkbox>
+            </div>
+            <div style={{ color: '#8C8C8C' }}>已选{selectedRegions.length}</div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 20px' }}>
+            {[
+              { label: '俄罗斯', value: 'ru' },
+              { label: '西班牙', value: 'es' },
+              { label: '法国', value: 'fr' },
+              { label: '巴西', value: 'br' },
+              { label: '美国', value: 'us' },
+              { label: '韩国', value: 'kr' },
+              { label: '沙特阿拉伯', value: 'sa' },
+              { label: '以色列', value: 'il' },
+              { label: '墨西哥', value: 'mx' },
+              { label: '智利', value: 'cl' },
+              { label: '乌克兰', value: 'ua' },
+              { label: '波兰', value: 'pl' },
+              { label: '白俄罗斯', value: 'by' },
+              { label: '德国', value: 'de' },
+              { label: '英国', value: 'uk' },
+              { label: '荷兰', value: 'nl' },
+              { label: '意大利', value: 'it' },
+              { label: '日本', value: 'jp' },
+              { label: '澳大利亚', value: 'au' },
+              { label: '加拿大', value: 'ca' },
+              { label: '印度尼西亚', value: 'id' },
+              { label: '马来西亚', value: 'my' },
+              { label: '菲律宾', value: 'ph' },
+              { label: '越南', value: 'vn' },
+              { label: '新加坡', value: 'sg' },
+              { label: '泰国', value: 'th' },
+              { label: '阿联酋', value: 'ae' },
+              { label: '土耳其', value: 'tr' },
+              { label: '葡萄牙', value: 'pt' },
+              { label: '比利时', value: 'be' },
+              { label: '哥伦比亚', value: 'co' },
+              { label: '摩洛哥', value: 'ma' },
+              { label: '瑞士', value: 'ch' },
+              { label: '捷克共和国', value: 'cz' },
+              { label: '新西兰', value: 'nz' },
+              { label: '立陶宛', value: 'lt' },
+              { label: '拉脱维亚', value: 'lv' },
+              { label: '斯洛伐克共和国', value: 'sk' },
+              { label: '挪威', value: 'no' },
+              { label: '匈牙利', value: 'hu' },
+              { label: '保加利亚', value: 'bg' },
+              { label: '爱沙尼亚', value: 'ee' },
+              { label: '罗马尼亚', value: 'ro' },
+              { label: '巴基斯坦', value: 'pk' },
+              { label: '克罗地亚', value: 'hr' },
+              { label: '尼日利亚', value: 'ng' },
+              { label: '爱尔兰', value: 'ie' },
+              { label: '奥地利', value: 'at' },
+              { label: '希腊', value: 'gr' },
+              { label: '斯洛文尼亚', value: 'si' },
+              { label: '马耳他', value: 'mt' },
+              { label: '芬兰', value: 'fi' },
+              { label: '丹麦', value: 'dk' },
+              { label: '卢森堡', value: 'lu' },
+              { label: '斯里兰卡', value: 'lk' },
+            ].map((country) => (
+              <Checkbox
+                key={country.value}
+                checked={selectedRegions.includes(country.value)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedRegions([...selectedRegions, country.value])
+                  } else {
+                    setSelectedRegions(selectedRegions.filter(r => r !== country.value))
                   }
                 }}
               >
