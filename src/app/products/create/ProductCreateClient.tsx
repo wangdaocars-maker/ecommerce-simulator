@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons'
 import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
 import type { Category } from '@/types/category'
+import { normalizeCategoryResponse } from '@/lib/category-utils'
 
 // 国家选项
 const countryOptions = [
@@ -68,7 +69,7 @@ export default function ProductCreateClient() {
       const res = await fetch('/api/categories')
       const result = await res.json()
       if (result.success) {
-        setCategoryData(result.data.categories)
+        setCategoryData(normalizeCategoryResponse(result))
       } else {
         message.error(result.error || '获取类目失败')
       }

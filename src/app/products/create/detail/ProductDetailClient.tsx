@@ -17,7 +17,8 @@ import {
   Drawer,
   Alert,
   Tabs,
-  Modal
+  Modal,
+  Spin
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -31,6 +32,8 @@ import HeaderOnlyLayout from '@/components/layout/HeaderOnlyLayout'
 import ImageUploadModal from '@/components/ImageUploadModal'
 import VideoUploadModal from '@/components/VideoUploadModal'
 import { validateProductForm, validateDraftForm } from '@/lib/validation/product'
+import { normalizeCategoryResponse } from '@/lib/category-utils'
+import { buildProductPayload, resolveImageTargetKey, resolveSubmitImages } from '@/lib/product-submit'
 import type { Category } from '@/types/category'
 
 // 国家选项
@@ -54,70 +57,6 @@ const imageLabels = [
   '商品细节图',
 ]
 
-// 类目数据（示例数据，实际应该从后端获取）
-const categoryData = [
-  {
-    id: 1,
-    name: '玩具',
-    children: [
-      {
-        id: 11,
-        name: '减压玩具',
-        children: [
-          { id: 111, name: '减压魔方' },
-          { id: 112, name: '减压陀螺（指尖陀螺）' },
-          { id: 113, name: '减压滚轮' },
-          { id: 114, name: '捏捏乐' },
-        ]
-      },
-      {
-        id: 12,
-        name: '非遥控模型（不包含拼搭）',
-        children: [
-          { id: 121, name: '汽车模型' },
-          { id: 122, name: '飞机模型' },
-        ]
-      },
-      {
-        id: 13,
-        name: '收藏爱好',
-        children: [
-          { id: 131, name: '手办' },
-          { id: 132, name: '盲盒' },
-        ]
-      },
-      {
-        id: 14,
-        name: '高科技玩具'
-      },
-      {
-        id: 15,
-        name: '谷子（二次元为主的IP类周边）'
-      },
-      {
-        id: 16,
-        name: '儿童手工制作/创意DIY玩具'
-      },
-    ]
-  },
-  {
-    id: 2,
-    name: '母婴（含儿童服装/童鞋/儿童用品）',
-    children: [
-      { id: 21, name: '婴儿奶粉' },
-      { id: 22, name: '纸尿裤' },
-    ]
-  },
-  {
-    id: 3,
-    name: '接发与发套'
-  },
-  {
-    id: 4,
-    name: '其他特殊类'
-  },
-]
-
 const MAIN_SECTIONS = [
   { key: 'basic', label: '基本信息' },
   { key: 'price', label: '价格与库存' },
@@ -139,10 +78,16 @@ export default function ProductCreateClient() {
   const [categoryModalVisible, setCategoryModalVisible] = useState(false)
   const [selectedCategoryPath, setSelectedCategoryPath] = useState<any[]>([])
   const [tempCategoryPath, setTempCategoryPath] = useState<any[]>([])
-  const [countryImages, setCountryImages] = useState<Record<string, any[]>>({})
+  const [countryImages, setCountryImages] = useState<Record<string, string[]>>({})
   const [imageUploadModalVisible, setImageUploadModalVisible] = useState(false)
   const [currentUploadTarget, setCurrentUploadTarget] = useState<string>('')
   const [videoUploadModalVisible, setVideoUploadModalVisible] = useState(false)
+  const [videoUrl, setVideoUrl] = useState<string | undefined>(undefined)
+  const [videoCoverUrl, setVideoCoverUrl] = useState<string | undefined>(undefined)
+
+  // 类目数据
+  const [categoryData, setCategoryData] = useState<Category[]>([])
+  const [categoryLoading, setCategoryLoading] = useState(false)
   // 自定义属性列表
   const [customAttributes, setCustomAttributes] = useState<Array<{ id: string; name: string; value: string }>>([])
   // 海关监管属性抽屉
@@ -314,6 +259,29 @@ export default function ProductCreateClient() {
       attr.id === id ? { ...attr, [field]: newValue } : attr
     ))
   }
+
+  // 获取类目数据
+  const fetchCategories = useCallback(async () => {
+    setCategoryLoading(true)
+    try {
+      const res = await fetch('/api/categories')
+      const result = await res.json()
+      if (result.success) {
+        setCategoryData(normalizeCategoryResponse(result))
+      } else {
+        message.error(result.error || '获取类目失败')
+      }
+    } catch (error) {
+      console.error('获取类目失败:', error)
+      message.error('网络错误，请稍后重试')
+    } finally {
+      setCategoryLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchCategories()
+  }, [fetchCategories])
 
   // 从 API 获取类目路径（用于刷新页面恢复）
   const fetchCategoryPath = useCallback(async (categoryId: string) => {
@@ -540,21 +508,7 @@ export default function ProductCreateClient() {
 
   // 计算提交时的 images 和 mainImage
   const getImagesForSubmit = () => {
-    // 优先取 default，否则取第一个有内容的国家
-    const defaultImages = countryImages['default'] || []
-    if (defaultImages.length > 0) {
-      return { images: defaultImages, mainImage: defaultImages[0] }
-    }
-
-    // 遍历选中国家，取第一个有图片的
-    for (const country of selectedCountries) {
-      const imgs = countryImages[country] || []
-      if (imgs.length > 0) {
-        return { images: imgs, mainImage: imgs[0] }
-      }
-    }
-
-    return { images: [] as string[], mainImage: undefined }
+    return resolveSubmitImages(countryImages, selectedCountries)
   }
 
   // 提交商品（发布或保存草稿）
@@ -586,55 +540,56 @@ export default function ProductCreateClient() {
       }
 
       // 2. 构建请求数据
-      const productData = {
+      const productData = buildProductPayload({
         title,
         countries: selectedCountries,
         countryTitles,
-        countryImages: JSON.stringify(countryImages),
+        countryImages,
         language,
         categoryId: selectedCategoryPath.length > 0 ? selectedCategoryPath[selectedCategoryPath.length - 1].id : null,
         price: parseFloat(retailPrice) || 0,
-        comparePrice: productValue ? parseFloat(productValue) : null,
         stock: parseInt(inventory) || 0,
-        sku: skuCode || null,
+        sku: skuCode || undefined,
         minUnit,
         salesMethod,
-        productValue: productValue ? parseFloat(productValue) : null,
+        productValue: productValue ? parseFloat(productValue) : undefined,
         isPresale: isPresale === 'yes',
         productType,
-        colorSystem: colorSystem || null,
-        customColorName: customColorName || null,
-        selectedSizes: JSON.stringify(selectedSizes),
-        plugTypes: JSON.stringify(selectedPlugTypes),
-        shippingLocations: JSON.stringify(selectedShippingLocations),
-        customAttributes: JSON.stringify(customAttributes),
+        colorSystem: colorSystem || undefined,
+        customColorName: customColorName || undefined,
+        selectedSizes,
+        plugTypes: selectedPlugTypes,
+        shippingLocations: selectedShippingLocations,
+        customAttributes,
         wholesaleEnabled,
-        wholesaleMinQuantity: wholesaleMinQuantity ? parseInt(wholesaleMinQuantity) : null,
-        wholesaleDiscount: wholesaleDiscount ? parseFloat(wholesaleDiscount) : null,
-        selectedRegions: JSON.stringify(selectedRegions),
-        regionalPrices: JSON.stringify(regionalPrices),
+        wholesaleMinQuantity: wholesaleMinQuantity ? parseInt(wholesaleMinQuantity) : undefined,
+        wholesaleDiscount: wholesaleDiscount ? parseFloat(wholesaleDiscount) : undefined,
+        selectedRegions,
+        regionalPrices,
         priceAdjustMethod,
-        regionalPriceAdjustments: JSON.stringify(regionalPriceAdjustments),
+        regionalPriceAdjustments,
         description: pcDescription,
         descriptionLang: descriptionLanguage,
-        appTemplateId: selectedAppTemplate,
-        images: JSON.stringify(images),
+        appTemplateId: selectedAppTemplate || undefined,
+        images,
         mainImage,
-        weight: weight ? parseFloat(weight) : null,
+        video: videoUrl,
+        videoCover: videoCoverUrl,
+        weight: weight ? parseFloat(weight) : undefined,
         packageSize: packageLength && packageWidth && packageHeight
-          ? JSON.stringify({ length: parseFloat(packageLength), width: parseFloat(packageWidth), height: parseFloat(packageHeight) })
-          : null,
-        shippingTemplate: shippingTemplate || null,
-        serviceTemplate: serviceTemplate || null,
+          ? { length: parseFloat(packageLength), width: parseFloat(packageWidth), height: parseFloat(packageHeight) }
+          : undefined,
+        shippingTemplate: shippingTemplate || undefined,
+        serviceTemplate: serviceTemplate || undefined,
         customWeight,
         priceIncludesTax,
         saleType,
         inventoryDeduction,
         alipaySupported,
-        euResponsiblePerson: euResponsiblePerson || null,
-        manufacturer: manufacturer || null,
+        euResponsiblePerson: euResponsiblePerson || undefined,
+        manufacturer: manufacturer || undefined,
         status: asDraft ? 'draft' : 'reviewing',
-      }
+      })
 
       // 3. 发送请求
       const res = await fetch('/api/products', {
@@ -1029,19 +984,21 @@ export default function ProductCreateClient() {
                   marginTop: 4
                 }}>
                   {/* 类目列展示区域 */}
-                  <div style={{ display: 'flex', borderBottom: '1px solid #E8E8E8' }}>
-                    {/* 第一列 */}
-                    {renderCategoryColumn(categoryData, 0)}
+                  <Spin spinning={categoryLoading}>
+                    <div style={{ display: 'flex', borderBottom: '1px solid #E8E8E8', minHeight: 350 }}>
+                      {/* 第一列 */}
+                      {renderCategoryColumn(categoryData, 0)}
 
-                    {/* 第二列 */}
-                    {tempCategoryPath[0]?.children && renderCategoryColumn(tempCategoryPath[0].children, 1)}
+                      {/* 第二列 */}
+                      {tempCategoryPath[0]?.children && renderCategoryColumn(tempCategoryPath[0].children, 1)}
 
-                    {/* 第三列 */}
-                    {tempCategoryPath[1]?.children && renderCategoryColumn(tempCategoryPath[1].children, 2)}
+                      {/* 第三列 */}
+                      {tempCategoryPath[1]?.children && renderCategoryColumn(tempCategoryPath[1].children, 2)}
 
-                    {/* 第四列 */}
-                    {tempCategoryPath[2]?.children && renderCategoryColumn(tempCategoryPath[2].children, 3)}
-                  </div>
+                      {/* 第四列 */}
+                      {tempCategoryPath[2]?.children && renderCategoryColumn(tempCategoryPath[2].children, 3)}
+                    </div>
+                  </Spin>
 
                   {/* 当前选择路径 */}
                   <div style={{ padding: '12px 16px', color: '#262626', fontSize: 12 }}>
@@ -4268,10 +4225,11 @@ export default function ProductCreateClient() {
         onClose={() => setImageUploadModalVisible(false)}
         onConfirm={(images) => {
           // 根据 currentUploadTarget 保存图片到对应位置
-          if (currentUploadTarget && images.length > 0) {
+          if (images.length > 0) {
+            const targetKey = resolveImageTargetKey(currentUploadTarget, selectedCountries)
             setCountryImages(prev => ({
               ...prev,
-              [currentUploadTarget]: [...(prev[currentUploadTarget] || []), ...images]
+              [targetKey]: [...(prev[targetKey] || []), ...images]
             }))
           }
           setImageUploadModalVisible(false)
@@ -4288,8 +4246,8 @@ export default function ProductCreateClient() {
         visible={videoUploadModalVisible}
         onClose={() => setVideoUploadModalVisible(false)}
         onConfirm={(video) => {
-          // TODO: 保存视频信息
-          console.log('选中的视频:', video)
+          setVideoUrl(video.url)
+          setVideoCoverUrl(video.cover)
           setVideoUploadModalVisible(false)
         }}
       />
