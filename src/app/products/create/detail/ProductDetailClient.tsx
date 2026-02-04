@@ -144,6 +144,13 @@ export default function ProductCreateClient() {
   // 资质信息标签页
   const [qualificationTab, setQualificationTab] = useState('all')
 
+  // 价格与库存相关状态
+  const [minUnit, setMinUnit] = useState('piece')
+  const [salesMethod, setSalesMethod] = useState('piece')
+  const [colorSystem, setColorSystem] = useState('')
+  const [customColorName, setCustomColorName] = useState('')
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -161,30 +168,7 @@ export default function ProductCreateClient() {
   }
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter(entry => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0]
-        if (visible) {
-          const key = visible.target.getAttribute('data-section')
-          if (key) {
-            setMainTab(prev => (prev === key ? prev : key))
-          }
-        }
-      },
-      {
-        rootMargin: '-120px 0px -60% 0px',
-        threshold: [0, 0.1]
-      }
-    )
-
-    MAIN_SECTIONS.forEach(section => {
-      const node = sectionRefs.current[section.key]
-      if (node) observer.observe(node)
-    })
-
-    return () => observer.disconnect()
+    setMainTab('basic')
   }, [])
 
   // 添加自定义属性
@@ -471,6 +455,7 @@ export default function ProductCreateClient() {
             {
               key: 'basic',
               label: '基本信息',
+              forceRender: true,
               children: (
                 <div
                   ref={setSectionRef('basic')}
@@ -2286,6 +2271,7 @@ export default function ProductCreateClient() {
             {
               key: 'price',
               label: '价格与库存',
+              forceRender: true,
               children: (
                 <div
                   ref={setSectionRef('price')}
@@ -2298,94 +2284,205 @@ export default function ProductCreateClient() {
                     title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>价格与库存</span>}
                     style={{ fontSize: 12 }}
                   >
-                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 120, paddingTop: 4 }}>
+                    {/* 最小计量单元 */}
+                    <div style={{ marginBottom: 17 }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
-                        <span style={{ color: '#262626' }}>计价方式</span>
+                        最小计量单元
                       </div>
                       <Select
                         size="small"
-                        style={{ width: 240 }}
-                        defaultValue="fixed"
+                        style={{ width: 410 }}
+                        value={minUnit}
+                        onChange={setMinUnit}
                         options={[
-                          { label: '一口价', value: 'fixed' },
-                          { label: '多SKU', value: 'sku' },
+                          { label: '件/个 (piece/pieces)', value: 'piece' },
+                          { label: '套 (set/sets)', value: 'set' },
+                          { label: '包 (pack/packs)', value: 'pack' },
+                          { label: '盒 (box/boxes)', value: 'box' },
+                          { label: '袋 (bag/bags)', value: 'bag' },
+                          { label: '桶 (barrel/barrels)', value: 'barrel' },
+                          { label: '蒲式耳 (bushel/bushels)', value: 'bushel' },
+                          { label: '箱 (carton)', value: 'carton' },
+                          { label: '厘米 (centimeter)', value: 'centimeter' },
+                          { label: '组合 (combo)', value: 'combo' },
+                          { label: '立方米 (cubic meter)', value: 'cubic_meter' },
+                          { label: '打 (dozen)', value: 'dozen' },
+                          { label: '英尺 (feet)', value: 'feet' },
+                          { label: '加仑 (gallon)', value: 'gallon' },
+                          { label: '克 (gram)', value: 'gram' },
+                          { label: '英寸 (inch)', value: 'inch' },
+                          { label: '千克 (kilogram)', value: 'kilogram' },
+                          { label: '千升 (kiloliter)', value: 'kiloliter' },
                         ]}
                       />
                     </div>
 
-                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 120, paddingTop: 4 }}>
+                    {/* 销售方式 */}
+                    <div style={{ marginBottom: 17 }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
                         <span style={{ color: '#ff4d4f' }}>* </span>
-                        <span style={{ color: '#262626' }}>售价</span>
+                        销售方式
                       </div>
-                      <div>
-                        <Space.Compact size="small">
-                          <Input
-                            style={{ width: 200 }}
-                            placeholder="请输入售价"
-                          />
-                          <div style={{
-                            width: 40,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            border: '1px solid #d9d9d9',
-                            borderLeft: 'none',
-                            background: '#fafafa',
-                            color: '#8C8C8C',
-                            fontSize: 12
-                          }}>
-                            USD
-                          </div>
-                        </Space.Compact>
-                        <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
-                          建议填写实际销售价格，系统将根据站点自动换算。
-                        </div>
-                      </div>
+                      <Select
+                        size="small"
+                        style={{ width: 410 }}
+                        value={salesMethod}
+                        onChange={setSalesMethod}
+                        options={[
+                          { label: '按 件 出售', value: 'piece' },
+                          { label: '打包出售（价格按照包计算）', value: 'pack' },
+                        ]}
+                      />
                     </div>
 
-                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 120, paddingTop: 4 }}>
-                        <span style={{ color: '#ff4d4f' }}>* </span>
-                        <span style={{ color: '#262626' }}>库存</span>
+                    {/* 颜色 */}
+                    <div style={{ marginBottom: 17 }}>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
+                        颜色
                       </div>
-                      <div>
+                      <div style={{ display: 'flex', gap: 11 }}>
+                        <Select
+                          size="small"
+                          style={{ width: 310 }}
+                          placeholder="选择主色系"
+                          value={colorSystem}
+                          onChange={setColorSystem}
+                          options={[
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 255, 255)', border: '1px solid #d9d9d9', display: 'inline-block' }} />白色</span>, value: 'white' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(0, 0, 0)', display: 'inline-block' }} />黑色</span>, value: 'black' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(0, 112, 0)', display: 'inline-block' }} />green</span>, value: 'green' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 0, 0)', display: 'inline-block' }} />红色</span>, value: 'red' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(153, 153, 153)', display: 'inline-block' }} />灰</span>, value: 'gray' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(0, 128, 255)', display: 'inline-block' }} />蓝色</span>, value: 'blue' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 255, 0)', display: 'inline-block' }} />黄色</span>, value: 'yellow' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 192, 203)', display: 'inline-block' }} />粉色</span>, value: 'pink' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(128, 0, 128)', display: 'inline-block' }} />紫色</span>, value: 'purple' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(204, 204, 204)', display: 'inline-block' }} />银色</span>, value: 'silver' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 215, 0)', display: 'inline-block' }} />金</span>, value: 'gold' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(141, 100, 104)', display: 'inline-block' }} />赤褐色</span>, value: 'maroon' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 165, 0)', display: 'inline-block' }} />橙色</span>, value: 'orange' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><img src="http://is.alicdn.com/wimg/seller/single/bg_post_color_block.gif" style={{ width: 10, height: 10 }} alt="" />透明色</span>, value: 'transparent' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><img src="http://is.alicdn.com/wimg/seller/single/bg_post_color_block.gif" style={{ width: 10, height: 10 }} alt="" />彩色</span>, value: 'colorful' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(144, 0, 32)', display: 'inline-block' }} />酒红色</span>, value: 'wine_red' },
+                            { label: '紫罗兰', value: 'violet' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(255, 255, 224)', display: 'inline-block' }} />鹅黄色</span>, value: 'light_yellow' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(30, 221, 255)', display: 'inline-block' }} />天蓝</span>, value: 'sky_blue' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(189, 183, 107)', display: 'inline-block' }} />深卡其色</span>, value: 'dark_khaki' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(123, 63, 0)', display: 'inline-block' }} />巧克力色</span>, value: 'chocolate' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(142, 69, 133)', display: 'inline-block' }} />李子</span>, value: 'plum' },
+                            { label: '深灰', value: 'dark_gray' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(144, 238, 144)', display: 'inline-block' }} />浅绿色</span>, value: 'light_green' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(0, 0, 139)', display: 'inline-block' }} />深蓝色</span>, value: 'dark_blue' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(211, 211, 211)', display: 'inline-block' }} />浅灰色</span>, value: 'light_gray' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(124, 140, 48)', display: 'inline-block' }} />军绿色</span>, value: 'army_green' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><img src="http://is.alicdn.com/wimg/seller/single/bg_post_color_block.gif" style={{ width: 10, height: 10 }} alt="" />多色</span>, value: 'multi' },
+                            { label: '卡其色', value: 'khaki' },
+                            { label: 'PEACOCK BLUE', value: 'peacock_blue' },
+                            { label: 'APRICOT', value: 'apricot' },
+                            { label: '柠檬黄', value: 'lemon_yellow' },
+                            { label: 'MAROON', value: 'maroon_en' },
+                            { label: '颜色', value: 'color' },
+                            { label: '荧光绿色', value: 'fluorescent_green' },
+                            { label: '荧光黄', value: 'fluorescent_yellow' },
+                            { label: '海军蓝色', value: 'navy_blue' },
+                            { label: '藕色', value: 'lotus_root' },
+                            { label: '西瓜红色', value: 'watermelon_red' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(213, 180, 137)', display: 'inline-block' }} />香槟色</span>, value: 'champagne' },
+                            { label: <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ width: 10, height: 10, background: 'rgb(181, 134, 84)', display: 'inline-block' }} />CAMEL</span>, value: 'camel' },
+                          ]}
+                        />
                         <Input
                           size="small"
-                          style={{ width: 240 }}
-                          placeholder="请输入库存数量"
+                          style={{ width: 275 }}
+                          placeholder="自定义名称"
+                          value={customColorName}
+                          onChange={(e) => setCustomColorName(e.target.value)}
                         />
-                        <div style={{ marginTop: 6, color: '#8C8C8C', fontSize: 10 }}>
-                          库存为 0 时商品将下架。
-                        </div>
                       </div>
                     </div>
 
-                    <div style={{ marginBottom: 17, display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 120, paddingTop: 4 }}>
-                        <span style={{ color: '#262626' }}>库存扣减方式</span>
+                    {/* 大小 */}
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
+                        大小
                       </div>
-                      <Select
-                        size="small"
-                        style={{ width: 240 }}
-                        defaultValue="order"
-                        options={[
-                          { label: '下单扣减', value: 'order' },
-                          { label: '付款扣减', value: 'pay' },
-                        ]}
-                      />
-                    </div>
+                      <Checkbox.Group
+                        value={selectedSizes}
+                        onChange={setSelectedSizes}
+                        style={{ width: '100%' }}
+                      >
+                          {/* 第一行 */}
+                          <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="12cm">12厘米</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="40cm_plus">40厘米以上</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="14cm">14厘米</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="8cm">8厘米</Checkbox>
+                            </div>
+                          </div>
 
-                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                      <div style={{ width: 120, paddingTop: 4 }}>
-                        <span style={{ color: '#262626' }}>商家编码</span>
-                      </div>
-                      <Input
-                        size="small"
-                        style={{ width: 240 }}
-                        placeholder="请输入商家编码"
-                      />
+                          {/* 第二行 */}
+                          <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="10cm">10厘米</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="25cm">25厘米</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="40cm_exact">40cm</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="18cm">18厘米</Checkbox>
+                            </div>
+                          </div>
+
+                          {/* 第三行 */}
+                          <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="8cm_minus">8厘米以下</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="3inch">3英寸</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="6inch">6英寸</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="12inch">12英寸</Checkbox>
+                            </div>
+                          </div>
+
+                          {/* 第四行 */}
+                          <div style={{ display: 'flex', gap: 11, marginBottom: 11 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="one_size">One Size</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="small">小号</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="medium">中号</Checkbox>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="large">大号</Checkbox>
+                            </div>
+                          </div>
+
+                          {/* 第五行 */}
+                          <div style={{ display: 'flex', gap: 11 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', width: 295 }}>
+                              <Checkbox value="other">其它</Checkbox>
+                            </div>
+                          </div>
+                      </Checkbox.Group>
                     </div>
                   </Card>
                 </div>
@@ -2394,6 +2491,7 @@ export default function ProductCreateClient() {
             {
               key: 'description',
               label: '详细描述',
+              forceRender: true,
               children: (
                 <div
                   ref={setSectionRef('description')}
@@ -2408,6 +2506,7 @@ export default function ProductCreateClient() {
             {
               key: 'package',
               label: '包装与物流',
+              forceRender: true,
               children: (
                 <div
                   ref={setSectionRef('package')}
@@ -2422,6 +2521,7 @@ export default function ProductCreateClient() {
             {
               key: 'other',
               label: '其它设置',
+              forceRender: true,
               children: (
                 <div
                   ref={setSectionRef('other')}
