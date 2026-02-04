@@ -230,6 +230,52 @@ export default function ProductCreateClient() {
     setMainTab('basic')
   }, [])
 
+  // 监听滚动，自动更新高亮导航
+  useEffect(() => {
+    // 延迟执行，确保DOM已渲染
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          // 找出所有正在intersecting的section
+          const intersectingSections = entries
+            .filter(entry => entry.isIntersecting)
+            .map(entry => ({
+              key: entry.target.getAttribute('data-section'),
+              ratio: entry.intersectionRatio,
+              top: entry.boundingClientRect.top
+            }))
+            .filter(item => item.key)
+            .sort((a, b) => a.top - b.top) // 按top位置排序
+
+          // 选择最靠近顶部的section
+          if (intersectingSections.length > 0) {
+            setMainTab(intersectingSections[0].key!)
+          }
+        },
+        {
+          rootMargin: '-120px 0px -50% 0px',
+          threshold: [0, 0.1, 0.5, 1]
+        }
+      )
+
+      // 观察所有section
+      Object.values(sectionRefs.current).forEach((ref) => {
+        if (ref) {
+          observer.observe(ref)
+        }
+      })
+
+      // 清理函数
+      return () => {
+        observer.disconnect()
+      }
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
   // 添加自定义属性
   const handleAddCustomAttribute = () => {
     const newAttr = {
