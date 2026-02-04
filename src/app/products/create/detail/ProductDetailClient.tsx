@@ -186,6 +186,10 @@ export default function ProductCreateClient() {
   const [wholesaleMinQuantity, setWholesaleMinQuantity] = useState('')
   const [wholesaleDiscount, setWholesaleDiscount] = useState('')
 
+  // 详细描述
+  const [descriptionLanguage, setDescriptionLanguage] = useState('English')
+  const [pcDescription, setPcDescription] = useState('')
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -3026,9 +3030,253 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('description')}
                   id="section-description"
                   data-section="description"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
                 >
-                  详细描述模块开发中...
+                  <Card title="详细描述" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
+                    <div style={{ marginBottom: 24 }}>
+                      {/* 详描语言 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          详描语言
+                          <Tooltip title="选择商品详细描述的语言">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <Select
+                          size="small"
+                          style={{ width: 320 }}
+                          value={descriptionLanguage}
+                          onChange={setDescriptionLanguage}
+                          options={[
+                            { label: '英语(发布语言)', value: 'English' },
+                            { label: '中文', value: 'Chinese' },
+                            { label: '西班牙语', value: 'Spanish' },
+                            { label: '法语', value: 'French' },
+                            { label: '德语', value: 'German' },
+                            { label: '俄语', value: 'Russian' },
+                            { label: '葡萄牙语', value: 'Portuguese' },
+                            { label: '日语', value: 'Japanese' },
+                            { label: '韩语', value: 'Korean' },
+                            { label: '阿拉伯语', value: 'Arabic' }
+                          ]}
+                        />
+                      </div>
+
+                      {/* PC详描编辑 */}
+                      <div>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          PC详描编辑
+                          <Tooltip title="编辑商品的详细描述内容">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+
+                        {/* 操作按钮区域 */}
+                        <div style={{ marginBottom: 12, display: 'flex', gap: 8 }}>
+                          <Input
+                            size="small"
+                            placeholder="导入无线详情描述"
+                            style={{ width: 200, color: '#8c8c8c' }}
+                            readOnly
+                          />
+                          <Button size="small">预览</Button>
+                          <Button size="small" style={{ color: '#1677ff', borderColor: '#1677ff' }}>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style={{ marginRight: 4 }}>
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                            </svg>
+                            卖点生成
+                          </Button>
+                        </div>
+
+                        {/* 富文本编辑器 */}
+                        <div style={{ border: '1px solid #d9d9d9', borderRadius: 4 }}>
+                          {/* 工具栏第一行 */}
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '8px',
+                            borderBottom: '1px solid #d9d9d9',
+                            background: '#fafafa',
+                            gap: 4
+                          }}>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="粗体">
+                              <strong style={{ fontSize: 16 }}>B</strong>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="斜体">
+                              <em style={{ fontSize: 16 }}>I</em>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="下划线">
+                              <span style={{ textDecoration: 'underline', fontSize: 16 }}>U</span>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="删除线">
+                              <span style={{ textDecoration: 'line-through', fontSize: 16 }}>S</span>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="字体颜色">
+                              <span style={{ color: '#262626', fontSize: 16 }}>A</span>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="背景色">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.5L18.5 12H17v6H7v-6H5.5L12 5.5z"/>
+                              </svg>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="左对齐">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="居中对齐">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2zm-3 4h18v2H3v-2z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="右对齐">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2zm-6 4h18v2H3v-2z"/>
+                              </svg>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="有序列表">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-6v2h14V5H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="无序列表">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                              </svg>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="增加缩进">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3 21h18v-2H3v2zM3 8v8l4-4-4-4zm8 9h10v-2H11v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="减少缩进">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3 21h18v-2H3v2zM3 8v8l4-4-4-4zm8 9h10v-2H11v2zM3 3v2h18V3H3zm8 6h10V7H11v2zm0 4h10v-2H11v2z"/>
+                              </svg>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="清除格式">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M6 5v.18L8.82 8h2.4l-.72 1.68 2.1 2.1L14.21 8H20V5H6zm14 14.82L18.18 22 12 15.82 8.82 19H5v-3.18L1.82 12 5 8.82 5.18 9 7 10.82V12h1.82L12 15.18l1.82-1.82L20 19.82z"/>
+                              </svg>
+                            </button>
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="撤销">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="重做">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/>
+                              </svg>
+                            </button>
+                          </div>
+
+                          {/* 工具栏第二行 */}
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '8px',
+                            borderBottom: '1px solid #d9d9d9',
+                            background: '#fafafa',
+                            gap: 4
+                          }}>
+                            <Select size="small" style={{ width: 100 }} defaultValue="normal" options={[
+                              { label: '正文', value: 'normal' },
+                              { label: '标题1', value: 'h1' },
+                              { label: '标题2', value: 'h2' },
+                              { label: '标题3', value: 'h3' }
+                            ]} />
+                            <Select size="small" style={{ width: 120 }} defaultValue="default" options={[
+                              { label: '默认字体', value: 'default' },
+                              { label: '宋体', value: 'SimSun' },
+                              { label: '微软雅黑', value: 'Microsoft YaHei' },
+                              { label: 'Arial', value: 'Arial' }
+                            ]} />
+                            <Select size="small" style={{ width: 100 }} defaultValue="14" options={[
+                              { label: '12', value: '12' },
+                              { label: '14', value: '14' },
+                              { label: '16', value: '16' },
+                              { label: '18', value: '18' },
+                              { label: '20', value: '20' },
+                              { label: '24', value: '24' }
+                            ]} />
+                            <div style={{ width: 1, height: 24, background: '#d9d9d9', margin: '0 4px' }} />
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="插入链接">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="复制格式">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="插入图片">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }} title="插入视频">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                              </svg>
+                              <span style={{ position: 'absolute', top: -4, right: -4, background: '#ff4d4f', color: '#fff', fontSize: 10, padding: '0 4px', borderRadius: 2, fontWeight: 'bold' }}>NEW</span>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="3D展示">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18-.21 0-.41-.06-.57-.18l-7.9-4.44C3.21 17.21 3 16.88 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18.21 0 .41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="全屏">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                              </svg>
+                            </button>
+                            <button style={{ width: 32, height: 32, border: '1px solid #d9d9d9', background: '#fff', borderRadius: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="代码">
+                              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                              </svg>
+                            </button>
+                          </div>
+
+                          {/* 编辑区域 */}
+                          <textarea
+                            value={pcDescription}
+                            onChange={(e) => setPcDescription(e.target.value)}
+                            style={{
+                              width: '100%',
+                              minHeight: 400,
+                              padding: 16,
+                              border: 'none',
+                              outline: 'none',
+                              fontSize: 14,
+                              lineHeight: 1.6,
+                              resize: 'vertical',
+                              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                            }}
+                            placeholder="请输入商品详细描述..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
               )
             },
