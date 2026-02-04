@@ -200,6 +200,16 @@ export default function ProductCreateClient() {
   const [shippingTemplate, setShippingTemplate] = useState('')
   const [serviceTemplate, setServiceTemplate] = useState('新手服务模板')
 
+  // 其它设置
+  const [priceIncludesTax, setPriceIncludesTax] = useState('include') // 'exclude' 或 'include'
+  const [saleType, setSaleType] = useState('normal') // 'normal' 或 'presale'
+  const [productGroup, setProductGroup] = useState('')
+  const [inventoryDeduction, setInventoryDeduction] = useState('payment') // 'order' 或 'payment'
+  const [alipaySupported, setAlipaySupported] = useState(true)
+  const [termsAgreed, setTermsAgreed] = useState(false)
+  const [euResponsiblePerson, setEuResponsiblePerson] = useState('')
+  const [manufacturer, setManufacturer] = useState('')
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -3657,14 +3667,333 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('other')}
                   id="section-other"
                   data-section="other"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
                 >
-                  其它设置模块开发中...
+                  <Card title="其它设置" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
+                    <div>
+                      {/* 报价是否含关税 */}
+                      <div style={{ marginBottom: 32 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          报价是否含关税
+                        </div>
+                        <div style={{ marginBottom: 16 }}>
+                          <Space>
+                            <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                              <input
+                                type="radio"
+                                value="exclude"
+                                checked={priceIncludesTax === 'exclude'}
+                                onChange={(e) => setPriceIncludesTax(e.target.value)}
+                                style={{ marginRight: 8 }}
+                              />
+                              <span style={{ fontSize: 14, color: '#262626' }}>不含关税报价</span>
+                            </label>
+                            <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                              <input
+                                type="radio"
+                                value="include"
+                                checked={priceIncludesTax === 'include'}
+                                onChange={(e) => setPriceIncludesTax(e.target.value)}
+                                style={{ marginRight: 8 }}
+                              />
+                              <span style={{ fontSize: 14, color: '#262626' }}>含关税报价</span>
+                            </label>
+                          </Space>
+                        </div>
+                        {priceIncludesTax === 'include' && (
+                          <Alert
+                            description={
+                              <div style={{ fontSize: 14, lineHeight: 1.6 }}>
+                                您的订单的关税申报缴纳和物流履约将由您自行处理并承担相关责任。请前往修改美国区域定价，其中区域定价的价格需为含关税价格。若选择该模式，请确保该商品日销运费模版中已配置自定义线下物流线路确保履约正常。
+                                <div style={{ marginTop: 12 }}>
+                                  <Button type="primary" size="small">修改美国区域定价</Button>
+                                </div>
+                              </div>
+                            }
+                            type="info"
+                            showIcon
+                            style={{ background: '#e6f4ff', border: '1px solid #91caff' }}
+                          />
+                        )}
+                      </div>
+
+                      {/* 商品类型 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626' }}>
+                          商品类型
+                          <Tooltip title="选择商品类型">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <Space>
+                          <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            <input
+                              type="radio"
+                              value="normal"
+                              checked={saleType === 'normal'}
+                              onChange={(e) => setSaleType(e.target.value)}
+                              style={{ marginRight: 8 }}
+                            />
+                            <span style={{ fontSize: 14, color: '#262626' }}>普通商品</span>
+                          </label>
+                          <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            <input
+                              type="radio"
+                              value="presale"
+                              checked={saleType === 'presale'}
+                              onChange={(e) => setSaleType(e.target.value)}
+                              style={{ marginRight: 8 }}
+                            />
+                            <span style={{ fontSize: 14, color: '#262626' }}>预售商品</span>
+                          </label>
+                        </Space>
+                      </div>
+
+                      {/* 商品分组 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          商品分组
+                          <Tooltip title="选择商品分组">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <Select
+                          size="small"
+                          value={productGroup}
+                          onChange={setProductGroup}
+                          placeholder="请选择商品分组"
+                          style={{ width: 300 }}
+                          options={[
+                            { label: '默认分组', value: 'default' },
+                            { label: '热销商品', value: 'hot' },
+                            { label: '新品上架', value: 'new' },
+                            { label: '促销商品', value: 'promotion' }
+                          ]}
+                        />
+                      </div>
+
+                      {/* 库存扣减方式 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626' }}>
+                          库存扣减方式
+                          <Tooltip title="选择库存扣减方式">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <Space>
+                          <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            <input
+                              type="radio"
+                              value="order"
+                              checked={inventoryDeduction === 'order'}
+                              onChange={(e) => setInventoryDeduction(e.target.value)}
+                              style={{ marginRight: 8 }}
+                            />
+                            <span style={{ fontSize: 14, color: '#262626' }}>下单减库存</span>
+                          </label>
+                          <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            <input
+                              type="radio"
+                              value="payment"
+                              checked={inventoryDeduction === 'payment'}
+                              onChange={(e) => setInventoryDeduction(e.target.value)}
+                              style={{ marginRight: 8 }}
+                            />
+                            <span style={{ fontSize: 14, color: '#262626' }}>付款减库存</span>
+                          </label>
+                        </Space>
+                      </div>
+
+                      {/* 支付宝 */}
+                      <div style={{ marginBottom: 32 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626', fontWeight: 500 }}>
+                          支付宝
+                        </div>
+                        <div style={{ marginBottom: 8 }}>
+                          <Checkbox
+                            checked={alipaySupported}
+                            onChange={(e) => setAlipaySupported(e.target.checked)}
+                          >
+                            <span style={{ fontSize: 14, color: '#262626' }}>支持</span>
+                          </Checkbox>
+                        </div>
+                        <div style={{ fontSize: 14, color: '#8c8c8c', lineHeight: 1.6 }}>
+                          通过全球速卖通交易平台进行的交易须统一使用规定的收款方式 - 支付宝担保服务。
+                        </div>
+                      </div>
+
+                      {/* 商品发布条款 */}
+                      <div style={{ marginBottom: 32 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          商品发布条款
+                        </div>
+                        <div style={{ marginBottom: 12 }}>
+                          <Checkbox
+                            checked={termsAgreed}
+                            onChange={(e) => setTermsAgreed(e.target.checked)}
+                          >
+                            <span style={{ fontSize: 14, color: '#262626' }}>
+                              我已阅读并同意了以下条款以及其他相关规则
+                            </span>
+                          </Checkbox>
+                        </div>
+                        <div style={{ fontSize: 14, lineHeight: 2 }}>
+                          <div>
+                            <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>
+                              Transaction Services Agreement
+                            </a>
+                            <span style={{ color: '#8c8c8c' }}> (阿里巴巴中国用户交易服务协议)</span>
+                          </div>
+                          <div>
+                            <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>
+                              AliPay Payment Services Agreement
+                            </a>
+                            <span style={{ color: '#8c8c8c' }}> (支付宝付款服务协议)</span>
+                          </div>
+                          <div>
+                            <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>
+                              速卖通平台放款政策特别约定
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 关联欧盟责任人 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626', fontWeight: 500 }}>
+                          关联欧盟责任人
+                        </div>
+                        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                          <Select
+                            size="small"
+                            value={euResponsiblePerson}
+                            onChange={setEuResponsiblePerson}
+                            placeholder="请选择"
+                            style={{ width: 400 }}
+                            options={[
+                              { label: '责任人A', value: 'personA' },
+                              { label: '责任人B', value: 'personB' }
+                            ]}
+                          />
+                          <a href="#" style={{ color: '#1677ff', fontSize: 14, textDecoration: 'none' }}>
+                            欧盟责任人管理
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* 关联制造商 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626', fontWeight: 500 }}>
+                          关联制造商
+                        </div>
+                        <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>
+                          <Select
+                            size="small"
+                            value={manufacturer}
+                            onChange={setManufacturer}
+                            placeholder="请选择"
+                            style={{ width: 400 }}
+                            options={[
+                              { label: '制造商A', value: 'manufacturerA' },
+                              { label: '制造商B', value: 'manufacturerB' }
+                            ]}
+                          />
+                          <a href="#" style={{ color: '#1677ff', fontSize: 14, textDecoration: 'none' }}>
+                            制造商管理
+                          </a>
+                        </div>
+                        <div style={{ fontSize: 14, color: '#262626', lineHeight: 1.8 }}>
+                          欧盟通用产品安全法规（GPSR）要求，售往欧盟的商品需要关联
+                          <span style={{ color: '#ff4d4f', fontWeight: 500 }}>【欧盟责任人】</span>
+                          和
+                          <span style={{ color: '#ff4d4f', fontWeight: 500 }}>【制造商】</span>
+                          信息，同时需要将欧盟责任人和制造商信息展示在商品实物标签中，否则商品将在欧盟市场屏蔽。少数特殊类目不属于管控范围，无需关联。
+                          <a href="#" style={{ color: '#1677ff', textDecoration: 'none', marginLeft: 4 }}>
+                            点击查看详情
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* GPSR法规遵守说明 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ fontSize: 14, color: '#262626', lineHeight: 2 }}>
+                          <div style={{ marginBottom: 8 }}>
+                            为遵守《欧洲无障碍法案》("EAA")（指令 (EU) 2019/882），请确保:
+                          </div>
+                          <div style={{ paddingLeft: 20 }}>
+                            <div>- 图片具有描述性替代文本，以帮助视障用户理解您的产品</div>
+                            <div>- 产品描述有清晰的文本结构（例如标题、段落或列表），以免影响屏幕阅读器用户的无障碍浏览</div>
+                            <div>- 媒体文件符合无障碍标准（带字幕的视频或带标签的 PDF 文件）</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
               )
             }
         ]}
       />
+
+      {/* 底部操作栏 */}
+      <div style={{
+        background: '#fff',
+        borderTop: '1px solid #d9d9d9',
+        padding: '24px 40px',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 16,
+        marginTop: 40
+      }}>
+        <Button
+          type="primary"
+          size="large"
+          style={{
+            minWidth: 200,
+            height: 48,
+            fontSize: 16,
+            fontWeight: 500
+          }}
+          onClick={() => {
+            message.info('提交功能开发中...')
+          }}
+        >
+          提交
+        </Button>
+        <Button
+          size="large"
+          style={{
+            minWidth: 200,
+            height: 48,
+            fontSize: 16,
+            fontWeight: 500,
+            borderColor: '#1677ff',
+            color: '#1677ff'
+          }}
+          onClick={() => {
+            message.info('保存功能开发中...')
+          }}
+        >
+          保存
+        </Button>
+      </div>
 
       <style jsx global>{`
         .product-create-sections .ant-tabs-content {
