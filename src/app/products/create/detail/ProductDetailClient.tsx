@@ -191,6 +191,15 @@ export default function ProductCreateClient() {
   const [pcDescription, setPcDescription] = useState('')
   const [selectedAppTemplate, setSelectedAppTemplate] = useState<string | null>(null)
 
+  // 包装与物流
+  const [shippingWeight, setShippingWeight] = useState('')
+  const [customWeight, setCustomWeight] = useState(false)
+  const [packageDimensionLength, setPackageDimensionLength] = useState('')
+  const [packageDimensionWidth, setPackageDimensionWidth] = useState('')
+  const [packageDimensionHeight, setPackageDimensionHeight] = useState('')
+  const [shippingTemplate, setShippingTemplate] = useState('')
+  const [serviceTemplate, setServiceTemplate] = useState('新手服务模板')
+
   // 主标签页
   const [mainTab, setMainTab] = useState('basic')
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
@@ -3442,9 +3451,200 @@ export default function ProductCreateClient() {
                   ref={setSectionRef('package')}
                   id="section-package"
                   data-section="package"
-                  style={{ padding: '20px 40px 0', scrollMarginTop: 120, textAlign: 'center', color: '#8C8C8C' }}
+                  style={{ padding: '20px 40px 0', scrollMarginTop: 120 }}
                 >
-                  包装与物流模块开发中...
+                  <Card title="包装与物流" style={{ marginBottom: 16, border: '1px solid #d9d9d9', borderRadius: 6 }}>
+                    <div>
+                      {/* 发货期 */}
+                      <div style={{ marginBottom: 32 }}>
+                        <div style={{ marginBottom: 12, fontSize: 14, color: '#262626', fontWeight: 500 }}>
+                          发货期
+                        </div>
+                        <div style={{ fontSize: 14, color: '#262626', lineHeight: 1.6 }}>
+                          依据《全球速卖通发货管理规范》原"发货期"属性已经下线。定制商品请完成发布后移步至
+                          <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>定制管理</a>
+                          "页面进行定制周期的编辑。非定制商品统一7天关单。
+                        </div>
+                      </div>
+
+                      {/* 物流重量 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          物流重量
+                          <Tooltip title="填写商品物流重量">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Input
+                            size="small"
+                            value={shippingWeight}
+                            onChange={(e) => setShippingWeight(e.target.value)}
+                            style={{ width: 200 }}
+                            placeholder="请输入"
+                          />
+                          <span style={{ color: '#8c8c8c', fontSize: 14 }}>公斤/件</span>
+                        </div>
+                        <div style={{ marginTop: 12 }}>
+                          <Checkbox
+                            checked={customWeight}
+                            onChange={(e) => setCustomWeight(e.target.checked)}
+                          >
+                            <span style={{ fontSize: 14, color: '#262626' }}>
+                              自定义计重
+                              <Tooltip title="启用自定义计重方式">
+                                <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                                  <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                    <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                                  </svg>
+                                </span>
+                              </Tooltip>
+                            </span>
+                          </Checkbox>
+                        </div>
+                      </div>
+
+                      {/* 物流尺寸 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          物流尺寸
+                          <Tooltip title="填写商品物流尺寸">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Input
+                            size="small"
+                            value={packageDimensionLength}
+                            onChange={(e) => setPackageDimensionLength(e.target.value)}
+                            placeholder="长(cm)"
+                            style={{ width: 150 }}
+                          />
+                          <span style={{ color: '#8c8c8c', fontSize: 16 }}>×</span>
+                          <Input
+                            size="small"
+                            value={packageDimensionWidth}
+                            onChange={(e) => setPackageDimensionWidth(e.target.value)}
+                            placeholder="宽(cm)"
+                            style={{ width: 150 }}
+                          />
+                          <span style={{ color: '#8c8c8c', fontSize: 16 }}>×</span>
+                          <Input
+                            size="small"
+                            value={packageDimensionHeight}
+                            onChange={(e) => setPackageDimensionHeight(e.target.value)}
+                            placeholder="高(cm)"
+                            style={{ width: 150 }}
+                          />
+                          <span style={{ color: '#262626', fontSize: 14 }}>
+                            每件
+                            {(() => {
+                              const length = parseFloat(packageDimensionLength) || 0
+                              const width = parseFloat(packageDimensionWidth) || 0
+                              const height = parseFloat(packageDimensionHeight) || 0
+                              const volume = length * width * height
+                              return Math.round(volume)
+                            })()}
+                            cm³
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* 日销运费模版 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          日销运费模版
+                          <Tooltip title="选择运费模板">
+                            <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                              <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                              </svg>
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                          <Select
+                            size="small"
+                            value={shippingTemplate}
+                            onChange={setShippingTemplate}
+                            placeholder="请选择"
+                            style={{ width: 400 }}
+                            options={[
+                              { label: '标准运费模板', value: 'standard' },
+                              { label: '包邮运费模板', value: 'free' },
+                              { label: '自定义运费模板', value: 'custom' }
+                            ]}
+                          />
+                          <a href="#" style={{ color: '#1677ff', fontSize: 14, textDecoration: 'none' }}>
+                            创建日销运费模版
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* 服务模板 */}
+                      <div style={{ marginBottom: 24 }}>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 4 }}>*</span>
+                          服务模板
+                        </div>
+                        <Select
+                          size="small"
+                          value={serviceTemplate}
+                          onChange={setServiceTemplate}
+                          style={{ width: 200 }}
+                          options={[
+                            { label: '新手服务模板', value: '新手服务模板' },
+                            { label: '标准服务模板', value: '标准服务模板' },
+                            { label: '高级服务模板', value: '高级服务模板' }
+                          ]}
+                        />
+
+                        {/* 服务模板详情表格 */}
+                        <div style={{ marginTop: 16, border: '1px solid #d9d9d9', borderRadius: 4, overflow: 'hidden' }}>
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '200px 1fr',
+                            background: '#fafafa',
+                            borderBottom: '1px solid #d9d9d9'
+                          }}>
+                            <div style={{ padding: '12px 16px', fontSize: 14, fontWeight: 500, color: '#262626', borderRight: '1px solid #d9d9d9' }}>
+                              服务名称
+                            </div>
+                            <div style={{ padding: '12px 16px', fontSize: 14, fontWeight: 500, color: '#262626' }}>
+                              服务内容
+                            </div>
+                          </div>
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '200px 1fr',
+                            background: '#fff'
+                          }}>
+                            <div style={{ padding: '12px 16px', fontSize: 14, color: '#262626', borderRight: '1px solid #d9d9d9' }}>
+                              货不对版服务
+                            </div>
+                            <div style={{ padding: '12px 16px', fontSize: 14, color: '#262626' }}>
+                              如发现商品与描述不符买家可以选择退货或者退款
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
                 </div>
               )
             },
