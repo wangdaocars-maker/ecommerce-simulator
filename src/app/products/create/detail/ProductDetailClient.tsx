@@ -207,6 +207,7 @@ export default function ProductCreateClient() {
   // 其它设置
   const [priceIncludesTax, setPriceIncludesTax] = useState('include') // 'exclude' 或 'include'
   const [saleType, setSaleType] = useState('normal') // 'normal' 或 'presale'
+  const [latestShipTime, setLatestShipTime] = useState<string>('') // 预售最晚发货时间
   const [productGroup, setProductGroup] = useState<string[]>([]) // 已选中的分组（第三级）
   const [productGroupDropdownOpen, setProductGroupDropdownOpen] = useState(false)
   const [productGroupLevel1, setProductGroupLevel1] = useState<string | null>(null) // 选中的一级
@@ -4130,6 +4131,36 @@ export default function ProductCreateClient() {
                             <span style={{ fontSize: 14, color: '#262626' }}>预售商品</span>
                           </label>
                         </Space>
+
+                        {/* 预售商品时显示最晚发货时间 */}
+                        {saleType === 'presale' && (
+                          <div style={{ marginTop: 16 }}>
+                            <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                              最晚发货时间
+                              <Tooltip title="设置预售商品的最晚发货时间">
+                                <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
+                                  <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
+                                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                                    <path d="M464 336a48 48 0 1096 0 48 48 0 10-96 0zm72 112h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V456c0-4.4-3.6-8-8-8z"></path>
+                                  </svg>
+                                </span>
+                              </Tooltip>
+                            </div>
+                            <Input
+                              placeholder="年-月-日 时:分:秒"
+                              value={latestShipTime}
+                              onChange={(e) => setLatestShipTime(e.target.value)}
+                              style={{ width: 220 }}
+                              suffix={
+                                <span style={{ color: '#8c8c8c', cursor: 'pointer' }}>
+                                  <svg viewBox="64 64 896 896" width="14" height="14" fill="currentColor">
+                                    <path d="M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"/>
+                                  </svg>
+                                </span>
+                              }
+                            />
+                          </div>
+                        )}
                       </div>
 
                       {/* 商品分组 */}
