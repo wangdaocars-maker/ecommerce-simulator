@@ -4079,6 +4079,14 @@ export default function ProductCreateClient() {
                             </label>
                           </Space>
                         </div>
+                        {priceIncludesTax === 'exclude' && (
+                          <Alert
+                            description="基于您向平台提供的商品信息及确认的海关监管属性（HTSUS编码），您的订单将按美国海关要求缴纳关税，任何关税缴纳问题及责任由您承担，包括但不限于因信息不准或虚假导致的问题，请注意确认商品相关信息的准确性及真实性。若选择该模式，请确保该商品日销运费模版中已配置平台物流线路确保履约正常。"
+                            type="info"
+                            showIcon
+                            style={{ background: '#e6f4ff', border: '1px solid #91caff' }}
+                          />
+                        )}
                         {priceIncludesTax === 'include' && (
                           <Alert
                             description={
