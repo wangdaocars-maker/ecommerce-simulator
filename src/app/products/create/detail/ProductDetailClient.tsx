@@ -17,7 +17,8 @@ import {
   Alert,
   Tabs,
   Modal,
-  Spin
+  Spin,
+  Tag
 } from 'antd'
 import {
   QuestionCircleOutlined,
@@ -1814,17 +1815,29 @@ export default function ProductCreateClient() {
                       <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>认证</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                         <Button
                           size="middle"
                           onClick={() => setCertificationModalVisible(true)}
                         >
-                          设置
+                          {selectedCertifications.length > 0 ? '修改' : '设置'}
                         </Button>
                         {selectedCertifications.length > 0 && (
-                          <span style={{ color: '#8C8C8C', fontSize: 12 }}>
-                            已选{selectedCertifications.length}项
-                          </span>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                            {selectedCertifications.map(value => {
+                              const option = certificationOptions.find(opt => opt.value === value)
+                              return (
+                                <Tag
+                                  key={value}
+                                  closable
+                                  onClose={() => setSelectedCertifications(prev => prev.filter(v => v !== value))}
+                                  style={{ margin: 0 }}
+                                >
+                                  {option?.label || value}
+                                </Tag>
+                              )
+                            })}
+                          </div>
                         )}
                       </div>
                     </div>
@@ -1849,17 +1862,29 @@ export default function ProductCreateClient() {
                       <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                         <span style={{ color: '#262626' }}>玩具娃娃适合各种场合</span>
                       </div>
-                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ marginLeft: 12, flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                         <Button
                           size="middle"
                           onClick={() => setOccasionModalVisible(true)}
                         >
-                          设置
+                          {selectedOccasions.length > 0 ? '修改' : '设置'}
                         </Button>
                         {selectedOccasions.length > 0 && (
-                          <span style={{ color: '#8C8C8C', fontSize: 12 }}>
-                            已选{selectedOccasions.length}项
-                          </span>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                            {selectedOccasions.map(value => {
+                              const option = occasionOptions.find(opt => opt.value === value)
+                              return (
+                                <Tag
+                                  key={value}
+                                  closable
+                                  onClose={() => setSelectedOccasions(prev => prev.filter(v => v !== value))}
+                                  style={{ margin: 0 }}
+                                >
+                                  {option?.label || value}
+                                </Tag>
+                              )
+                            })}
+                          </div>
                         )}
                       </div>
                     </div>
