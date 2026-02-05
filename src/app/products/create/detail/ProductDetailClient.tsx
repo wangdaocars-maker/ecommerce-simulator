@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Breadcrumb,
@@ -267,6 +267,27 @@ export default function ProductCreateClient() {
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const isProgrammaticScroll = useRef(false)
   const scrollRaf = useRef<number | null>(null)
+
+  // 缓存过滤后的选项列表，避免每次渲染重新计算
+  const filteredAgeOptions = useMemo(() =>
+    ageOptions.filter(opt => !ageSearch || opt.label.toLowerCase().includes(ageSearch.toLowerCase())),
+    [ageSearch]
+  )
+
+  const filteredChemicalOptions = useMemo(() =>
+    chemicalOptions.filter(opt => !chemicalSearch || opt.label.toLowerCase().includes(chemicalSearch.toLowerCase())),
+    [chemicalSearch]
+  )
+
+  const filteredCertificationOptions = useMemo(() =>
+    certificationOptions.filter(opt => !certificationSearch || opt.label.toLowerCase().includes(certificationSearch.toLowerCase())),
+    [certificationSearch]
+  )
+
+  const filteredOccasionOptions = useMemo(() =>
+    occasionOptions.filter(opt => !occasionSearch || opt.label.toLowerCase().includes(occasionSearch.toLowerCase())),
+    [occasionSearch]
+  )
 
   const setSectionRef = (key: string) => (node: HTMLDivElement | null) => {
     sectionRefs.current[key] = node
@@ -4869,23 +4890,21 @@ export default function ProductCreateClient() {
               全选
             </Checkbox>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {certificationOptions
-                .filter(opt => !certificationSearch || opt.label.toLowerCase().includes(certificationSearch.toLowerCase()))
-                .map(opt => (
-                  <Checkbox
-                    key={opt.value}
-                    checked={selectedCertifications.includes(opt.value)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedCertifications(prev => [...prev, opt.value])
-                      } else {
-                        setSelectedCertifications(prev => prev.filter(v => v !== opt.value))
-                      }
-                    }}
-                  >
-                    {opt.label}
-                  </Checkbox>
-                ))}
+              {filteredCertificationOptions.map(opt => (
+                <Checkbox
+                  key={opt.value}
+                  checked={selectedCertifications.includes(opt.value)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedCertifications(prev => [...prev, opt.value])
+                    } else {
+                      setSelectedCertifications(prev => prev.filter(v => v !== opt.value))
+                    }
+                  }}
+                >
+                  {opt.label}
+                </Checkbox>
+              ))}
             </div>
           </div>
           <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
@@ -4933,23 +4952,21 @@ export default function ProductCreateClient() {
               全选
             </Checkbox>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {occasionOptions
-                .filter(opt => !occasionSearch || opt.label.toLowerCase().includes(occasionSearch.toLowerCase()))
-                .map(opt => (
-                  <Checkbox
-                    key={opt.value}
-                    checked={selectedOccasions.includes(opt.value)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedOccasions(prev => [...prev, opt.value])
-                      } else {
-                        setSelectedOccasions(prev => prev.filter(v => v !== opt.value))
-                      }
-                    }}
-                  >
-                    {opt.label}
-                  </Checkbox>
-                ))}
+              {filteredOccasionOptions.map(opt => (
+                <Checkbox
+                  key={opt.value}
+                  checked={selectedOccasions.includes(opt.value)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedOccasions(prev => [...prev, opt.value])
+                    } else {
+                      setSelectedOccasions(prev => prev.filter(v => v !== opt.value))
+                    }
+                  }}
+                >
+                  {opt.label}
+                </Checkbox>
+              ))}
             </div>
           </div>
           <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
@@ -4997,23 +5014,21 @@ export default function ProductCreateClient() {
               全选
             </Checkbox>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {ageOptions
-                .filter(opt => !ageSearch || opt.label.toLowerCase().includes(ageSearch.toLowerCase()))
-                .map(opt => (
-                  <Checkbox
-                    key={opt.value}
-                    checked={selectedAges.includes(opt.value)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedAges(prev => [...prev, opt.value])
-                      } else {
-                        setSelectedAges(prev => prev.filter(v => v !== opt.value))
-                      }
-                    }}
-                  >
-                    {opt.label}
-                  </Checkbox>
-                ))}
+              {filteredAgeOptions.map(opt => (
+                <Checkbox
+                  key={opt.value}
+                  checked={selectedAges.includes(opt.value)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedAges(prev => [...prev, opt.value])
+                    } else {
+                      setSelectedAges(prev => prev.filter(v => v !== opt.value))
+                    }
+                  }}
+                >
+                  {opt.label}
+                </Checkbox>
+              ))}
             </div>
           </div>
           <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
@@ -5061,23 +5076,21 @@ export default function ProductCreateClient() {
               全选
             </Checkbox>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {chemicalOptions
-                .filter(opt => !chemicalSearch || opt.label.toLowerCase().includes(chemicalSearch.toLowerCase()))
-                .map(opt => (
-                  <Checkbox
-                    key={opt.value}
-                    checked={selectedChemicals.includes(opt.value)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedChemicals(prev => [...prev, opt.value])
-                      } else {
-                        setSelectedChemicals(prev => prev.filter(v => v !== opt.value))
-                      }
-                    }}
-                  >
-                    {opt.label}
-                  </Checkbox>
-                ))}
+              {filteredChemicalOptions.map(opt => (
+                <Checkbox
+                  key={opt.value}
+                  checked={selectedChemicals.includes(opt.value)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedChemicals(prev => [...prev, opt.value])
+                    } else {
+                      setSelectedChemicals(prev => prev.filter(v => v !== opt.value))
+                    }
+                  }}
+                >
+                  {opt.label}
+                </Checkbox>
+              ))}
             </div>
           </div>
           <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
