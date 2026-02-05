@@ -4151,11 +4151,11 @@ export default function ProductCreateClient() {
                             style={{
                               border: '1px solid #d9d9d9',
                               borderRadius: 4,
-                              padding: '4px 11px',
+                              padding: '4px 8px',
                               cursor: 'pointer',
                               display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
+                              flexDirection: 'column',
+                              gap: 4,
                               background: '#fff',
                               fontSize: 14,
                               minHeight: 32,
@@ -4163,14 +4163,72 @@ export default function ProductCreateClient() {
                             }}
                             onClick={() => setProductGroupDropdownOpen(!productGroupDropdownOpen)}
                           >
-                            <span style={{ color: productGroup.length > 0 ? '#262626' : '#bfbfbf' }}>
-                              {productGroup.length > 0 ? `已选 ${productGroup.length} 项` : '请选择商品分组'}
-                            </span>
-                            <span style={{ color: '#8c8c8c', transform: productGroupDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-                              <svg viewBox="64 64 896 896" width="12" height="12" fill="currentColor">
-                                <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"/>
-                              </svg>
-                            </span>
+                            {/* 未选择时显示 placeholder */}
+                            {productGroup.length === 0 && (
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: 24 }}>
+                                <span style={{ color: '#bfbfbf' }}>请选择商品分组</span>
+                                <span style={{ color: '#8c8c8c', transform: productGroupDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                                  <svg viewBox="64 64 896 896" width="12" height="12" fill="currentColor">
+                                    <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"/>
+                                  </svg>
+                                </span>
+                              </div>
+                            )}
+                            {/* 已选择时显示选中项 */}
+                            {productGroup.length > 0 && (
+                              <>
+                                {productGroup.map((g, index) => {
+                                  // 获取显示标签
+                                  const labelMap: Record<string, string> = {
+                                    'HG-144': 'HG 1:144', 'RG-144': 'RG 1:144', 'MG-100': 'MG 1:100',
+                                    'HGUC-144': 'HGUC 1:144', 'HGCE-144': 'HGCE 1:144', 'HGGTO-144': 'HGGTO 1:144',
+                                    'PG-60': 'PG 1:60', 'SHF': 'S.H.Figuarts', 'FigureRise': 'Figure-rise Standard',
+                                    'KR-SHF': 'S.H.Figuarts', 'CSM': 'CSM', 'UltraAct': 'Ultra Act',
+                                    'Ultra-SHF': 'S.H.Figuarts', 'FiguartsZERO': 'Figuarts ZERO',
+                                    'POP': 'Portrait.Of.Pirates', 'Naruto-SHF': 'S.H.Figuarts', 'GEM': 'G.E.M.',
+                                    'Hot-1': '热销分组1', 'Hot-2': '热销分组2', 'New-1': '新品分组1',
+                                    'New-2': '新品分组2', 'Promo-1': '促销分组1', 'Promo-2': '促销分组2'
+                                  }
+                                  const label = labelMap[g] || g
+                                  return (
+                                    <div
+                                      key={g}
+                                      style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        background: '#f5f5f5',
+                                        borderRadius: 4,
+                                        padding: '2px 8px',
+                                        fontSize: 14,
+                                        color: '#262626'
+                                      }}
+                                    >
+                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 140 }}>
+                                        {label}
+                                      </span>
+                                      <span
+                                        style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                                        onClick={(e) => {
+                                          e.stopPropagation()
+                                          setProductGroup(productGroup.filter(v => v !== g))
+                                        }}
+                                      >
+                                        ×
+                                      </span>
+                                      {/* 最后一个显示下拉箭头 */}
+                                      {index === productGroup.length - 1 && (
+                                        <span style={{ marginLeft: 8, color: '#8c8c8c', transform: productGroupDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                                          <svg viewBox="64 64 896 896" width="12" height="12" fill="currentColor">
+                                            <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"/>
+                                          </svg>
+                                        </span>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </>
+                            )}
                           </div>
 
                           {/* 下拉面板 */}
@@ -4340,21 +4398,6 @@ export default function ProductCreateClient() {
                             </div>
                           )}
                         </div>
-
-                        {/* 已选分组显示 */}
-                        {productGroup.length > 0 && (
-                          <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                            {productGroup.map(g => (
-                              <Tag
-                                key={g}
-                                closable
-                                onClose={() => setProductGroup(productGroup.filter(v => v !== g))}
-                              >
-                                {g}
-                              </Tag>
-                            ))}
-                          </div>
-                        )}
                       </div>
 
                       {/* 库存扣减方式 */}
