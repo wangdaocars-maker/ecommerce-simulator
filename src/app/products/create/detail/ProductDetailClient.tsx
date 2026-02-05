@@ -2453,82 +2453,23 @@ export default function ProductCreateClient() {
                         </Button>
                       </div>
 
-                      {/* 检测报告 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>检测报告</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传产品的检测报告。
-                          </div>
-                        </div>
-                      </div>
-
                       {/* 产品安全信息/警示语 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
+                        <div style={{ width: 120, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>产品安全信息/警示语</span>
                         </div>
                         <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Input.TextArea
-                            placeholder="请输入"
-                            rows={3}
-                            style={{ width: 600 }}
-                          />
+                          <Input placeholder="请输入" style={{ width: 400 }} />
                           <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
                             （选填）如商品具有特殊的安全信息/警示语，请填写。请勿使用特殊符号（如引号、斜杠等），且长度勿超过200字符。
                           </div>
                         </div>
                       </div>
 
-                      {/* REACH检测报告 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>REACH检测报告</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请提交商品的REACH检测报告。
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 欧盟CE-DoC */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>欧盟CE-DoC</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请提供产品的符合性声明文件。模版可参考：<br />
-                            <a
-                              href="https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ color: '#1677FF' }}
-                            >
-                              https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx
-                            </a>。
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 外包装/标签实拍图-欧盟 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-欧盟</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传发往欧盟的商品包装实物图，应包含生产企业信息、欧盟责任人信息和CE标志
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('eu-label-tab', '外包装/标签实拍图-欧盟', '请上传发往欧盟的商品包装实物图，应包含生产企业信息、欧盟责任人信息和CE标志')}
+                      {renderQualificationUpload('eu-ce-doc-tab', '欧盟CE-DoC', <>请提供产品的符合性声明文件。模版可参考：<a href="https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx" target="_blank" rel="noopener noreferrer" style={{ color: '#1677FF' }}>https://files.alicdn.com/tpsservice/a529457f9bd1b290089a02a5b62ff924.docx?spm=a1zmmc.index.0.0.232d719dBQZhNx&file=a529457f9bd1b290089a02a5b62ff924.docx</a>。</>)}
+                      {renderQualificationUpload('eu-test-report-tab', '检测报告', '请上传产品的检测报告，满足EN71系列标准要求，带电玩具还另需满足EN 62115标准要求。')}
+                      {renderQualificationUpload('eu-reach-report-tab', 'REACH检测报告', '14岁以下儿童适用的玩具请提供REACH检测报告。')}
                     </div>
                   )
                 },
@@ -2545,15 +2486,7 @@ export default function ProductCreateClient() {
                         </Button>
                       </div>
 
-                      {/* 外包装/标签实拍图-英国 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-英国</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('uk-label-tab', '外包装/标签实拍图-英国')}
                     </div>
                   )
                 },
@@ -2571,21 +2504,11 @@ export default function ProductCreateClient() {
                       </div>
 
                       {/* KC认证证书_安全 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>KC认证证书_安全</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传清晰且带KC认证编号的KC认证证书
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('kr-kc-cert-tab', 'KC认证证书_安全', '请上传清晰且带KC认证编号的KC认证证书')}
 
                       {/* KC认证编号（安全） */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
+                        <div style={{ width: 120, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>KC认证编号（安全）</span>
                         </div>
                         <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
@@ -2597,56 +2520,16 @@ export default function ProductCreateClient() {
                       </div>
 
                       {/* 外包装/标签实拍图-韩国 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-韩国</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            商品实物包装标签图需含KC标志、产品名称、原产国、制造商/进口商名称和地址信息，儿童用品需要包含适用年龄。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('kr-label-tab', '外包装/标签实拍图-韩国', '商品实物包装标签图需含KC标志、产品名称、原产国、制造商/进口商名称和地址信息，儿童用品需要包含适用年龄。')}
 
                       {/* CE认证 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>CE认证</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传清晰符合法规要求的欧盟CE证书（如无韩国KC证书，请上传此证书）。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('kr-ce-cert-tab', 'CE认证', '请上传清晰符合法规要求的欧盟CE证书（如无韩国KC证书，请上传此证书）。')}
 
                       {/* 检测报告 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>检测报告</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传清晰符合法规要求的欧盟CE检测报告（如无韩国KC资质，请上传此报告）。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('kr-test-report-tab', '检测报告', '请上传清晰符合法规要求的欧盟CE检测报告（如无韩国KC资质，请上传此报告）。')}
 
                       {/* 中国3C认证 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>中国3C认证</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            相关品类的中国3C认证书是中国商品出口至相关国家市场的必要资质，同时也是证明商品质量优劣的重要参考。平台相关品类的合规管控会依据该资质，当前平台已开放中国3C认证证书的资质提交入口，请商家积极上传。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('kr-3c-cert-tab', '中国3C认证', '相关品类的中国3C认证证书是中国商品出口至相关国家市场的必要资质，同时也是证明商品质量优劣的重要参考。平台相关品类的合规管控会依据该资质，当前平台已开放中国3C认证证书的资质提交入口，请商家积极上传。')}
                     </div>
                   )
                 },
@@ -2664,30 +2547,10 @@ export default function ProductCreateClient() {
                       </div>
 
                       {/* 巴西INMETRO认证 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>巴西INMETRO认证</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传巴西INMETRO认证证书或官网收录截屏的清晰图片，大小需在3M之内
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('br-inmetro-cert-tab', '巴西INMETRO认证', '请上传巴西INMETRO认证证书或官网收录截屏的清晰图片，大小需在3M之内')}
 
                       {/* 外包装/标签实拍图-巴西 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-巴西</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传包含生产企业名称和认证LOGO的清晰图片，大小需在3M之内
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('br-label-tab', '外包装/标签实拍图-巴西', '请上传包含生产企业名称和认证LOGO的清晰图片，大小需在3M之内')}
                     </div>
                   )
                 },
@@ -2705,22 +2568,7 @@ export default function ProductCreateClient() {
                       </div>
 
                       {/* 外包装/标签实拍图-土耳其 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-土耳其</span>
-                          <Tooltip title="查看土代标签模版样例">
-                            <QuestionCircleOutlined
-                              style={{ marginLeft: 4, color: '#8C8C8C', cursor: 'pointer' }}
-                            />
-                          </Tooltip>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。点击"上传本地文件"左侧的问号可查看土代标签模版样例。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('tr-label-tab', '外包装/标签实拍图-土耳其', '请提交商品外包装标签实拍图，至少包括但不限于以下信息：土耳其责任人的名称、电子邮件或电话或网址；制造商和进口商（如适用）的名称、商标、商号和电子邮箱/URL，以及可以联系他们的联络地址或电子邮件地址/URL；清晰可见的商品识别码，如型号、批次/序列号或其他方式；清晰的警告和安全信息（如有，需要包含土耳其语言）。')}
                     </div>
                   )
                 },
@@ -2738,34 +2586,14 @@ export default function ProductCreateClient() {
                       </div>
 
                       {/* 墨西哥NOM认证 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>墨西哥NOM认证</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            请上传清晰且有效的产品NOM认证证书。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('mx-nom-cert-tab', '墨西哥NOM认证', '请上传清晰且有效的产品NOM认证证书。')}
 
                       {/* 外包装/标签实拍图-墨西哥 */}
-                      <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
-                          <span style={{ color: '#262626' }}>外包装/标签实拍图-墨西哥</span>
-                        </div>
-                        <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-                          <Button icon={<PlusOutlined />}>上传本地文件</Button>
-                          <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                            商品实物包装标签图需含NOM标志、产品名称、制造商/进口商名称和地址信息、原产国等。
-                          </div>
-                        </div>
-                      </div>
+                      {renderQualificationUpload('mx-label-tab', '外包装/标签实拍图-墨西哥', '商品实物包装标签图需含NOM标志、产品名称、制造商/进口商名称和地址信息、原产国等。')}
 
                       {/* 墨西哥NOM证书编号 */}
                       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
-                        <div style={{ width: 100, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
+                        <div style={{ width: 120, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
                           <span style={{ color: '#262626' }}>墨西哥NOM证书编号</span>
                         </div>
                         <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
@@ -2782,25 +2610,25 @@ export default function ProductCreateClient() {
             />
           </div>
         </Card>
-                </div>
-              )
-            },
-            {
-              key: 'price',
-              label: '价格与库存',
-              forceRender: true,
-              children: (
-                <div
-                  ref={setSectionRef('price')}
-                  id="section-price"
-                  data-section="price"
-                  style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
-                >
-                  <Card
-                    variant="borderless"
-                    title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>价格与库存</span>}
-                    style={{ fontSize: 12 }}
-                  >
+      </div>
+    )
+  },
+  {
+    key: 'price',
+    label: '价格与库存',
+    forceRender: true,
+    children: (
+      <div
+        ref={setSectionRef('price')}
+        id="section-price"
+        data-section="price"
+        style={{ padding: '20px 0 0', scrollMarginTop: 120 }}
+      >
+        <Card
+          variant="borderless"
+          title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>价格与库存</span>}
+          style={{ fontSize: 12 }}
+        >
                     {/* 最小计量单元 */}
                     <div style={{ marginBottom: 17 }}>
                       <div style={{ fontSize: 13, fontWeight: 'bold', color: '#262626', marginBottom: 12 }}>
