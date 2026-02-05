@@ -207,7 +207,10 @@ export default function ProductCreateClient() {
   // 其它设置
   const [priceIncludesTax, setPriceIncludesTax] = useState('include') // 'exclude' 或 'include'
   const [saleType, setSaleType] = useState('normal') // 'normal' 或 'presale'
-  const [productGroup, setProductGroup] = useState('')
+  const [productGroup, setProductGroup] = useState<string[]>([]) // 已选中的分组（第三级）
+  const [productGroupDropdownOpen, setProductGroupDropdownOpen] = useState(false)
+  const [productGroupLevel1, setProductGroupLevel1] = useState<string | null>(null) // 选中的一级
+  const [productGroupLevel2, setProductGroupLevel2] = useState<string | null>(null) // 选中的二级
   const [inventoryDeduction, setInventoryDeduction] = useState('payment') // 'order' 或 'payment'
   const [alipaySupported, setAlipaySupported] = useState(true)
   const [termsAgreed, setTermsAgreed] = useState(false)
@@ -4142,19 +4145,216 @@ export default function ProductCreateClient() {
                             </span>
                           </Tooltip>
                         </div>
-                        <Select
-                          size="small"
-                          value={productGroup}
-                          onChange={setProductGroup}
-                          placeholder="请选择商品分组"
-                          style={{ width: 300 }}
-                          options={[
-                            { label: '默认分组', value: 'default' },
-                            { label: '热销商品', value: 'hot' },
-                            { label: '新品上架', value: 'new' },
-                            { label: '促销商品', value: 'promotion' }
-                          ]}
-                        />
+                        {/* 商品分组级联选择器 */}
+                        <div style={{ position: 'relative', width: 220 }}>
+                          <div
+                            style={{
+                              border: '1px solid #d9d9d9',
+                              borderRadius: 4,
+                              padding: '4px 11px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              background: '#fff',
+                              fontSize: 14,
+                              minHeight: 32,
+                              borderColor: productGroupDropdownOpen ? '#1677ff' : '#d9d9d9'
+                            }}
+                            onClick={() => setProductGroupDropdownOpen(!productGroupDropdownOpen)}
+                          >
+                            <span style={{ color: productGroup.length > 0 ? '#262626' : '#bfbfbf' }}>
+                              {productGroup.length > 0 ? `已选 ${productGroup.length} 项` : '请选择商品分组'}
+                            </span>
+                            <span style={{ color: '#8c8c8c', transform: productGroupDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                              <svg viewBox="64 64 896 896" width="12" height="12" fill="currentColor">
+                                <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"/>
+                              </svg>
+                            </span>
+                          </div>
+
+                          {/* 下拉面板 */}
+                          {productGroupDropdownOpen && (
+                            <div
+                              style={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: 0,
+                                marginTop: 4,
+                                background: '#fff',
+                                border: '1px solid #d9d9d9',
+                                borderRadius: 4,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                zIndex: 1000,
+                                display: 'flex'
+                              }}
+                            >
+                              {/* 第一级 */}
+                              <div style={{ width: 150, borderRight: '1px solid #f0f0f0', maxHeight: 300, overflowY: 'auto' }}>
+                                {[
+                                  { label: 'BR', value: 'BR' },
+                                  { label: 'GLOBAL', value: 'GLOBAL' }
+                                ].map(item => (
+                                  <div
+                                    key={item.value}
+                                    style={{
+                                      padding: '8px 12px',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      justifyContent: 'space-between',
+                                      alignItems: 'center',
+                                      background: productGroupLevel1 === item.value ? '#f5f5f5' : 'transparent',
+                                      color: '#262626',
+                                      fontSize: 14
+                                    }}
+                                    onClick={() => {
+                                      setProductGroupLevel1(item.value)
+                                      setProductGroupLevel2(null)
+                                    }}
+                                  >
+                                    <span>{item.label}</span>
+                                    <span style={{ color: '#8c8c8c' }}>&gt;</span>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* 第二级 */}
+                              {productGroupLevel1 && (
+                                <div style={{ width: 160, borderRight: '1px solid #f0f0f0', maxHeight: 300, overflowY: 'auto' }}>
+                                  {(() => {
+                                    const level2Data: Record<string, { label: string; value: string }[]> = {
+                                      'BR': [
+                                        { label: 'Bandai Gundam', value: 'BR-Gundam' },
+                                        { label: 'Bandai Dragon Ball', value: 'BR-DragonBall' },
+                                        { label: 'Bandai Kamen Rider', value: 'BR-KamenRider' },
+                                        { label: 'Bandai Ultra', value: 'BR-Ultra' },
+                                        { label: 'Bandai One Piece', value: 'BR-OnePiece' },
+                                        { label: 'Bandai Naruto', value: 'BR-Naruto' }
+                                      ],
+                                      'GLOBAL': [
+                                        { label: 'Global Hot', value: 'GLOBAL-Hot' },
+                                        { label: 'Global New', value: 'GLOBAL-New' },
+                                        { label: 'Global Promotion', value: 'GLOBAL-Promotion' }
+                                      ]
+                                    }
+                                    return (level2Data[productGroupLevel1] || []).map(item => (
+                                      <div
+                                        key={item.value}
+                                        style={{
+                                          padding: '8px 12px',
+                                          cursor: 'pointer',
+                                          display: 'flex',
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center',
+                                          background: productGroupLevel2 === item.value ? '#f5f5f5' : 'transparent',
+                                          color: '#262626',
+                                          fontSize: 14,
+                                          whiteSpace: 'nowrap',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis'
+                                        }}
+                                        onClick={() => setProductGroupLevel2(item.value)}
+                                      >
+                                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</span>
+                                        <span style={{ color: '#8c8c8c', marginLeft: 4, flexShrink: 0 }}>&gt;</span>
+                                      </div>
+                                    ))
+                                  })()}
+                                </div>
+                              )}
+
+                              {/* 第三级（多选） */}
+                              {productGroupLevel2 && (
+                                <div style={{ width: 140, maxHeight: 300, overflowY: 'auto' }}>
+                                  {(() => {
+                                    const level3Data: Record<string, { label: string; value: string }[]> = {
+                                      'BR-Gundam': [
+                                        { label: 'HG 1:144', value: 'HG-144' },
+                                        { label: 'RG 1:144', value: 'RG-144' },
+                                        { label: 'MG 1:100', value: 'MG-100' },
+                                        { label: 'HGUC 1:144', value: 'HGUC-144' },
+                                        { label: 'HGCE 1:144', value: 'HGCE-144' },
+                                        { label: 'HGGTO 1:144', value: 'HGGTO-144' },
+                                        { label: 'PG 1:60', value: 'PG-60' }
+                                      ],
+                                      'BR-DragonBall': [
+                                        { label: 'S.H.Figuarts', value: 'SHF' },
+                                        { label: 'Figure-rise', value: 'FigureRise' }
+                                      ],
+                                      'BR-KamenRider': [
+                                        { label: 'S.H.Figuarts', value: 'KR-SHF' },
+                                        { label: 'CSM', value: 'CSM' }
+                                      ],
+                                      'BR-Ultra': [
+                                        { label: 'Ultra Act', value: 'UltraAct' },
+                                        { label: 'S.H.Figuarts', value: 'Ultra-SHF' }
+                                      ],
+                                      'BR-OnePiece': [
+                                        { label: 'Figuarts ZERO', value: 'FiguartsZERO' },
+                                        { label: 'Portrait.Of.Pirates', value: 'POP' }
+                                      ],
+                                      'BR-Naruto': [
+                                        { label: 'S.H.Figuarts', value: 'Naruto-SHF' },
+                                        { label: 'G.E.M.', value: 'GEM' }
+                                      ],
+                                      'GLOBAL-Hot': [
+                                        { label: '热销分组1', value: 'Hot-1' },
+                                        { label: '热销分组2', value: 'Hot-2' }
+                                      ],
+                                      'GLOBAL-New': [
+                                        { label: '新品分组1', value: 'New-1' },
+                                        { label: '新品分组2', value: 'New-2' }
+                                      ],
+                                      'GLOBAL-Promotion': [
+                                        { label: '促销分组1', value: 'Promo-1' },
+                                        { label: '促销分组2', value: 'Promo-2' }
+                                      ]
+                                    }
+                                    return (level3Data[productGroupLevel2] || []).map(item => (
+                                      <div
+                                        key={item.value}
+                                        style={{
+                                          padding: '8px 12px',
+                                          cursor: 'pointer',
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          gap: 8,
+                                          color: '#262626',
+                                          fontSize: 14
+                                        }}
+                                        onClick={() => {
+                                          if (productGroup.includes(item.value)) {
+                                            setProductGroup(productGroup.filter(v => v !== item.value))
+                                          } else {
+                                            setProductGroup([...productGroup, item.value])
+                                          }
+                                        }}
+                                      >
+                                        <Checkbox checked={productGroup.includes(item.value)} />
+                                        <span>{item.label}</span>
+                                      </div>
+                                    ))
+                                  })()}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* 已选分组显示 */}
+                        {productGroup.length > 0 && (
+                          <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            {productGroup.map(g => (
+                              <Tag
+                                key={g}
+                                closable
+                                onClose={() => setProductGroup(productGroup.filter(v => v !== g))}
+                              >
+                                {g}
+                              </Tag>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       {/* 库存扣减方式 */}
