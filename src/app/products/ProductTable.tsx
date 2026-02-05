@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Table, Checkbox, Button, Dropdown, Space, Popover, message } from 'antd'
+import { Table, Checkbox, Button, Dropdown, Space, Popover, message, Pagination, Select } from 'antd'
 import {
   EditOutlined,
   DownOutlined,
@@ -9,7 +9,7 @@ import {
   SettingOutlined,
 } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
-import type { ProductListItem } from '@/types/product'
+import type { ProductListItem, ProductStatus } from '@/types/product'
 
 // 列配置类型
 type ColumnConfig = {
@@ -38,6 +38,11 @@ const defaultColumnConfig: ColumnConfig[] = [
   { key: 'action', label: '操作', visible: true, fixed: true },
 ]
 
+interface SortOption {
+  value: string
+  label: string
+}
+
 interface ProductTableProps {
   data: ProductListItem[]
   loading: boolean
@@ -48,6 +53,19 @@ interface ProductTableProps {
   onBatchOffline: () => void
   onBatchDelete: () => void
   onExport: () => void
+  // 分页
+  page: number
+  pageSize: number
+  total: number
+  onPageChange: (page: number, pageSize: number) => void
+  // 排序
+  sortValue: string
+  sortOptions: SortOption[]
+  onSortChange: (value: string) => void
+  // 上架
+  activeTab: ProductStatus | 'selling'
+  onPublish: (id: string) => void
+  onBatchPublish: () => void
 }
 
 export default function ProductTable({
@@ -60,6 +78,19 @@ export default function ProductTable({
   onBatchOffline,
   onBatchDelete,
   onExport,
+  // 分页
+  page,
+  pageSize,
+  total,
+  onPageChange,
+  // 排序
+  sortValue,
+  sortOptions,
+  onSortChange,
+  // 上架
+  activeTab,
+  onPublish,
+  onBatchPublish,
 }: ProductTableProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[]>(defaultColumnConfig)
@@ -212,23 +243,6 @@ export default function ProductTable({
               </button>
             </div>
 
-            {/* SALE 标签和 SKU 信息 */}
-            <div className="flex items-center gap-2">
-              {/* SALE 标签 */}
-              {record.hasSale && (
-                <div className="bg-[#ff4d4f] text-white text-[12px] font-medium px-3 py-0.5 rounded">
-                  SALE
-                </div>
-              )}
-
-              {/* SKU 信息 */}
-              <div className="text-[12px] text-[#1677ff] cursor-pointer flex items-center gap-1">
-                <span>共{record.skuCount}个SKU</span>
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="#1677ff">
-                  <path d="M5 2L8 6H2L5 2Z" />
-                </svg>
-              </div>
-            </div>
           </div>
         </div>
       ),
@@ -493,32 +507,43 @@ export default function ProductTable({
     {
       title: '操作',
       key: 'action',
-      width: 100,
+      width: 120,
       fixed: 'right',
-      render: (_, record) => (
-        <Space size={8}>
-          <a className="text-[#1677ff] text-[12px]" onClick={() => onEdit(record.id)}>
-            编辑
-          </a>
-          <Dropdown
-            menu={{
-              items: [
-                { key: 'view', label: '查看' },
-                {
-                  key: 'delete',
-                  label: '删除',
-                  danger: true,
-                  onClick: () => onDelete(record.id)
-                },
-              ],
-            }}
-          >
-            <a className="text-[#1677ff] text-[12px]">
-              更多 <DownOutlined className="text-[10px]" />
+      render: (_, record) => {
+        // 根据当前 Tab 决定显示的操作
+        const isOfflineTab = activeTab === 'offline'
+
+        const menuItems = [
+          { key: 'view', label: '查看' },
+          ...(isOfflineTab
+            ? [{ key: 'publish', label: '上架', onClick: () => onPublish(record.id) }]
+            : []),
+          {
+            key: 'delete',
+            label: '删除',
+            danger: true,
+            onClick: () => onDelete(record.id),
+          },
+        ]
+
+        return (
+          <Space size={8}>
+            <a className="text-[#1677ff] text-[12px]" onClick={() => onEdit(record.id)}>
+              编辑
             </a>
-          </Dropdown>
-        </Space>
-      ),
+            {isOfflineTab && (
+              <a className="text-[#1677ff] text-[12px]" onClick={() => onPublish(record.id)}>
+                上架
+              </a>
+            )}
+            <Dropdown menu={{ items: menuItems }}>
+              <a className="text-[#1677ff] text-[12px]">
+                更多 <DownOutlined className="text-[10px]" />
+              </a>
+            </Dropdown>
+          </Space>
+        )
+      },
     },
   ]
 
@@ -531,6 +556,9 @@ export default function ProductTable({
     return visibleColumnKeys.has(col.key as string)
   })
 
+  // 判断是否为已下架 Tab
+  const isOfflineTab = activeTab === 'offline'
+
   return (
     <>
       {/* 表格顶部操作栏 */}
@@ -538,9 +566,19 @@ export default function ProductTable({
         {/* 左侧操作 */}
         <Space size={12}>
           <span className="text-sm text-[#8c8c8c]">已选 {selectedRowKeys.length}</span>
-          <Button onClick={onBatchOffline} disabled={selectedRowKeys.length === 0}>
-            下架
-          </Button>
+          {isOfflineTab ? (
+            <Button
+              type="primary"
+              onClick={onBatchPublish}
+              disabled={selectedRowKeys.length === 0}
+            >
+              上架
+            </Button>
+          ) : (
+            <Button onClick={onBatchOffline} disabled={selectedRowKeys.length === 0}>
+              下架
+            </Button>
+          )}
           <Dropdown
             menu={{
               items: [{ key: 'excel', label: '导出为 Excel' }],
@@ -577,9 +615,12 @@ export default function ProductTable({
 
         {/* 右侧操作 */}
         <Space size={12}>
-          <Button style={{ width: 200 }}>
-            排序方式 <DownOutlined />
-          </Button>
+          <Select
+            value={sortValue}
+            onChange={onSortChange}
+            style={{ width: 180 }}
+            options={sortOptions}
+          />
           <Popover
             content={columnSettingContent}
             trigger="click"
@@ -607,6 +648,25 @@ export default function ProductTable({
             '--table-border-color': '#E5E7EB',
           } as React.CSSProperties}
         />
+
+        {/* 分页 */}
+        {total > 0 && (
+          <div className="px-4 py-3 flex items-center justify-between border-t border-gray-100">
+            <span className="text-sm text-[#8c8c8c]">
+              共 {total} 条记录
+            </span>
+            <Pagination
+              current={page}
+              pageSize={pageSize}
+              total={total}
+              showSizeChanger
+              showQuickJumper
+              pageSizeOptions={['10', '20', '50', '100']}
+              onChange={onPageChange}
+              onShowSizeChange={onPageChange}
+            />
+          </div>
+        )}
 
         <style jsx global>{`
           .product-table .ant-table-thead > tr > th {

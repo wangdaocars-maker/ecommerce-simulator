@@ -234,7 +234,14 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         setSelectedCountries(p.countries || [])
         setCountryTitles(p.countryTitles || {})
         setLanguage(p.language || 'zh')
-        setCountryImages(p.countryImages || {})
+
+        // 加载图片：优先使用 countryImages，如果为空则用 images 填充 default
+        let loadedCountryImages = p.countryImages || {}
+        if (Object.keys(loadedCountryImages).length === 0 && p.images && p.images.length > 0) {
+          loadedCountryImages = { default: p.images }
+        }
+        setCountryImages(loadedCountryImages)
+
         setVideoUrl(p.video || undefined)
         setVideoCoverUrl(p.videoCover || undefined)
 
@@ -865,12 +872,14 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         alipaySupported,
         euResponsiblePerson: euResponsiblePerson || undefined,
         manufacturer: manufacturer || undefined,
-        status: asDraft ? 'draft' : 'reviewing',
+        status: asDraft ? 'draft' : 'published',  // 培训模式：自动通过审核
       })
 
-      // 3. 发送请求
-      const res = await fetch('/api/products', {
-        method: 'POST',
+      // 3. 发送请求（编辑模式用 PUT，创建模式用 POST）
+      const url = isEditMode ? `/api/products/${productId}` : '/api/products'
+      const method = isEditMode ? 'PUT' : 'POST'
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData),
       })
@@ -878,7 +887,11 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
       const result = await res.json()
 
       if (result.success) {
-        message.success(asDraft ? '已保存为草稿' : '商品已提交审核')
+        if (isEditMode) {
+          message.success(asDraft ? '已保存为草稿' : '商品已更新')
+        } else {
+          message.success(asDraft ? '已保存为草稿' : '商品已提交审核')
+        }
         // 清除 sessionStorage
         sessionStorage.removeItem('productBasicInfo')
         router.push('/products')

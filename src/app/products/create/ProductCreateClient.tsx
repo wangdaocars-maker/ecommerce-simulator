@@ -29,6 +29,8 @@ import { normalizeCategoryResponse } from '@/lib/category-utils'
 const countryOptions = [
   { label: '西班牙', value: 'es', language: '西班牙语' },
   { label: '法国', value: 'fr', language: '法语' },
+  { label: '德国', value: 'de', language: '德语' },
+  { label: '意大利', value: 'it', language: '意大利语' },
   { label: '巴西', value: 'br', language: '葡萄牙语' },
   { label: '韩国', value: 'kr', language: '韩语' },
   { label: '美国', value: 'us', language: '英语' },

@@ -102,12 +102,17 @@ export async function GET(request: Request) {
     })
 
     // 转换为前端需要的格式
-    const items: ProductListItem[] = products.map(p => ({
-      key: String(p.id),
-      id: String(p.id),
-      title: p.title,
-      image: p.mainImage || '/placeholder.png',
-      hasSale: p.hasSale,
+    const items: ProductListItem[] = products.map(p => {
+      // 获取缩略图：优先使用 mainImage，否则使用 images 数组的第一张
+      const images = safeJsonParse<string[]>(p.images, [])
+      const thumbnail = p.mainImage || images[0] || '/placeholder.png'
+
+      return {
+        key: String(p.id),
+        id: String(p.id),
+        title: p.title,
+        image: thumbnail,
+        hasSale: p.hasSale,
       skuCount: 1,  // 简化处理，实际可从 SKU 数量计算
       groups: p.groups.map(g => g.group.name),
       price: {
@@ -137,7 +142,7 @@ export async function GET(request: Request) {
         edited: formatDateTime(p.updatedAt),
         created: formatDateTime(p.createdAt)
       }
-    }))
+    }})
 
     return NextResponse.json({
       success: true,

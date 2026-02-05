@@ -32,12 +32,50 @@ import {
 import type { MenuProps, TabsProps } from 'antd'
 import type { ProductListItem, ProductStats, ProductStatus } from '@/types/product'
 
+// 排序选项
+const SORT_OPTIONS = [
+  { value: 'updatedAt_desc', label: '编辑时间（最新）' },
+  { value: 'updatedAt_asc', label: '编辑时间（最早）' },
+  { value: 'createdAt_desc', label: '创建时间（最新）' },
+  { value: 'createdAt_asc', label: '创建时间（最早）' },
+  { value: 'sales30d_desc', label: '销量（高到低）' },
+  { value: 'sales30d_asc', label: '销量（低到高）' },
+  { value: 'views30d_desc', label: '曝光（高到低）' },
+  { value: 'views30d_asc', label: '曝光（低到高）' },
+  { value: 'conversion30d_desc', label: '转化率（高到低）' },
+  { value: 'conversion30d_asc', label: '转化率（低到高）' },
+  { value: 'stock_desc', label: '库存（高到低）' },
+  { value: 'stock_asc', label: '库存（低到高）' },
+  { value: 'price_desc', label: '价格（高到低）' },
+  { value: 'price_asc', label: '价格（低到高）' },
+]
+
+// 商品分组类型
+interface ProductGroupOption {
+  id: number
+  name: string
+  productCount: number
+}
+
 export default function ProductsClient() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<ProductStatus | 'selling'>('selling')
   const [filterType, setFilterType] = useState('all')
   const [searchType, setSearchType] = useState('productId')
   const [searchValue, setSearchValue] = useState('')
+
+  // 分页状态
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(20)
+  const [total, setTotal] = useState(0)
+
+  // 排序状态
+  const [sortBy, setSortBy] = useState('updatedAt')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+
+  // 筛选器状态
+  const [selectedGroupId, setSelectedGroupId] = useState<number | undefined>(undefined)
+  const [groups, setGroups] = useState<ProductGroupOption[]>([])
 
   // 数据状态
   const [products, setProducts] = useState<ProductListItem[]>([])
@@ -58,11 +96,32 @@ export default function ProductsClient() {
     }
   }, [])
 
+  // 获取商品分组列表
+  const fetchGroups = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products/groups')
+      const result = await res.json()
+      if (result.success) {
+        setGroups(result.data)
+      }
+    } catch (error) {
+      console.error('获取商品分组失败:', error)
+    }
+  }, [])
+
   // 获取商品列表
   const fetchProducts = useCallback(async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams()
+
+      // 分页
+      params.set('page', String(page))
+      params.set('pageSize', String(pageSize))
+
+      // 排序
+      params.set('sortBy', sortBy)
+      params.set('sortOrder', sortOrder)
 
       // 状态筛选
       if (activeTab === 'selling') {
@@ -76,6 +135,11 @@ export default function ProductsClient() {
         params.set('filterType', filterType)
       }
 
+      // 分组筛选
+      if (selectedGroupId) {
+        params.set('groupId', String(selectedGroupId))
+      }
+
       // 搜索
       if (searchValue.trim()) {
         params.set('search', searchValue.trim())
@@ -87,6 +151,7 @@ export default function ProductsClient() {
 
       if (result.success) {
         setProducts(result.data.items)
+        setTotal(result.data.total)
       } else {
         message.error(result.error || '获取商品列表失败')
       }
@@ -96,19 +161,20 @@ export default function ProductsClient() {
     } finally {
       setLoading(false)
     }
-  }, [activeTab, filterType, searchValue, searchType])
+  }, [activeTab, filterType, searchValue, searchType, page, pageSize, sortBy, sortOrder, selectedGroupId])
 
   // 初始加载
   useEffect(() => {
     fetchStats()
+    fetchGroups()
     fetchProducts()
-  }, [fetchStats, fetchProducts])
+  }, [fetchStats, fetchGroups, fetchProducts])
 
-  // Tab 切换时重新加载
+  // Tab 切换时重置分页并重新加载
   useEffect(() => {
     setSelectedRowKeys([])
-    fetchProducts()
-  }, [activeTab, filterType])
+    setPage(1)
+  }, [activeTab, filterType, selectedGroupId, sortBy, sortOrder])
 
   // 编辑商品
   const handleEdit = (id: string) => {
@@ -214,6 +280,7 @@ export default function ProductsClient() {
 
   // 搜索
   const handleSearch = () => {
+    setPage(1)
     fetchProducts()
   }
 
@@ -222,6 +289,79 @@ export default function ProductsClient() {
     setSearchValue('')
     setSearchType('productId')
     setFilterType('all')
+    setSelectedGroupId(undefined)
+    setSortBy('updatedAt')
+    setSortOrder('desc')
+    setPage(1)
+  }
+
+  // 排序变化
+  const handleSortChange = (value: string) => {
+    const [field, order] = value.split('_')
+    setSortBy(field)
+    setSortOrder(order as 'asc' | 'desc')
+  }
+
+  // 分页变化
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage)
+    setPageSize(newPageSize)
+  }
+
+  // 上架商品
+  const handlePublish = async (id: string) => {
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'published' }),
+      })
+      const result = await res.json()
+      if (result.success) {
+        message.success('上架成功')
+        fetchProducts()
+        fetchStats()
+      } else {
+        message.error(result.error || '上架失败')
+      }
+    } catch {
+      message.error('网络错误')
+    }
+  }
+
+  // 批量上架
+  const handleBatchPublish = async () => {
+    if (selectedRowKeys.length === 0) return
+
+    Modal.confirm({
+      title: '批量上架',
+      content: `确定要上架选中的 ${selectedRowKeys.length} 个商品吗？`,
+      okText: '确认上架',
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          const res = await fetch('/api/products/batch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'online',
+              ids: selectedRowKeys.map(k => parseInt(k)),
+            }),
+          })
+          const result = await res.json()
+          if (result.success) {
+            message.success(`成功上架 ${result.data.affectedCount} 个商品`)
+            setSelectedRowKeys([])
+            fetchProducts()
+            fetchStats()
+          } else {
+            message.error(result.error || '操作失败')
+          }
+        } catch {
+          message.error('网络错误')
+        }
+      },
+    })
   }
 
   // 导出商品
@@ -437,6 +577,7 @@ export default function ProductsClient() {
             <Select
               placeholder="重要商品任务"
               style={{ width: '100%' }}
+              allowClear
               options={[
                 {
                   label: (
@@ -448,11 +589,21 @@ export default function ProductsClient() {
                 },
               ]}
             />
-            <Select placeholder="商品分组" style={{ width: '100%' }} />
-            <Select placeholder="请选择类目" style={{ width: '100%' }} />
-            <Select placeholder="区域定价" style={{ width: '100%' }} />
-            <Select placeholder="日销运费模板" style={{ width: '100%' }} />
-            <Select placeholder="商品责任人" style={{ width: '100%' }} />
+            <Select
+              placeholder="商品分组"
+              style={{ width: '100%' }}
+              allowClear
+              value={selectedGroupId}
+              onChange={(value) => setSelectedGroupId(value)}
+              options={groups.map(g => ({
+                label: `${g.name} (${g.productCount})`,
+                value: g.id,
+              }))}
+            />
+            <Select placeholder="请选择类目" style={{ width: '100%' }} allowClear />
+            <Select placeholder="区域定价" style={{ width: '100%' }} allowClear />
+            <Select placeholder="日销运费模板" style={{ width: '100%' }} allowClear />
+            <Select placeholder="商品责任人" style={{ width: '100%' }} allowClear />
           </div>
 
           <div className="grid grid-cols-6 gap-2">
@@ -509,6 +660,19 @@ export default function ProductsClient() {
           onBatchOffline={handleBatchOffline}
           onBatchDelete={handleBatchDelete}
           onExport={handleExport}
+          // 分页
+          page={page}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={handlePageChange}
+          // 排序
+          sortValue={`${sortBy}_${sortOrder}`}
+          sortOptions={SORT_OPTIONS}
+          onSortChange={handleSortChange}
+          // 上架
+          activeTab={activeTab}
+          onPublish={handlePublish}
+          onBatchPublish={handleBatchPublish}
         />
       </div>
     </div>
