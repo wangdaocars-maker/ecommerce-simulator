@@ -37,6 +37,7 @@ import VideoUploadModal from '@/components/VideoUploadModal'
 import { validateProductForm, validateDraftForm } from '@/lib/validation/product'
 import { normalizeCategoryResponse } from '@/lib/category-utils'
 import { buildProductPayload, resolveImageTargetKey, resolveSubmitImages } from '@/lib/product-submit'
+import { resolveCreateFlow } from '@/lib/product-edit'
 import type { Category } from '@/types/category'
 import { SelectionModal, PlugTypeModal, ShippingLocationModal } from './components'
 import {
@@ -49,10 +50,15 @@ import {
   chemicalOptions,
 } from './constants/options'
 
-export default function ProductCreateClient() {
+interface ProductDetailClientProps {
+  productId?: string  // 编辑模式时传入商品 ID
+}
+
+export default function ProductDetailClient({ productId }: ProductDetailClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const categoryIdFromUrl = searchParams.get('categoryId')
+  const isEditMode = !!productId
   const [submitting, setSubmitting] = useState(false)
   const [selectedCountries, setSelectedCountries] = useState<string[]>([])
   const [language, setLanguage] = useState('zh')
@@ -205,6 +211,71 @@ export default function ProductCreateClient() {
     setMainTab('basic')
   }, [])
 
+  // 编辑模式：加载商品数据
+  useEffect(() => {
+    if (!productId) return
+
+    const loadProduct = async () => {
+      try {
+        const res = await fetch(`/api/products/${productId}`)
+        if (!res.ok) {
+          message.error('加载商品数据失败')
+          return
+        }
+        const json = await res.json()
+        if (!json.success || !json.data) {
+          message.error(json.error || '商品不存在')
+          return
+        }
+        const p = json.data
+
+        // 填充表单数据
+        setTitle(p.title || '')
+        setSelectedCountries(p.countries || [])
+        setCountryTitles(p.countryTitles || {})
+        setLanguage(p.language || 'zh')
+        setCountryImages(p.countryImages || {})
+        setVideoUrl(p.video || undefined)
+        setVideoCoverUrl(p.videoCover || undefined)
+
+        // 类目
+        if (p.categoryId) {
+          setCategory(p.categoryName || '')
+          // 简化：只设置最终类目
+          setSelectedCategoryPath([{ id: p.categoryId, name: p.categoryName }])
+        }
+
+        // 基本信息
+        setBrand(p.brand || undefined)
+        setOriginCountry(p.originCountry || undefined)
+
+        // 价格库存
+        setRetailPrice(p.price?.toString() || '')
+        setInventory(p.stock?.toString() || '')
+        setSkuCode(p.sku || '')
+
+        // 描述
+        setPcDescription(p.description || '')
+
+        // 物流
+        setWeight(p.weight?.toString() || '')
+        if (p.packageSize) {
+          setPackageLength(p.packageSize.length?.toString() || '')
+          setPackageWidth(p.packageSize.width?.toString() || '')
+          setPackageHeight(p.packageSize.height?.toString() || '')
+        }
+        setShippingTemplate(p.shippingTemplate || '')
+
+        message.success('商品数据已加载')
+      } catch (err) {
+        console.error('Load product error:', err)
+        message.error('加载商品数据失败')
+      }
+    }
+
+    loadProduct()
+  }, [productId])
+
   const updateActiveByScroll = () => {
     const offset = 120
     let active = MAIN_SECTIONS[0]?.key || 'basic'
@@ -324,9 +395,15 @@ export default function ProductCreateClient() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = sessionStorage.getItem('productBasicInfo')
-      if (saved) {
+      const action = resolveCreateFlow(isEditMode, !!saved, !!categoryIdFromUrl)
+
+      if (action === 'skip') {
+        return
+      }
+
+      if (action === 'session') {
         try {
-          const basicInfo = JSON.parse(saved)
+          const basicInfo = JSON.parse(saved as string)
           setSelectedCountries(basicInfo.selectedCountries || [])
           setLanguage(basicInfo.language || 'zh')
           setTitle(basicInfo.title || '')
@@ -335,29 +412,28 @@ export default function ProductCreateClient() {
           setSelectedCategoryPath(basicInfo.categoryPath || [])
           setTempCategoryPath(basicInfo.categoryPath || [])
           setCountryImages(basicInfo.countryImages || {})
+          return
         } catch (error) {
           console.error('读取基础信息失败:', error)
-          // 尝试从 URL 恢复类目
+          // 解析失败时，继续尝试 URL 类目恢复
           if (categoryIdFromUrl) {
             fetchCategoryPath(categoryIdFromUrl)
-          } else {
-            message.warning('未找到基础信息，请返回重新填写')
-            setTimeout(() => {
-              router.push('/products/create')
-            }, 1500)
+            return
           }
         }
-      } else if (categoryIdFromUrl) {
-        // sessionStorage 为空但 URL 有 categoryId，尝试恢复类目
-        fetchCategoryPath(categoryIdFromUrl)
-      } else {
-        message.warning('未找到基础信息，请返回重新填写')
-        setTimeout(() => {
-          router.push('/products/create')
-        }, 1500)
       }
+
+      if (action === 'category' && categoryIdFromUrl) {
+        fetchCategoryPath(categoryIdFromUrl)
+        return
+      }
+
+      message.warning('未找到基础信息，请返回重新填写')
+      setTimeout(() => {
+        router.push('/products/create')
+      }, 1500)
     }
-  }, [router, categoryIdFromUrl, fetchCategoryPath])
+  }, [router, categoryIdFromUrl, fetchCategoryPath, isEditMode])
 
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
@@ -827,7 +903,7 @@ export default function ProductCreateClient() {
           <Breadcrumb
             items={[
               { title: '商品管理' },
-              { title: '发布商品' },
+              { title: isEditMode ? '编辑商品' : '发布商品' },
             ]}
             style={{ marginBottom: 11, fontSize: 10, color: '#8C8C8C' }}
           />
@@ -839,7 +915,7 @@ export default function ProductCreateClient() {
             color: '#000',
             marginBottom: 17
           }}>
-            发布商品
+            {isEditMode ? '编辑商品' : '发布商品'}
           </h1>
 
           {/* 主标签导航 */}
