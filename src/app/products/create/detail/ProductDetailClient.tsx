@@ -123,8 +123,6 @@ export default function ProductCreateClient() {
   const [qualificationTab, setQualificationTab] = useState('all')
   // 资质文件上传
   const [qualificationFiles, setQualificationFiles] = useState<Record<string, string[]>>({})
-  const [qualificationUploadTarget, setQualificationUploadTarget] = useState('')
-  const [qualificationUploadModalVisible, setQualificationUploadModalVisible] = useState(false)
 
   // 商品属性相关状态
   const [brand, setBrand] = useState<string | undefined>(undefined)
@@ -620,69 +618,124 @@ export default function ProductCreateClient() {
     )
   }
 
+  // 处理资质文件上传
+  const handleQualificationFileUpload = async (key: string, file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('folder', '资质文件')
+
+    try {
+      const res = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const data = await res.json()
+      if (data.success) {
+        setQualificationFiles(prev => ({
+          ...prev,
+          [key]: [data.data.url] // 每个资质项只保留一张图片
+        }))
+        message.success('上传成功')
+      } else {
+        message.error(data.error || '上传失败')
+      }
+    } catch {
+      message.error('上传失败')
+    }
+  }
+
   // 渲染资质上传区域
   const renderQualificationUpload = (key: string, label: string, hint?: React.ReactNode) => {
     const files = qualificationFiles[key] || []
+    const hasFile = files.length > 0
+    const fileInputId = `qualification-file-${key}`
+
     return (
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start' }}>
         <div style={{ width: 120, textAlign: 'right', flexShrink: 0, paddingTop: 4 }}>
           <span style={{ color: '#262626' }}>{label}</span>
         </div>
         <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
-          <Button
-            onClick={() => {
-              setQualificationUploadTarget(key)
-              setQualificationUploadModalVisible(true)
+          {/* 隐藏的文件输入 */}
+          <input
+            type="file"
+            id={fileInputId}
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                handleQualificationFileUpload(key, file)
+                e.target.value = '' // 清空以便重复选择同一文件
+              }
             }}
-          >
-            上传本地文件
-          </Button>
+          />
+
+          {/* 未上传时显示按钮 */}
+          {!hasFile && (
+            <Button
+              onClick={() => {
+                document.getElementById(fileInputId)?.click()
+              }}
+            >
+              上传本地文件
+            </Button>
+          )}
+
+          {/* 已上传时显示图片 */}
+          {hasFile && (
+            <div
+              style={{
+                position: 'relative',
+                width: 104,
+                height: 104,
+                border: '1px solid #d9d9d9',
+                borderRadius: 4,
+                overflow: 'hidden',
+                cursor: 'pointer'
+              }}
+              className="qualification-image-container"
+            >
+              <img
+                src={files[0]}
+                alt={label}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <div
+                className="qualification-delete-overlay"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'rgba(0,0,0,0.5)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: 0,
+                  transition: 'opacity 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = '0'
+                }}
+                onClick={() => {
+                  setQualificationFiles(prev => ({
+                    ...prev,
+                    [key]: []
+                  }))
+                }}
+              >
+                <DeleteOutlined style={{ color: '#fff', fontSize: 24 }} />
+              </div>
+            </div>
+          )}
+
           {hint && (
             <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>{hint}</div>
-          )}
-          {files.length > 0 && (
-            <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {files.map((url, index) => (
-                <div
-                  key={index}
-                  style={{
-                    position: 'relative',
-                    width: 104,
-                    height: 104,
-                    border: '1px solid #d9d9d9',
-                    borderRadius: 4,
-                    overflow: 'hidden'
-                  }}
-                >
-                  <img
-                    src={url}
-                    alt={`${label}-${index + 1}`}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                  <Button
-                    type="text"
-                    size="small"
-                    icon={<DeleteOutlined />}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      right: 2,
-                      background: 'rgba(0,0,0,0.5)',
-                      color: '#fff',
-                      padding: '2px 4px',
-                      height: 'auto',
-                      minWidth: 'auto'
-                    }}
-                    onClick={() => {
-                      setQualificationFiles(prev => ({
-                        ...prev,
-                        [key]: prev[key].filter((_, i) => i !== index)
-                      }))
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
           )}
         </div>
       </div>
@@ -4389,26 +4442,6 @@ export default function ProductCreateClient() {
           setVideoCoverUrl(video.cover)
           setVideoUploadModalVisible(false)
         }}
-      />
-
-      {/* 资质文件上传弹窗 */}
-      <ImageUploadModal
-        visible={qualificationUploadModalVisible}
-        onClose={() => setQualificationUploadModalVisible(false)}
-        onConfirm={(images) => {
-          if (images.length > 0 && qualificationUploadTarget) {
-            setQualificationFiles(prev => ({
-              ...prev,
-              [qualificationUploadTarget]: [...(prev[qualificationUploadTarget] || []), ...images]
-            }))
-          }
-          setQualificationUploadModalVisible(false)
-        }}
-        maxCount={5}
-        sizeLimit={3}
-        minDimensions={{ width: 200, height: 200 }}
-        acceptFormats={['jpg', 'jpeg', 'png', 'pdf']}
-        folder="资质文件"
       />
 
       {/* 认证选择弹窗 */}
