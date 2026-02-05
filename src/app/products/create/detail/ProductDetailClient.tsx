@@ -2896,8 +2896,24 @@ export default function ProductCreateClient() {
                         设置
                       </Button>
                       {selectedPlugTypes.length > 0 && (
-                        <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                          已选 {selectedPlugTypes.length} 项
+                        <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {selectedPlugTypes.map(type => {
+                            const labelMap: Record<string, string> = {
+                              'usb': 'USB',
+                              'battery': '纽扣电池',
+                              'eu_plug': 'eu plug',
+                              'us_plug': '美规'
+                            }
+                            return (
+                              <Tag
+                                key={type}
+                                closable
+                                onClose={() => setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== type))}
+                              >
+                                {labelMap[type] || type}
+                              </Tag>
+                            )
+                          })}
                         </div>
                       )}
                     </div>
@@ -2915,8 +2931,27 @@ export default function ProductCreateClient() {
                         设置
                       </Button>
                       {selectedShippingLocations.length > 0 && (
-                        <div style={{ marginTop: 8, color: '#8C8C8C', fontSize: 12 }}>
-                          已选 {selectedShippingLocations.length} 项
+                        <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {selectedShippingLocations.map(loc => {
+                            const labelMap: Record<string, string> = {
+                              'jp': '日本(JP)', 'ca': '加拿大(CA)', 'ng': '尼日利亚(NG)', 'za': '南非(ZA)',
+                              'cn': '中国大陆', 'cl': '智利(CL)', 'br': '巴西(BR)', 'tr': '土耳其(TR)',
+                              'ua': '乌克兰(UA)', 'ae': '阿联酋(AE)', 'il': '以色列(IL)', 'cz': '捷克',
+                              'pl': '波兰(PL)', 'us': '美国(US)', 'uk': '英国(UK)', 'de': '德国(DE)',
+                              'es': '西班牙(ES)', 'au': '澳大利亚(AU)', 'ru': '俄罗斯(RU)', 'id': '印度尼西亚(ID)',
+                              'fr': '法国(FR)', 'it': '意大利(IT)', 'vn': '越南(VN)', 'hu': '匈牙利(HU)',
+                              'lv': '拉脱维亚(LV)', 'sa': '沙特阿拉伯(SA)', 'be': '比利时(BE)', 'kr': '韩国(KR)'
+                            }
+                            return (
+                              <Tag
+                                key={loc}
+                                closable
+                                onClose={() => setSelectedShippingLocations(selectedShippingLocations.filter(l => l !== loc))}
+                              >
+                                {labelMap[loc] || loc}
+                              </Tag>
+                            )
+                          })}
                         </div>
                       )}
                     </div>
