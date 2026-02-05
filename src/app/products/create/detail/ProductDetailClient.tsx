@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Breadcrumb,
@@ -38,93 +38,16 @@ import { validateProductForm, validateDraftForm } from '@/lib/validation/product
 import { normalizeCategoryResponse } from '@/lib/category-utils'
 import { buildProductPayload, resolveImageTargetKey, resolveSubmitImages } from '@/lib/product-submit'
 import type { Category } from '@/types/category'
-
-// 国家选项
-const countryOptions = [
-  { label: '西班牙', value: 'es', language: '西班牙语' },
-  { label: '法国', value: 'fr', language: '法语' },
-  { label: '巴西', value: 'br', language: '葡萄牙语' },
-  { label: '韩国', value: 'kr', language: '韩语' },
-  { label: '美国', value: 'us', language: '英语' },
-  { label: '中东六国', value: 'me', language: '阿拉伯语', tooltip: '包括沙特、阿联酋等国家' },
-  { label: '墨西哥', value: 'mx', language: '西班牙语' },
-]
-
-// 图片上传区域标签
-const imageLabels = [
-  '商品正面图',
-  '商品背面图',
-  '商品类图图',
-  '商品侧面图',
-  '商品细节图',
-  '商品细节图',
-]
-
-const MAIN_SECTIONS = [
-  { key: 'basic', label: '基本信息' },
-  { key: 'price', label: '价格与库存' },
-  { key: 'description', label: '详细描述' },
-  { key: 'package', label: '包装与物流' },
-  { key: 'other', label: '其它设置' },
-]
-
-// 认证选项
-const certificationOptions = [
-  { label: 'CE认证(CE)', value: 'ce' },
-  { label: '圆点(Dot)', value: 'dot' },
-  { label: 'EAC(EAC)', value: 'eac' },
-  { label: 'EPA(EPA)', value: 'epa' },
-  { label: 'FCC(FCC)', value: 'fcc' },
-  { label: 'GMP(GMP)', value: 'gmp' },
-  { label: 'RoHS认证(RoHS)', value: 'rohs' },
-  { label: 'TGA(TGA)', value: 'tga' },
-  { label: 'UL认证(UL)', value: 'ul' },
-  { label: 'KC(KC)', value: 'kc' },
-  { label: 'pse(pse)', value: 'pse' },
-  { label: 'WEEE(weee)', value: 'weee' },
-  { label: '无(None)', value: 'none' },
-]
-
-// 玩具娃娃适合场合选项
-const occasionOptions = [
-  { label: '圣诞节(Christmas)', value: 'christmas' },
-  { label: '复活节(Easter)', value: 'easter' },
-  { label: '万圣节(Halloween)', value: 'halloween' },
-  { label: '新年(New Year)', value: 'new_year' },
-  { label: '情人节(Valentine\'s)', value: 'valentines' },
-]
-
-// 适用年龄选项
-const ageOptions = [
-  { label: '18+(18+)', value: '18+' },
-  { label: '14 + y(14+y)', value: '14+y' },
-  { label: '6-12Y(6-12Y)', value: '6-12Y' },
-  { label: '3-6Y(3-6Y)', value: '3-6Y' },
-]
-
-// 高关注化学品选项
-const chemicalOptions = [
-  { label: '无(None)', value: 'none' },
-  { label: 'A-alpha-C（2-氨基-9H-吡啶并吲哚）', value: 'a-alpha-c' },
-  { label: '醋酸阿比特龙(Abiraterone acetate)', value: 'abiraterone' },
-  { label: '乙醛(Acetaldehyde)', value: 'acetaldehyde' },
-  { label: '乙酰胺(Acetamide)', value: 'acetamide' },
-  { label: '乙酰唑胺(Acetazolamide)', value: 'acetazolamide' },
-  { label: '乙草胺(Acetochlor)', value: 'acetochlor' },
-  { label: '乙酰异羟肟酸(Acetohydroxamic acid)', value: 'acetohydroxamic' },
-  { label: '2-乙酰氨基芴(2-Acetylaminofluorene)', value: '2-acetylaminofluorene' },
-  { label: '三氟羧草醚钠(Acifluorfen sodium)', value: 'acifluorfen' },
-  { label: '丙烯酰胺(Acrylamide)', value: 'acrylamide' },
-  { label: '丙烯腈(Acrylonitrile)', value: 'acrylonitrile' },
-  { label: '放线菌素d(Actinomycin D)', value: 'actinomycin-d' },
-  { label: 'AF-2；[2-(2-呋喃基)-3-(5-硝基-2-呋喃基)丙烯酰胺]', value: 'af-2' },
-  { label: '黄曲霉毒素(Aflatoxins)', value: 'aflatoxins' },
-  { label: '茜素(Alizarin)', value: 'alizarin' },
-  { label: '烯丙基氯(Allyl chloride)', value: 'allyl-chloride' },
-  { label: '氨基蒽醌(Aminoanthraquinone)', value: 'aminoanthraquinone' },
-  { label: '邻氨基偶氮甲苯(o-Aminoazotoluene)', value: 'aminoazotoluene' },
-  { label: '4-氨基联苯(4-Aminobiphenyl)', value: '4-aminobiphenyl' },
-]
+import { SelectionModal, PlugTypeModal, ShippingLocationModal } from './components'
+import {
+  countryOptions,
+  imageLabels,
+  MAIN_SECTIONS,
+  certificationOptions,
+  occasionOptions,
+  ageOptions,
+  chemicalOptions,
+} from './constants/options'
 
 export default function ProductCreateClient() {
   const router = useRouter()
@@ -176,22 +99,18 @@ export default function ProductCreateClient() {
   // 认证弹窗
   const [certificationModalVisible, setCertificationModalVisible] = useState(false)
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>([])
-  const [certificationSearch, setCertificationSearch] = useState('')
 
   // 玩具娃娃适合场合弹窗
   const [occasionModalVisible, setOccasionModalVisible] = useState(false)
   const [selectedOccasions, setSelectedOccasions] = useState<string[]>([])
-  const [occasionSearch, setOccasionSearch] = useState('')
 
   // 适用年龄弹窗
   const [ageModalVisible, setAgeModalVisible] = useState(false)
   const [selectedAges, setSelectedAges] = useState<string[]>([])
-  const [ageSearch, setAgeSearch] = useState('')
 
   // 高关注化学品弹窗
   const [chemicalModalVisible, setChemicalModalVisible] = useState(false)
   const [selectedChemicals, setSelectedChemicals] = useState<string[]>([])
-  const [chemicalSearch, setChemicalSearch] = useState('')
 
   // 价格与库存相关状态
   const [minUnit, setMinUnit] = useState('piece')
@@ -205,8 +124,6 @@ export default function ProductCreateClient() {
   const [selectedPlugTypes, setSelectedPlugTypes] = useState<string[]>([])
   const [shippingLocationModalVisible, setShippingLocationModalVisible] = useState(false)
   const [selectedShippingLocations, setSelectedShippingLocations] = useState<string[]>([])
-  const [plugTypeSearch, setPlugTypeSearch] = useState('')
-  const [shippingLocationSearch, setShippingLocationSearch] = useState('')
 
   // 价格库存表格
   const [retailPrice, setRetailPrice] = useState('')
@@ -267,27 +184,6 @@ export default function ProductCreateClient() {
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
   const isProgrammaticScroll = useRef(false)
   const scrollRaf = useRef<number | null>(null)
-
-  // 缓存过滤后的选项列表，避免每次渲染重新计算
-  const filteredAgeOptions = useMemo(() =>
-    ageOptions.filter(opt => !ageSearch || opt.label.toLowerCase().includes(ageSearch.toLowerCase())),
-    [ageSearch]
-  )
-
-  const filteredChemicalOptions = useMemo(() =>
-    chemicalOptions.filter(opt => !chemicalSearch || opt.label.toLowerCase().includes(chemicalSearch.toLowerCase())),
-    [chemicalSearch]
-  )
-
-  const filteredCertificationOptions = useMemo(() =>
-    certificationOptions.filter(opt => !certificationSearch || opt.label.toLowerCase().includes(certificationSearch.toLowerCase())),
-    [certificationSearch]
-  )
-
-  const filteredOccasionOptions = useMemo(() =>
-    occasionOptions.filter(opt => !occasionSearch || opt.label.toLowerCase().includes(occasionSearch.toLowerCase())),
-    [occasionSearch]
-  )
 
   const setSectionRef = (key: string) => (node: HTMLDivElement | null) => {
     sectionRefs.current[key] = node
@@ -4852,252 +4748,40 @@ export default function ProductCreateClient() {
       />
 
       {/* 认证选择弹窗 */}
-      <Modal
-        title="请选择"
+      <SelectionModal
         open={certificationModalVisible}
-        onCancel={() => setCertificationModalVisible(false)}
-        width={800}
-        footer={[
-          <Button key="cancel" onClick={() => setCertificationModalVisible(false)}>
-            取消
-          </Button>,
-          <Button key="confirm" type="primary" onClick={() => setCertificationModalVisible(false)}>
-            确定
-          </Button>
-        ]}
-      >
-        <div style={{ display: 'flex', gap: 24 }}>
-          <div style={{ flex: 1 }}>
-            <Input
-              placeholder="搜索"
-              prefix={<SearchOutlined />}
-              value={certificationSearch}
-              onChange={(e) => setCertificationSearch(e.target.value)}
-              style={{ marginBottom: 16 }}
-            />
-            <Checkbox
-              checked={selectedCertifications.length === certificationOptions.length}
-              indeterminate={selectedCertifications.length > 0 && selectedCertifications.length < certificationOptions.length}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedCertifications(certificationOptions.map(opt => opt.value))
-                } else {
-                  setSelectedCertifications([])
-                }
-              }}
-              style={{ marginBottom: 16 }}
-            >
-              全选
-            </Checkbox>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {filteredCertificationOptions.map(opt => (
-                <Checkbox
-                  key={opt.value}
-                  checked={selectedCertifications.includes(opt.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedCertifications(prev => [...prev, opt.value])
-                    } else {
-                      setSelectedCertifications(prev => prev.filter(v => v !== opt.value))
-                    }
-                  }}
-                >
-                  {opt.label}
-                </Checkbox>
-              ))}
-            </div>
-          </div>
-          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
-            已选{selectedCertifications.length}
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setCertificationModalVisible(false)}
+        options={certificationOptions}
+        selectedValues={selectedCertifications}
+        onSelectionChange={setSelectedCertifications}
+      />
 
       {/* 玩具娃娃适合场合弹窗 */}
-      <Modal
-        title="请选择"
+      <SelectionModal
         open={occasionModalVisible}
-        onCancel={() => setOccasionModalVisible(false)}
-        width={800}
-        footer={[
-          <Button key="cancel" onClick={() => setOccasionModalVisible(false)}>
-            取消
-          </Button>,
-          <Button key="confirm" type="primary" onClick={() => setOccasionModalVisible(false)}>
-            确定
-          </Button>
-        ]}
-      >
-        <div style={{ display: 'flex', gap: 24 }}>
-          <div style={{ flex: 1 }}>
-            <Input
-              placeholder="搜索"
-              prefix={<SearchOutlined />}
-              value={occasionSearch}
-              onChange={(e) => setOccasionSearch(e.target.value)}
-              style={{ marginBottom: 16 }}
-            />
-            <Checkbox
-              checked={selectedOccasions.length === occasionOptions.length}
-              indeterminate={selectedOccasions.length > 0 && selectedOccasions.length < occasionOptions.length}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedOccasions(occasionOptions.map(opt => opt.value))
-                } else {
-                  setSelectedOccasions([])
-                }
-              }}
-              style={{ marginBottom: 16 }}
-            >
-              全选
-            </Checkbox>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {filteredOccasionOptions.map(opt => (
-                <Checkbox
-                  key={opt.value}
-                  checked={selectedOccasions.includes(opt.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedOccasions(prev => [...prev, opt.value])
-                    } else {
-                      setSelectedOccasions(prev => prev.filter(v => v !== opt.value))
-                    }
-                  }}
-                >
-                  {opt.label}
-                </Checkbox>
-              ))}
-            </div>
-          </div>
-          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
-            已选{selectedOccasions.length}
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setOccasionModalVisible(false)}
+        options={occasionOptions}
+        selectedValues={selectedOccasions}
+        onSelectionChange={setSelectedOccasions}
+      />
 
       {/* 适用年龄选择弹窗 */}
-      <Modal
-        title="请选择"
+      <SelectionModal
         open={ageModalVisible}
-        onCancel={() => setAgeModalVisible(false)}
-        width={800}
-        footer={[
-          <Button key="cancel" onClick={() => setAgeModalVisible(false)}>
-            取消
-          </Button>,
-          <Button key="confirm" type="primary" onClick={() => setAgeModalVisible(false)}>
-            确定
-          </Button>
-        ]}
-      >
-        <div style={{ display: 'flex', gap: 24 }}>
-          <div style={{ flex: 1 }}>
-            <Input
-              placeholder="搜索"
-              prefix={<SearchOutlined />}
-              value={ageSearch}
-              onChange={(e) => setAgeSearch(e.target.value)}
-              style={{ marginBottom: 16 }}
-            />
-            <Checkbox
-              checked={selectedAges.length === ageOptions.length}
-              indeterminate={selectedAges.length > 0 && selectedAges.length < ageOptions.length}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedAges(ageOptions.map(opt => opt.value))
-                } else {
-                  setSelectedAges([])
-                }
-              }}
-              style={{ marginBottom: 16 }}
-            >
-              全选
-            </Checkbox>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {filteredAgeOptions.map(opt => (
-                <Checkbox
-                  key={opt.value}
-                  checked={selectedAges.includes(opt.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedAges(prev => [...prev, opt.value])
-                    } else {
-                      setSelectedAges(prev => prev.filter(v => v !== opt.value))
-                    }
-                  }}
-                >
-                  {opt.label}
-                </Checkbox>
-              ))}
-            </div>
-          </div>
-          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
-            已选{selectedAges.length}
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setAgeModalVisible(false)}
+        options={ageOptions}
+        selectedValues={selectedAges}
+        onSelectionChange={setSelectedAges}
+      />
 
       {/* 高关注化学品选择弹窗 */}
-      <Modal
-        title="请选择"
+      <SelectionModal
         open={chemicalModalVisible}
-        onCancel={() => setChemicalModalVisible(false)}
-        width={800}
-        footer={[
-          <Button key="cancel" onClick={() => setChemicalModalVisible(false)}>
-            取消
-          </Button>,
-          <Button key="confirm" type="primary" onClick={() => setChemicalModalVisible(false)}>
-            确定
-          </Button>
-        ]}
-      >
-        <div style={{ display: 'flex', gap: 24 }}>
-          <div style={{ flex: 1 }}>
-            <Input
-              placeholder="搜索"
-              prefix={<SearchOutlined />}
-              value={chemicalSearch}
-              onChange={(e) => setChemicalSearch(e.target.value)}
-              style={{ marginBottom: 16 }}
-            />
-            <Checkbox
-              checked={selectedChemicals.length === chemicalOptions.length}
-              indeterminate={selectedChemicals.length > 0 && selectedChemicals.length < chemicalOptions.length}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedChemicals(chemicalOptions.map(opt => opt.value))
-                } else {
-                  setSelectedChemicals([])
-                }
-              }}
-              style={{ marginBottom: 16 }}
-            >
-              全选
-            </Checkbox>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-              {filteredChemicalOptions.map(opt => (
-                <Checkbox
-                  key={opt.value}
-                  checked={selectedChemicals.includes(opt.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedChemicals(prev => [...prev, opt.value])
-                    } else {
-                      setSelectedChemicals(prev => prev.filter(v => v !== opt.value))
-                    }
-                  }}
-                >
-                  {opt.label}
-                </Checkbox>
-              ))}
-            </div>
-          </div>
-          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
-            已选{selectedChemicals.length}
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setChemicalModalVisible(false)}
+        options={chemicalOptions}
+        selectedValues={selectedChemicals}
+        onSelectionChange={setSelectedChemicals}
+      />
 
       {/* 海关监管属性抽屉 */}
       <Drawer
@@ -5143,218 +4827,20 @@ export default function ProductCreateClient() {
       </Drawer>
 
       {/* 插头类型选择Modal */}
-      <Modal
-        title="请选择"
+      <PlugTypeModal
         open={plugTypeModalVisible}
-        onCancel={() => setPlugTypeModalVisible(false)}
-        width={1200}
-        footer={
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
-            <Button onClick={() => setPlugTypeModalVisible(false)}>取消</Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                setPlugTypeModalVisible(false)
-              }}
-            >
-              确定
-            </Button>
-          </div>
-        }
-      >
-        <div style={{ padding: '20px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-              <Input
-                placeholder="搜索"
-                prefix={<span>🔍</span>}
-                style={{ width: 500 }}
-                value={plugTypeSearch}
-                onChange={(e) => setPlugTypeSearch(e.target.value)}
-              />
-              <Checkbox
-                checked={selectedPlugTypes.length === 4}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedPlugTypes(['usb', 'battery', 'eu_plug', 'us_plug'])
-                  } else {
-                    setSelectedPlugTypes([])
-                  }
-                }}
-              >
-                全选
-              </Checkbox>
-            </div>
-            <div style={{ color: '#8C8C8C' }}>已选{selectedPlugTypes.length}</div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 20px' }}>
-            <Checkbox
-              checked={selectedPlugTypes.includes('usb')}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedPlugTypes([...selectedPlugTypes, 'usb'])
-                } else {
-                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'usb'))
-                }
-              }}
-            >
-              USB
-            </Checkbox>
-            <Checkbox
-              checked={selectedPlugTypes.includes('battery')}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedPlugTypes([...selectedPlugTypes, 'battery'])
-                } else {
-                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'battery'))
-                }
-              }}
-            >
-              纽扣电池
-            </Checkbox>
-            <Checkbox
-              checked={selectedPlugTypes.includes('eu_plug')}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedPlugTypes([...selectedPlugTypes, 'eu_plug'])
-                } else {
-                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'eu_plug'))
-                }
-              }}
-            >
-              eu plug
-            </Checkbox>
-            <Checkbox
-              checked={selectedPlugTypes.includes('us_plug')}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedPlugTypes([...selectedPlugTypes, 'us_plug'])
-                } else {
-                  setSelectedPlugTypes(selectedPlugTypes.filter(t => t !== 'us_plug'))
-                }
-              }}
-            >
-              美规
-            </Checkbox>
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setPlugTypeModalVisible(false)}
+        selectedValues={selectedPlugTypes}
+        onSelectionChange={setSelectedPlugTypes}
+      />
 
       {/* 发货地选择Modal */}
-      <Modal
-        title="请选择"
+      <ShippingLocationModal
         open={shippingLocationModalVisible}
-        onCancel={() => setShippingLocationModalVisible(false)}
-        width={1200}
-        footer={
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
-            <Button onClick={() => setShippingLocationModalVisible(false)}>取消</Button>
-            <Button
-              type="primary"
-              onClick={() => {
-                setShippingLocationModalVisible(false)
-              }}
-            >
-              确定
-            </Button>
-          </div>
-        }
-      >
-        <div style={{ padding: '20px 0' }}>
-          {/* 提示信息 */}
-          <Alert
-            description={
-              <span>
-                中国大陆发货地不可和非中国大陆发货地同时勾选，具体可点击《
-                <a href="#" style={{ color: '#1677ff' }}>全球速卖通商品发货地属性变更规则</a>
-                》
-              </span>
-            }
-            type="info"
-            showIcon
-            closable
-            style={{ marginBottom: 20 }}
-          />
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-              <Input
-                placeholder="搜索"
-                prefix={<span>🔍</span>}
-                style={{ width: 400 }}
-                value={shippingLocationSearch}
-                onChange={(e) => setShippingLocationSearch(e.target.value)}
-              />
-              <Checkbox
-                checked={selectedShippingLocations.length === 28}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedShippingLocations([
-                      'jp', 'ca', 'ng', 'za', 'cn', 'cl', 'br', 'tr',
-                      'ua', 'ae', 'il', 'cz', 'pl', 'us', 'uk', 'de',
-                      'es', 'au', 'ru', 'id', 'fr', 'it', 'vn', 'hu',
-                      'lv', 'sa', 'be', 'kr'
-                    ])
-                  } else {
-                    setSelectedShippingLocations([])
-                  }
-                }}
-              >
-                全选
-              </Checkbox>
-            </div>
-            <div style={{ color: '#8C8C8C' }}>已选{selectedShippingLocations.length}</div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 20px' }}>
-            {[
-              { label: '日本(JP)', value: 'jp' },
-              { label: '加拿大(CA)', value: 'ca' },
-              { label: '尼日利亚(NG)', value: 'ng' },
-              { label: '南非(ZA)', value: 'za' },
-              { label: '中国大陆', value: 'cn' },
-              { label: '智利(CL)', value: 'cl' },
-              { label: '巴西(BR)', value: 'br' },
-              { label: '土耳其(TR)', value: 'tr' },
-              { label: '乌克兰(UA)', value: 'ua' },
-              { label: '阿联酋(AE)', value: 'ae' },
-              { label: '以色列(IL)', value: 'il' },
-              { label: '捷克', value: 'cz' },
-              { label: '波兰(PL)', value: 'pl' },
-              { label: '美国(US)', value: 'us' },
-              { label: '英国(UK)', value: 'uk' },
-              { label: '德国(DE)', value: 'de' },
-              { label: '西班牙(ES)', value: 'es' },
-              { label: '澳大利亚(AU)', value: 'au' },
-              { label: '俄罗斯(RU)', value: 'ru' },
-              { label: '印度尼西亚(ID)', value: 'id' },
-              { label: '法国(FR)', value: 'fr' },
-              { label: '意大利(IT)', value: 'it' },
-              { label: '越南(VN)', value: 'vn' },
-              { label: '匈牙利(HU)', value: 'hu' },
-              { label: '拉脱维亚(LV)', value: 'lv' },
-              { label: '沙特阿拉伯(SA)', value: 'sa' },
-              { label: '比利时(BE)', value: 'be' },
-              { label: '韩国(KR)', value: 'kr' },
-            ].map((country) => (
-              <Checkbox
-                key={country.value}
-                checked={selectedShippingLocations.includes(country.value)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedShippingLocations([...selectedShippingLocations, country.value])
-                  } else {
-                    setSelectedShippingLocations(selectedShippingLocations.filter(l => l !== country.value))
-                  }
-                }}
-              >
-                {country.label}
-              </Checkbox>
-            ))}
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setShippingLocationModalVisible(false)}
+        selectedValues={selectedShippingLocations}
+        onSelectionChange={setSelectedShippingLocations}
+      />
 
       {/* 区域零售价选择Modal */}
       <Modal
