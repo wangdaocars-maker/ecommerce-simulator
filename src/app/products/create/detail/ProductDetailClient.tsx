@@ -94,6 +94,38 @@ const occasionOptions = [
   { label: '情人节(Valentine\'s)', value: 'valentines' },
 ]
 
+// 适用年龄选项
+const ageOptions = [
+  { label: '18+(18+)', value: '18+' },
+  { label: '14 + y(14+y)', value: '14+y' },
+  { label: '6-12Y(6-12Y)', value: '6-12Y' },
+  { label: '3-6Y(3-6Y)', value: '3-6Y' },
+]
+
+// 高关注化学品选项
+const chemicalOptions = [
+  { label: '无(None)', value: 'none' },
+  { label: 'A-alpha-C（2-氨基-9H-吡啶并吲哚）', value: 'a-alpha-c' },
+  { label: '醋酸阿比特龙(Abiraterone acetate)', value: 'abiraterone' },
+  { label: '乙醛(Acetaldehyde)', value: 'acetaldehyde' },
+  { label: '乙酰胺(Acetamide)', value: 'acetamide' },
+  { label: '乙酰唑胺(Acetazolamide)', value: 'acetazolamide' },
+  { label: '乙草胺(Acetochlor)', value: 'acetochlor' },
+  { label: '乙酰异羟肟酸(Acetohydroxamic acid)', value: 'acetohydroxamic' },
+  { label: '2-乙酰氨基芴(2-Acetylaminofluorene)', value: '2-acetylaminofluorene' },
+  { label: '三氟羧草醚钠(Acifluorfen sodium)', value: 'acifluorfen' },
+  { label: '丙烯酰胺(Acrylamide)', value: 'acrylamide' },
+  { label: '丙烯腈(Acrylonitrile)', value: 'acrylonitrile' },
+  { label: '放线菌素d(Actinomycin D)', value: 'actinomycin-d' },
+  { label: 'AF-2；[2-(2-呋喃基)-3-(5-硝基-2-呋喃基)丙烯酰胺]', value: 'af-2' },
+  { label: '黄曲霉毒素(Aflatoxins)', value: 'aflatoxins' },
+  { label: '茜素(Alizarin)', value: 'alizarin' },
+  { label: '烯丙基氯(Allyl chloride)', value: 'allyl-chloride' },
+  { label: '氨基蒽醌(Aminoanthraquinone)', value: 'aminoanthraquinone' },
+  { label: '邻氨基偶氮甲苯(o-Aminoazotoluene)', value: 'aminoazotoluene' },
+  { label: '4-氨基联苯(4-Aminobiphenyl)', value: '4-aminobiphenyl' },
+]
+
 export default function ProductCreateClient() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -150,6 +182,16 @@ export default function ProductCreateClient() {
   const [occasionModalVisible, setOccasionModalVisible] = useState(false)
   const [selectedOccasions, setSelectedOccasions] = useState<string[]>([])
   const [occasionSearch, setOccasionSearch] = useState('')
+
+  // 适用年龄弹窗
+  const [ageModalVisible, setAgeModalVisible] = useState(false)
+  const [selectedAges, setSelectedAges] = useState<string[]>([])
+  const [ageSearch, setAgeSearch] = useState('')
+
+  // 高关注化学品弹窗
+  const [chemicalModalVisible, setChemicalModalVisible] = useState(false)
+  const [selectedChemicals, setSelectedChemicals] = useState<string[]>([])
+  const [chemicalSearch, setChemicalSearch] = useState('')
 
   // 价格与库存相关状态
   const [minUnit, setMinUnit] = useState('piece')
@@ -1722,10 +1764,22 @@ export default function ProductCreateClient() {
                       <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
-                          // TODO: 实现设置功能
+                          onClick={() => setAgeModalVisible(true)}
                         >
                           设置
                         </Button>
+                        {selectedAges.length > 0 && (
+                          <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            {selectedAges.map(value => {
+                              const option = ageOptions.find(opt => opt.value === value)
+                              return (
+                                <Tag key={value} closable onClose={() => setSelectedAges(prev => prev.filter(v => v !== value))}>
+                                  {option?.label || value}
+                                </Tag>
+                              )
+                            })}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'flex-start', minWidth: 0 }}>
@@ -1741,10 +1795,22 @@ export default function ProductCreateClient() {
                       <div style={{ marginLeft: 12, flex: 1, minWidth: 0 }}>
                         <Button
                           size="middle"
-                          // TODO: 实现设置功能
+                          onClick={() => setChemicalModalVisible(true)}
                         >
                           设置
                         </Button>
+                        {selectedChemicals.length > 0 && (
+                          <div style={{ marginTop: 8, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            {selectedChemicals.map(value => {
+                              const option = chemicalOptions.find(opt => opt.value === value)
+                              return (
+                                <Tag key={value} closable onClose={() => setSelectedChemicals(prev => prev.filter(v => v !== value))}>
+                                  {option?.label || value}
+                                </Tag>
+                              )
+                            })}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -4888,6 +4954,134 @@ export default function ProductCreateClient() {
           </div>
           <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
             已选{selectedOccasions.length}
+          </div>
+        </div>
+      </Modal>
+
+      {/* 适用年龄选择弹窗 */}
+      <Modal
+        title="请选择"
+        open={ageModalVisible}
+        onCancel={() => setAgeModalVisible(false)}
+        width={800}
+        footer={[
+          <Button key="cancel" onClick={() => setAgeModalVisible(false)}>
+            取消
+          </Button>,
+          <Button key="confirm" type="primary" onClick={() => setAgeModalVisible(false)}>
+            确定
+          </Button>
+        ]}
+      >
+        <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ flex: 1 }}>
+            <Input
+              placeholder="搜索"
+              prefix={<SearchOutlined />}
+              value={ageSearch}
+              onChange={(e) => setAgeSearch(e.target.value)}
+              style={{ marginBottom: 16 }}
+            />
+            <Checkbox
+              checked={selectedAges.length === ageOptions.length}
+              indeterminate={selectedAges.length > 0 && selectedAges.length < ageOptions.length}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedAges(ageOptions.map(opt => opt.value))
+                } else {
+                  setSelectedAges([])
+                }
+              }}
+              style={{ marginBottom: 16 }}
+            >
+              全选
+            </Checkbox>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              {ageOptions
+                .filter(opt => !ageSearch || opt.label.toLowerCase().includes(ageSearch.toLowerCase()))
+                .map(opt => (
+                  <Checkbox
+                    key={opt.value}
+                    checked={selectedAges.includes(opt.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedAges(prev => [...prev, opt.value])
+                      } else {
+                        setSelectedAges(prev => prev.filter(v => v !== opt.value))
+                      }
+                    }}
+                  >
+                    {opt.label}
+                  </Checkbox>
+                ))}
+            </div>
+          </div>
+          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
+            已选{selectedAges.length}
+          </div>
+        </div>
+      </Modal>
+
+      {/* 高关注化学品选择弹窗 */}
+      <Modal
+        title="请选择"
+        open={chemicalModalVisible}
+        onCancel={() => setChemicalModalVisible(false)}
+        width={800}
+        footer={[
+          <Button key="cancel" onClick={() => setChemicalModalVisible(false)}>
+            取消
+          </Button>,
+          <Button key="confirm" type="primary" onClick={() => setChemicalModalVisible(false)}>
+            确定
+          </Button>
+        ]}
+      >
+        <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ flex: 1 }}>
+            <Input
+              placeholder="搜索"
+              prefix={<SearchOutlined />}
+              value={chemicalSearch}
+              onChange={(e) => setChemicalSearch(e.target.value)}
+              style={{ marginBottom: 16 }}
+            />
+            <Checkbox
+              checked={selectedChemicals.length === chemicalOptions.length}
+              indeterminate={selectedChemicals.length > 0 && selectedChemicals.length < chemicalOptions.length}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedChemicals(chemicalOptions.map(opt => opt.value))
+                } else {
+                  setSelectedChemicals([])
+                }
+              }}
+              style={{ marginBottom: 16 }}
+            >
+              全选
+            </Checkbox>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              {chemicalOptions
+                .filter(opt => !chemicalSearch || opt.label.toLowerCase().includes(chemicalSearch.toLowerCase()))
+                .map(opt => (
+                  <Checkbox
+                    key={opt.value}
+                    checked={selectedChemicals.includes(opt.value)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedChemicals(prev => [...prev, opt.value])
+                      } else {
+                        setSelectedChemicals(prev => prev.filter(v => v !== opt.value))
+                      }
+                    }}
+                  >
+                    {opt.label}
+                  </Checkbox>
+                ))}
+            </div>
+          </div>
+          <div style={{ width: 100, textAlign: 'right', color: '#8C8C8C' }}>
+            已选{selectedChemicals.length}
           </div>
         </div>
       </Modal>
