@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Dropdown, Space } from 'antd'
+import { Avatar, Dropdown, Space, message } from 'antd'
 import {
   ShoppingOutlined,
   BellOutlined,
@@ -43,8 +43,17 @@ export default function Header() {
       icon: <LogoutOutlined />,
       label: '退出登录',
       onClick: async () => {
-        await signOut({ redirect: false })
-        router.push('/login')
+        const hide = message.loading('正在退出...', 0)
+        try {
+          await signOut({ redirect: false })
+          hide()
+          message.success('已退出登录')
+          router.push('/login')
+          router.refresh()
+        } catch (error) {
+          hide()
+          message.error('退出失败，请重试')
+        }
       },
     },
   ]

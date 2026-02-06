@@ -68,6 +68,16 @@ function LoginForm() {
             </Button>
           </Form.Item>
 
+          <Form.Item>
+            <Button
+              type="default"
+              className="w-full"
+              onClick={() => router.push('/shop-register')}
+            >
+              店铺注册模拟
+            </Button>
+          </Form.Item>
+
           <div className="text-center">
             <a href="/register" className="text-blue-500">
               还没有账号？立即注册
