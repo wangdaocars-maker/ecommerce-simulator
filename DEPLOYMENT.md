@@ -129,6 +129,73 @@ AUTH_TRUST_HOST=true
 AUTH_URL=http://ds.shishantech.com
 ```
 
+### 问题 4：页面更新不生效（.next 构建产物混合）
+
+**症状：**
+- 代码已提交并推送到服务器
+- `git pull` 成功，源码已更新
+- `npm run build` 显示构建成功
+- BUILD_ID 显示是最新时间戳
+- 但访问网站时页面内容仍是旧版本
+
+**根本原因：**
+- `.next` 目录中存在**混合的新旧构建产物**
+- 虽然 BUILD_ID 文件是新的，但实际的页面编译产物（HTML、JS chunks）可能是旧的
+- 常见触发场景：
+  1. **权限问题**：root 用户删除 `.next` 后，www 用户构建时无法创建某些文件
+  2. **增量构建失败**：Next.js 增量构建遇到错误后，部分文件未更新
+  3. **构建中断**：构建过程被中断，导致部分产物残留
+
+**为什么常规方案无效：**
+
+| 尝试方案 | 为什么没用 |
+|---------|-----------|
+| 清理 Nginx `proxy_cache` | 缓存只是表象，源头（Next.js 服务）提供的就是旧内容 |
+| 重启 Next.js 进程 | 进程读取的 `.next` 目录本身就包含旧文件 |
+| 多次 `npm run build` | 增量构建时，部分旧文件不会被覆盖 |
+| 清理浏览器缓存 | 无法解决服务端问题 |
+
+**正确的解决方案（5步）：**
+
+```bash
+# 1. 彻底停止所有 Next.js 进程
+sudo pkill -9 -f next
+
+# 2. 完全删除 .next 构建目录
+sudo rm -rf .next
+
+# 3. 全量重新构建（必须用 sudo 确保权限）
+sudo npm run build
+
+# 4. 修复生成文件的权限（确保运行用户可访问）
+sudo chown -R www:www .next
+
+# 5. 启动服务
+npm start
+# 或使用 PM2
+npx pm2 restart ecommerce
+```
+
+**预防措施：**
+1. **统一用户**：构建和运行使用同一用户（推荐 www），避免 root 和 www 混用
+2. **自动化脚本**：更新代码时使用一键脚本：
+   ```bash
+   #!/bin/bash
+   cd /www/wwwroot/ecommerce-simulator
+   git pull
+   sudo pkill -9 -f next
+   sudo rm -rf .next
+   sudo npm run build
+   sudo chown -R www:www .next
+   npm start
+   ```
+3. **监控构建日志**：确认构建完全成功，没有权限错误
+
+**关键教训：**
+- ✅ Next.js 页面更新不生效 → **直接删除 `.next` 重新构建**，不要尝试增量修复
+- ✅ 排查顺序：先检查源头（Next.js 服务本身），再检查中间层（Nginx 缓存）
+- ✅ 权限管理：构建和运行必须使用同一用户
+
 ## 核心经验
 
 ### Node.js 版本一致性
@@ -159,11 +226,25 @@ which node
 
 ### 更新代码
 
+**推荐方式（防止 .next 混合问题）：**
+```bash
+cd /www/wwwroot/ecommerce-simulator
+git pull
+sudo pkill -9 -f next          # 停止进程
+sudo rm -rf .next              # 删除旧构建
+sudo npm run build             # 全量重新构建
+sudo chown -R www:www .next    # 修复权限
+npm start                      # 启动服务
+# 或使用 PM2
+npx pm2 restart ecommerce
+```
+
+**快速方式（仅当确认无权限问题时）：**
 ```bash
 cd /www/wwwroot/ecommerce-simulator
 git pull
 npm run build
-# 重启服务（见下方）
+npx pm2 restart ecommerce
 ```
 
 ### 启动/停止服务
