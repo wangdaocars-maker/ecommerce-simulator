@@ -4,155 +4,112 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-这是一个 1:1 复刻速卖通商品管理后台的本地培训模拟器，用于培训客户进行商品上货操作。系统实现了多用户数据隔离，每个用户只能看到和操作自己发布的商品。
+1:1 复刻速卖通商品管理后台的本地培训模拟器，用于培训客户进行商品上货操作。多用户数据隔离，每个用户只能操作自己的商品。
+
+技术栈：Next.js 15 + React 19 + Ant Design 6 + TailwindCSS + Prisma 7 + SQLite + NextAuth.js v5
 
 ## 开发命令
 
 ```bash
-# 开发服务器（自动检测可用端口）
-npm run dev
+npm run dev                   # 开发服务器
+npm run build && npm start    # 生产构建
+npm run lint                  # 代码检查
 
-# 生产构建
-npm run build
-npm start
+# 测试（vitest）
+npm test                      # 运行所有测试
+npm run test:watch            # 监视模式
+npx vitest run src/lib/product-submit.test.ts  # 运行单个测试文件
 
-# 代码检查
-npm run lint
-
-# 数据库操作
+# 数据库
 npx prisma migrate dev        # 创建迁移并应用
-npx prisma generate          # 生成 Prisma Client
-npm run db:seed              # 初始化测试数据
-npx prisma studio            # 打开数据库管理界面
+npx prisma generate           # 生成 Prisma Client
+npm run db:seed               # 初始化测试数据（tsx prisma/seed.ts）
+npx prisma studio             # 打开数据库管理界面
 ```
 
 ## 核心架构
 
-### 认证与会话管理
+### 认证流程
 
-- 使用 **NextAuth.js v5** + Credentials Provider
-- 密码使用 **bcrypt** 加密（salt rounds = 10）
-- Session 采用 **JWT 模式**（无需数据库存储）
-- `src/middleware.ts` 保护所有路由，未登录自动跳转 `/login`
-- Session 包含：`user.id`, `user.name`, `user.role`
+- **NextAuth.js v5** + Credentials Provider，JWT 模式
+- 认证配置：`auth.config.ts`（根目录），auth 实例：`src/lib/auth.ts`
+- `src/middleware.ts` 保护所有路由，未登录跳转 `/login`
+- 公开路径：`/login`, `/register`, `/shop-register`, `/api/auth`
+- Session 包含：`user.id`（string）, `user.name`, `user.role`
 
-### 数据隔离机制
+### 数据隔离（核心安全约束）
 
-**关键原则**：所有商品查询必须自动过滤当前用户
+**所有商品查询必须包含 `userId` 条件**，编辑/删除前必须验证所有权：
 
 ```typescript
-// ✅ 正确示例
+// 查询：必须加 userId
 const products = await prisma.product.findMany({
-  where: {
-    userId: session.user.id,  // 必须加这个条件
-    status: 'published'
-  }
+  where: { userId: session.user.id, deletedAt: null }
 })
 
-// ❌ 错误示例 - 会泄露其他用户数据
-const products = await prisma.product.findMany({
-  where: { status: 'published' }
-})
+// 修改：先验证所有权
+const product = await prisma.product.findUnique({ where: { id: productId } })
+if (product.userId !== userId) return Response.json({...}, { status: 403 })
 ```
 
-编辑/删除操作前必须验证所有权：
-```typescript
-const product = await prisma.product.findUnique({
-  where: { id: productId }
-})
-if (product.userId !== session.user.id) {
-  return new Response('Forbidden', { status: 403 })
-}
-```
+### API 约定
 
-### Prisma 7 特殊配置
+- 所有 API 统一返回格式：`{ success: boolean, data?: T, error?: string }`
+- `src/lib/api-utils.ts` 提供 `withAuth(handler)` 包装函数，自动处理认证和错误
+- `getCurrentUserId()` 返回 `number | null`（从 session 中 parseInt）
+- `safeJsonParse<T>(json, defaultValue)` 解析数据库中的 JSON 字符串字段
 
-本项目使用 Prisma 7（与 Prisma 5 有重大差异）：
+### Prisma 7 配置（与 Prisma 5 差异大）
 
-1. **数据库连接配置在 `prisma.config.ts`**：
-```typescript
-import { PrismaClient } from './src/generated/prisma'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
-import Database from 'better-sqlite3'
+- **Client 输出目录**：`src/generated/prisma`，导入用 `@/generated/prisma`，不是 `@prisma/client`
+- **Driver Adapter**：使用 `@prisma/adapter-better-sqlite3`，在 `src/lib/prisma.ts` 中初始化
+- **迁移配置**：`prisma.config.ts`（根目录），使用 `defineConfig` 定义 schema 路径和 datasource
+- **数据库文件**：`prisma/dev.db`（SQLite）
+- Product 表大量使用 JSON 字符串字段（`images`, `countries`, `chartData` 等），读取时需 `safeJsonParse`
+- 软删除：`deletedAt` 字段，查询时需加 `deletedAt: null`
 
-const db = new Database('./prisma/dev.db')
-const adapter = new PrismaBetterSqlite3(db)
-export const prisma = new PrismaClient({ adapter })
-```
+### 布局结构
 
-2. **Client 输出目录**：`src/generated/prisma`（不是 `node_modules/.prisma/client`）
-3. **必须使用 Driver Adapter**：本项目使用 `@prisma/adapter-better-sqlite3`
+- `src/app/layout.tsx`：AntdRegistry + ConfigProvider（zhCN locale）
+- `src/components/layout/MainLayout.tsx`：SessionProvider + Header(64px) + Sidebar(200px) + Content
+- `src/components/layout/HeaderOnlyLayout.tsx`：仅 Header 的布局（用于发品等全宽页面）
+- 页面内不要再嵌套 Layout 组件
 
-### UI 复刻规范
+### UI 规范（像素级还原速卖通后台）
 
-**关键原则**：1:1 像素级还原速卖通后台
+- 主蓝色 `#1677ff`，背景灰 `#F9FAFB`，侧边栏 `#fafafa`，表头 `#F0F0F0`
+- 文字 `#262626`（主）、`#8c8c8c`（辅助），危险红 `#ff4d4f`
+- Ant Design 提供交互组件，TailwindCSS 用于布局间距
+- `tailwind.config.ts` 中 `corePlugins: { preflight: false }` 禁用样式重置避免冲突
 
-1. **颜色规范**：
-   - 主蓝色：`#1677ff`
-   - 背景灰：`#F9FAFB`（主内容区）、`#fafafa`（侧边栏）
-   - 表头灰：`#F0F0F0`
-   - 文字：`#262626`（主文字）、`#8c8c8c`（辅助文字）
-   - 危险红：`#ff4d4f`
+### 关键页面路径
 
-2. **组件库**：使用 **Ant Design 6** + TailwindCSS
-   - Ant Design 提供交互组件（Table, Button, Dropdown 等）
-   - TailwindCSS 用于布局和间距
-   - `tailwind.config.ts` 中禁用 preflight 避免样式冲突
+| 路径 | 功能 | 布局 |
+|------|------|------|
+| `/products` | 商品列表（ProductTable） | MainLayout |
+| `/products/create` | 选择类目 | HeaderOnlyLayout |
+| `/products/create/detail` | 发品表单（ProductDetailClient） | HeaderOnlyLayout |
+| `/products/edit/[id]` | 编辑商品 | HeaderOnlyLayout |
+| `/login`, `/register`, `/shop-register` | 认证相关 | 无布局 |
 
-3. **布局结构**：
-   - `MainLayout`：SessionProvider + Ant Design Layout
-   - 固定顶部 Header（64px 高）
-   - 左侧 Sidebar（200px 宽，固定）
-   - 右侧 Content（灰色背景，无默认 padding）
+### 媒体文件管理
 
-### 商品表格架构（ProductTable.tsx）
-
-**核心功能**：
-- **16列数据**：商品、分组、价格、库存、优化建议、销量、曝光、转化率、支付金额、访客数、买家数、客单价、运费模板、编辑时间、操作
-- **固定列**：商品列固定左侧，操作列固定右侧，中间列可横向滚动
-- **折线图**：使用 SVG `<polyline>` 绘制（近三十日曝光、近30日访客数）
-- **列显示控制**：通过 Popover 面板勾选控制列显示/隐藏（商品列和操作列固定不可隐藏）
-- **复制ID功能**：点击复制按钮，成功后显示绿色对号2秒
-
-**状态管理**：
-```typescript
-const [copiedId, setCopiedId] = useState<string | null>(null)  // 复制状态
-const [columnConfig, setColumnConfig] = useState<ColumnConfig[]>(...)  // 列配置
-const [columnSettingVisible, setColumnSettingVisible] = useState(false)  // 面板显示
-```
-
-**关键实现**：
-- 使用 `fixed: 'left'` 和 `fixed: 'right'` 固定列
-- 使用 `scroll={{ x: 1800 }}` 启用横向滚动
-- 折线图通过计算坐标点生成 SVG path
-- 列过滤通过 `columns.filter(col => visibleColumnKeys.has(col.key))` 实现
-
-### 文件上传规范（待实现）
-
-图片存储路径：`public/uploads/products/{userId}/{productId}/`
-- 文件名：`timestamp_randomString.ext`
-- 支持格式：jpg, png, webp
-- 单张限制：5MB
-- 数量限制：最多8张
+- 上传 API：`POST /api/media/upload`，存储到 `uploads/products/{userId}/` 目录
+- 文件访问：`src/app/uploads/[...path]/route.ts` 动态路由提供文件服务
+- 媒体库 API：`/api/media`（列表）、`/api/media/folders`（文件夹）
+- 图片/视频选择组件：`src/components/ImageUploadModal/`、`src/components/VideoUploadModal/`
 
 ## 测试账号
 
-- **学生**：`student1` / `123456`
-- **教师**：`teacher` / `teacher123`
-- **管理员**：`admin` / `admin123`
-
-## 设计原则
-
-1. **截图驱动开发**：先拿到速卖通后台截图，详细分析布局、颜色、字体、间距后再实现
-2. **像素级还原**：细节到颜色值、边框、圆角、阴影都要匹配
-3. **用户数据隔离**：任何查询/修改操作都必须加 `userId` 过滤
-4. **密码安全**：永不明文存储，使用 bcrypt 加密
-5. **类型安全**：充分利用 TypeScript，避免 any 类型
+- 学生：`student1` / `123456`
+- 教师：`teacher` / `teacher123`
+- 管理员：`admin` / `admin123`
 
 ## 常见陷阱
 
-1. **忘记用户过滤**：商品查询必须加 `where: { userId: session.user.id }`
-2. **Prisma 7 导入错误**：必须从 `@/generated/prisma` 导入，不是 `@prisma/client`
-3. **布局嵌套问题**：MainLayout 已经包含 Layout 组件，页面内不要再嵌套
-4. **Ant Design 样式冲突**：使用 `corePlugins: { preflight: false }` 禁用 Tailwind 重置
-5. **固定列滚动问题**：必须同时设置 `fixed` 属性和 `scroll.x` 才能生效
+1. **忘记用户过滤**：商品查询必须加 `where: { userId, deletedAt: null }`
+2. **Prisma 导入错误**：必须从 `@/generated/prisma` 导入，不是 `@prisma/client`
+3. **布局嵌套**：MainLayout 已包含 Layout，页面内不要再嵌套
+4. **JSON 字段**：Product 表中 `images`、`countries`、`chartData` 等是 JSON 字符串，读取用 `safeJsonParse`，写入用 `JSON.stringify`
+5. **userId 类型**：session 中是 string，数据库中是 int，API 层需要 `parseInt`
+6. **next.config.ts**：`sharp` 和 `xlsx` 配置为 `serverExternalPackages`
