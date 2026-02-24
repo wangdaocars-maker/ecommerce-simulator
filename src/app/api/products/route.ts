@@ -24,8 +24,8 @@ export async function GET(request: Request) {
       status: searchParams.get('status') as ProductListParams['status'] || undefined,
       search: searchParams.get('search') || undefined,
       searchType: searchParams.get('searchType') as ProductListParams['searchType'] || undefined,
-      categoryId: searchParams.get('categoryId') ? parseInt(searchParams.get('categoryId')!) : undefined,
-      groupId: searchParams.get('groupId') ? parseInt(searchParams.get('groupId')!) : undefined,
+      categoryId: (() => { const v = parseInt(searchParams.get('categoryId') || ''); return isNaN(v) ? undefined : v })(),
+      groupId: (() => { const v = parseInt(searchParams.get('groupId') || ''); return isNaN(v) ? undefined : v })(),
       filterType: searchParams.get('filterType') as ProductListParams['filterType'] || undefined,
       sortBy: searchParams.get('sortBy') || 'updatedAt',
       sortOrder: (searchParams.get('sortOrder') || 'desc') as 'asc' | 'desc'
@@ -189,7 +189,12 @@ export async function POST(request: Request) {
       )
     }
 
-    const body: ProductFormInput = await request.json()
+    let body: ProductFormInput
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ success: false, error: '请求数据格式错误' }, { status: 400 })
+    }
 
     // 检查发品限制
     const productCount = await prisma.product.count({

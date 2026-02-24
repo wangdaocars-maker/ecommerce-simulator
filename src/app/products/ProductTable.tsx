@@ -96,13 +96,17 @@ export default function ProductTable({
   const [columnConfig, setColumnConfig] = useState<ColumnConfig[]>(defaultColumnConfig)
   const [columnSettingVisible, setColumnSettingVisible] = useState(false)
 
-  const handleCopy = (id: string) => {
-    navigator.clipboard.writeText(id)
-    setCopiedId(id)
-    message.success('复制成功')
-    setTimeout(() => {
-      setCopiedId(null)
-    }, 2000)
+  const handleCopy = async (id: string) => {
+    try {
+      await navigator.clipboard.writeText(id)
+      setCopiedId(id)
+      message.success('复制成功')
+      setTimeout(() => {
+        setCopiedId(null)
+      }, 2000)
+    } catch {
+      message.error('复制失败，请手动复制')
+    }
   }
 
   // 切换列显示状态
@@ -360,7 +364,7 @@ export default function ProductTable({
       width: 140,
       render: (views: number, record) => {
         const chartData = record.chartData || []
-        if (chartData.length === 0) {
+        if (chartData.length <= 1) {
           return <span className="text-[12px]">{views}</span>
         }
 
@@ -422,7 +426,7 @@ export default function ProductTable({
       width: 140,
       render: (visitors: number, record) => {
         const chartData = record.visitorsChartData || []
-        if (chartData.length === 0) {
+        if (chartData.length <= 1) {
           return <span className="text-[12px]">{visitors}</span>
         }
 

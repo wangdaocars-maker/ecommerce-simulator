@@ -66,8 +66,8 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
   const [countryTitles, setCountryTitles] = useState<Record<string, string>>({})
   const [category, setCategory] = useState('')
   const [categoryModalVisible, setCategoryModalVisible] = useState(false)
-  const [selectedCategoryPath, setSelectedCategoryPath] = useState<any[]>([])
-  const [tempCategoryPath, setTempCategoryPath] = useState<any[]>([])
+  const [selectedCategoryPath, setSelectedCategoryPath] = useState<Category[]>([])
+  const [tempCategoryPath, setTempCategoryPath] = useState<Category[]>([])
   const [countryImages, setCountryImages] = useState<Record<string, string[]>>({})
   const [imageUploadModalVisible, setImageUploadModalVisible] = useState(false)
   const [currentUploadTarget, setCurrentUploadTarget] = useState<string>('')
@@ -249,7 +249,7 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         if (p.categoryId) {
           setCategory(p.categoryName || '')
           // 简化：只设置最终类目
-          setSelectedCategoryPath([{ id: p.categoryId, name: p.categoryName }])
+          setSelectedCategoryPath([{ id: p.categoryId, name: p.categoryName || '', parentId: null, level: 1 }])
         }
 
         // 基本信息
@@ -445,26 +445,27 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
 
-    // 如果取消勾选了某个国家，删除其图片数据
-    const newCountryImages = { ...countryImages }
-    const newCountryTitles = { ...countryTitles }
-    Object.keys(newCountryImages).forEach(country => {
-      if (!checkedValues.includes(country)) {
-        delete newCountryImages[country]
-        delete newCountryTitles[country]
-      }
+    // 使用函数式 setter，基于最新状态计算，防止快速操作时读到旧状态
+    // 同时删除取消选中的国家数据 + 初始化新选中国家数据
+    setCountryImages(prev => {
+      const next = { ...prev }
+      Object.keys(next).forEach(country => {
+        if (!checkedValues.includes(country)) delete next[country]
+      })
+      checkedValues.forEach(country => {
+        if (!next[country]) next[country] = []
+      })
+      return next
     })
-    setCountryImages(newCountryImages)
-    setCountryTitles(newCountryTitles)
-
-    // 初始化新选中国家的图片数据和标题
-    checkedValues.forEach(country => {
-      if (!newCountryImages[country]) {
-        newCountryImages[country] = []
-      }
-      if (!newCountryTitles[country]) {
-        newCountryTitles[country] = ''
-      }
+    setCountryTitles(prev => {
+      const next = { ...prev }
+      Object.keys(next).forEach(country => {
+        if (!checkedValues.includes(country)) delete next[country]
+      })
+      checkedValues.forEach(country => {
+        if (!next[country]) next[country] = ''
+      })
+      return next
     })
   }
 

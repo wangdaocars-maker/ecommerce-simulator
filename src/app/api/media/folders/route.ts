@@ -67,7 +67,12 @@ export async function POST(request: Request) {
       )
     }
 
-    const body = await request.json()
+    let body: { name?: string }
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ success: false, error: '请求数据格式错误' }, { status: 400 })
+    }
     const { name } = body
 
     if (!name || typeof name !== 'string' || !name.trim()) {

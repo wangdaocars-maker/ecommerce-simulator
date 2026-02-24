@@ -32,6 +32,7 @@ export default function SelectTab({
   const [images, setImages] = useState<MediaItem[]>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [fetchError, setFetchError] = useState(false)
 
   // 获取文件夹列表
   const fetchFolders = useCallback(async () => {
@@ -51,6 +52,7 @@ export default function SelectTab({
   // 获取图片列表
   const fetchImages = useCallback(async () => {
     setLoading(true)
+    setFetchError(false)
     try {
       const params = new URLSearchParams({
         type: 'image',
@@ -77,9 +79,12 @@ export default function SelectTab({
       if (result.success) {
         setImages(result.data.items)
         setTotal(result.data.total)
+      } else {
+        setFetchError(true)
       }
     } catch (error) {
       console.error('获取图片失败:', error)
+      setFetchError(true)
     } finally {
       setLoading(false)
     }
@@ -196,7 +201,12 @@ export default function SelectTab({
           }}
         >
           <Spin spinning={loading}>
-            {images.length === 0 ? (
+            {fetchError ? (
+              <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                <div style={{ color: '#8c8c8c', marginBottom: 12 }}>加载失败</div>
+                <Button onClick={fetchImages}>重试</Button>
+              </div>
+            ) : images.length === 0 ? (
               <Empty description="暂无图片" />
             ) : (
               <div

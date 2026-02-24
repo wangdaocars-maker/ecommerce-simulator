@@ -90,9 +90,13 @@ export default function ProductsClient() {
       const result = await res.json()
       if (result.success) {
         setStats(result.data)
+      } else {
+        console.error('获取统计数据失败:', result.error)
+        message.warning('统计数据加载失败，请刷新重试')
       }
     } catch (error) {
       console.error('获取统计数据失败:', error)
+      message.warning('统计数据加载失败，请刷新重试')
     }
   }, [])
 
@@ -223,7 +227,7 @@ export default function ProductsClient() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               action: 'offline',
-              ids: selectedRowKeys.map(k => parseInt(k)),
+              ids: selectedRowKeys.map(k => parseInt(k)).filter(id => !isNaN(id)),
             }),
           })
           const result = await res.json()
@@ -259,7 +263,7 @@ export default function ProductsClient() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               action: 'delete',
-              ids: selectedRowKeys.map(k => parseInt(k)),
+              ids: selectedRowKeys.map(k => parseInt(k)).filter(id => !isNaN(id)),
             }),
           })
           const result = await res.json()
@@ -345,7 +349,7 @@ export default function ProductsClient() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               action: 'online',
-              ids: selectedRowKeys.map(k => parseInt(k)),
+              ids: selectedRowKeys.map(k => parseInt(k)).filter(id => !isNaN(id)),
             }),
           })
           const result = await res.json()
@@ -377,7 +381,7 @@ export default function ProductsClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'export',
-          ids: selectedRowKeys.map(k => parseInt(k)),
+          ids: selectedRowKeys.map(k => parseInt(k)).filter(id => !isNaN(id)),
         }),
       })
 

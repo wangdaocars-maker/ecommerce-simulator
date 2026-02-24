@@ -100,6 +100,7 @@ export default function UploadTab({
         }
       }
       img.onerror = () => {
+        URL.revokeObjectURL(img.src)
         resolve(false)
       }
       img.src = URL.createObjectURL(file)

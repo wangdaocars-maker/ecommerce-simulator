@@ -4,7 +4,12 @@ import { prisma } from '@/lib/prisma'
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    let body: { username?: string; password?: string; name?: string; email?: string }
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: '请求数据格式错误' }, { status: 400 })
+    }
     const { username, password, name, email } = body
 
     // 验证必填字段
@@ -43,11 +48,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        message: '注册成功',
-        user: {
-          id: user.id,
-          username: user.username,
-          name: user.name,
+        success: true,
+        data: {
+          user: {
+            id: user.id,
+            username: user.username,
+            name: user.name,
+          },
         },
       },
       { status: 201 }
