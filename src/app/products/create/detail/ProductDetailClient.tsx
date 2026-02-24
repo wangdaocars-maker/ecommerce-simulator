@@ -191,6 +191,14 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
   const isProgrammaticScroll = useRef(false)
   const scrollRaf = useRef<number | null>(null)
 
+  // P2-2: 自动保存草稿
+  const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [autoSaveTime, setAutoSaveTime] = useState<string>('')
+  const isLoadedRef = useRef(false)  // 初始化完成标志，防止初始化时触发自动保存
+
+  // P2-3: 离开提示
+  const isDirtyRef = useRef(false)
+
   const setSectionRef = (key: string) => (node: HTMLDivElement | null) => {
     sectionRefs.current[key] = node
   }
@@ -440,7 +448,48 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         router.push('/products/create')
       }, 1500)
     }
+    // 初始化完成后，延迟标记，防止加载过程中的 state 变化误触发自动保存
+    setTimeout(() => { isLoadedRef.current = true }, 600)
   }, [router, categoryIdFromUrl, fetchCategoryPath, isEditMode])
+
+  // P2-2: 自动保存 – 监听核心字段变化，5 秒防抖后保存到 localStorage
+  useEffect(() => {
+    if (!isLoadedRef.current) return
+    isDirtyRef.current = true
+
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current)
+    autoSaveTimerRef.current = setTimeout(() => {
+      try {
+        const draftKey = isEditMode ? `ecom_draft_edit_${productId}` : 'ecom_draft_new'
+        localStorage.setItem(draftKey, JSON.stringify({
+          title,
+          retailPrice,
+          inventory,
+          pcDescription,
+          savedAt: Date.now(),
+        }))
+        const now = new Date()
+        setAutoSaveTime(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`)
+      } catch {
+        // localStorage 写入失败不影响主流程
+      }
+    }, 5000)
+
+    return () => {
+      if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, retailPrice, inventory, pcDescription])
+
+  // P2-3: 离开提示 – 浏览器关闭/刷新时弹窗
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!isDirtyRef.current) return
+      e.preventDefault()
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [])
 
   const handleCountryChange = (checkedValues: string[]) => {
     setSelectedCountries(checkedValues)
@@ -893,8 +942,13 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         } else {
           message.success(asDraft ? '已保存为草稿' : '商品已提交审核')
         }
-        // 清除 sessionStorage
+        // 清除 sessionStorage 和自动保存的 localStorage
         sessionStorage.removeItem('productBasicInfo')
+        try {
+          const draftKey = isEditMode ? `ecom_draft_edit_${productId}` : 'ecom_draft_new'
+          localStorage.removeItem(draftKey)
+        } catch { /* 忽略 */ }
+        isDirtyRef.current = false
         router.push('/products')
       } else {
         message.error(result.error || '操作失败')
@@ -4782,6 +4836,11 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         >
           保存草稿
         </Button>
+        {autoSaveTime && (
+          <span style={{ fontSize: 12, color: '#8c8c8c', alignSelf: 'center' }}>
+            已自动保存 {autoSaveTime}
+          </span>
+        )}
       </div>
 
       <style jsx global>{`

@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined, MailOutlined, IdcardOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const onFinish = async (values: {
     username: string
@@ -13,6 +15,7 @@ export default function RegisterPage() {
     name: string
     email?: string
   }) => {
+    setLoading(true)
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -31,6 +34,8 @@ export default function RegisterPage() {
       router.push('/login')
     } catch (error) {
       message.error('注册失败，请稍后重试')
+    } finally {
+      setLoading(false)
     }
   }
 

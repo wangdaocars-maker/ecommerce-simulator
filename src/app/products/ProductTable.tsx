@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Table, Checkbox, Button, Dropdown, Space, Popover, message, Pagination, Select } from 'antd'
+import { Table, Checkbox, Button, Dropdown, Space, Popover, message, Pagination, Select, Skeleton } from 'antd'
 import {
   EditOutlined,
   DownOutlined,
@@ -46,6 +46,7 @@ interface SortOption {
 interface ProductTableProps {
   data: ProductListItem[]
   loading: boolean
+  batchLoading?: boolean
   selectedRowKeys: string[]
   onSelectChange: (keys: string[]) => void
   onEdit: (id: string) => void
@@ -71,6 +72,7 @@ interface ProductTableProps {
 export default function ProductTable({
   data,
   loading,
+  batchLoading = false,
   selectedRowKeys,
   onSelectChange,
   onEdit,
@@ -573,13 +575,18 @@ export default function ProductTable({
           {isOfflineTab ? (
             <Button
               type="primary"
+              loading={batchLoading}
               onClick={onBatchPublish}
               disabled={selectedRowKeys.length === 0}
             >
               上架
             </Button>
           ) : (
-            <Button onClick={onBatchOffline} disabled={selectedRowKeys.length === 0}>
+            <Button
+              loading={batchLoading}
+              onClick={onBatchOffline}
+              disabled={selectedRowKeys.length === 0}
+            >
               下架
             </Button>
           )}
@@ -593,7 +600,7 @@ export default function ProductTable({
               }
             }}
           >
-            <Button disabled={selectedRowKeys.length === 0}>
+            <Button loading={batchLoading} disabled={selectedRowKeys.length === 0}>
               导出 <DownOutlined />
             </Button>
           </Dropdown>
@@ -639,19 +646,34 @@ export default function ProductTable({
 
       {/* 表格主体 */}
       <div className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={loading}
-          pagination={false}
-          size="middle"
-          className="product-table"
-          scroll={{ x: 1800 }}
-          style={{
-            '--table-header-bg': '#FAFAFA',
-            '--table-border-color': '#E5E7EB',
-          } as React.CSSProperties}
-        />
+        {loading && data.length === 0 ? (
+          <div className="p-4 space-y-3">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4 py-3 border-b border-gray-100">
+                <Skeleton.Avatar active size={64} shape="square" />
+                <div className="flex-1">
+                  <Skeleton active paragraph={{ rows: 1 }} title={{ width: '60%' }} />
+                </div>
+                <Skeleton.Button active size="small" style={{ width: 80 }} />
+                <Skeleton.Button active size="small" style={{ width: 60 }} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={data}
+            loading={loading}
+            pagination={false}
+            size="middle"
+            className="product-table"
+            scroll={{ x: 1800 }}
+            style={{
+              '--table-header-bg': '#FAFAFA',
+              '--table-border-color': '#E5E7EB',
+            } as React.CSSProperties}
+          />
+        )}
 
         {/* 分页 */}
         {total > 0 && (

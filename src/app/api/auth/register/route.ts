@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     try {
       body = await request.json()
     } catch {
-      return NextResponse.json({ error: '请求数据格式错误' }, { status: 400 })
+      return NextResponse.json({ success: false, error: '请求数据格式错误' }, { status: 400 })
     }
     const { username, password, name, email } = body
 

@@ -80,6 +80,7 @@ export default function ProductsClient() {
   // 数据状态
   const [products, setProducts] = useState<ProductListItem[]>([])
   const [loading, setLoading] = useState(false)
+  const [batchLoading, setBatchLoading] = useState(false)
   const [stats, setStats] = useState<ProductStats | null>(null)
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
 
@@ -221,6 +222,7 @@ export default function ProductsClient() {
       okText: '确认下架',
       cancelText: '取消',
       onOk: async () => {
+        setBatchLoading(true)
         try {
           const res = await fetch('/api/products/batch', {
             method: 'POST',
@@ -241,6 +243,8 @@ export default function ProductsClient() {
           }
         } catch {
           message.error('网络错误')
+        } finally {
+          setBatchLoading(false)
         }
       },
     })
@@ -257,6 +261,7 @@ export default function ProductsClient() {
       cancelText: '取消',
       okButtonProps: { danger: true },
       onOk: async () => {
+        setBatchLoading(true)
         try {
           const res = await fetch('/api/products/batch', {
             method: 'POST',
@@ -277,6 +282,8 @@ export default function ProductsClient() {
           }
         } catch {
           message.error('网络错误')
+        } finally {
+          setBatchLoading(false)
         }
       },
     })
@@ -343,6 +350,7 @@ export default function ProductsClient() {
       okText: '确认上架',
       cancelText: '取消',
       onOk: async () => {
+        setBatchLoading(true)
         try {
           const res = await fetch('/api/products/batch', {
             method: 'POST',
@@ -363,6 +371,8 @@ export default function ProductsClient() {
           }
         } catch {
           message.error('网络错误')
+        } finally {
+          setBatchLoading(false)
         }
       },
     })
@@ -375,6 +385,7 @@ export default function ProductsClient() {
       return
     }
 
+    setBatchLoading(true)
     try {
       const res = await fetch('/api/products/batch', {
         method: 'POST',
@@ -402,6 +413,8 @@ export default function ProductsClient() {
       }
     } catch {
       message.error('网络错误')
+    } finally {
+      setBatchLoading(false)
     }
   }
 
@@ -657,6 +670,7 @@ export default function ProductsClient() {
         <ProductTable
           data={products}
           loading={loading}
+          batchLoading={batchLoading}
           selectedRowKeys={selectedRowKeys}
           onSelectChange={setSelectedRowKeys}
           onEdit={handleEdit}

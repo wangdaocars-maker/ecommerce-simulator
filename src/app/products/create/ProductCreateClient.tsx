@@ -63,6 +63,8 @@ export default function ProductCreateClient() {
   // 类目数据状态
   const [categoryData, setCategoryData] = useState<Category[]>([])
   const [categoryLoading, setCategoryLoading] = useState(false)
+  // 各列搜索文本（4级类目各一个）
+  const [categorySearchTexts, setCategorySearchTexts] = useState<string[]>(['', '', '', ''])
 
   // 获取类目数据
   const fetchCategories = useCallback(async () => {
@@ -159,10 +161,16 @@ export default function ProductCreateClient() {
   // 清空类目选择
   const handleCategoryClear = () => {
     setTempCategoryPath([])
+    setCategorySearchTexts(['', '', '', ''])
   }
 
   // 渲染类目列
   const renderCategoryColumn = (data: Category[], level: number) => {
+    const searchText = categorySearchTexts[level] || ''
+    const filteredData = searchText.trim()
+      ? data.filter(item => item.name.toLowerCase().includes(searchText.trim().toLowerCase()))
+      : data
+
     return (
       <div style={{
         flex: 1,
@@ -173,29 +181,43 @@ export default function ProductCreateClient() {
         <Input
           placeholder="名称/拼音首字母"
           size="small"
+          value={searchText}
+          onChange={e => {
+            const newTexts = [...categorySearchTexts]
+            newTexts[level] = e.target.value
+            // 清空后续层级的搜索
+            for (let i = level + 1; i < newTexts.length; i++) newTexts[i] = ''
+            setCategorySearchTexts(newTexts)
+          }}
           suffix={<SearchOutlined style={{ color: '#8C8C8C' }} />}
           style={{ marginBottom: 12 }}
         />
         <div style={{ maxHeight: 300, overflowY: 'auto' }}>
-          {data.map(item => (
-            <div
-              key={item.id}
-              onClick={() => handleCategorySelect(item, level)}
-              style={{
-                padding: '8px 12px',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: tempCategoryPath[level]?.id === item.id ? '#E6F7FF' : 'transparent',
-                borderRadius: 4,
-                marginBottom: 4
-              }}
-            >
-              <span style={{ fontSize: 12 }}>{item.name}</span>
-              {item.children && item.children.length > 0 && <RightOutlined style={{ fontSize: 10, color: '#8C8C8C' }} />}
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#8C8C8C', fontSize: 12, padding: '20px 0' }}>
+              无匹配结果
             </div>
-          ))}
+          ) : (
+            filteredData.map(item => (
+              <div
+                key={item.id}
+                onClick={() => handleCategorySelect(item, level)}
+                style={{
+                  padding: '8px 12px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: tempCategoryPath[level]?.id === item.id ? '#E6F7FF' : 'transparent',
+                  borderRadius: 4,
+                  marginBottom: 4
+                }}
+              >
+                <span style={{ fontSize: 12 }}>{item.name}</span>
+                {item.children && item.children.length > 0 && <RightOutlined style={{ fontSize: 10, color: '#8C8C8C' }} />}
+              </div>
+            ))
+          )}
         </div>
       </div>
     )

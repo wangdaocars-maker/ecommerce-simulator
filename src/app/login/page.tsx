@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { signIn } from 'next-auth/react'
@@ -10,8 +11,10 @@ function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/products'
+  const [loading, setLoading] = useState(false)
 
   const onFinish = async (values: { username: string; password: string }) => {
+    setLoading(true)
     try {
       const result = await signIn('credentials', {
         username: values.username,
@@ -28,6 +31,8 @@ function LoginForm() {
       }
     } catch (error) {
       message.error('登录失败，请稍后重试')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -63,7 +68,7 @@ function LoginForm() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="w-full">
+            <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
               登录
             </Button>
           </Form.Item>
