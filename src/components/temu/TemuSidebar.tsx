@@ -220,14 +220,15 @@ function SubLink({ item, pathname }: { item: SubItem; pathname: string }) {
       <span
         style={{
           display: 'inline-block',
-          fontSize: 12,
+          fontSize: 11,
           color: '#000',
           backgroundColor: '#FFD700',
-          padding: '1px 5px',
+          padding: '1px 4px',
           borderRadius: 3,
           fontWeight: 500,
           cursor: 'pointer',
-          lineHeight: '18px',
+          lineHeight: '17px',
+          whiteSpace: 'nowrap',
         }}
       >
         {item.label}
@@ -236,13 +237,16 @@ function SubLink({ item, pathname }: { item: SubItem; pathname: string }) {
   }
 
   const textStyle: React.CSSProperties = {
-    fontSize: 13,
+    fontSize: 12,
     color: isActive ? TEMU_ORANGE : '#555',
     fontWeight: isActive ? 500 : 400,
     display: 'block',
-    lineHeight: '20px',
+    lineHeight: '18px',
     cursor: 'pointer',
     textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   }
 
   if (item.path && item.path !== '#') {
