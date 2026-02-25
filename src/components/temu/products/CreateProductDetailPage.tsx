@@ -9,6 +9,7 @@ import {
   BgColorsOutlined,
 } from '@ant-design/icons'
 import { useSearchParams, useRouter } from 'next/navigation'
+import TemuMediaModal from '@/components/temu/TemuMediaModal'
 
 const BLUE = '#1677ff'
 const ORANGE = '#FA8C16'
@@ -136,6 +137,7 @@ export default function CreateProductDetailPage() {
   const pathArr = findCategoryPath(category)
 
   const [languages, setLanguages] = useState<string[]>(['英语'])
+  const [mediaModalVisible, setMediaModalVisible] = useState(false)
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -281,7 +283,9 @@ export default function CreateProductDetailPage() {
                     <UploadSlot />
                     <UploadSlot />
                     {/* 素材中心 & AI制图 */}
-                    <MediaBtn icon={<UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="素材中心" />
+                    <div onClick={() => setMediaModalVisible(true)}>
+                      <MediaBtn icon={<UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="素材中心" />
+                    </div>
                     <MediaBtn icon={<BgColorsOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="AI 制图" showNew />
                   </div>
                 ))}
@@ -343,6 +347,17 @@ export default function CreateProductDetailPage() {
           提交
         </Button>
       </div>
+
+      {/* 素材中心弹窗 */}
+      <TemuMediaModal
+        visible={mediaModalVisible}
+        onClose={() => setMediaModalVisible(false)}
+        onConfirm={(images) => {
+          // TODO: 将图片插入到对应的上传槽
+          console.log('选中图片:', images)
+        }}
+        maxCount={10}
+      />
     </div>
   )
 }
