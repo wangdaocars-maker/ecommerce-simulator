@@ -174,14 +174,14 @@ export default function CreateProductPage() {
                     </div>
                     <Button size="small">保存为模版</Button>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 180px', gap: '10px 16px', alignItems: 'center', fontSize: 13 }}>
-                    <span style={{ color: '#666' }}>覆盖站点</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ color: '#ff4d4f' }}>*</span>
-                      <span style={{ color: '#333' }}>卖家自发货仓</span>
-                      <span style={{ color: '#FA8C16' }}>多发货仓时，订单就近发货</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: '10px 16px', alignItems: 'center', fontSize: 13 }}>
+                    <span style={{ color: '#666', whiteSpace: 'nowrap' }}>覆盖站点</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
+                      <span style={{ color: '#ff4d4f', flexShrink: 0 }}>*</span>
+                      <span style={{ color: '#333', whiteSpace: 'nowrap', flexShrink: 0 }}>卖家自发货仓</span>
+                      <span style={{ color: '#FA8C16', whiteSpace: 'nowrap', flexShrink: 0 }}>多发货仓时，订单就近发货</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 6, fontSize: 13, whiteSpace: 'nowrap' }}>
                       <span style={{ color: '#999' }}>无可选发货仓？</span>
                       <a href="#" style={{ color: BLUE }}>去创建</a>
                       <a href="#" style={{ color: BLUE }}><ReloadOutlined /> 刷新</a>
