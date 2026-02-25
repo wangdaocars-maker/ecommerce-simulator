@@ -33,8 +33,11 @@ import {
 type SubItem = {
   label: string
   path?: string
-  highlight?: boolean
+  highlight?: boolean  // 黄色标签样式
 }
+
+// 每行 [左列, 右列]，右列可以是单项或多项（垂直堆叠）
+type SubRow = [SubItem | null, SubItem | SubItem[] | null]
 
 type MenuItem = {
   key: string
@@ -45,7 +48,7 @@ type MenuItem = {
   badge?: 'NEW'
   noArrow?: boolean
   defaultOpen?: boolean
-  children?: SubItem[]
+  children?: SubRow[]
 }
 
 const menuData: MenuItem[] = [
@@ -63,14 +66,10 @@ const menuData: MenuItem[] = [
     dot: true,
     defaultOpen: true,
     children: [
-      { label: '我的备货单', path: '#' },
-      { label: '商品条码管理', path: '#' },
-      { label: '司机/地址管理', path: '#' },
-      { label: '头程钜惠', path: '#', highlight: true },
-      { label: '头程物流', path: '#' },
-      { label: '备货计划', path: '#' },
-      { label: '立即查价', path: '#' },
-      { label: '头程服务商列表', path: '#' },
+      [{ label: '我的备货单' }, { label: '商品条码管理' }],
+      [{ label: '司机/地址管理' }, [{ label: '头程钜惠', highlight: true }, { label: '头程物流' }]],
+      [{ label: '备货计划' }, { label: '立即查价' }],
+      [{ label: '头程服务商列表' }, null],
     ],
   },
   {
@@ -79,8 +78,7 @@ const menuData: MenuItem[] = [
     label: '库存管理',
     defaultOpen: true,
     children: [
-      { label: '库存回退设置', path: '#' },
-      { label: '保税仓退货管理', path: '#' },
+      [{ label: '库存回退设置' }, { label: '保税仓退货管理' }],
     ],
   },
   {
@@ -89,21 +87,14 @@ const menuData: MenuItem[] = [
     label: '商品管理',
     defaultOpen: true,
     children: [
-      { label: '商品列表', path: '/temu/products' },
-      { label: '新建商品', path: '#' },
-      { label: '上新生命周期管理', path: '#' },
-      { label: '机会商品', path: '#' },
-      { label: '保税商品管理', path: '#' },
-      { label: '商品价格申报', path: '#' },
-      { label: '图片/视频更新任务', path: '#' },
-      { label: '商品说明书制作...', path: '#' },
-      { label: '样品管理', path: '#' },
-      { label: '尺码表模板', path: '#' },
-      { label: '模特信息模版', path: '#' },
-      { label: '拍摄退样管理', path: '#' },
-      { label: '建议零售价合规...', path: '#' },
-      { label: '高潜爆款计划', path: '#' },
-      { label: '全球Best Seller款', path: '#' },
+      [{ label: '商品列表', path: '/temu/products' }, { label: '新建商品' }],
+      [{ label: '上新生命周期管理' }, { label: '机会商品' }],
+      [{ label: '保税商品管理' }, { label: '商品价格申报' }],
+      [{ label: '图片/视频更新任务' }, { label: '商品说明书制作...' }],
+      [{ label: '样品管理' }, { label: '尺码表模板' }],
+      [{ label: '模特信息模版' }, { label: '拍摄退样管理' }],
+      [{ label: '建议零售价合规...' }, { label: '高潜爆款计划' }],
+      [{ label: '全球Best Seller款' }, null],
     ],
   },
   {
@@ -201,7 +192,8 @@ const menuData: MenuItem[] = [
 ]
 
 const TEMU_ORANGE = '#FF6A00'
-const NEW_BADGE_STYLE: React.CSSProperties = {
+
+const NEW_BADGE: React.CSSProperties = {
   backgroundColor: '#FFD700',
   color: '#000',
   fontSize: 10,
@@ -211,12 +203,57 @@ const NEW_BADGE_STYLE: React.CSSProperties = {
   lineHeight: '14px',
   flexShrink: 0,
 }
-const DOT_STYLE: React.CSSProperties = {
+
+const DOT: React.CSSProperties = {
   width: 6,
   height: 6,
   borderRadius: '50%',
   backgroundColor: '#ff4d4f',
   flexShrink: 0,
+}
+
+function SubLink({ item, pathname }: { item: SubItem; pathname: string }) {
+  const isActive = !!item.path && item.path !== '#' && pathname === item.path
+
+  if (item.highlight) {
+    return (
+      <span
+        style={{
+          display: 'inline-block',
+          fontSize: 12,
+          color: '#000',
+          backgroundColor: '#FFD700',
+          padding: '1px 5px',
+          borderRadius: 3,
+          fontWeight: 500,
+          cursor: 'pointer',
+          lineHeight: '18px',
+        }}
+      >
+        {item.label}
+      </span>
+    )
+  }
+
+  const textStyle: React.CSSProperties = {
+    fontSize: 13,
+    color: isActive ? TEMU_ORANGE : '#555',
+    fontWeight: isActive ? 500 : 400,
+    display: 'block',
+    lineHeight: '20px',
+    cursor: 'pointer',
+    textDecoration: 'none',
+  }
+
+  if (item.path && item.path !== '#') {
+    return (
+      <Link href={item.path} style={textStyle}>
+        {item.label}
+      </Link>
+    )
+  }
+
+  return <span style={textStyle}>{item.label}</span>
 }
 
 export default function TemuSidebar() {
@@ -230,9 +267,7 @@ export default function TemuSidebar() {
   const [openKeys, setOpenKeys] = useState<Record<string, boolean>>(initOpen)
   const [collapsed, setCollapsed] = useState(false)
 
-  const toggleKey = (key: string) => {
-    setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }))
-  }
+  const toggle = (key: string) => setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }))
 
   if (collapsed) {
     return (
@@ -250,16 +285,9 @@ export default function TemuSidebar() {
       >
         <button
           onClick={() => setCollapsed(false)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#666',
-            fontSize: 16,
-            padding: 8,
-          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', fontSize: 16, padding: 8 }}
         >
-          <MenuFoldOutlined style={{ transform: 'rotate(180deg)' }} />
+          <MenuFoldOutlined style={{ transform: 'scaleX(-1)' }} />
         </button>
       </div>
     )
@@ -277,7 +305,6 @@ export default function TemuSidebar() {
         height: '100%',
       }}
     >
-      {/* 可滚动菜单区域 */}
       <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '8px 0' }}>
         {menuData.map((item) => {
           const isOpen = openKeys[item.key]
@@ -285,7 +312,7 @@ export default function TemuSidebar() {
 
           return (
             <div key={item.key}>
-              {/* 主菜单项 */}
+              {/* 主菜单行 */}
               {item.path && !hasChildren ? (
                 <Link href={item.path} style={{ textDecoration: 'none' }}>
                   <div
@@ -293,7 +320,7 @@ export default function TemuSidebar() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 8,
-                      padding: '10px 16px',
+                      padding: '9px 16px',
                       cursor: 'pointer',
                       color: pathname === item.path ? TEMU_ORANGE : '#1a1a1a',
                       fontWeight: 600,
@@ -312,88 +339,53 @@ export default function TemuSidebar() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
-                    padding: '10px 16px',
+                    padding: '9px 16px',
                     cursor: hasChildren ? 'pointer' : 'default',
                     color: '#1a1a1a',
                     fontWeight: 600,
                     fontSize: 14,
                   }}
-                  onClick={() => hasChildren && toggleKey(item.key)}
-                  onMouseEnter={(e) => {
-                    if (hasChildren) (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
-                  }}
+                  onClick={() => hasChildren && toggle(item.key)}
+                  onMouseEnter={(e) => { if (hasChildren) (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5' }}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
                 >
                   <span style={{ fontSize: 16, color: '#555' }}>{item.icon}</span>
                   <span style={{ flex: 1 }}>{item.label}</span>
-                  {item.dot && <span style={DOT_STYLE} />}
-                  {item.badge === 'NEW' && <span style={NEW_BADGE_STYLE}>NEW</span>}
+                  {item.dot && <span style={DOT} />}
+                  {item.badge === 'NEW' && <span style={NEW_BADGE}>NEW</span>}
                   {hasChildren && !item.noArrow && (
-                    <span style={{ color: '#999', fontSize: 11 }}>
+                    <span style={{ color: '#bbb', fontSize: 10 }}>
                       {isOpen ? <UpOutlined /> : <DownOutlined />}
                     </span>
                   )}
                 </div>
               )}
 
-              {/* 子菜单（两列布局） */}
+              {/* 子菜单：严格两列 Grid */}
               {hasChildren && isOpen && (
                 <div
                   style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    padding: '4px 16px 12px 40px',
-                    gap: '2px 0',
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    padding: '4px 12px 12px 40px',
+                    rowGap: 2,
                   }}
                 >
-                  {item.children!.map((sub) => {
-                    const isActive = pathname === sub.path && sub.path !== '#'
+                  {item.children!.map((row, rowIdx) => {
+                    const [left, right] = row
                     return (
-                      <div key={sub.label} style={{ width: '50%', padding: '4px 4px 4px 0' }}>
-                        {sub.path && sub.path !== '#' ? (
-                          <Link href={sub.path} style={{ textDecoration: 'none' }}>
-                            <span
-                              style={{
-                                fontSize: 13,
-                                color: isActive ? TEMU_ORANGE : '#555',
-                                fontWeight: isActive ? 500 : 400,
-                                display: 'block',
-                                lineHeight: '18px',
-                              }}
-                              onMouseEnter={(e) => {
-                                if (!isActive) (e.currentTarget as HTMLElement).style.color = '#333'
-                              }}
-                              onMouseLeave={(e) => {
-                                if (!isActive) (e.currentTarget as HTMLElement).style.color = '#555'
-                              }}
-                            >
-                              {sub.label}
-                            </span>
-                          </Link>
-                        ) : (
-                          <span
-                            style={{
-                              fontSize: 13,
-                              cursor: 'pointer',
-                              display: 'block',
-                              lineHeight: '18px',
-                              color: sub.highlight ? '#000' : '#555',
-                              backgroundColor: sub.highlight ? '#FFD700' : 'transparent',
-                              padding: sub.highlight ? '1px 4px' : 0,
-                              borderRadius: sub.highlight ? 3 : 0,
-                              width: 'fit-content',
-                            }}
-                            onMouseEnter={(e) => {
-                              if (!sub.highlight) (e.currentTarget as HTMLElement).style.color = '#333'
-                            }}
-                            onMouseLeave={(e) => {
-                              if (!sub.highlight) (e.currentTarget as HTMLElement).style.color = '#555'
-                            }}
-                          >
-                            {sub.label}
-                          </span>
-                        )}
-                      </div>
+                      <>
+                        {/* 左列 */}
+                        <div key={`l-${rowIdx}`} style={{ padding: '3px 4px 3px 0' }}>
+                          {left && <SubLink item={left} pathname={pathname} />}
+                        </div>
+                        {/* 右列（支持多项垂直堆叠） */}
+                        <div key={`r-${rowIdx}`} style={{ padding: '3px 0' }}>
+                          {Array.isArray(right)
+                            ? right.map((r) => <SubLink key={r.label} item={r} pathname={pathname} />)
+                            : right && <SubLink item={right} pathname={pathname} />}
+                        </div>
+                      </>
                     )
                   })}
                 </div>
@@ -403,16 +395,15 @@ export default function TemuSidebar() {
         })}
       </div>
 
-      {/* 底部折叠按钮 */}
+      {/* 折叠按钮 */}
       <div
         style={{
           borderTop: '1px solid #f0f0f0',
-          padding: '12px 16px',
+          padding: '10px 16px',
           display: 'flex',
           justifyContent: 'flex-end',
           cursor: 'pointer',
-          color: '#666',
-          fontSize: 14,
+          color: '#999',
         }}
         onClick={() => setCollapsed(true)}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5')}
