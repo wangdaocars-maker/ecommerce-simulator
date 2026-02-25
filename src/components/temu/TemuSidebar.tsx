@@ -64,22 +64,11 @@ const menuData: MenuItem[] = [
     icon: <ContainerOutlined />,
     label: '备货管理',
     dot: true,
-    defaultOpen: true,
-    children: [
-      [{ label: '我的备货单' }, { label: '商品条码管理' }],
-      [{ label: '司机/地址管理' }, [{ label: '头程钜惠', highlight: true }, { label: '头程物流' }]],
-      [{ label: '备货计划' }, { label: '立即查价' }],
-      [{ label: '头程服务商列表' }, null],
-    ],
   },
   {
     key: 'inventory',
     icon: <DatabaseOutlined />,
     label: '库存管理',
-    defaultOpen: true,
-    children: [
-      [{ label: '库存回退设置' }, { label: '保税仓退货管理' }],
-    ],
   },
   {
     key: 'products',
