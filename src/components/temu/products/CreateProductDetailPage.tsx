@@ -48,17 +48,13 @@ function StepBar() {
 }
 
 // ==================== 图片上传槽 ====================
-type SlotType = 'main' | 'size' | 'normal'
-
-function UploadSlot({ type, hint }: { type: SlotType; hint?: string }) {
-  const bgColor = '#fafafa'
+function UploadSlot({ hint }: { hint?: string }) {
   const borderColor = '#d9d9d9'
   return (
     <div style={{
       width: 90, height: 90, flexShrink: 0,
       border: `1px dashed ${borderColor}`,
-      borderRadius: 4,
-      backgroundColor: bgColor,
+      borderRadius: 4, backgroundColor: '#fafafa',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       cursor: 'pointer', fontSize: 11,
@@ -80,6 +76,33 @@ function UploadSlot({ type, hint }: { type: SlotType; hint?: string }) {
   )
 }
 
+// ==================== 素材中心 / AI制图 按钮 ====================
+function MediaBtn({ icon, label, showNew }: { icon: React.ReactNode; label: string; showNew?: boolean }) {
+  return (
+    <div style={{ position: 'relative', flexShrink: 0 }}>
+      <button style={{
+        width: 90, height: 90,
+        border: '1px dashed #d9d9d9', borderRadius: 4,
+        backgroundColor: '#fafafa', cursor: 'pointer',
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', gap: 4,
+        fontSize: 12, color: '#555',
+      }}>
+        {icon}
+        {label}
+      </button>
+      {showNew && (
+        <span style={{
+          position: 'absolute', top: -8, right: -8,
+          backgroundColor: '#FFD700', color: '#000',
+          fontSize: 10, fontWeight: 700, padding: '1px 5px',
+          borderRadius: 3, lineHeight: '16px',
+        }}>NEW</span>
+      )}
+    </div>
+  )
+}
+
 // ==================== 主组件 ====================
 export default function CreateProductDetailPage() {
   const searchParams = useSearchParams()
@@ -88,7 +111,6 @@ export default function CreateProductDetailPage() {
   const pathStr = searchParams.get('path') || ''
   const pathArr = pathStr ? pathStr.split(',') : ['家居、厨房用品', '家具', '客厅家具', category]
 
-  const [carouselTab, setCarouselTab] = useState<'main' | 'size'>('main')
   const [languages, setLanguages] = useState<string[]>(['英语'])
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
@@ -192,86 +214,58 @@ export default function CreateProductDetailPage() {
               </div>
 
               {/* 图片上传区 */}
-              <div style={{
-                border: '1px solid #f0f0f0', borderRadius: 4, padding: '16px 20px',
-              }}>
-                {/* Tab 切换：主图 / 尺寸图 */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-                  {(['main', 'size'] as const).map(tab => (
-                    <button key={tab} onClick={() => setCarouselTab(tab)} style={{
-                      padding: '4px 20px', borderRadius: 20, cursor: 'pointer',
-                      border: `1px solid ${carouselTab === tab ? BLUE : '#d9d9d9'}`,
-                      backgroundColor: carouselTab === tab ? '#EBF2FF' : '#fff',
-                      color: carouselTab === tab ? BLUE : '#666',
-                      fontSize: 13, fontWeight: carouselTab === tab ? 500 : 400,
-                    }}>
-                      {tab === 'main' ? '主图' : '尺寸图'}
-                    </button>
-                  ))}
-                </div>
+              <div style={{ padding: '0 0 4px' }}>
 
-                {/* 上传行 */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                  <span style={{
-                    width: 60, fontSize: 13, color: '#333', textAlign: 'right',
-                    paddingRight: 8, flexShrink: 0, paddingTop: 36, fontWeight: 500,
-                  }}>
-                    <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>英语
-                  </span>
-
-                  {/* 上传槽 */}
-                  {carouselTab === 'main' ? (
-                    <>
-                      <UploadSlot type="main" hint={'背景简洁\n突出商品\n卖点'} />
-                      <UploadSlot type="normal" />
-                      <UploadSlot type="size" hint={'需提供公制\n和英制单位'} />
-                      <UploadSlot type="normal" />
-                      <UploadSlot type="normal" />
-                    </>
-                  ) : (
-                    <>
-                      <UploadSlot type="size" hint={'需提供公制\n和英制单位'} />
-                      <UploadSlot type="normal" />
-                      <UploadSlot type="normal" />
-                    </>
-                  )}
-
-                  {/* 素材中心 & AI制图 */}
-                  <button style={{
-                    width: 90, height: 90, flexShrink: 0,
-                    border: '1px dashed #d9d9d9', borderRadius: 4,
-                    backgroundColor: '#fafafa', cursor: 'pointer',
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center', gap: 4,
-                    fontSize: 12, color: '#555',
-                  }}>
-                    <UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />
-                    素材中心
-                  </button>
-                  <div style={{ position: 'relative' }}>
-                    <button style={{
-                      width: 90, height: 90, flexShrink: 0,
-                      border: '1px dashed #d9d9d9', borderRadius: 4,
-                      backgroundColor: '#fafafa', cursor: 'pointer',
-                      display: 'flex', flexDirection: 'column',
-                      alignItems: 'center', justifyContent: 'center', gap: 4,
-                      fontSize: 12, color: '#555',
-                    }}>
-                      <BgColorsOutlined style={{ fontSize: 20, color: '#aaa' }} />
-                      AI 制图
-                    </button>
+                {/* 列组标题行：主图 / 尺寸图 */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, paddingLeft: 88 }}>
+                  {/* 主图标题：跨2个槽 (90+8+90=188px) */}
+                  <div style={{ width: 188, display: 'flex', justifyContent: 'center' }}>
                     <span style={{
-                      position: 'absolute', top: -8, right: -8,
-                      backgroundColor: '#FFD700', color: '#000',
-                      fontSize: 10, fontWeight: 700, padding: '1px 5px',
-                      borderRadius: 3, lineHeight: '16px',
-                    }}>NEW</span>
+                      padding: '3px 24px', border: '1px solid #d9d9d9',
+                      borderRadius: 20, fontSize: 13, color: '#666', backgroundColor: '#fff',
+                    }}>主图</span>
+                  </div>
+                  {/* 尺寸图标题：跨3个槽 (90+8+90+8+90=286px) */}
+                  <div style={{ width: 286, display: 'flex', justifyContent: 'center' }}>
+                    <span style={{
+                      padding: '3px 24px', border: '1px solid #d9d9d9',
+                      borderRadius: 20, fontSize: 13, color: '#666', backgroundColor: '#fff',
+                    }}>尺寸图</span>
                   </div>
                 </div>
 
+                {/* 每种语言一行 */}
+                {languages.map(lang => (
+                  <div key={lang} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                    {/* 语言标签 */}
+                    <div style={{ width: 80, textAlign: 'right', paddingRight: 8, flexShrink: 0 }}>
+                      <div style={{ fontSize: 13, color: '#333', fontWeight: 500 }}>
+                        <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>{lang}
+                      </div>
+                      {lang !== '英语' && (
+                        <a href="#" onClick={e => e.preventDefault()}
+                          style={{ fontSize: 12, color: '#999', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end', marginTop: 2 }}>
+                          ↺ 复制英语
+                        </a>
+                      )}
+                    </div>
+                    {/* 主图 2 槽 */}
+                    <UploadSlot hint={'背景简洁\n突出商品\n卖点'} />
+                    <UploadSlot />
+                    {/* 尺寸图 3 槽 */}
+                    <UploadSlot hint={'需提供公制\n和英制单位'} />
+                    <UploadSlot />
+                    <UploadSlot />
+                    {/* 素材中心 & AI制图 */}
+                    <MediaBtn icon={<UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="素材中心" />
+                    <MediaBtn icon={<BgColorsOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="AI 制图" showNew />
+                  </div>
+                ))}
+
                 {/* 说明文字 */}
-                <div style={{ fontSize: 12, color: '#999', marginTop: 10 }}>
-                  轮播图要求3-10张，宽高比例为1:1且宽高均大于800px，大小2M内；请勿遗漏尺寸图
+                <div style={{ fontSize: 12, color: '#999', marginTop: 4, paddingLeft: 88 }}>
+                  <div>轮播图要求3-10张，宽高比例为1:1且宽高均大于800px，大小2M内；请勿遗漏尺寸图</div>
+                  <div>请补充对应语种的轮播图素材，单个语种轮播图至少需要有1张与英语轮播图不同</div>
                 </div>
               </div>
             </div>
