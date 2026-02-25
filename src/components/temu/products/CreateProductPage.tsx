@@ -142,13 +142,13 @@ export default function CreateProductPage() {
 
           {/* 经营站点 */}
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
-            <label style={{ width: 100, fontSize: 14, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0 }}>
               <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>经营站点
             </label>
             <Select
               value={site || undefined}
               placeholder="请选择"
-              style={{ flex: 1 }}
+              style={{ width: 500 }}
               size="large"
               onChange={(v) => { setSite(v); setSelectedPath([]); setColSearches(Array(6).fill('')) }}
               options={[
@@ -161,34 +161,39 @@ export default function CreateProductPage() {
 
           {/* 站点与发货仓关系 */}
           {site && (
-            <div style={{ marginBottom: 24, marginLeft: 100 }}>
-              <div style={{ border: '1px solid #f0f0f0', borderRadius: 4, padding: '14px 16px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                  <div style={{ fontSize: 13, color: '#666' }}>
-                    <span style={{ fontWeight: 600, color: '#333', marginRight: 8 }}>我的模版</span>
-                    暂无模版，填写以下信息并点击右侧按钮即可保存模版
+            <div style={{ display: 'flex', marginBottom: 24 }}>
+              <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, lineHeight: '20px', paddingTop: 2 }}>
+                站点与发货仓关系
+              </label>
+              <div style={{ flex: 1 }}>
+                <div style={{ border: '1px solid #f0f0f0', borderRadius: 4, padding: '14px 16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                    <div style={{ fontSize: 13, color: '#666' }}>
+                      <span style={{ fontWeight: 600, color: '#333', marginRight: 8 }}>我的模版</span>
+                      暂无模版，填写以下信息并点击右侧按钮即可保存模版
+                    </div>
+                    <Button size="small">保存为模版</Button>
                   </div>
-                  <Button size="small">保存为模版</Button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr 160px', gap: '10px 16px', alignItems: 'center', fontSize: 13 }}>
-                  <span style={{ color: '#666' }}>覆盖站点</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <span style={{ color: '#ff4d4f' }}>*</span>
-                    <span style={{ color: '#333' }}>卖家自发仓</span>
-                    <a href="#" style={{ color: BLUE }}>多发货仓时，订单就近发货</a>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, fontSize: 13 }}>
-                    <span style={{ color: '#999' }}>无可选发货仓？</span>
-                    <a href="#" style={{ color: BLUE }}>去创建</a>
-                    <a href="#" style={{ color: BLUE }}><ReloadOutlined /> 刷新</a>
-                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 180px', gap: '10px 16px', alignItems: 'center', fontSize: 13 }}>
+                    <span style={{ color: '#666' }}>覆盖站点</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ color: '#ff4d4f' }}>*</span>
+                      <span style={{ color: '#333' }}>卖家自发货仓</span>
+                      <span style={{ color: '#FA8C16' }}>多发货仓时，订单就近发货</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                      <span style={{ color: '#999' }}>无可选发货仓？</span>
+                      <a href="#" style={{ color: BLUE }}>去创建</a>
+                      <a href="#" style={{ color: BLUE }}><ReloadOutlined /> 刷新</a>
+                    </div>
 
-                  <span style={{ color: '#333', fontWeight: 500 }}>
-                    {site === 'us' ? '美国站' : site === 'eu' ? '欧洲站' : '全球站'}
-                  </span>
-                  <Select placeholder="请选择" size="small"
-                    options={[{ value: '1', label: '美国仓库A' }]} />
-                  <span />
+                    <span style={{ color: '#333', fontWeight: 500 }}>
+                      {site === 'us' ? '美国站' : site === 'eu' ? '欧洲站' : '全球站'}
+                    </span>
+                    <Select placeholder="请选择" size="small"
+                      options={[{ value: '1', label: '美国仓库A' }]} />
+                    <span />
+                  </div>
                 </div>
               </div>
             </div>
@@ -196,7 +201,7 @@ export default function CreateProductPage() {
 
           {/* 商品分类 */}
           <div style={{ display: 'flex' }}>
-            <label style={{ width: 100, fontSize: 14, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
               <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>商品分类
             </label>
             <div style={{ flex: 1 }}>
@@ -219,43 +224,42 @@ export default function CreateProductPage() {
                 ))}
               </div>
 
-              {/* 全部分类 Tab + 面包屑 */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 0, borderBottom: '1px solid #f0f0f0', marginBottom: 0 }}>
-                <span style={{
-                  color: BLUE, fontWeight: 500, fontSize: 13,
-                  borderBottom: `2px solid ${BLUE}`, paddingBottom: 6,
-                  cursor: 'pointer', marginRight: 8,
-                  onClick: () => setSelectedPath([]),
-                } as React.CSSProperties}
-                  onClick={() => setSelectedPath([])}
-                >全部分类</span>
-                {selectedPath.length > 0 && (
-                  <span style={{ fontSize: 13, color: '#666', paddingBottom: 6 }}>
-                    {' > '}
-                    {selectedPath.map((p, i) => (
-                      <React.Fragment key={p}>
-                        <a href="#"
-                          onClick={(e) => { e.preventDefault(); setSelectedPath(selectedPath.slice(0, i + 1)) }}
-                          style={{ color: BLUE, fontWeight: selectedPath[selectedPath.length - 1] === p && !hasChildren(p) ? 600 : 400 }}>
-                          {p}
-                        </a>
-                        {i < selectedPath.length - 1 && ' > '}
-                      </React.Fragment>
-                    ))}
-                  </span>
-                )}
+              {/* 面包屑路径条 */}
+              <div style={{
+                backgroundColor: '#f0f6ff', borderRadius: '4px 4px 0 0',
+                padding: '8px 12px', fontSize: 13,
+                display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2,
+              }}>
+                <a href="#"
+                  onClick={(e) => { e.preventDefault(); setSelectedPath([]) }}
+                  style={{ color: BLUE, fontWeight: 500, textDecoration: 'none' }}
+                >全部分类</a>
+                {selectedPath.map((p, i) => (
+                  <React.Fragment key={p}>
+                    <span style={{ color: '#999', margin: '0 2px' }}>&gt;</span>
+                    <a href="#"
+                      onClick={(e) => { e.preventDefault(); setSelectedPath(selectedPath.slice(0, i + 1)) }}
+                      style={{
+                        color: BLUE,
+                        fontWeight: !hasChildren(p) && i === selectedPath.length - 1 ? 600 : 400,
+                        textDecoration: 'none',
+                      }}
+                    >{p}</a>
+                  </React.Fragment>
+                ))}
               </div>
 
               {/* 6列级联选择器 */}
               <div style={{
-                border: '1px solid #f0f0f0', borderRadius: '0 0 4px 4px',
+                border: '1px solid #f0f0f0', borderTop: 'none', borderRadius: '0 0 4px 4px',
                 display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)',
-                maxHeight: 320, overflow: 'hidden',
+                height: 380, overflow: 'hidden',
               }}>
                 {columns.slice(0, 6).map((col, colIdx) => (
                   <div key={colIdx} style={{
                     borderRight: colIdx < 5 ? '1px solid #f0f0f0' : 'none',
                     display: 'flex', flexDirection: 'column',
+                    height: '100%', overflow: 'hidden',
                   }}>
                     {/* 列搜索框 */}
                     <div style={{ padding: '6px 8px', borderBottom: '1px solid #f5f5f5', flexShrink: 0 }}>
