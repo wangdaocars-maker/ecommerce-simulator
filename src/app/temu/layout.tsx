@@ -1,13 +1,19 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import TemuHeader from '@/components/temu/TemuHeader'
 import TemuSidebar from '@/components/temu/TemuSidebar'
 
 export default function TemuLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  const showSidebar = !pathname.startsWith('/temu/products/create')
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#f5f5f5' }}>
       <TemuHeader />
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <TemuSidebar />
-        <main style={{ flex: 1, overflowY: 'auto', padding: 16 }}>
+        {showSidebar && <TemuSidebar />}
+        <main style={{ flex: 1, overflowY: 'auto', padding: showSidebar ? 16 : 0, backgroundColor: '#f5f5f5' }}>
           {children}
         </main>
       </div>
