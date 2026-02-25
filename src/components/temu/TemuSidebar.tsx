@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -367,18 +367,18 @@ export default function TemuSidebar() {
                   {item.children!.map((row, rowIdx) => {
                     const [left, right] = row
                     return (
-                      <>
+                      <React.Fragment key={rowIdx}>
                         {/* 左列 */}
-                        <div key={`l-${rowIdx}`} style={{ padding: '3px 4px 3px 0' }}>
+                        <div style={{ padding: '3px 4px 3px 0' }}>
                           {left && <SubLink item={left} pathname={pathname} />}
                         </div>
                         {/* 右列（支持多项垂直堆叠） */}
-                        <div key={`r-${rowIdx}`} style={{ padding: '3px 0' }}>
+                        <div style={{ padding: '3px 0' }}>
                           {Array.isArray(right)
                             ? right.map((r) => <SubLink key={r.label} item={r} pathname={pathname} />)
                             : right && <SubLink item={right} pathname={pathname} />}
                         </div>
-                      </>
+                      </React.Fragment>
                     )
                   })}
                 </div>
