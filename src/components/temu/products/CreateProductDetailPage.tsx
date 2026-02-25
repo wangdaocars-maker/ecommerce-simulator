@@ -13,6 +13,31 @@ import { useSearchParams, useRouter } from 'next/navigation'
 const BLUE = '#1677ff'
 const ORANGE = '#FA8C16'
 
+// ==================== 分类数据（与 CreateProductPage 同源）====================
+const categoryData: Record<string, string[]> = {
+  __root__: ['CD和黑胶唱片', '办公用品', '宠物用品', '家电', '电子', '工业和科学', '家居、厨房用品', '家居装修', '健康和家居用品', '乐器'],
+  '家居、厨房用品': ['厨房和餐厅', '真空吸尘器和地板护理', '熨烫用品', '活动和派对用品', '浴室用品', '床上用品', '家居装饰', '家具', '收纳用品', '装饰字画'],
+  '家具': ['卧室家具', '办公家具', '儿童家具', '客厅家具', '餐厅家具', '门厅家具', '儿童房家具', '厨房家具', '家具替换零件', '浴室家具'],
+  '客厅家具': ['家庭娱乐家具', '客厅家具套装', '儿童家具', '客厅单人椅', '沙发和沙发床', '休闲椅', '梯架', '沙发床', '客厅桌', '软垫凳和带储藏箱的软垫凳', '客厅收纳储物柜'],
+  '餐厅家具': ['餐桌', '餐椅', '餐边柜、餐具柜', '酒柜', '餐厅套装'],
+  '卧室家具': ['床', '床头柜', '衣柜', '梳妆台', '卧室套装'],
+  '家庭娱乐家具': ['电视柜和娱乐柜', '书柜', '展示柜'],
+}
+
+/** 从叶节点反向搜索完整路径（不含 __root__） */
+function findCategoryPath(target: string): string[] {
+  function dfs(node: string, path: string[]): string[] | null {
+    const children = categoryData[node] || []
+    for (const child of children) {
+      if (child === target) return [...path, child]
+      const result = dfs(child, [...path, child])
+      if (result) return result
+    }
+    return null
+  }
+  return dfs('__root__', []) || [target]
+}
+
 // ==================== 步骤条（步骤2激活）====================
 function StepBar() {
   return (
@@ -108,8 +133,7 @@ export default function CreateProductDetailPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const category = searchParams.get('category') || '客厅单人椅'
-  const pathStr = searchParams.get('path') || ''
-  const pathArr = pathStr ? pathStr.split(',') : ['家居、厨房用品', '家具', '客厅家具', category]
+  const pathArr = findCategoryPath(category)
 
   const [languages, setLanguages] = useState<string[]>(['英语'])
 
