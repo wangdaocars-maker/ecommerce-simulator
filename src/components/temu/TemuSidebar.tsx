@@ -360,7 +360,7 @@ export default function TemuSidebar() {
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
-                    padding: '4px 12px 12px 40px',
+                    padding: '4px 16px 12px 16px',
                     rowGap: 2,
                   }}
                 >
