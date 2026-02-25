@@ -9,6 +9,7 @@ import {
   ExclamationCircleFilled,
   EditOutlined,
 } from '@ant-design/icons'
+import { useRouter } from 'next/navigation'
 
 const ORANGE = '#FF6A00'
 const BLUE = '#1677ff'
@@ -643,6 +644,7 @@ const columns: TableColumnsType<Product> = [
 
 // ==================== 主组件 ====================
 export default function ProductListClient() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -731,7 +733,8 @@ export default function ProductListClient() {
         }}>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <Button type="primary" icon={<PlusOutlined />} size="small"
-              style={{ backgroundColor: ORANGE, borderColor: ORANGE }}>
+              style={{ backgroundColor: ORANGE, borderColor: ORANGE }}
+              onClick={() => router.push('/temu/products/create')}>
               新建商品
             </Button>
             <Button size="small">批量新增欧盟站点 <DownOutlined /></Button>

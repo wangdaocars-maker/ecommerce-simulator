@@ -76,7 +76,7 @@ const menuData: MenuItem[] = [
     label: '商品管理',
     defaultOpen: true,
     children: [
-      [{ label: '商品列表', path: '/temu/products' }, { label: '新建商品' }],
+      [{ label: '商品列表', path: '/temu/products' }, { label: '新建商品', path: '/temu/products/create' }],
       [{ label: '上新生命周期管理' }, { label: '机会商品' }],
       [{ label: '保税商品管理' }, { label: '商品价格申报' }],
       [{ label: '图片/视频更新任务' }, { label: '商品说明书制作...' }],
