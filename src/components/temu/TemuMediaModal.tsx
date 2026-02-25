@@ -35,7 +35,7 @@ export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount =
   // 获取文件夹列表
   useEffect(() => {
     if (!visible) return
-    fetch('/api/media/folders').then(r => r.json()).then(res => {
+    fetch('/api/temu/media/folders').then(r => r.json()).then(res => {
       if (res.success) setFolders(res.data.folders)
     }).catch(() => {})
   }, [visible])
@@ -51,7 +51,7 @@ export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount =
       ...(folder !== '全部' && { folder }),
       ...(search && { search }),
     })
-    fetch(`/api/media?${params}`).then(r => r.json()).then(res => {
+    fetch(`/api/temu/media?${params}`).then(r => r.json()).then(res => {
       if (res.success) {
         setItems(res.data.items)
         setTotal(res.data.total)
@@ -84,7 +84,7 @@ export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount =
     formData.append('file', file)
     formData.append('folder', folder === '全部' ? '未分组' : folder)
     try {
-      const res = await fetch('/api/media/upload', { method: 'POST', body: formData })
+      const res = await fetch('/api/temu/media/upload', { method: 'POST', body: formData })
       const data = await res.json()
       if (data.success) {
         message.success('上传成功')
