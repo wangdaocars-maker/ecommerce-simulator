@@ -74,8 +74,23 @@ function StepBar() {
 }
 
 // ==================== 图片上传槽 ====================
-function UploadSlot({ hint }: { hint?: string }) {
+function UploadSlot({ hint, imageUrl }: { hint?: string; imageUrl?: string }) {
   const borderColor = '#d9d9d9'
+
+  if (imageUrl) {
+    return (
+      <div style={{
+        width: 90, height: 90, flexShrink: 0,
+        border: `2px solid ${BLUE}`,
+        borderRadius: 4, overflow: 'hidden',
+        cursor: 'pointer', position: 'relative',
+      }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      </div>
+    )
+  }
+
   return (
     <div style={{
       width: 90, height: 90, flexShrink: 0,
@@ -138,6 +153,8 @@ export default function CreateProductDetailPage() {
 
   const [languages, setLanguages] = useState<string[]>(['英语'])
   const [mediaModalVisible, setMediaModalVisible] = useState(false)
+  const [currentLang, setCurrentLang] = useState<string>('英语')
+  const [carouselImages, setCarouselImages] = useState<Record<string, string[]>>({})
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -261,34 +278,37 @@ export default function CreateProductDetailPage() {
                 </div>
 
                 {/* 每种语言一行 */}
-                {languages.map(lang => (
-                  <div key={lang} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    {/* 语言标签 */}
-                    <div style={{ width: 80, textAlign: 'right', paddingRight: 8, flexShrink: 0 }}>
-                      <div style={{ fontSize: 13, color: '#333', fontWeight: 500 }}>
-                        <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>{lang}
+                {languages.map(lang => {
+                  const imgs = carouselImages[lang] || []
+                  return (
+                    <div key={lang} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                      {/* 语言标签 */}
+                      <div style={{ width: 80, textAlign: 'right', paddingRight: 8, flexShrink: 0 }}>
+                        <div style={{ fontSize: 13, color: '#333', fontWeight: 500 }}>
+                          <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>{lang}
+                        </div>
+                        {lang !== '英语' && (
+                          <a href="#" onClick={e => e.preventDefault()}
+                            style={{ fontSize: 12, color: '#999', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end', marginTop: 2 }}>
+                            ↺ 复制英语
+                          </a>
+                        )}
                       </div>
-                      {lang !== '英语' && (
-                        <a href="#" onClick={e => e.preventDefault()}
-                          style={{ fontSize: 12, color: '#999', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'flex-end', marginTop: 2 }}>
-                          ↺ 复制英语
-                        </a>
-                      )}
+                      {/* 主图 2 槽 */}
+                      <UploadSlot hint={'背景简洁\n突出商品\n卖点'} imageUrl={imgs[0]} />
+                      <UploadSlot imageUrl={imgs[1]} />
+                      {/* 尺寸图 3 槽 */}
+                      <UploadSlot hint={'需提供公制\n和英制单位'} imageUrl={imgs[2]} />
+                      <UploadSlot imageUrl={imgs[3]} />
+                      <UploadSlot imageUrl={imgs[4]} />
+                      {/* 素材中心 & AI制图 */}
+                      <div onClick={() => { setCurrentLang(lang); setMediaModalVisible(true) }}>
+                        <MediaBtn icon={<UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="素材中心" />
+                      </div>
+                      <MediaBtn icon={<BgColorsOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="AI 制图" showNew />
                     </div>
-                    {/* 主图 2 槽 */}
-                    <UploadSlot hint={'背景简洁\n突出商品\n卖点'} />
-                    <UploadSlot />
-                    {/* 尺寸图 3 槽 */}
-                    <UploadSlot hint={'需提供公制\n和英制单位'} />
-                    <UploadSlot />
-                    <UploadSlot />
-                    {/* 素材中心 & AI制图 */}
-                    <div onClick={() => setMediaModalVisible(true)}>
-                      <MediaBtn icon={<UploadOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="素材中心" />
-                    </div>
-                    <MediaBtn icon={<BgColorsOutlined style={{ fontSize: 20, color: '#aaa' }} />} label="AI 制图" showNew />
-                  </div>
-                ))}
+                  )
+                })}
 
                 {/* 说明文字 */}
                 <div style={{ fontSize: 12, color: '#999', marginTop: 4, paddingLeft: 88 }}>
@@ -353,8 +373,10 @@ export default function CreateProductDetailPage() {
         visible={mediaModalVisible}
         onClose={() => setMediaModalVisible(false)}
         onConfirm={(images) => {
-          // TODO: 将图片插入到对应的上传槽
-          console.log('选中图片:', images)
+          setCarouselImages(prev => ({
+            ...prev,
+            [currentLang]: images.slice(0, 5),
+          }))
         }}
         maxCount={10}
       />
