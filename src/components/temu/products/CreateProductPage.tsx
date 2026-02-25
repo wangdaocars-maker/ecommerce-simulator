@@ -325,7 +325,7 @@ export default function CreateProductPage() {
           size="large"
           disabled={!selectedLeaf}
           style={{ width: 200 }}
-          onClick={() => router.push(`/temu/products/create/detail?category=${encodeURIComponent(selectedLeaf!)}`)}
+          onClick={() => router.push(`/temu/products/create/detail?category=${encodeURIComponent(selectedLeaf!)}&path=${encodeURIComponent(selectedPath.join(','))}`)}
         >
           下一步
         </Button>
