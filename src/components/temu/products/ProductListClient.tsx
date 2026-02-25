@@ -278,7 +278,7 @@ function TodoBar() {
           }}>
             <span>{t.label}</span>
             <span style={{
-              backgroundColor: ORANGE, color: '#fff', borderRadius: 10,
+              backgroundColor: '#ff4d4f', color: '#fff', borderRadius: 10,
               padding: '0 6px', fontSize: 11, fontWeight: 600,
             }}>{t.count}</span>
             <span style={{ color: '#bbb', fontSize: 12 }}>›</span>
@@ -311,10 +311,10 @@ function QuickFilter() {
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {filters.map((f) => (
           <button key={f.label} onClick={() => setActive(active === f.label ? null : f.label)} style={{
-            padding: '5px 12px', cursor: 'pointer', fontSize: 13,
-            border: `1px solid ${active === f.label ? ORANGE : '#d9d9d9'}`,
+            padding: '6px 14px', cursor: 'pointer', fontSize: 13,
+            border: `1px solid ${active === f.label ? ORANGE : '#ebebeb'}`,
             borderRadius: 4,
-            backgroundColor: active === f.label ? '#FFF3E8' : '#fff',
+            backgroundColor: active === f.label ? '#FFF3E8' : '#f5f5f5',
             color: active === f.label ? ORANGE : '#333',
             display: 'flex', alignItems: 'center', gap: 4,
           }}>
