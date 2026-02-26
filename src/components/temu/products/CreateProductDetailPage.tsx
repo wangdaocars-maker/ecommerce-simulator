@@ -256,6 +256,10 @@ export default function CreateProductDetailPage() {
   const [selectedManualId, setSelectedManualId] = useState<number | null>(1)
   const [manualSearchQuery, setManualSearchQuery] = useState('')
   const [decorateModalVisible, setDecorateModalVisible] = useState(false)
+  const [decorateBlocks, setDecorateBlocks] = useState<Array<{ id: number; imageUrl: string }>>([])
+  const [selectedDecorateBlockId, setSelectedDecorateBlockId] = useState<number | null>(null)
+  const [decorateImagePickerVisible, setDecorateImagePickerVisible] = useState(false)
+  const [decorateBlockCounter, setDecorateBlockCounter] = useState(0)
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1836,6 +1840,12 @@ export default function CreateProductDetailPage() {
                 }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = BLUE; e.currentTarget.style.backgroundColor = '#f0f7ff' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#e8e8e8'; e.currentTarget.style.backgroundColor = '#fff' }}
+                  onClick={() => {
+                    const newId = decorateBlockCounter + 1
+                    setDecorateBlockCounter(newId)
+                    setDecorateBlocks(prev => [...prev, { id: newId, imageUrl: '' }])
+                    setSelectedDecorateBlockId(newId)
+                  }}
                 >
                   <span style={{ fontSize: 20 }}>🖼️</span>
                   <span style={{ fontSize: 12, color: '#333' }}>图片</span>
@@ -1856,19 +1866,111 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
           {/* 中间：画布区 */}
-          <div style={{ flex: 1, backgroundColor: '#f5f5f5', overflowY: 'auto', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 24px', minWidth: 0 }}>
-            <div style={{
-              width: 390, minHeight: 500, backgroundColor: '#fff', borderRadius: 4,
-              border: '1px solid #e8e8e8', display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center', gap: 12,
-            }}>
-              <span style={{ fontSize: 40 }}>📦</span>
-              <span style={{ fontSize: 13, color: '#8c8c8c' }}>请插入装修组件</span>
-            </div>
+          <div style={{ flex: 1, backgroundColor: '#f0f0f0', overflowY: 'auto', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 24px', minWidth: 0 }}>
+            {decorateBlocks.length === 0 ? (
+              <div style={{
+                width: 390, minHeight: 500, backgroundColor: '#fff', borderRadius: 4,
+                border: '1px solid #e8e8e8', display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center', gap: 12,
+              }}>
+                <span style={{ fontSize: 40 }}>📦</span>
+                <span style={{ fontSize: 13, color: '#8c8c8c' }}>请插入装修组件</span>
+              </div>
+            ) : (
+              <div style={{ width: 390 }}>
+                {/* 页面预览 header */}
+                <div style={{ backgroundColor: '#fff', borderRadius: '4px 4px 0 0', padding: '10px 16px', borderBottom: '1px solid #f0f0f0', fontSize: 13, color: '#333' }}>
+                  页面预览
+                </div>
+                {/* blocks 列表 */}
+                {decorateBlocks.map((block, idx) => {
+                  const isSelected = selectedDecorateBlockId === block.id
+                  return (
+                    <div key={block.id} style={{ position: 'relative' }} onClick={() => setSelectedDecorateBlockId(block.id)}>
+                      {/* 浮动工具栏 */}
+                      {isSelected && (
+                        <div style={{
+                          position: 'absolute', top: -32, right: 0, zIndex: 10,
+                          display: 'flex', gap: 4, backgroundColor: '#fff',
+                          border: '1px solid #e8e8e8', borderRadius: 4, padding: '4px 6px',
+                        }}>
+                          {/* 上移 */}
+                          <button
+                            style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid #d9d9d9', backgroundColor: '#fff', cursor: idx === 0 ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: idx === 0 ? '#ccc' : '#555' }}
+                            onClick={e => { e.stopPropagation(); if (idx > 0) { const arr = [...decorateBlocks]; [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]]; setDecorateBlocks(arr) } }}
+                          >↑</button>
+                          {/* 下移 */}
+                          <button
+                            style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid #d9d9d9', backgroundColor: '#fff', cursor: idx === decorateBlocks.length - 1 ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: idx === decorateBlocks.length - 1 ? '#ccc' : '#555' }}
+                            onClick={e => { e.stopPropagation(); if (idx < decorateBlocks.length - 1) { const arr = [...decorateBlocks]; [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]]; setDecorateBlocks(arr) } }}
+                          >↓</button>
+                          {/* 删除 */}
+                          <button
+                            style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid #d9d9d9', backgroundColor: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#555' }}
+                            onClick={e => { e.stopPropagation(); setDecorateBlocks(prev => prev.filter(b => b.id !== block.id)); setSelectedDecorateBlockId(null) }}
+                          >×</button>
+                        </div>
+                      )}
+                      {/* 图片 block */}
+                      <div style={{
+                        border: `2px solid ${isSelected ? ORANGE : 'transparent'}`,
+                        backgroundColor: '#fff',
+                      }}>
+                        {block.imageUrl ? (
+                          <img src={block.imageUrl} alt="" style={{ width: '100%', display: 'block' }} />
+                        ) : (
+                          <div style={{ padding: '32px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, backgroundColor: '#fafafa' }}>
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="6" width="28" height="20" rx="2" stroke="#bbb" strokeWidth="1.5"/><circle cx="10" cy="13" r="2.5" stroke="#bbb" strokeWidth="1.5"/><path d="M2 22l7-6 5 5 4-4 7 7" stroke="#bbb" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+                            <span style={{ fontSize: 13, color: '#8c8c8c' }}>请在右侧面板添加图片</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
           {/* 右侧：属性面板 */}
-          <div style={{ width: 300, borderLeft: '1px solid #e8e8e8', backgroundColor: '#fafafa', flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: 13, color: '#8c8c8c', textAlign: 'center', padding: '0 20px' }}>请选择对应的组件</span>
+          <div style={{ width: 300, borderLeft: '1px solid #e8e8e8', backgroundColor: '#fafafa', flexShrink: 0, overflowY: 'auto' }}>
+            {selectedDecorateBlockId == null ? (
+              <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 13, color: '#8c8c8c', textAlign: 'center', padding: '0 20px' }}>请选择对应的组件</span>
+              </div>
+            ) : (
+              <div style={{ padding: '20px 20px' }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#333', marginBottom: 16 }}>
+                  图片{decorateBlocks.findIndex(b => b.id === selectedDecorateBlockId) + 1}
+                </div>
+                <div style={{ border: '1px solid #e8e8e8', borderRadius: 4, padding: '20px 16px', backgroundColor: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                  {/* 图片占位图标 */}
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="3" y="7" width="34" height="26" rx="2" stroke="#d9d9d9" strokeWidth="1.5"/><circle cx="13" cy="16" r="3" stroke="#d9d9d9" strokeWidth="1.5"/><path d="M3 28l9-8 6 6 5-5 8 8" stroke="#d9d9d9" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+                  {/* 规格说明 */}
+                  <div style={{ fontSize: 12, color: '#8c8c8c', textAlign: 'center', lineHeight: '18px' }}>
+                    宽高比 1/2 ≤ x ≤ 2, 宽度 ≥ 480, 大小 3M 以内
+                  </div>
+                  {/* + 从素材中心添加 */}
+                  <button
+                    style={{ width: '100%', padding: '8px 0', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 500 }}
+                    onClick={() => setDecorateImagePickerVisible(true)}
+                  >+ 从素材中心添加</button>
+                  {/* 其他工具按钮 */}
+                  {[
+                    { icon: '🔄', label: '使用虚拟试衣工具' },
+                    { icon: '👤', label: '使用真人模拍工具' },
+                    { icon: '🖼', label: '使用静物背景工具' },
+                    { icon: '✏️', label: '使用智能修图工具' },
+                  ].map(item => (
+                    <button key={item.label}
+                      style={{ width: '100%', padding: '7px 0', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', color: '#333', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                      onClick={() => setDecorateImagePickerVisible(true)}
+                    >
+                      <span>{item.icon}</span><span>{item.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
         {/* 底部操作栏 */}
@@ -1885,6 +1987,20 @@ export default function CreateProductDetailPage() {
           </button>
         </div>
       </Modal>
+
+      {/* 装修图片选择 */}
+      <TemuMediaModal
+        visible={decorateImagePickerVisible}
+        onClose={() => setDecorateImagePickerVisible(false)}
+        onConfirm={(urls) => {
+          if (urls.length > 0 && selectedDecorateBlockId != null) {
+            setDecorateBlocks(prev => prev.map(b => b.id === selectedDecorateBlockId ? { ...b, imageUrl: urls[0] } : b))
+          }
+          setDecorateImagePickerVisible(false)
+        }}
+        maxCount={1}
+        defaultMediaType="image"
+      />
     </div>
   )
 }
