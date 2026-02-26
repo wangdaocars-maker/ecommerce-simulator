@@ -1257,45 +1257,61 @@ export default function CreateProductDetailPage() {
                   <div style={{ flex: 1 }}>
                     {manualUploadType === 'update' ? (
                       <>
+                        {/* Tab 切换 */}
                         <div style={{ display: 'flex', alignItems: 'flex-end', borderBottom: '1px solid #e8e8e8', marginBottom: 20 }}>
-                          <button
-                            onClick={() => setManualFileTab('local')}
-                            style={{
-                              padding: '6px 16px', fontSize: 13, cursor: 'pointer',
-                              color: manualFileTab === 'local' ? '#333' : '#8c8c8c',
-                              border: '1px solid #e8e8e8',
-                              borderBottom: manualFileTab === 'local' ? '2px solid #fff' : '1px solid #e8e8e8',
-                              borderRadius: '4px 4px 0 0', backgroundColor: '#fff',
-                              marginBottom: -1, position: 'relative',
-                            }}
-                          >从本地上传</button>
-                          <button
-                            onClick={() => setManualFileTab('tool')}
-                            style={{
-                              padding: '6px 16px', fontSize: 13, cursor: 'pointer',
-                              color: BLUE, border: 'none', backgroundColor: 'transparent',
-                            }}
-                          >从说明书制作工具选择</button>
+                          {(['local', 'tool'] as const).map((tab, i) => (
+                            <button
+                              key={tab}
+                              onClick={() => setManualFileTab(tab)}
+                              style={{
+                                padding: '6px 16px', fontSize: 13, cursor: 'pointer',
+                                color: manualFileTab === tab ? (tab === 'tool' ? BLUE : '#333') : '#8c8c8c',
+                                border: manualFileTab === tab ? '1px solid #e8e8e8' : '1px solid transparent',
+                                borderBottom: manualFileTab === tab ? '2px solid #fff' : '1px solid transparent',
+                                borderRadius: '4px 4px 0 0', backgroundColor: '#fff',
+                                marginBottom: -1, position: 'relative',
+                                marginLeft: i > 0 ? 4 : 0,
+                              }}
+                            >{tab === 'local' ? '从本地上传' : '从说明书制作工具选择'}</button>
+                          ))}
                         </div>
-                        <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                          <button
-                            onClick={() => setTranslateModalVisible(true)}
-                            style={{
-                              padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
-                              backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                            }}>+ 翻译多语言并上传（0/35）</button>
-                          <label style={{
-                            padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
-                            backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                            display: 'inline-block',
-                          }}>
-                            + 上传文件（0/35）
-                            <input type="file" accept=".pdf" style={{ display: 'none' }} />
-                          </label>
-                        </div>
-                        <div style={{ fontSize: 13, color: '#8c8c8c' }}>
-                          1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
-                        </div>
+
+                        {/* 内容区：按 tab 切换 */}
+                        {manualFileTab === 'local' ? (
+                          <>
+                            <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                              <button
+                                onClick={() => setTranslateModalVisible(true)}
+                                style={{
+                                  padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                                  backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                                }}>+ 翻译多语言并上传（0/35）</button>
+                              <label style={{
+                                padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                                backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                                display: 'inline-block',
+                              }}>
+                                + 上传文件（0/35）
+                                <input type="file" accept=".pdf" style={{ display: 'none' }} />
+                              </label>
+                            </div>
+                            <div style={{ fontSize: 13, color: '#8c8c8c' }}>
+                              1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div style={{ marginBottom: 12 }}>
+                              <button style={{
+                                padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                                backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                              }}>+ 选择说明书</button>
+                            </div>
+                            <div style={{ fontSize: 13, color: '#8c8c8c' }}>
+                              1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
+                            </div>
+                          </>
+                        )}
                       </>
                     ) : (
                       <button
