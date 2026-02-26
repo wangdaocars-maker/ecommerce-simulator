@@ -271,6 +271,8 @@ export default function CreateProductDetailPage() {
   const [decorateImagePickerVisible, setDecorateImagePickerVisible] = useState(false)
   const [decorateBlockCounter, setDecorateBlockCounter] = useState(0)
   const [savedDecorateBlocks, setSavedDecorateBlocks] = useState<DecorateBlock[]>([])
+  const [deliveryTime, setDeliveryTime] = useState<string>('')
+  const [shippingTemplate, setShippingTemplate] = useState<string>('')
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1417,6 +1419,66 @@ export default function CreateProductDetailPage() {
                   }}>
                     <span style={{ fontSize: 13, color: '#8c8c8c' }}>更多功能开发中，敬请期待</span>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 服务与承诺 */}
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
+              服务与承诺
+            </label>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* 承诺发货时效 */}
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+                <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0 }}>
+                  <span style={{ color: '#ff4d4f' }}>*</span>承诺发货时效
+                </label>
+                <div style={{ width: 560 }}>
+                  <Select
+                    value={deliveryTime || undefined}
+                    onChange={setDeliveryTime}
+                    placeholder="请选择"
+                    style={{ width: '100%' }}
+                    options={[
+                      { value: '1', label: '1个工作日内发货' },
+                      { value: '2', label: '2个工作日内发货' },
+                      { value: '3', label: '3个工作日内发货' },
+                      { value: '5', label: '5个工作日内发货' },
+                      { value: '7', label: '7个工作日内发货' },
+                    ]}
+                  />
+                </div>
+              </div>
+              {/* 运费模板 */}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0 }}>
+                  <span style={{ color: '#ff4d4f' }}>*</span>运费模板
+                </label>
+                <div style={{ width: 560 }}>
+                  <Select
+                    value={shippingTemplate || undefined}
+                    onChange={setShippingTemplate}
+                    placeholder="请选择"
+                    style={{ width: '100%' }}
+                    notFoundContent={<div style={{ textAlign: 'center', color: '#8c8c8c', padding: '8px 0' }}>无结果</div>}
+                    options={[]}
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginLeft: 12 }}>
+                  <button style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: BLUE, padding: 0 }}>
+                    <span style={{ fontSize: 13 }}>↺</span>
+                    <span>刷新</span>
+                  </button>
+                  <button style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: BLUE, padding: 0 }}>
+                    <span>+</span>
+                    <span>新建模板</span>
+                  </button>
                 </div>
               </div>
             </div>
