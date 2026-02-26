@@ -158,6 +158,8 @@ export default function CreateProductDetailPage() {
   const [productName, setProductName] = useState('')
   const [englishName, setEnglishName] = useState('')
   const [capitalizeFirst, setCapitalizeFirst] = useState(true)
+  const [videoModalVisible, setVideoModalVisible] = useState(false)
+  const [mainVideoUrl, setMainVideoUrl] = useState<string>('')
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -357,22 +359,39 @@ export default function CreateProductDetailPage() {
               主图视频
             </label>
             <div style={{ flex: 1 }}>
-              {/* 上传按钮 */}
-              <div style={{
-                width: 120, height: 120,
-                border: '1px dashed #d9d9d9', borderRadius: 4,
-                backgroundColor: '#fafafa',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: '#999', gap: 6,
-                marginBottom: 12,
-              }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = BLUE)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '#d9d9d9')}
-              >
-                <UploadOutlined style={{ fontSize: 22, color: '#bbb' }} />
-                <span style={{ fontSize: 13 }}>上传视频</span>
-              </div>
+              {/* 上传按钮 / 视频预览 */}
+              {mainVideoUrl ? (
+                <div style={{
+                  width: 120, height: 120, borderRadius: 4, overflow: 'hidden',
+                  border: `2px solid ${BLUE}`, marginBottom: 12, position: 'relative', cursor: 'pointer',
+                }} onClick={() => setVideoModalVisible(true)}>
+                  <video src={mainVideoUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} muted />
+                  <div style={{
+                    position: 'absolute', inset: 0, display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    backgroundColor: 'rgba(0,0,0,0.25)',
+                  }}>
+                    <span style={{ color: '#fff', fontSize: 12 }}>点击更换</span>
+                  </div>
+                </div>
+              ) : (
+                <div style={{
+                  width: 120, height: 120,
+                  border: '1px dashed #d9d9d9', borderRadius: 4,
+                  backgroundColor: '#fafafa',
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', color: '#999', gap: 6,
+                  marginBottom: 12,
+                }}
+                  onClick={() => setVideoModalVisible(true)}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = BLUE)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = '#d9d9d9')}
+                >
+                  <UploadOutlined style={{ fontSize: 22, color: '#bbb' }} />
+                  <span style={{ fontSize: 13 }}>上传视频</span>
+                </div>
+              )}
               {/* 专属福利 */}
               <div style={{ fontSize: 13, marginBottom: 6 }}>
                 专属福利：
@@ -459,7 +478,7 @@ export default function CreateProductDetailPage() {
         </Button>
       </div>
 
-      {/* 素材中心弹窗 */}
+      {/* 轮播图素材中心弹窗 */}
       <TemuMediaModal
         visible={mediaModalVisible}
         onClose={() => setMediaModalVisible(false)}
@@ -470,6 +489,18 @@ export default function CreateProductDetailPage() {
           }))
         }}
         maxCount={10}
+        defaultMediaType="image"
+      />
+
+      {/* 主图视频素材中心弹窗 */}
+      <TemuMediaModal
+        visible={videoModalVisible}
+        onClose={() => setVideoModalVisible(false)}
+        onConfirm={(urls) => {
+          if (urls.length > 0) setMainVideoUrl(urls[0])
+        }}
+        maxCount={1}
+        defaultMediaType="video"
       />
     </div>
   )

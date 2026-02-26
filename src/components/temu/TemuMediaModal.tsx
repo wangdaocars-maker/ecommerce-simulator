@@ -13,14 +13,15 @@ const BLUE = '#1677ff'
 interface TemuMediaModalProps {
   visible: boolean
   onClose: () => void
-  onConfirm: (images: string[]) => void
+  onConfirm: (urls: string[]) => void
   maxCount?: number
+  defaultMediaType?: 'all' | 'image' | 'video'
 }
 
-export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount = 10 }: TemuMediaModalProps) {
+export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount = 10, defaultMediaType = 'image' }: TemuMediaModalProps) {
   const [folder, setFolder] = useState('全部')
   const [search, setSearch] = useState('')
-  const [mediaType, setMediaType] = useState<'all' | 'image' | 'video'>('image')
+  const [mediaType, setMediaType] = useState<'all' | 'image' | 'video'>(defaultMediaType)
   const [onlyAvail, setOnlyAvail] = useState(true)
   const [page, setPage] = useState(1)
   const [items, setItems] = useState<MediaItem[]>([])
@@ -63,8 +64,12 @@ export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount =
 
   // 重置状态
   useEffect(() => {
-    if (!visible) { setSelected([]); setSearch(''); setPage(1) }
-  }, [visible])
+    if (!visible) {
+      setSelected([]); setSearch(''); setPage(1)
+    } else {
+      setMediaType(defaultMediaType)
+    }
+  }, [visible, defaultMediaType])
 
   const toggleSelect = (url: string) => {
     setSelected(prev => {
