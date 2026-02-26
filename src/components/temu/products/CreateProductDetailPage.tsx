@@ -1,10 +1,15 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox, Input, Popover, Radio, Select } from 'antd'
+import { Button, Checkbox, Input, Modal, Popover, Radio, Select } from 'antd'
 import {
   CheckOutlined,
+  DeleteOutlined,
+  EditOutlined,
   ExclamationCircleFilled,
+  FullscreenOutlined,
+  LinkOutlined,
+  QuestionCircleOutlined,
   UploadOutlined,
   BgColorsOutlined,
 } from '@ant-design/icons'
@@ -212,6 +217,24 @@ export default function CreateProductDetailPage() {
   const [productWeight, setProductWeight] = useState('')
   const [sensitivePopOpen, setSensitivePopOpen] = useState(false)
   const [volumePopOpen, setVolumePopOpen] = useState(false)
+
+  // SKU信息
+  const [skuRefLink, setSkuRefLink] = useState('')
+  const [skuDeclarePrice, setSkuDeclarePrice] = useState('')
+  const [skuStock, setSkuStock] = useState('')
+  const [skuCategoryVal, setSkuCategoryVal] = useState<string | undefined>(undefined)
+  const [skuRetailPrice, setSkuRetailPrice] = useState<string | undefined>(undefined)
+  const [skuItemNumber, setSkuItemNumber] = useState('')
+  const [certModalVisible, setCertModalVisible] = useState(false)
+  const [packingItems, setPackingItems] = useState<{ id: number; item: string | undefined; qty: string }[]>([
+    { id: 1, item: undefined, qty: '' },
+  ])
+  const addPackingItem = () =>
+    setPackingItems(prev => [...prev, { id: Date.now(), item: undefined, qty: '' }])
+  const removePackingItem = (id: number) =>
+    setPackingItems(prev => prev.filter(p => p.id !== id))
+  const updatePackingItem = (id: number, field: 'item' | 'qty', value: string | undefined) =>
+    setPackingItems(prev => prev.map(p => (p.id === id ? { ...p, [field]: value } : p)))
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -782,6 +805,272 @@ export default function CreateProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* SKU 信息 */}
+      <div style={{ maxWidth: 1100, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
+
+          {/* 标题行 */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 4, height: 18, backgroundColor: BLUE, borderRadius: 2 }} />
+              <span style={{ fontSize: 15, fontWeight: 600 }}>SKU 信息</span>
+            </div>
+          </div>
+
+          {/* 表头操作行 */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {['SKU', '申报价格', '建议零售价', 'SKU分类', '包装清单'].map(label => (
+                <Select
+                  key={label}
+                  defaultValue={label}
+                  size="middle"
+                  style={{ width: 110 }}
+                  options={[{ value: label, label }]}
+                />
+              ))}
+              <button style={{
+                border: '1px solid #d9d9d9', borderRadius: 4, padding: '5px 16px',
+                backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+              }}>批量填写</button>
+            </div>
+            <a href="#" style={{ color: BLUE, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <FullscreenOutlined />全屏填写
+            </a>
+          </div>
+
+          {/* 表格（横向滚动） */}
+          <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 4 }}>
+            <div style={{ minWidth: 1100 }}>
+
+              {/* 表头行 */}
+              <div style={{ display: 'flex', backgroundColor: '#fafafa', borderBottom: '1px solid #e8e8e8' }}>
+                {/* 参考链接 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                  参考链接 <span style={{ color: BLUE }}>助力快速上新</span>
+                </div>
+                {/* 申报价格 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                  <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>申报价格(USD)
+                </div>
+                {/* 库存 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', textAlign: 'center', borderRight: '1px solid #e8e8e8' }}>
+                  <div>库存</div>
+                  <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: '18px' }}>（选填，若未填写则默认认为0，请在发布前修改）</div>
+                </div>
+                {/* SKU分类 */}
+                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                  SKU分类 <a href="#" style={{ color: BLUE }}>说明及填写示例</a>
+                </div>
+                {/* 建议零售价 */}
+                <div style={{ width: 180, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                  建议零售价 <span style={{ color: '#52c41a', fontWeight: 500 }}>填写可显著提升售卖率</span>
+                </div>
+                {/* 包装清单 */}
+                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                  <span>包装清单</span>
+                  <QuestionCircleOutlined style={{ marginLeft: 4, color: '#8c8c8c', fontSize: 13 }} />
+                  <div style={{ fontSize: 12, color: ORANGE, fontWeight: 500, lineHeight: '18px', marginTop: 2 }}>
+                    此内容在商品创建后不可修改，请认真慎填写
+                  </div>
+                </div>
+                {/* SKU货号 */}
+                <div style={{ flex: 1, padding: '12px 12px', fontSize: 13, color: '#333' }}>
+                  SKU货号
+                </div>
+              </div>
+
+              {/* 数据行 */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', borderBottom: '1px solid #f0f0f0', minHeight: 72 }}>
+                {/* 参考链接 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                  <Input
+                    value={skuRefLink}
+                    onChange={e => setSkuRefLink(e.target.value)}
+                    placeholder="请输入"
+                    prefix={<LinkOutlined style={{ color: '#bbb' }} />}
+                    size="middle"
+                  />
+                </div>
+                {/* 申报价格 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                  <Input
+                    value={skuDeclarePrice}
+                    onChange={e => setSkuDeclarePrice(e.target.value)}
+                    placeholder="请输入"
+                    prefix={<span style={{ color: '#bbb', fontSize: 13 }}>$</span>}
+                    size="middle"
+                  />
+                </div>
+                {/* 库存 */}
+                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                  <span style={{ fontSize: 13, color: '#333' }}>{skuStock || '-'}</span>
+                  <EditOutlined
+                    style={{ color: BLUE, cursor: 'pointer', fontSize: 14 }}
+                    onClick={() => {
+                      const v = window.prompt('请输入库存数量', skuStock)
+                      if (v !== null) setSkuStock(v)
+                    }}
+                  />
+                </div>
+                {/* SKU分类 */}
+                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                  <Select
+                    value={skuCategoryVal}
+                    onChange={v => setSkuCategoryVal(v)}
+                    placeholder="请选择"
+                    size="middle"
+                    style={{ width: '100%' }}
+                    options={[
+                      { value: 'A', label: '分类A' },
+                      { value: 'B', label: '分类B' },
+                    ]}
+                  />
+                </div>
+                {/* 建议零售价 */}
+                <div style={{ width: 180, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
+                  <Select
+                    value={skuRetailPrice}
+                    onChange={v => setSkuRetailPrice(v)}
+                    placeholder=""
+                    size="middle"
+                    style={{ width: '100%' }}
+                    options={[]}
+                    allowClear
+                  />
+                  <a
+                    href="#"
+                    style={{ color: BLUE, fontSize: 12, display: 'flex', alignItems: 'center', gap: 4 }}
+                    onClick={e => { e.preventDefault(); setCertModalVisible(true) }}
+                  >
+                    <UploadOutlined />证明材料（选填）
+                  </a>
+                </div>
+                {/* 包装清单 */}
+                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch' }}>
+                  {packingItems.map(p => (
+                    <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                      <Select
+                        value={p.item}
+                        onChange={v => updatePackingItem(p.id, 'item', v)}
+                        placeholder="可选择或搜索物品"
+                        size="middle"
+                        style={{ flex: 1 }}
+                        showSearch
+                        options={[
+                          { value: 'box', label: '纸箱' },
+                          { value: 'bag', label: '塑料袋' },
+                          { value: 'foam', label: '泡沫' },
+                          { value: 'manual', label: '说明书' },
+                        ]}
+                      />
+                      <Input
+                        value={p.qty}
+                        onChange={e => updatePackingItem(p.id, 'qty', e.target.value)}
+                        placeholder="数量"
+                        size="middle"
+                        style={{ width: 60 }}
+                      />
+                      <DeleteOutlined
+                        style={{ color: BLUE, cursor: 'pointer', fontSize: 16, flexShrink: 0 }}
+                        onClick={() => removePackingItem(p.id)}
+                      />
+                    </div>
+                  ))}
+                  <a
+                    href="#"
+                    style={{ color: BLUE, fontSize: 13 }}
+                    onClick={e => { e.preventDefault(); addPackingItem() }}
+                  >+ 添加</a>
+                </div>
+                {/* SKU货号 */}
+                <div style={{ flex: 1, padding: '12px 12px', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                  <Input
+                    value={skuItemNumber}
+                    onChange={e => setSkuItemNumber(e.target.value)}
+                    placeholder="请输入"
+                    size="middle"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 证明材料弹窗 */}
+      <Modal
+        open={certModalVisible}
+        onCancel={() => setCertModalVisible(false)}
+        onOk={() => setCertModalVisible(false)}
+        title="证明材料（选填）"
+        width={640}
+        okText="确认"
+        cancelText="取消"
+        okButtonProps={{ style: { backgroundColor: BLUE } }}
+      >
+        <p style={{ fontSize: 13, color: '#595959', marginBottom: 20 }}>
+          请酌情提供以下二类证明文件，其中类型二为选填。以下文件均需要有时效性，建议为六个月内
+        </p>
+
+        {/* 类型一 */}
+        <div style={{ borderLeft: `3px solid ${BLUE}`, paddingLeft: 14, marginBottom: 28 }}>
+          <div style={{ marginBottom: 10 }}>
+            <span style={{ fontSize: 14, fontWeight: 600 }}>类型一</span>
+            <span style={{ fontSize: 13, color: '#8c8c8c', marginLeft: 8 }}>可选择以下任意材料上传</span>
+          </div>
+          <div style={{ marginBottom: 6 }}>
+            <span style={{ color: ORANGE, fontWeight: 600 }}>•</span>
+            <span style={{ fontSize: 13, marginLeft: 6 }}>
+              <b>合同或协议</b>（经销或采购合同中适用于相关欧盟国家的建议零售价条款）
+            </span>
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <span style={{ color: ORANGE, fontWeight: 600 }}>•</span>
+            <span style={{ fontSize: 13, marginLeft: 6 }}>
+              <b>制造商或品牌方的官方文件或官方网站</b>（制造商或供货品牌方出具的、或其官方网站上列明的官方价格表、通知或声明中适用于欧盟国家的建议零售价）
+            </span>
+          </div>
+          <button style={{
+            display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px',
+            border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff',
+            cursor: 'pointer', fontSize: 13, color: '#333', marginBottom: 8,
+          }}>
+            <span style={{ fontSize: 16 }}>+</span> 上传文件
+          </button>
+          <div style={{ fontSize: 12, color: '#8c8c8c' }}>格式：支持jpg、jpeg、png、pdf 格式；10M以内；最多上传5张</div>
+        </div>
+
+        {/* 类型二 */}
+        <div style={{ borderLeft: `3px solid ${BLUE}`, paddingLeft: 14 }}>
+          <div style={{ marginBottom: 10 }}>
+            <span style={{ fontSize: 14, fontWeight: 600 }}>类型二</span>
+            <span style={{ fontSize: 13, color: '#8c8c8c', marginLeft: 8 }}>可选择以下任意材料上传</span>
+          </div>
+          <div style={{ marginBottom: 6 }}>
+            <span style={{ color: ORANGE, fontWeight: 600 }}>•</span>
+            <span style={{ fontSize: 13, marginLeft: 6 }}>
+              <b>商品包装或标签</b>（在相关欧盟国家实际出售的产品外包装或吊牌上标注的建议零售价）
+            </span>
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <span style={{ color: ORANGE, fontWeight: 600 }}>•</span>
+            <span style={{ fontSize: 13, marginLeft: 6 }}>
+              <b>其他官方授权线上平台的零售价截图</b>（其他欧盟地区获授权的电商平台上对同一型号和规格的产品的零售价证明，截图需包含日期，并与 URL 一并提供）
+            </span>
+          </div>
+          <button style={{
+            display: 'flex', alignItems: 'center', gap: 6, padding: '7px 16px',
+            border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#f5f5f5',
+            cursor: 'not-allowed', fontSize: 13, color: '#bbb', marginBottom: 8,
+          }} disabled>
+            <span style={{ fontSize: 16 }}>+</span> 上传文件
+          </button>
+          <div style={{ fontSize: 12, color: '#8c8c8c' }}>格式：支持jpg、jpeg、png、pdf 格式；10M以内；最多上传5张</div>
+        </div>
+      </Modal>
 
       {/* 底部固定栏 */}
       <div style={{
