@@ -208,6 +208,8 @@ export default function CreateProductDetailPage() {
   const [capitalizeFirst, setCapitalizeFirst] = useState(true)
   const [videoModalVisible, setVideoModalVisible] = useState(false)
   const [mainVideoUrl, setMainVideoUrl] = useState<string>('')
+  const [detailVideoModalVisible, setDetailVideoModalVisible] = useState(false)
+  const [detailVideoUrl, setDetailVideoUrl] = useState<string>('')
   const [originCountry, setOriginCountry] = useState<string>('')
   const [sensitiveYesNo, setSensitiveYesNo] = useState<string>('否')
   const [sensitiveProperty, setSensitiveProperty] = useState<string | undefined>(undefined)
@@ -1195,14 +1197,34 @@ export default function CreateProductDetailPage() {
               详情视频
             </label>
             <div style={{ flex: 1 }}>
-              <div style={{
-                width: 90, height: 90, border: '1px dashed #d9d9d9', borderRadius: 4,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', backgroundColor: '#fafafa', marginBottom: 12,
-              }}>
-                <UploadOutlined style={{ fontSize: 20, color: '#8c8c8c', marginBottom: 6 }} />
-                <span style={{ fontSize: 13, color: '#595959' }}>上传视频</span>
-              </div>
+              {detailVideoUrl ? (
+                <div style={{
+                  width: 120, height: 120, borderRadius: 4, overflow: 'hidden',
+                  border: `2px solid ${BLUE}`, marginBottom: 12, position: 'relative', cursor: 'pointer',
+                }} onClick={() => setDetailVideoModalVisible(true)}>
+                  <video src={detailVideoUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} muted />
+                  <div style={{
+                    position: 'absolute', inset: 0, display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    backgroundColor: 'rgba(0,0,0,0.25)',
+                  }}>
+                    <span style={{ color: '#fff', fontSize: 12 }}>点击更换</span>
+                  </div>
+                </div>
+              ) : (
+                <div style={{
+                  width: 90, height: 90, border: '1px dashed #d9d9d9', borderRadius: 4,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', backgroundColor: '#fafafa', marginBottom: 12,
+                }}
+                  onClick={() => setDetailVideoModalVisible(true)}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = BLUE)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = '#d9d9d9')}
+                >
+                  <UploadOutlined style={{ fontSize: 20, color: '#bbb', marginBottom: 6 }} />
+                  <span style={{ fontSize: 13, color: '#595959' }}>上传视频</span>
+                </div>
+              )}
               <div style={{ fontSize: 13, color: '#8c8c8c', lineHeight: '24px' }}>
                 <div>1. 使用1:1或3:4或16:9视频，时长600秒内，大小500M内，内容实用功能详实，非PPT、无黑边、无水印&nbsp;<a href="#" style={{ color: BLUE }}>查看视频要求</a></div>
                 <div>2. 详情视频展示在详情图文顶部</div>
@@ -1382,6 +1404,17 @@ export default function CreateProductDetailPage() {
         onClose={() => setVideoModalVisible(false)}
         onConfirm={(urls) => {
           if (urls.length > 0) setMainVideoUrl(urls[0])
+        }}
+        maxCount={1}
+        defaultMediaType="video"
+      />
+
+      {/* 详情视频素材中心弹窗 */}
+      <TemuMediaModal
+        visible={detailVideoModalVisible}
+        onClose={() => setDetailVideoModalVisible(false)}
+        onConfirm={(urls) => {
+          if (urls.length > 0) setDetailVideoUrl(urls[0])
         }}
         maxCount={1}
         defaultMediaType="video"
