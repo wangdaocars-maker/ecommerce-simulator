@@ -676,19 +676,55 @@ export default function ProductListClient() {
             price?: { amount?: string }
             stock?: number
             editTime?: { created?: string; edited?: string }
-          }) => ({
-            id: parseInt(item.id),
-            hasImage: !!item.image && item.image !== '/placeholder.png',
-            image: item.image !== '/placeholder.png' ? item.image : undefined,
-            title: item.title,
-            sku: item.id,
-            sites: [],
-            attributes: [],
-            sizeChart: '',
-            price: item.price?.amount ? parseFloat(item.price.amount.replace(/[^0-9.]/g, '')) : null,
-            createdAt: item.editTime?.created,
-            operations: ['编辑', '上传原图', '复制到其他站点', '修改库存', '库存流水记录'],
-          }))
+            weight?: number
+          }) => {
+            const numId = parseInt(item.id)
+            const priceUSD = item.price?.amount ? parseFloat(item.price.amount.replace(/[^0-9.]/g, '')) : null
+            // 生成随机但固定的 SPU / SKC / SKU ID（基于商品 id 保证稳定）
+            const spu = String(6000000000 + numId * 137 + 31467)
+            const skc = String(31000000000 + numId * 491 + 193)
+            const skuId = String(58000000000 + numId * 1234567 + 874)
+            const skuBarcode = `6-1-N${(numId * 30971 + 303200).toString().padStart(9, '0')}`
+            return {
+              id: numId,
+              hasImage: !!item.image && item.image !== '/placeholder.png',
+              image: item.image !== '/placeholder.png' ? item.image : undefined,
+              title: item.title,
+              category: '家居用品',
+              spu,
+              skc,
+              sku: skuBarcode,
+              sites: ['美国站'],
+              attributes: ['材质: 人造板', '材料: 其他材料', '供电方式: 无需接电使用', '树种: 硬木'],
+              sizeChart: '-',
+              docStatus: '处理成功',
+              docElectronic: '11',
+              docPaper: '去制作',
+              docLang: '英文',
+              skuId,
+              spec: '颜色: 原木色',
+              shippingMode: '卖家自发货',
+              inventory: item.stock ?? 0,
+              showInventory: '展示',
+              unpaidInventory: 0,
+              shippingOrigin: '美国',
+              productCode: '-',
+              vol: '30cm*20cm*10cm',
+              weight: item.weight ? `${item.weight}g` : '500g',
+              platformMeasure: '-',
+              sensitiveAttr: '非敏感品',
+              sensitiveStatus: '待提交',
+              skuClass: '单品',
+              skuCount: '1件',
+              skuNetWeight: '100克',
+              skuBarcode,
+              price: priceUSD,
+              priceCNY: priceUSD ? Math.round(priceUSD * 6.9779 * 100) / 100 : null,
+              marketing: '暂无推荐',
+              createdAt: item.editTime?.created,
+              operations: ['编辑', '上传原图', '复制到其他站点', '修改库存', '库存流水记录'],
+            }
+          })
           setProducts(mapped)
         }
       })
