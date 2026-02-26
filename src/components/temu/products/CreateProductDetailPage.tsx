@@ -726,7 +726,7 @@ export default function CreateProductDetailPage() {
               <div style={{ display: 'flex', gap: 0, border: '1px solid #e8e8e8', borderRadius: 4, overflow: 'hidden' }}>
 
                 {/* 第一列：敏感属性 */}
-                <div style={{ flex: '1 1 300px', minWidth: 0, padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '0 0 220px', padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
                   <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>敏感属性{' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>说明及测量示例</a>
