@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox, Input } from 'antd'
+import { Button, Checkbox, Input, Select } from 'antd'
 import {
   CheckOutlined,
   ExclamationCircleFilled,
@@ -144,6 +144,49 @@ function MediaBtn({ icon, label, showNew }: { icon: React.ReactNode; label: stri
   )
 }
 
+// ==================== 国家/地区选项 ====================
+const COUNTRY_OPTIONS = [
+  { value: 'US', label: '美国' },
+  { value: 'GB', label: '英国' },
+  { value: 'DE', label: '德国' },
+  { value: 'FR', label: '法国' },
+  { value: 'IT', label: '意大利' },
+  { value: 'ES', label: '西班牙' },
+  { value: 'NL', label: '荷兰' },
+  { value: 'PL', label: '波兰' },
+  { value: 'CA', label: '加拿大' },
+  { value: 'AU', label: '澳大利亚' },
+  { value: 'JP', label: '日本' },
+  { value: 'KR', label: '韩国' },
+  { value: 'SG', label: '新加坡' },
+  { value: 'MX', label: '墨西哥' },
+  { value: 'BR', label: '巴西' },
+  { value: 'SA', label: '沙特阿拉伯' },
+  { value: 'AE', label: '阿联酋' },
+  { value: 'SE', label: '瑞典' },
+  { value: 'NO', label: '挪威' },
+  { value: 'DK', label: '丹麦' },
+  { value: 'FI', label: '芬兰' },
+  { value: 'BE', label: '比利时' },
+  { value: 'AT', label: '奥地利' },
+  { value: 'CH', label: '瑞士' },
+  { value: 'PT', label: '葡萄牙' },
+  { value: 'CZ', label: '捷克' },
+  { value: 'RO', label: '罗马尼亚' },
+  { value: 'HU', label: '匈牙利' },
+  { value: 'GR', label: '希腊' },
+  { value: 'IE', label: '爱尔兰' },
+  { value: 'NZ', label: '新西兰' },
+  { value: 'ZA', label: '南非' },
+  { value: 'IL', label: '以色列' },
+  { value: 'TR', label: '土耳其' },
+  { value: 'PH', label: '菲律宾' },
+  { value: 'TH', label: '泰国' },
+  { value: 'MY', label: '马来西亚' },
+  { value: 'ID', label: '印度尼西亚' },
+  { value: 'IN', label: '印度' },
+]
+
 // ==================== 主组件 ====================
 export default function CreateProductDetailPage() {
   const searchParams = useSearchParams()
@@ -160,6 +203,7 @@ export default function CreateProductDetailPage() {
   const [capitalizeFirst, setCapitalizeFirst] = useState(true)
   const [videoModalVisible, setVideoModalVisible] = useState(false)
   const [mainVideoUrl, setMainVideoUrl] = useState<string>('')
+  const [originCountry, setOriginCountry] = useState<string>('')
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -455,6 +499,48 @@ export default function CreateProductDetailPage() {
               >
                 首字母大写
               </Checkbox>
+            </div>
+          </div>
+
+          {/* 商品产地 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
+              <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>商品产地
+            </label>
+            <div style={{ flex: 1 }}>
+              {/* 下拉 + 产地证明 */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                <Select
+                  value={originCountry || undefined}
+                  onChange={v => setOriginCountry(v)}
+                  placeholder="请选择"
+                  size="large"
+                  style={{ flex: 1 }}
+                  showSearch
+                  filterOption={(input, option) =>
+                    String(option?.label ?? '').includes(input)
+                  }
+                  options={COUNTRY_OPTIONS}
+                />
+                <button style={{
+                  border: '1px solid #d9d9d9', borderRadius: 4, padding: '6px 14px',
+                  backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#555',
+                  display: 'flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap',
+                  height: 40, flexShrink: 0,
+                }}>
+                  <UploadOutlined style={{ fontSize: 14 }} />
+                  产地证明（选填）
+                  <span style={{ color: '#bbb', fontSize: 13, marginLeft: 2 }}>?</span>
+                </button>
+              </div>
+              {/* 提示文字 */}
+              <div style={{ fontSize: 13, color: ORANGE, fontWeight: 500, marginBottom: 6 }}>
+                请如实填写，卖家需为产地真实性负责
+              </div>
+              <div style={{ fontSize: 13, color: '#666', lineHeight: '22px' }}>
+                <div>1.&nbsp;<span style={{ color: ORANGE, fontWeight: 500 }}>发货时可能会被海关检验</span>，如海关要求提供产地证明卖家需配合提供</div>
+                <div>2. 商品产地将展示给消费者；上传含产地信息的实拍图，有机会获得平台"优质产地"标签，提升转化。</div>
+              </div>
             </div>
           </div>
 
