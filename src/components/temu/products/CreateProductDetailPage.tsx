@@ -1335,6 +1335,63 @@ export default function CreateProductDetailPage() {
         </div>
       </div>
 
+      {/* 详情图文 */}
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 2 }}>
+              详情图文
+            </label>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* 提示文字 */}
+              <div style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 16 }}>
+                图片宽高比 1/2 ≤ x ≤ 2；图文并茂利于提升转化，详情装修请同时具备图片展示及文字描述
+              </div>
+              {/* 两栏内容 */}
+              <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                {/* 左栏：页面预览 */}
+                <div style={{ width: 380, flexShrink: 0, border: '1px solid #e8e8e8', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e8', fontSize: 13, color: '#333' }}>
+                    页面预览
+                  </div>
+                  <div style={{
+                    height: 420, display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center',
+                    backgroundColor: '#fff',
+                  }}>
+                    <div style={{ fontSize: 56, marginBottom: 8, opacity: 0.5 }}>📦</div>
+                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>暂未编辑详情页</div>
+                  </div>
+                </div>
+
+                {/* 右栏 */}
+                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {/* 装修详情页 */}
+                  <div style={{ border: '1px solid #e8e8e8', borderRadius: 4, padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ fontSize: 15, fontWeight: 600, color: '#333', marginBottom: 4 }}>装修详情页</div>
+                      <div style={{ fontSize: 13, color: '#8c8c8c' }}>可添加文字图片</div>
+                    </div>
+                    <button style={{
+                      padding: '7px 20px', border: `1px solid ${BLUE}`, borderRadius: 4,
+                      backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: BLUE,
+                    }}>开始装修</button>
+                  </div>
+                  {/* 更多功能 */}
+                  <div style={{
+                    border: '1px solid #e8e8e8', borderRadius: 4, padding: '40px 20px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backgroundColor: '#fafafa', flex: 1, minHeight: 320,
+                  }}>
+                    <span style={{ fontSize: 13, color: '#8c8c8c' }}>更多功能开发中，敬请期待</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 证明材料弹窗 */}
       <Modal
         open={certModalVisible}
