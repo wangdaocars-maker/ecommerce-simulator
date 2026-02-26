@@ -250,6 +250,8 @@ export default function CreateProductDetailPage() {
   // 电子说明书
   const [manualUploadType, setManualUploadType] = useState<'update' | 'supplement'>('update')
   const [manualFileTab, setManualFileTab] = useState<'local' | 'tool'>('local')
+  const [supplementModalVisible, setSupplementModalVisible] = useState(false)
+  const [translateModalVisible, setTranslateModalVisible] = useState(false)
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1253,39 +1255,52 @@ export default function CreateProductDetailPage() {
                 <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                   <span style={{ width: 64, fontSize: 13, color: '#595959', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 7 }}>说明书文件</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-end', borderBottom: '1px solid #e8e8e8', marginBottom: 20 }}>
+                    {manualUploadType === 'update' ? (
+                      <>
+                        <div style={{ display: 'flex', alignItems: 'flex-end', borderBottom: '1px solid #e8e8e8', marginBottom: 20 }}>
+                          <button
+                            onClick={() => setManualFileTab('local')}
+                            style={{
+                              padding: '6px 16px', fontSize: 13, cursor: 'pointer',
+                              color: manualFileTab === 'local' ? '#333' : '#8c8c8c',
+                              border: '1px solid #e8e8e8',
+                              borderBottom: manualFileTab === 'local' ? '2px solid #fff' : '1px solid #e8e8e8',
+                              borderRadius: '4px 4px 0 0', backgroundColor: '#fff',
+                              marginBottom: -1, position: 'relative',
+                            }}
+                          >从本地上传</button>
+                          <button
+                            onClick={() => setManualFileTab('tool')}
+                            style={{
+                              padding: '6px 16px', fontSize: 13, cursor: 'pointer',
+                              color: BLUE, border: 'none', backgroundColor: 'transparent',
+                            }}
+                          >从说明书制作工具选择</button>
+                        </div>
+                        <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                          <button
+                            onClick={() => setTranslateModalVisible(true)}
+                            style={{
+                              padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                              backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                            }}>+ 翻译多语言并上传（0/35）</button>
+                          <button style={{
+                            padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                            backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                          }}>+ 上传文件（0/35）</button>
+                        </div>
+                        <div style={{ fontSize: 13, color: '#8c8c8c' }}>
+                          1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
+                        </div>
+                      </>
+                    ) : (
                       <button
-                        onClick={() => setManualFileTab('local')}
+                        onClick={() => setSupplementModalVisible(true)}
                         style={{
-                          padding: '6px 16px', fontSize: 13, cursor: 'pointer',
-                          color: manualFileTab === 'local' ? '#333' : '#8c8c8c',
-                          border: '1px solid #e8e8e8',
-                          borderBottom: manualFileTab === 'local' ? '2px solid #fff' : '1px solid #e8e8e8',
-                          borderRadius: '4px 4px 0 0', backgroundColor: '#fff',
-                          marginBottom: -1, position: 'relative',
-                        }}
-                      >从本地上传</button>
-                      <button
-                        onClick={() => setManualFileTab('tool')}
-                        style={{
-                          padding: '6px 16px', fontSize: 13, cursor: 'pointer',
-                          color: BLUE, border: 'none', backgroundColor: 'transparent',
-                        }}
-                      >从说明书制作工具选择</button>
-                    </div>
-                    <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-                      <button style={{
-                        padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
-                        backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                      }}>+ 翻译多语言并上传（0/35）</button>
-                      <button style={{
-                        padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
-                        backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                      }}>+ 上传文件（0/35）</button>
-                    </div>
-                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>
-                      1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
-                    </div>
+                          padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                          backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                        }}>+ 上传文件并补充（0/35）</button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1419,6 +1434,181 @@ export default function CreateProductDetailPage() {
         maxCount={1}
         defaultMediaType="video"
       />
+
+      {/* 图2：上传文件并补充 弹窗 */}
+      <Modal
+        open={supplementModalVisible}
+        onCancel={() => setSupplementModalVisible(false)}
+        footer={null}
+        title="上传文件并补充"
+        width={680}
+      >
+        {/* ① 上传说明书 */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+            <div style={{ width: 22, height: 22, borderRadius: '50%', backgroundColor: BLUE, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 600, flexShrink: 0 }}>1</div>
+            <span style={{ fontSize: 15, fontWeight: 600 }}>上传说明书</span>
+          </div>
+          <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+            <button
+              onClick={() => setTranslateModalVisible(true)}
+              style={{ padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333' }}
+            >+ 翻译多语言并上传（0/35）</button>
+            <button style={{ padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333' }}>
+              + 上传文件（0/35）
+            </button>
+          </div>
+          <div style={{ fontSize: 13, color: '#8c8c8c', lineHeight: '22px' }}>
+            <div>1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉</div>
+            <div>2. 仅支持上传PDF，文件需在50M以内&nbsp;<a href="#" style={{ color: BLUE }}>查看说明书上传要求</a></div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid #f0f0f0', margin: '0 -24px 24px' }} />
+
+        {/* ② 补充安装/使用说明 */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <div style={{ width: 22, height: 22, borderRadius: '50%', backgroundColor: BLUE, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 600, flexShrink: 0 }}>2</div>
+            <span style={{ fontSize: 15, fontWeight: 600 }}>补充【安装/使用说明】和【安全信息说明】</span>
+            <a href="#" style={{ fontSize: 13, color: BLUE }}>查看示例</a>
+          </div>
+          {/* 安装/使用说明 */}
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: 13, fontWeight: 500 }}>安装/使用说明</span>
+              <span style={{
+                padding: '2px 8px', borderRadius: 4, fontSize: 12,
+                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                color: '#fff',
+              }}>✦ 通过AI生成</span>
+            </div>
+            {/* 图片上传区 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
+              <div style={{
+                flex: 1, border: '1px dashed #d9d9d9', borderRadius: 4, padding: '28px 0',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                backgroundColor: '#fafafa', cursor: 'pointer',
+              }}>
+                <UploadOutlined style={{ fontSize: 22, color: '#8c8c8c', marginBottom: 8 }} />
+                <div style={{ fontSize: 13, color: '#333' }}>点击或将文件拖拽到这里上传</div>
+                <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 4 }}>支持.jpg .jpge .png，大小5M内</div>
+              </div>
+              <a href="#" style={{ fontSize: 13, color: '#ff4d4f', flexShrink: 0, paddingTop: 4 }}>删除</a>
+            </div>
+            {/* 文本输入区 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+              <textarea
+                placeholder="请输入"
+                style={{
+                  flex: 1, border: '1px solid #d9d9d9', borderRadius: 4,
+                  padding: '8px 12px', fontSize: 13, resize: 'vertical',
+                  minHeight: 80, outline: 'none', fontFamily: 'inherit',
+                }}
+              />
+              <a href="#" style={{ fontSize: 13, color: '#ff4d4f', flexShrink: 0, paddingTop: 4 }}>删除</a>
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <a href="#" style={{ fontSize: 13, color: BLUE }}>+ 添加</a>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 24, borderTop: '1px solid #f0f0f0', paddingTop: 16 }}>
+          <button
+            onClick={() => setSupplementModalVisible(false)}
+            style={{ padding: '7px 20px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', cursor: 'pointer', fontSize: 14, color: '#333' }}
+          >取消</button>
+          <button style={{ padding: '7px 20px', border: 'none', borderRadius: 4, backgroundColor: BLUE, cursor: 'pointer', fontSize: 14, color: '#fff' }}>
+            翻译并确认
+          </button>
+        </div>
+      </Modal>
+
+      {/* 图3：说明书多语言翻译编辑 弹窗 */}
+      <Modal
+        open={translateModalVisible}
+        onCancel={() => setTranslateModalVisible(false)}
+        footer={null}
+        title="说明书多语言翻译编辑"
+        width={800}
+      >
+        {/* PDF 拖入区 */}
+        <div style={{
+          border: '1px solid #e8e8e8', borderRadius: 4, padding: '40px 0',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          backgroundColor: '#fafafa', marginBottom: 28, cursor: 'pointer',
+        }}>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>📄</div>
+          <div style={{ fontSize: 14, color: '#333', marginBottom: 4 }}>拖入或点击下方按钮添加文档</div>
+          <div style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 16 }}>仅支持PDF格式</div>
+          <button style={{ padding: '8px 32px', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 14 }}>
+            选择文档
+          </button>
+        </div>
+
+        {/* 说明区：上传文件 + 翻译文件 */}
+        <div style={{ display: 'flex', gap: 40 }}>
+          {/* ① 上传文件 */}
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <div style={{ width: 22, height: 22, borderRadius: '50%', backgroundColor: ORANGE, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 600 }}>1</div>
+              <span style={{ fontSize: 14, fontWeight: 600 }}>上传文件</span>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {/* 正确示例 */}
+              <div style={{ flex: 1, border: '1px solid #e8e8e8', borderRadius: 4, padding: '12px', backgroundColor: '#fff' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                  <span style={{ color: '#52c41a', fontWeight: 600 }}>✓</span>
+                  <span style={{ fontSize: 12, color: '#333' }}>PDF中仅包含<span style={{ color: ORANGE, fontWeight: 600 }}>一种语言</span></span>
+                </div>
+                <div style={{ backgroundColor: '#f5f5f5', borderRadius: 2, padding: '8px', fontSize: 11, color: '#666', lineHeight: '16px' }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>Usage Instruction of Product</div>
+                  <div>Step 1: Accessing the tool page</div>
+                  <div style={{ color: '#999' }}>Log in to the Temu seller backend...</div>
+                </div>
+              </div>
+              {/* 错误示例 */}
+              <div style={{ flex: 1, border: '1px solid #e8e8e8', borderRadius: 4, padding: '12px', backgroundColor: '#fff' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                  <span style={{ color: '#ff4d4f', fontWeight: 600 }}>✗</span>
+                  <span style={{ fontSize: 12, color: '#333' }}>PDF中包含<span style={{ color: ORANGE, fontWeight: 600 }}>多种语言</span></span>
+                </div>
+                <div style={{ backgroundColor: '#f5f5f5', borderRadius: 2, padding: '8px', fontSize: 11, color: '#666', lineHeight: '16px' }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>商品翻译工具使用说明</div>
+                  <div>(1) 第一步: 定位工具页面</div>
+                  <div style={{ color: '#999' }}>Usage Instruction...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ② 翻译文件 */}
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <div style={{ width: 22, height: 22, borderRadius: '50%', backgroundColor: ORANGE, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 600 }}>2</div>
+              <span style={{ fontSize: 14, fontWeight: 600 }}>翻译文件</span>
+            </div>
+            <div style={{ border: '1px solid #e8e8e8', borderRadius: 4, padding: '12px 16px', backgroundColor: '#fff' }}>
+              <div style={{ fontSize: 12, color: '#8c8c8c', marginBottom: 12 }}>制作一份包含<span style={{ color: ORANGE, fontWeight: 600 }}>多语言</span>版本的说明书</div>
+              {[
+                { src: 'English Instruction Manual', target: '英语', n: '1/3' },
+                { src: 'Manual de instrucciones en inglés', target: '西班牙语', n: '2/3' },
+                { src: 'Englische Anleitung', target: '德语', n: '3/3' },
+              ].map(row => (
+                <div key={row.n} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <div style={{ flex: 1, border: '1px solid #e8e8e8', borderRadius: 2, padding: '6px 8px', fontSize: 11, color: '#333', backgroundColor: '#fafafa' }}>
+                    <div style={{ fontWeight: 500 }}>{row.src}</div>
+                    <div style={{ color: '#8c8c8c' }}>{row.n}</div>
+                  </div>
+                  <span style={{ color: '#8c8c8c', fontSize: 16 }}>→</span>
+                  <div style={{ width: 56, fontSize: 12, color: '#333', textAlign: 'center' }}>{row.target}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
