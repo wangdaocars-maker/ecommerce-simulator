@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Form, Input, Button, Card, message } from 'antd'
-import { UserOutlined, LockOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
@@ -27,11 +27,13 @@ const platforms: Record<Platform, { name: string; title: string; color: string; 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/products'
+  const rawCallbackUrl = searchParams.get('callbackUrl') || ''
   const [loading, setLoading] = useState(false)
   const [platform, setPlatform] = useState<Platform>('aliexpress')
 
   const current = platforms[platform]
+
+  const callbackUrl = rawCallbackUrl || (platform === 'temu' ? '/temu/products' : '/products')
 
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true)
@@ -87,83 +89,72 @@ function LoginForm() {
             </p>
           </div>
 
-          {/* 速卖通登录表单 */}
-          {platform === 'aliexpress' && (
-            <>
-              <Form name="login" onFinish={onFinish} size="large">
-                <Form.Item
-                  name="username"
-                  rules={[{ required: true, message: '请输入用户名' }]}
+          {/* 登录表单（速卖通 / Temu 共用，样式按平台区分） */}
+          <Form name={`login-${platform}`} onFinish={onFinish} size="large">
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: '请输入用户名' }]}
+            >
+              <Input
+                prefix={<UserOutlined />}
+                placeholder="用户名"
+                autoComplete="username"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: '请输入密码' }]}
+            >
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="密码"
+                autoComplete="current-password"
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                htmlType="submit"
+                className="w-full"
+                loading={loading}
+                size="large"
+                style={{
+                  backgroundColor: current.color,
+                  borderColor: current.color,
+                  color: '#fff',
+                }}
+              >
+                登录
+              </Button>
+            </Form.Item>
+
+            {platform === 'aliexpress' && (
+              <Form.Item>
+                <Button
+                  type="default"
+                  className="w-full"
+                  size="large"
+                  onClick={() => router.push('/shop-register')}
                 >
-                  <Input
-                    prefix={<UserOutlined />}
-                    placeholder="用户名"
-                    autoComplete="username"
-                  />
-                </Form.Item>
+                  店铺注册模拟
+                </Button>
+              </Form.Item>
+            )}
 
-                <Form.Item
-                  name="password"
-                  rules={[{ required: true, message: '请输入密码' }]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined />}
-                    placeholder="密码"
-                    autoComplete="current-password"
-                  />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    htmlType="submit"
-                    className="w-full"
-                    loading={loading}
-                    size="large"
-                    style={{
-                      backgroundColor: '#FF6A00',
-                      borderColor: '#FF6A00',
-                      color: '#fff',
-                    }}
-                  >
-                    登录
-                  </Button>
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    type="default"
-                    className="w-full"
-                    size="large"
-                    onClick={() => router.push('/shop-register')}
-                  >
-                    店铺注册模拟
-                  </Button>
-                </Form.Item>
-
-                <div className="text-center">
-                  <a href="/register" style={{ color: '#FF6A00' }}>
-                    还没有账号？立即注册
-                  </a>
-                </div>
-              </Form>
-
-              <div className="mt-6 p-4 bg-gray-50 rounded text-sm text-gray-600">
-                <p className="font-semibold mb-2">测试账号：</p>
-                <p>学生: student1 / 123456</p>
-                <p>教师: teacher / teacher123</p>
-                <p>管理员: admin / admin123</p>
-              </div>
-            </>
-          )}
-
-          {/* Temu 占位 */}
-          {platform === 'temu' && (
-            <div className="text-center py-12">
-              <ClockCircleOutlined style={{ fontSize: 48, color: '#d9d9d9' }} />
-              <p className="text-gray-400 mt-4 text-base">Temu 模拟器正在建设中</p>
-              <p className="text-gray-300 text-sm mt-1">敬请期待</p>
+            <div className="text-center">
+              <a href="/register" style={{ color: current.color }}>
+                还没有账号？立即注册
+              </a>
             </div>
-          )}
+          </Form>
+
+          <div className="mt-6 p-4 bg-gray-50 rounded text-sm text-gray-600">
+            <p className="font-semibold mb-2">测试账号：</p>
+            <p>学生: student1 / 123456</p>
+            <p>教师: teacher / teacher123</p>
+            <p>管理员: admin / admin123</p>
+          </div>
         </div>
       </Card>
     </div>
