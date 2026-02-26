@@ -399,12 +399,14 @@ function buildColumns(router: any): TableColumnsType<Product> {
       <div style={{ display: 'flex', gap: 10 }}>
         <div style={{
           width: 72, height: 72, borderRadius: 4, flexShrink: 0,
-          backgroundColor: record.hasImage ? record.image : '#f5f5f5',
+          backgroundColor: '#f5f5f5',
           border: '1px solid #f0f0f0',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#ccc', fontSize: 24,
+          color: '#ccc', fontSize: 24, overflow: 'hidden',
         }}>
-          {!record.hasImage && '□'}
+          {record.hasImage && record.image
+            ? <img src={record.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            : '□'}
         </div>
         <div style={{ flex: 1, minWidth: 0, fontSize: 12, lineHeight: '18px' }}>
           {record.title && (
