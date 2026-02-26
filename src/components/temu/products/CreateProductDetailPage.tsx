@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox } from 'antd'
+import { Button, Checkbox, Input } from 'antd'
 import {
   CheckOutlined,
   ExclamationCircleFilled,
@@ -155,6 +155,9 @@ export default function CreateProductDetailPage() {
   const [mediaModalVisible, setMediaModalVisible] = useState(false)
   const [currentLang, setCurrentLang] = useState<string>('英语')
   const [carouselImages, setCarouselImages] = useState<Record<string, string[]>>({})
+  const [productName, setProductName] = useState('')
+  const [englishName, setEnglishName] = useState('')
+  const [capitalizeFirst, setCapitalizeFirst] = useState(true)
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -345,6 +348,94 @@ export default function CreateProductDetailPage() {
               <div style={{ fontSize: 12, color: '#999' }}>
                 上传商品规格图片后会自动裁剪成1:1的缩略图
               </div>
+            </div>
+          </div>
+
+          {/* 主图视频 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 2 }}>
+              主图视频
+            </label>
+            <div style={{ flex: 1 }}>
+              {/* 上传按钮 */}
+              <div style={{
+                width: 120, height: 120,
+                border: '1px dashed #d9d9d9', borderRadius: 4,
+                backgroundColor: '#fafafa',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', color: '#999', gap: 6,
+                marginBottom: 12,
+              }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = BLUE)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#d9d9d9')}
+              >
+                <UploadOutlined style={{ fontSize: 22, color: '#bbb' }} />
+                <span style={{ fontSize: 13 }}>上传视频</span>
+              </div>
+              {/* 专属福利 */}
+              <div style={{ fontSize: 13, marginBottom: 6 }}>
+                专属福利：
+                <a href="#" style={{ color: ORANGE }}>上传主图视频抢专属权益，用户最高可享8折优惠</a>
+                &nbsp;
+                <a href="#" style={{ color: BLUE }}>查看全部福利</a>
+              </div>
+              {/* 尺寸规格 */}
+              <div style={{ fontSize: 13, color: '#666', marginBottom: 6 }}>
+                尺寸规格：推荐1:1或3:4，小于600秒，500M内
+              </div>
+              {/* 内容规范 */}
+              <div style={{ fontSize: 13, color: '#666', marginBottom: 6 }}>
+                内容规范：贴合商品，无黑边水印，无侵权风险。建议
+                <span style={{ color: ORANGE }}>前5秒展示核心卖点</span>
+                ，并配上语音或英文字幕
+              </div>
+              {/* 帮助链接 */}
+              <div style={{ fontSize: 13, color: '#666' }}>
+                需要帮助？&nbsp;
+                <a href="#" style={{ color: BLUE }}>视频拍摄服务</a>
+                &nbsp;和&nbsp;
+                <a href="#" style={{ color: BLUE }}>音频翻译</a>
+                &nbsp;工具，助您轻松创作；更多示例请见&nbsp;
+                <a href="#" style={{ color: BLUE }}>优质视频拍摄指引</a>
+              </div>
+            </div>
+          </div>
+
+          {/* 商品名称 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
+              <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>商品名称
+            </label>
+            <div style={{ flex: 1 }}>
+              <Input
+                value={productName}
+                onChange={e => setProductName(e.target.value)}
+                placeholder="请输入"
+                size="large"
+              />
+            </div>
+          </div>
+
+          {/* 英文名称 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 6 }}>
+              <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>英文名称
+            </label>
+            <div style={{ flex: 1 }}>
+              <Input
+                value={englishName}
+                onChange={e => setEnglishName(e.target.value)}
+                placeholder="请输入"
+                size="large"
+                style={{ marginBottom: 10 }}
+              />
+              <Checkbox
+                checked={capitalizeFirst}
+                onChange={e => setCapitalizeFirst(e.target.checked)}
+              >
+                首字母大写
+              </Checkbox>
             </div>
           </div>
 
