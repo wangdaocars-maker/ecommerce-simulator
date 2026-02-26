@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox, Input, Select } from 'antd'
+import { Button, Checkbox, Input, Popover, Radio, Select } from 'antd'
 import {
   CheckOutlined,
   ExclamationCircleFilled,
@@ -210,6 +210,8 @@ export default function CreateProductDetailPage() {
   const [volumeM, setVolumeM] = useState('')
   const [volumeS, setVolumeS] = useState('')
   const [productWeight, setProductWeight] = useState('')
+  const [sensitivePopOpen, setSensitivePopOpen] = useState(false)
+  const [volumePopOpen, setVolumePopOpen] = useState(false)
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -581,25 +583,90 @@ export default function CreateProductDetailPage() {
 
               {/* SKU 表头行 */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                {/* SKU 列标题 */}
                 <Select
                   defaultValue="SKU"
                   size="middle"
                   style={{ width: 120 }}
                   options={[{ value: 'SKU', label: 'SKU' }]}
-                  suffixIcon={<span style={{ fontSize: 10, color: '#999' }}>▼</span>}
                 />
-                <Select
-                  defaultValue="sensitive"
-                  size="middle"
-                  style={{ width: 120 }}
-                  options={[{ value: 'sensitive', label: '敏感属性' }]}
-                />
-                <Select
-                  defaultValue="volume"
-                  size="middle"
-                  style={{ width: 120 }}
-                  options={[{ value: 'volume', label: '体积重量' }]}
-                />
+
+                {/* 敏感属性 列标题 —— Popover 弹出单选 */}
+                <Popover
+                  open={sensitivePopOpen}
+                  onOpenChange={setSensitivePopOpen}
+                  trigger="click"
+                  placement="bottom"
+                  content={
+                    <div style={{ width: 220, padding: '4px 0' }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#262626', marginBottom: 10 }}>是否敏感品</div>
+                      <Radio.Group
+                        value={sensitiveYesNo}
+                        onChange={e => { setSensitiveYesNo(e.target.value); setSensitivePopOpen(false) }}
+                      >
+                        <Radio value="否">否</Radio>
+                        <Radio value="是">是</Radio>
+                      </Radio.Group>
+                    </div>
+                  }
+                >
+                  <button style={{
+                    width: 120, height: 32, border: `1px solid ${sensitivePopOpen ? BLUE : '#d9d9d9'}`,
+                    borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer',
+                    fontSize: 13, color: '#333', display: 'flex', alignItems: 'center',
+                    justifyContent: 'space-between', padding: '0 10px',
+                    outline: sensitivePopOpen ? `2px solid ${BLUE}22` : 'none',
+                  }}>
+                    <span>敏感属性</span>
+                    <span style={{ fontSize: 10, color: '#999', transform: sensitivePopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                  </button>
+                </Popover>
+
+                {/* 体积重量 列标题 —— Popover 弹出输入框 */}
+                <Popover
+                  open={volumePopOpen}
+                  onOpenChange={setVolumePopOpen}
+                  trigger="click"
+                  placement="bottom"
+                  content={
+                    <div style={{ width: 260, padding: '4px 0' }}>
+                      {([
+                        ['最长边', volumeL, setVolumeL, 'cm'],
+                        ['次长边', volumeM, setVolumeM, 'cm'],
+                        ['最短边', volumeS, setVolumeS, 'cm'],
+                        ['重量',   productWeight, setProductWeight, 'g'],
+                      ] as [string, string, (v: string) => void, string][]).map(([label, val, setter, unit]) => (
+                        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                          <span style={{
+                            width: 48, fontSize: 13, color: '#595959',
+                            backgroundColor: '#f5f5f5', padding: '4px 0',
+                            borderRadius: 4, textAlign: 'center', flexShrink: 0,
+                          }}>{label}</span>
+                          <Input
+                            value={val}
+                            onChange={e => setter(e.target.value)}
+                            placeholder="请输入"
+                            size="small"
+                            style={{ flex: 1 }}
+                          />
+                          <span style={{ fontSize: 13, color: '#555', width: 16, textAlign: 'right' }}>{unit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                >
+                  <button style={{
+                    width: 120, height: 32, border: `1px solid ${volumePopOpen ? BLUE : '#d9d9d9'}`,
+                    borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer',
+                    fontSize: 13, color: '#333', display: 'flex', alignItems: 'center',
+                    justifyContent: 'space-between', padding: '0 10px',
+                    outline: volumePopOpen ? `2px solid ${BLUE}22` : 'none',
+                  }}>
+                    <span>体积重量</span>
+                    <span style={{ fontSize: 10, color: '#999', transform: volumePopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                  </button>
+                </Popover>
+
                 <button style={{
                   border: '1px solid #d9d9d9', borderRadius: 4, padding: '5px 16px',
                   backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
