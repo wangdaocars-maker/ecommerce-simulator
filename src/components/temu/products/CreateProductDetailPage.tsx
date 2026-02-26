@@ -1033,7 +1033,7 @@ export default function CreateProductDetailPage() {
 
           {/* 表格（横向滚动） */}
           <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 4 }}>
-            <div style={{ minWidth: 1600 }}>
+            <div style={{ minWidth: 1700 }}>
 
               {/* 表头行 */}
               <div style={{ display: 'flex', backgroundColor: '#fafafa', borderBottom: '1px solid #e8e8e8' }}>
@@ -1067,7 +1067,7 @@ export default function CreateProductDetailPage() {
                   </div>
                 </div>
                 {/* SKU货号 */}
-                <div style={{ flex: 1, padding: '12px 12px', fontSize: 13, color: '#333' }}>
+                <div style={{ flex: '0 0 160px', padding: '12px 12px', fontSize: 13, color: '#333', whiteSpace: 'nowrap' }}>
                   SKU货号
                 </div>
               </div>
@@ -1171,7 +1171,7 @@ export default function CreateProductDetailPage() {
                   >+ 添加</a>
                 </div>
                 {/* SKU货号 */}
-                <div style={{ flex: 1, padding: '12px 12px', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: '0 0 160px', padding: '12px 12px', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuItemNumber}
                     onChange={e => setSkuItemNumber(e.target.value)}
