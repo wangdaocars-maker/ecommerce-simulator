@@ -797,13 +797,11 @@ export default function CreateProductDetailPage() {
       <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
 
-          {/* 标题行 */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 4, height: 18, backgroundColor: BLUE, borderRadius: 2 }} />
-              <span style={{ fontSize: 15, fontWeight: 600 }}>SKU 信息</span>
-            </div>
-          </div>
+          <div style={{ display: 'flex', marginBottom: 16 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 4, lineHeight: '20px' }}>
+              SKU 信息
+            </label>
+            <div style={{ flex: 1 }}>
 
           {/* 表头操作行 */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
@@ -1174,6 +1172,9 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
               </div>
+
+            </div>
+          </div>
 
             </div>
           </div>
