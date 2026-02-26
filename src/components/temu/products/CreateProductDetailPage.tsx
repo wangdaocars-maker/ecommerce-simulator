@@ -1808,9 +1808,9 @@ export default function CreateProductDetailPage() {
         open={decorateModalVisible}
         onCancel={() => setDecorateModalVisible(false)}
         footer={null}
-        width="100vw"
-        style={{ top: 0, padding: 0, margin: 0, maxWidth: '100vw' }}
-        styles={{ body: { padding: 0, height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}
+        width="90vw"
+        style={{ top: '5vh', padding: 0, margin: '0 auto', maxWidth: '90vw' }}
+        styles={{ body: { padding: 0, height: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}
         closable={false}
       >
         {/* 顶部标题栏 */}
@@ -1820,7 +1820,7 @@ export default function CreateProductDetailPage() {
         {/* 中间三栏内容区 */}
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden', minHeight: 0 }}>
           {/* 左侧：装修组件 */}
-          <div style={{ width: 200, borderRight: '1px solid #e8e8e8', backgroundColor: '#fff', overflowY: 'auto', flexShrink: 0 }}>
+          <div style={{ width: 260, borderRight: '1px solid #e8e8e8', backgroundColor: '#fff', overflowY: 'auto', flexShrink: 0 }}>
             <div style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: '#333', borderBottom: '1px solid #f0f0f0' }}>
               装修组件
             </div>
@@ -1867,7 +1867,7 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
           {/* 右侧：属性面板 */}
-          <div style={{ width: 240, borderLeft: '1px solid #e8e8e8', backgroundColor: '#fafafa', flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 300, borderLeft: '1px solid #e8e8e8', backgroundColor: '#fafafa', flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ fontSize: 13, color: '#8c8c8c', textAlign: 'center', padding: '0 20px' }}>请选择对应的组件</span>
           </div>
         </div>
