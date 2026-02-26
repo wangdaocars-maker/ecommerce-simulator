@@ -16,9 +16,10 @@ interface TemuMediaModalProps {
   onConfirm: (urls: string[]) => void
   maxCount?: number
   defaultMediaType?: 'all' | 'image' | 'video'
+  zIndex?: number
 }
 
-export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount = 10, defaultMediaType = 'image' }: TemuMediaModalProps) {
+export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount = 10, defaultMediaType = 'image', zIndex = 1000 }: TemuMediaModalProps) {
   const [folder, setFolder] = useState('全部')
   const [search, setSearch] = useState('')
   const [mediaType, setMediaType] = useState<'all' | 'image' | 'video'>(defaultMediaType)
@@ -111,7 +112,7 @@ export default function TemuMediaModal({ visible, onClose, onConfirm, maxCount =
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 1000,
+      position: 'fixed', inset: 0, zIndex,
       backgroundColor: 'rgba(0,0,0,0.45)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }} onClick={e => { if (e.target === e.currentTarget) onClose() }}>
