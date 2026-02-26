@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Checkbox, Input, message, Modal, Popover, Radio, Select, Space } from 'antd'
 import {
   CheckOutlined,
@@ -277,6 +277,30 @@ export default function CreateProductDetailPage() {
 
   const productId = searchParams.get('productId')
   const isEditMode = !!productId
+
+  // 编辑模式：加载已有商品数据回填表单
+  useEffect(() => {
+    if (!productId) return
+    fetch(`/api/products/${productId}`)
+      .then(r => r.json())
+      .then(json => {
+        if (!json.success) { message.error(json.error || '加载商品失败'); return }
+        const d = json.data
+        if (d.title) setProductName(d.title)
+        // 图片：用英语 tab 回填
+        if (Array.isArray(d.images) && d.images.length > 0) {
+          setCarouselImages({ '英语': d.images })
+        }
+        if (d.video) setMainVideoUrl(d.video)
+        if (Array.isArray(d.countries) && d.countries[0]) setOriginCountry(d.countries[0])
+        if (d.weight != null) setProductWeight(String(d.weight))
+        if (d.price != null) setSkuDeclarePrice(String(d.price))
+        if (d.stock != null) setSkuStock(String(d.stock))
+        if (d.shippingTemplate) setShippingTemplate(d.shippingTemplate)
+      })
+      .catch(() => message.error('加载商品数据失败'))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId])
 
   const handleSubmit = async (status: 'active' | 'draft') => {
     if (!productName) {
