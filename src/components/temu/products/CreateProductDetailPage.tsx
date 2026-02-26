@@ -1031,35 +1031,35 @@ export default function CreateProductDetailPage() {
             </a>
           </div>
 
-          {/* 表格（横向滚动） */}
-          <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 4 }}>
-            <div style={{ minWidth: 1200 }}>
+          {/* 表格 */}
+          <div style={{ border: '1px solid #e8e8e8', borderRadius: 4 }}>
+            <div>
 
               {/* 表头行 */}
               <div style={{ display: 'flex', backgroundColor: '#fafafa', borderBottom: '1px solid #e8e8e8' }}>
                 {/* 参考链接 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   参考链接 <span style={{ color: BLUE }}>助力快速上新</span>
                 </div>
                 {/* 申报价格 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>申报价格(USD)
                 </div>
                 {/* 库存 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', textAlign: 'center', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '11 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', textAlign: 'center', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   <div>库存</div>
                   <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: '18px' }}>（选填，若未填写则默认认为0，请在发布前修改）</div>
                 </div>
                 {/* SKU分类 */}
-                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '17 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   SKU分类 <a href="#" style={{ color: BLUE }}>说明及填写示例</a>
                 </div>
                 {/* 建议零售价 */}
-                <div style={{ width: 180, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '15 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   建议零售价 <span style={{ color: '#52c41a', fontWeight: 500 }}>填写可显著提升售卖率</span>
                 </div>
                 {/* 包装清单 */}
-                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '22 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   <span>包装清单</span>
                   <QuestionCircleOutlined style={{ marginLeft: 4, color: '#8c8c8c', fontSize: 13 }} />
                   <div style={{ fontSize: 12, color: ORANGE, fontWeight: 500, lineHeight: '18px', marginTop: 2 }}>
@@ -1067,7 +1067,7 @@ export default function CreateProductDetailPage() {
                   </div>
                 </div>
                 {/* SKU货号 */}
-                <div style={{ flex: 1, padding: '12px 12px', fontSize: 13, color: '#333' }}>
+                <div style={{ flex: '9 1 0', minWidth: 0, padding: '12px 12px', fontSize: 13, color: '#333', overflow: 'hidden' }}>
                   SKU货号
                 </div>
               </div>
@@ -1075,7 +1075,7 @@ export default function CreateProductDetailPage() {
               {/* 数据行 */}
               <div style={{ display: 'flex', alignItems: 'flex-start', borderBottom: '1px solid #f0f0f0', minHeight: 72 }}>
                 {/* 参考链接 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuRefLink}
                     onChange={e => setSkuRefLink(e.target.value)}
@@ -1085,7 +1085,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 申报价格 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuDeclarePrice}
                     onChange={e => setSkuDeclarePrice(e.target.value)}
@@ -1095,7 +1095,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 库存 */}
-                <div style={{ width: 160, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <div style={{ flex: '11 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                   <span style={{ fontSize: 13, color: '#333' }}>{skuStock || '-'}</span>
                   <EditOutlined
                     style={{ color: BLUE, cursor: 'pointer', fontSize: 14 }}
@@ -1106,7 +1106,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* SKU分类 */}
-                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: '17 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Select
                     value={skuCategoryVal}
                     onChange={v => setSkuCategoryVal(v)}
@@ -1120,7 +1120,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 建议零售价 */}
-                <div style={{ width: 180, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
+                <div style={{ flex: '15 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
                   <Select
                     value={skuRetailPrice}
                     onChange={v => setSkuRetailPrice(v)}
@@ -1139,7 +1139,7 @@ export default function CreateProductDetailPage() {
                   </a>
                 </div>
                 {/* 包装清单 */}
-                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch' }}>
+                <div style={{ flex: '22 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch' }}>
                   {packingItems.map(p => (
                     <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
                       <Select
@@ -1171,7 +1171,7 @@ export default function CreateProductDetailPage() {
                   >+ 添加</a>
                 </div>
                 {/* SKU货号 */}
-                <div style={{ flex: 1, padding: '12px 12px', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ flex: '9 1 0', minWidth: 0, padding: '12px 12px', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuItemNumber}
                     onChange={e => setSkuItemNumber(e.target.value)}
