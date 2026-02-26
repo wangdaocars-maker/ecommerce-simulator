@@ -10,8 +10,14 @@ import {
   DownOutlined,
   GlobalOutlined,
   RightOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons'
-import { Badge } from 'antd'
+import { Badge, Dropdown, message } from 'antd'
+import type { MenuProps } from 'antd'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const navItems = [
   { icon: BookOutlined, label: '学习', badge: 0 },
@@ -23,6 +29,58 @@ const navItems = [
 ]
 
 export default function TemuHeader() {
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  const userName = session?.user?.name || 'WAYDO'
+  const avatarLetter = userName.charAt(0).toUpperCase()
+  const roleLabel =
+    session?.user?.role === 'admin' ? '管理员' :
+    session?.user?.role === 'teacher' ? '教师' : '学员'
+
+  const userMenuItems: MenuProps['items'] = [
+    {
+      key: 'info',
+      disabled: true,
+      label: (
+        <div>
+          <div style={{ fontWeight: 600 }}>{userName}</div>
+          <div style={{ fontSize: 12, color: '#8c8c8c' }}>角色：{roleLabel}</div>
+        </div>
+      ),
+    },
+    { type: 'divider' },
+    {
+      key: 'profile',
+      icon: <UserOutlined />,
+      label: '个人信息',
+    },
+    {
+      key: 'settings',
+      icon: <SettingOutlined />,
+      label: '账号设置',
+    },
+    { type: 'divider' },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: '退出登录',
+      onClick: async () => {
+        const hide = message.loading('正在退出...', 0)
+        try {
+          await signOut({ redirect: false })
+          hide()
+          message.success('已退出登录')
+          router.push('/login')
+          router.refresh()
+        } catch {
+          hide()
+          message.error('退出失败，请重试')
+        }
+      },
+    },
+  ]
+
   return (
     <header
       style={{
@@ -38,8 +96,11 @@ export default function TemuHeader() {
         gap: 0,
       }}
     >
-      {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+      {/* Logo — 点击跳转商品列表 */}
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0, cursor: 'pointer' }}
+        onClick={() => router.push('/temu/products')}
+      >
         <span style={{ fontWeight: 700, fontSize: 15, color: '#000', letterSpacing: -0.3 }}>
           Seller Central
         </span>
@@ -62,9 +123,7 @@ export default function TemuHeader() {
       <div style={{ width: 1, height: 16, backgroundColor: '#e0e0e0', margin: '0 12px', flexShrink: 0 }} />
 
       {/* 地区选择 */}
-      <div
-        style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', flexShrink: 0 }}
-      >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', flexShrink: 0 }}>
         <span style={{ fontSize: 13, color: '#333' }}>全球（除美国,欧区）</span>
         <DownOutlined style={{ fontSize: 10, color: '#666' }} />
       </div>
@@ -93,22 +152,17 @@ export default function TemuHeader() {
 
       {/* 右侧文字链接 */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginRight: 8 }}>
-        <a
-          href="#"
-          style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#000')}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#555')}
-        >
-          服务市场
-        </a>
-        <a
-          href="#"
-          style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#000')}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#555')}
-        >
-          履约中心
-        </a>
+        {['服务市场', '履约中心'].map(text => (
+          <a
+            key={text}
+            href="#"
+            style={{ fontSize: 13, color: '#555', textDecoration: 'none' }}
+            onMouseEnter={e => ((e.target as HTMLElement).style.color = '#000')}
+            onMouseLeave={e => ((e.target as HTMLElement).style.color = '#555')}
+          >
+            {text}
+          </a>
+        ))}
       </div>
 
       {/* 图标导航 */}
@@ -127,8 +181,8 @@ export default function TemuHeader() {
                 borderRadius: 4,
                 minWidth: 46,
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
             >
               <Badge count={item.badge} size="small" overflowCount={99}>
                 <Icon style={{ fontSize: 18, color: '#555' }} />
@@ -144,39 +198,41 @@ export default function TemuHeader() {
       {/* 分割线 */}
       <div style={{ width: 1, height: 16, backgroundColor: '#e0e0e0', margin: '0 8px', flexShrink: 0 }} />
 
-      {/* 用户头像 */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          cursor: 'pointer',
-          padding: '4px 8px',
-          borderRadius: 4,
-          flexShrink: 0,
-        }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5')}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
-      >
+      {/* 用户下拉菜单 */}
+      <Dropdown menu={{ items: userMenuItems }} trigger={['click']} placement="bottomRight">
         <div
           style={{
-            width: 30,
-            height: 30,
-            borderRadius: '50%',
-            backgroundColor: '#FF6A00',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: 13,
+            gap: 6,
+            cursor: 'pointer',
+            padding: '4px 8px',
+            borderRadius: 4,
+            flexShrink: 0,
           }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5')}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
         >
-          W
+          <div
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: '50%',
+              backgroundColor: '#FF6A00',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontWeight: 700,
+              fontSize: 13,
+            }}
+          >
+            {avatarLetter}
+          </div>
+          <span style={{ fontSize: 13, fontWeight: 500, color: '#333' }}>{userName}</span>
+          <DownOutlined style={{ fontSize: 10, color: '#888' }} />
         </div>
-        <span style={{ fontSize: 13, fontWeight: 500, color: '#333' }}>WAYDO</span>
-        <DownOutlined style={{ fontSize: 10, color: '#888' }} />
-      </div>
+      </Dropdown>
     </header>
   )
 }
