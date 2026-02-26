@@ -801,7 +801,7 @@ export default function CreateProductDetailPage() {
             <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 4, lineHeight: '20px' }}>
               SKU 信息
             </label>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
 
           {/* 表头操作行 */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
