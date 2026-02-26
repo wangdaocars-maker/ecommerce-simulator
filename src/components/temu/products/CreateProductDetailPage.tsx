@@ -236,6 +236,30 @@ export default function CreateProductDetailPage() {
   const updatePackingItem = (id: number, field: 'item' | 'qty', value: string | undefined) =>
     setPackingItems(prev => prev.map(p => (p.id === id ? { ...p, [field]: value } : p)))
 
+  // SKU 表头 Popover 状态
+  const [declarePricePopOpen, setDeclarePricePopOpen] = useState(false)
+  const [retailPricePopOpen, setRetailPricePopOpen] = useState(false)
+  const [skuCatPopOpen, setSkuCatPopOpen] = useState(false)
+  const [packingPopOpen, setPackingPopOpen] = useState(false)
+  const [retailCurrency, setRetailCurrency] = useState('USD')
+  const [retailCurrencyOpen, setRetailCurrencyOpen] = useState(false)
+  const [skuCatDropOpen, setSkuCatDropOpen] = useState(false)
+
+  const CURRENCY_OPTIONS = [
+    { value: 'USD', label: 'USD（$）' },
+    { value: 'CNY', label: 'CNY（¥）' },
+    { value: 'JPY', label: 'JPY（¥）' },
+    { value: 'CAD', label: 'CAD（CA$）' },
+    { value: 'GBP', label: 'GBP（£）' },
+    { value: 'AUD', label: 'AUD（AU$）' },
+  ]
+  const SKU_CAT_OPTIONS = [
+    { value: 'single', label: '单品', desc: '仅1件商品（如1个碗、1对耳环）' },
+    { value: 'multi', label: '同款多件装', desc: '多件同规格同种类单品（如2个相同的杯子）' },
+    { value: 'bundle', label: '混合套装', desc: '多件不同品类/规格单品（如1个杯子+1个勺子）' },
+  ]
+  const PACKING_GOODS = ['测试配件1', '电源适配器', '插针', '说明书', '螺丝', '螺丝刀']
+
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
   return (
@@ -821,15 +845,213 @@ export default function CreateProductDetailPage() {
           {/* 表头操作行 */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {['SKU', '申报价格', '建议零售价', 'SKU分类', '包装清单'].map(label => (
-                <Select
-                  key={label}
-                  defaultValue={label}
-                  size="middle"
-                  style={{ width: 110 }}
-                  options={[{ value: label, label }]}
-                />
-              ))}
+
+              {/* SKU — 普通 Select */}
+              <Select defaultValue="SKU" size="middle" style={{ width: 110 }} options={[{ value: 'SKU', label: 'SKU' }]} />
+
+              {/* 申报价格 Popover */}
+              <Popover
+                open={declarePricePopOpen}
+                onOpenChange={setDeclarePricePopOpen}
+                trigger="click"
+                placement="bottom"
+                content={
+                  <div style={{ width: 220, padding: '4px 0' }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10 }}>申报价格 (USD)</div>
+                    <Input
+                      value={skuDeclarePrice}
+                      onChange={e => setSkuDeclarePrice(e.target.value)}
+                      placeholder="请输入"
+                      size="middle"
+                    />
+                  </div>
+                }
+              >
+                <button style={{
+                  width: 110, height: 32, border: `1px solid ${declarePricePopOpen ? BLUE : '#d9d9d9'}`,
+                  borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px',
+                }}>
+                  <span>申报价格</span>
+                  <span style={{ fontSize: 10, color: '#999', transform: declarePricePopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                </button>
+              </Popover>
+
+              {/* 建议零售价 Popover */}
+              <Popover
+                open={retailPricePopOpen}
+                onOpenChange={v => { setRetailPricePopOpen(v); if (!v) setRetailCurrencyOpen(false) }}
+                trigger="click"
+                placement="bottom"
+                content={
+                  <div style={{ width: 260, padding: '4px 0' }}>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <Input
+                        value={skuRetailPrice ?? ''}
+                        onChange={e => setSkuRetailPrice(e.target.value)}
+                        placeholder=""
+                        size="middle"
+                        style={{ flex: 1 }}
+                      />
+                      {/* 货币选择器 */}
+                      <div style={{ position: 'relative' }}>
+                        <button
+                          onClick={() => setRetailCurrencyOpen(o => !o)}
+                          style={{
+                            height: 32, border: `1px solid ${retailCurrencyOpen ? BLUE : '#d9d9d9'}`,
+                            borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer',
+                            fontSize: 13, color: '#333', display: 'flex', alignItems: 'center',
+                            gap: 4, padding: '0 8px', whiteSpace: 'nowrap',
+                          }}
+                        >
+                          <span>{CURRENCY_OPTIONS.find(c => c.value === retailCurrency)?.label ?? 'USD（$）'}</span>
+                          <span style={{ fontSize: 10, color: '#999', transform: retailCurrencyOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                        </button>
+                        {retailCurrencyOpen && (
+                          <div style={{
+                            position: 'absolute', top: 36, right: 0, zIndex: 1000,
+                            backgroundColor: '#fff', border: '1px solid #e8e8e8',
+                            borderRadius: 6, boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                            minWidth: 140,
+                          }}>
+                            {CURRENCY_OPTIONS.map(c => (
+                              <div
+                                key={c.value}
+                                onClick={() => { setRetailCurrency(c.value); setRetailCurrencyOpen(false) }}
+                                style={{
+                                  padding: '8px 14px', fontSize: 13, cursor: 'pointer',
+                                  backgroundColor: c.value === retailCurrency ? '#f0f7ff' : '#fff',
+                                  color: '#333',
+                                }}
+                                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
+                                onMouseLeave={e => (e.currentTarget.style.backgroundColor = c.value === retailCurrency ? '#f0f7ff' : '#fff')}
+                              >
+                                {c.label}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                }
+              >
+                <button style={{
+                  width: 110, height: 32, border: `1px solid ${retailPricePopOpen ? BLUE : '#d9d9d9'}`,
+                  borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px',
+                }}>
+                  <span>建议零售价</span>
+                  <span style={{ fontSize: 10, color: '#999', transform: retailPricePopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                </button>
+              </Popover>
+
+              {/* SKU分类 Popover */}
+              <Popover
+                open={skuCatPopOpen}
+                onOpenChange={v => { setSkuCatPopOpen(v); if (!v) setSkuCatDropOpen(false) }}
+                trigger="click"
+                placement="bottom"
+                content={
+                  <div style={{ width: 280, padding: '4px 0' }}>
+                    {/* 触发下拉按钮 */}
+                    <button
+                      onClick={() => setSkuCatDropOpen(o => !o)}
+                      style={{
+                        width: '100%', height: 32, border: `1px solid ${skuCatDropOpen ? BLUE : '#d9d9d9'}`,
+                        borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer',
+                        fontSize: 13, color: skuCategoryVal ? '#333' : '#bbb',
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        padding: '0 10px', marginBottom: 4,
+                      }}
+                    >
+                      <span>{SKU_CAT_OPTIONS.find(o => o.value === skuCategoryVal)?.label ?? '请选择SKU分类'}</span>
+                      <span style={{ fontSize: 10, color: '#999', transform: skuCatDropOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                    </button>
+                    {/* 选项列表 */}
+                    {skuCatDropOpen && (
+                      <div style={{ border: '1px solid #e8e8e8', borderRadius: 6, overflow: 'hidden' }}>
+                        {SKU_CAT_OPTIONS.map(opt => (
+                          <div
+                            key={opt.value}
+                            onClick={() => { setSkuCategoryVal(opt.value); setSkuCatDropOpen(false); setSkuCatPopOpen(false) }}
+                            style={{
+                              padding: '10px 14px', cursor: 'pointer',
+                              backgroundColor: opt.value === skuCategoryVal ? '#f0f7ff' : '#fff',
+                              borderBottom: '1px solid #f0f0f0',
+                            }}
+                            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
+                            onMouseLeave={e => (e.currentTarget.style.backgroundColor = opt.value === skuCategoryVal ? '#f0f7ff' : '#fff')}
+                          >
+                            <div style={{ fontSize: 13, fontWeight: 600, color: '#262626' }}>{opt.label}</div>
+                            <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 2 }}>{opt.desc}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                }
+              >
+                <button style={{
+                  width: 110, height: 32, border: `1px solid ${skuCatPopOpen ? BLUE : '#d9d9d9'}`,
+                  borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px',
+                }}>
+                  <span>SKU分类</span>
+                  <span style={{ fontSize: 10, color: '#999', transform: skuCatPopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                </button>
+              </Popover>
+
+              {/* 包装清单 Popover */}
+              <Popover
+                open={packingPopOpen}
+                onOpenChange={setPackingPopOpen}
+                trigger="click"
+                placement="bottom"
+                content={
+                  <div style={{ width: 320, padding: '4px 0' }}>
+                    {packingItems.map(p => (
+                      <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                        <Select
+                          value={p.item}
+                          onChange={v => updatePackingItem(p.id, 'item', v)}
+                          placeholder="可选择或搜索物品"
+                          size="middle"
+                          style={{ flex: 1 }}
+                          showSearch
+                          options={PACKING_GOODS.map(g => ({ value: g, label: g }))}
+                        />
+                        <Input
+                          value={p.qty}
+                          onChange={e => updatePackingItem(p.id, 'qty', e.target.value)}
+                          placeholder="数量"
+                          size="middle"
+                          style={{ width: 64 }}
+                        />
+                        <DeleteOutlined
+                          style={{ color: BLUE, cursor: 'pointer', fontSize: 16, flexShrink: 0 }}
+                          onClick={() => removePackingItem(p.id)}
+                        />
+                      </div>
+                    ))}
+                    <a
+                      href="#"
+                      style={{ color: BLUE, fontSize: 13 }}
+                      onClick={e => { e.preventDefault(); addPackingItem() }}
+                    >+ 添加</a>
+                  </div>
+                }
+              >
+                <button style={{
+                  width: 110, height: 32, border: `1px solid ${packingPopOpen ? BLUE : '#d9d9d9'}`,
+                  borderRadius: 6, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px',
+                }}>
+                  <span>包装清单</span>
+                  <span style={{ fontSize: 10, color: '#999', transform: packingPopOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }}>▼</span>
+                </button>
+              </Popover>
+
               <button style={{
                 border: '1px solid #d9d9d9', borderRadius: 4, padding: '5px 16px',
                 backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
@@ -958,12 +1180,7 @@ export default function CreateProductDetailPage() {
                         size="middle"
                         style={{ flex: 1 }}
                         showSearch
-                        options={[
-                          { value: 'box', label: '纸箱' },
-                          { value: 'bag', label: '塑料袋' },
-                          { value: 'foam', label: '泡沫' },
-                          { value: 'manual', label: '说明书' },
-                        ]}
+                        options={PACKING_GOODS.map(g => ({ value: g, label: g }))}
                       />
                       <Input
                         value={p.qty}
