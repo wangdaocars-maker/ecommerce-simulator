@@ -252,6 +252,9 @@ export default function CreateProductDetailPage() {
   const [manualFileTab, setManualFileTab] = useState<'local' | 'tool'>('local')
   const [supplementModalVisible, setSupplementModalVisible] = useState(false)
   const [translateModalVisible, setTranslateModalVisible] = useState(false)
+  const [selectManualModalVisible, setSelectManualModalVisible] = useState(false)
+  const [selectedManualId, setSelectedManualId] = useState<number | null>(1)
+  const [manualSearchQuery, setManualSearchQuery] = useState('')
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1302,10 +1305,12 @@ export default function CreateProductDetailPage() {
                         ) : (
                           <>
                             <div style={{ marginBottom: 12 }}>
-                              <button style={{
-                                padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
-                                backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                              }}>+ 选择说明书</button>
+                              <button
+                                onClick={() => setSelectManualModalVisible(true)}
+                                style={{
+                                  padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                                  backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                                }}>+ 选择说明书</button>
                             </div>
                             <div style={{ fontSize: 13, color: '#8c8c8c' }}>
                               1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
@@ -1633,6 +1638,111 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
         </div>
+      </Modal>
+
+      {/* 从说明书制作工具选择 弹窗 */}
+      <Modal
+        open={selectManualModalVisible}
+        onCancel={() => setSelectManualModalVisible(false)}
+        onOk={() => setSelectManualModalVisible(false)}
+        title="从说明书制作工具选择"
+        width={900}
+        okText="确认"
+        cancelText="取消"
+        okButtonProps={{ style: { backgroundColor: BLUE } }}
+        styles={{ body: { padding: 0 } }}
+      >
+        {(() => {
+          const MOCK_MANUALS = [
+            {
+              id: 1,
+              name: 'Add Manual 20251017024328',
+              languages: '英文/德语/西班牙语/法语/意大利语/韩语/日语/瑞典语/捷克...',
+              preview: [
+                { type: 'heading', text: 'Sofa Furniture User Manual' },
+                { type: 'section', title: '1. Product Introduction', body: 'Thank you for purchasing our sofa! Made with high-quality materials, our sofas are stylish and perfect for various home and office environments. Please read the manual carefully before use to ensure safe and comfortable usage.' },
+                { type: 'section', title: '2. Basic Usage Tips', bullets: ['Avoid placing heavy objects on the sofa for prolonged periods to prevent damage to the structure.', 'Do not engage in vigorous activity or jumping on the sofa to prevent damage to the frame or cushioning.', 'Avoid direct sunlight exposure for extended periods, as it may cause the fabric to fade.'] },
+                { type: 'section', title: '3. Cleaning & Maintenance', bullets: ['Wipe the sofa surface with a soft cloth and regularly clean dust.', 'Use a mild detergent to clean stains and avoid harsh chemical cleaners.', 'Regularly check the sofa structure to ensure no loose parts.'] },
+                { type: 'section', title: '4. Assembly Instructions', bullets: ['If assembly is required, follow the included instructions.', 'Ensure all parts are securely fastened to avoid instability'] },
+              ] as { type: string; text?: string; title?: string; body?: string; bullets?: string[] }[],
+            },
+          ]
+          const filtered = MOCK_MANUALS.filter(m =>
+            !manualSearchQuery || m.name.toLowerCase().includes(manualSearchQuery.toLowerCase())
+          )
+          const selected = MOCK_MANUALS.find(m => m.id === selectedManualId)
+          return (
+            <div style={{ display: 'flex', height: 580, overflow: 'hidden' }}>
+              {/* 左侧：搜索 + 列表 */}
+              <div style={{ width: 340, borderRight: '1px solid #f0f0f0', padding: '16px', display: 'flex', flexDirection: 'column', gap: 12, overflowY: 'auto' }}>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
+                    <input
+                      value={manualSearchQuery}
+                      onChange={e => setManualSearchQuery(e.target.value)}
+                      placeholder="请输入"
+                      style={{
+                        width: '100%', boxSizing: 'border-box',
+                        border: '1px solid #d9d9d9', borderRadius: 4,
+                        padding: '6px 32px 6px 10px', fontSize: 13, outline: 'none',
+                      }}
+                    />
+                  </div>
+                  <button style={{ padding: '6px 16px', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 13, flexShrink: 0 }}>查询</button>
+                </div>
+                <div style={{ fontSize: 12, color: '#8c8c8c' }}>仅可选择已完成翻译的说明书</div>
+                {filtered.map(m => {
+                  const isSelected = selectedManualId === m.id
+                  return (
+                    <div
+                      key={m.id}
+                      onClick={() => setSelectedManualId(m.id)}
+                      style={{
+                        position: 'relative', overflow: 'hidden',
+                        border: `1px solid ${isSelected ? ORANGE : '#e8e8e8'}`,
+                        borderRadius: 4, padding: '12px 14px',
+                        backgroundColor: isSelected ? '#fffbe6' : '#fff',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{m.name}</div>
+                      <div style={{ fontSize: 12, color: '#8c8c8c' }}>说明书包含语言：{m.languages}</div>
+                      {isSelected && (
+                        <div style={{
+                          position: 'absolute', top: 0, right: 0,
+                          width: 0, height: 0,
+                          borderStyle: 'solid', borderWidth: '0 28px 28px 0',
+                          borderColor: `transparent ${ORANGE} transparent transparent`,
+                        }}>
+                          <span style={{ position: 'absolute', top: 4, right: -24, fontSize: 11, color: '#fff', fontWeight: 700 }}>✓</span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+              {/* 右侧：预览 */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '24px 32px', backgroundColor: '#fafafa' }}>
+                {selected ? selected.preview.map((block, i) => {
+                  if (block.type === 'heading') return (
+                    <div key={i} style={{ textAlign: 'center', fontSize: 15, fontWeight: 600, marginBottom: 20, color: '#333' }}>{block.text}</div>
+                  )
+                  return (
+                    <div key={i} style={{ marginBottom: 18 }}>
+                      <div style={{ textAlign: 'center', fontSize: 13, fontWeight: 600, color: '#333', marginBottom: 8 }}>{block.title}</div>
+                      {block.body && <div style={{ fontSize: 12, color: '#555', textAlign: 'center', lineHeight: '20px' }}>{block.body}</div>}
+                      {block.bullets && block.bullets.map((b, j) => (
+                        <div key={j} style={{ fontSize: 12, color: '#555', textAlign: 'center', lineHeight: '20px' }}>・{b}</div>
+                      ))}
+                    </div>
+                  )
+                }) : (
+                  <div style={{ color: '#8c8c8c', fontSize: 13, textAlign: 'center', marginTop: 40 }}>请在左侧选择说明书</div>
+                )}
+              </div>
+            </div>
+          )
+        })()}
       </Modal>
     </div>
   )
