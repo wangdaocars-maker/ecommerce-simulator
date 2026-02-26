@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox, Input, Modal, Popover, Radio, Select } from 'antd'
+import { Button, Checkbox, Input, Modal, Popover, Radio, Select, Space } from 'antd'
 import {
   CheckOutlined,
   DeleteOutlined,
@@ -767,33 +767,17 @@ export default function CreateProductDetailPage() {
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'nowrap' }}>
-                    <Input
-                      addonBefore="最长边"
-                      addonAfter="cm"
-                      value={volumeL}
-                      onChange={e => setVolumeL(e.target.value)}
-                      placeholder="请输入"
-                      size="middle"
-                      style={{ width: 180 }}
-                    />
-                    <Input
-                      addonBefore="次长边"
-                      addonAfter="cm"
-                      value={volumeM}
-                      onChange={e => setVolumeM(e.target.value)}
-                      placeholder="请输入"
-                      size="middle"
-                      style={{ width: 180 }}
-                    />
-                    <Input
-                      addonBefore="最短边"
-                      addonAfter="cm"
-                      value={volumeS}
-                      onChange={e => setVolumeS(e.target.value)}
-                      placeholder="请输入"
-                      size="middle"
-                      style={{ width: 180 }}
-                    />
+                    {([
+                      ['最长边', volumeL, setVolumeL],
+                      ['次长边', volumeM, setVolumeM],
+                      ['最短边', volumeS, setVolumeS],
+                    ] as [string, string, (v: string) => void][]).map(([label, val, setter]) => (
+                      <Space.Compact key={label} size="middle">
+                        <Input readOnly value={label} style={{ width: 52, textAlign: 'center', background: '#fafafa', color: '#595959', cursor: 'default' }} />
+                        <Input value={val} onChange={e => setter(e.target.value)} placeholder="请输入" style={{ width: 88 }} />
+                        <Input readOnly value="cm" style={{ width: 36, textAlign: 'center', background: '#fafafa', color: '#595959', cursor: 'default' }} />
+                      </Space.Compact>
+                    ))}
                   </div>
                 </div>
 
@@ -803,14 +787,10 @@ export default function CreateProductDetailPage() {
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>重量{' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
                   </div>
-                  <Input
-                    addonAfter="g"
-                    value={productWeight}
-                    onChange={e => setProductWeight(e.target.value)}
-                    placeholder="请输入"
-                    size="middle"
-                    style={{ width: '100%' }}
-                  />
+                  <Space.Compact size="middle" style={{ width: '100%' }}>
+                    <Input value={productWeight} onChange={e => setProductWeight(e.target.value)} placeholder="请输入" style={{ flex: 1 }} />
+                    <Input readOnly value="g" style={{ width: 36, textAlign: 'center', background: '#fafafa', color: '#595959', cursor: 'default' }} />
+                  </Space.Compact>
                 </div>
 
               </div>
