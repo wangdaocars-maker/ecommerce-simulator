@@ -255,6 +255,7 @@ export default function CreateProductDetailPage() {
   const [selectManualModalVisible, setSelectManualModalVisible] = useState(false)
   const [selectedManualId, setSelectedManualId] = useState<number | null>(1)
   const [manualSearchQuery, setManualSearchQuery] = useState('')
+  const [decorateModalVisible, setDecorateModalVisible] = useState(false)
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1375,7 +1376,7 @@ export default function CreateProductDetailPage() {
                     <button style={{
                       padding: '7px 20px', border: `1px solid ${BLUE}`, borderRadius: 4,
                       backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: BLUE,
-                    }}>开始装修</button>
+                    }} onClick={() => setDecorateModalVisible(true)}>开始装修</button>
                   </div>
                   {/* 更多功能 */}
                   <div style={{
@@ -1800,6 +1801,89 @@ export default function CreateProductDetailPage() {
             </div>
           )
         })()}
+      </Modal>
+
+      {/* 详情页装修弹窗 */}
+      <Modal
+        open={decorateModalVisible}
+        onCancel={() => setDecorateModalVisible(false)}
+        footer={null}
+        width="100vw"
+        style={{ top: 0, padding: 0, margin: 0, maxWidth: '100vw' }}
+        styles={{ body: { padding: 0, height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}
+        closable={false}
+      >
+        {/* 顶部标题栏 */}
+        <div style={{ height: 52, borderBottom: '1px solid #e8e8e8', display: 'flex', alignItems: 'center', padding: '0 20px', backgroundColor: '#fff', flexShrink: 0 }}>
+          <span style={{ fontSize: 15, fontWeight: 600, color: '#333' }}>详情页装修</span>
+        </div>
+        {/* 中间三栏内容区 */}
+        <div style={{ flex: 1, display: 'flex', overflow: 'hidden', minHeight: 0 }}>
+          {/* 左侧：装修组件 */}
+          <div style={{ width: 200, borderRight: '1px solid #e8e8e8', backgroundColor: '#fff', overflowY: 'auto', flexShrink: 0 }}>
+            <div style={{ padding: '12px 16px', fontSize: 13, fontWeight: 600, color: '#333', borderBottom: '1px solid #f0f0f0' }}>
+              装修组件
+            </div>
+            {/* 图文类 */}
+            <div style={{ padding: '12px 16px 8px' }}>
+              <div style={{ fontSize: 12, color: '#8c8c8c', marginBottom: 8 }}>图文类</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {/* 图片 */}
+                <div style={{
+                  flex: 1, border: '1px solid #e8e8e8', borderRadius: 4, padding: '12px 8px',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                  cursor: 'pointer', backgroundColor: '#fff',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = BLUE; e.currentTarget.style.backgroundColor = '#f0f7ff' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#e8e8e8'; e.currentTarget.style.backgroundColor = '#fff' }}
+                >
+                  <span style={{ fontSize: 20 }}>🖼️</span>
+                  <span style={{ fontSize: 12, color: '#333' }}>图片</span>
+                </div>
+                {/* 文本 */}
+                <div style={{
+                  flex: 1, border: '1px solid #e8e8e8', borderRadius: 4, padding: '12px 8px',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                  cursor: 'pointer', backgroundColor: '#fff',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = BLUE; e.currentTarget.style.backgroundColor = '#f0f7ff' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#e8e8e8'; e.currentTarget.style.backgroundColor = '#fff' }}
+                >
+                  <span style={{ fontSize: 20 }}>📝</span>
+                  <span style={{ fontSize: 12, color: '#333' }}>文本</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 中间：画布区 */}
+          <div style={{ flex: 1, backgroundColor: '#f5f5f5', overflowY: 'auto', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '32px 24px', minWidth: 0 }}>
+            <div style={{
+              width: 390, minHeight: 500, backgroundColor: '#fff', borderRadius: 4,
+              border: '1px solid #e8e8e8', display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center', gap: 12,
+            }}>
+              <span style={{ fontSize: 40 }}>📦</span>
+              <span style={{ fontSize: 13, color: '#8c8c8c' }}>请插入装修组件</span>
+            </div>
+          </div>
+          {/* 右侧：属性面板 */}
+          <div style={{ width: 240, borderLeft: '1px solid #e8e8e8', backgroundColor: '#fafafa', flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: 13, color: '#8c8c8c', textAlign: 'center', padding: '0 20px' }}>请选择对应的组件</span>
+          </div>
+        </div>
+        {/* 底部操作栏 */}
+        <div style={{ height: 56, borderTop: '1px solid #e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 24px', gap: 12, backgroundColor: '#fff', flexShrink: 0 }}>
+          <button style={{ padding: '7px 24px', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 500 }}>
+            保存
+          </button>
+          <button style={{ padding: '7px 24px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', color: '#333', cursor: 'pointer', fontSize: 14 }}
+            onClick={() => setDecorateModalVisible(false)}>
+            取消
+          </button>
+          <button style={{ padding: '7px 24px', border: 'none', borderRadius: 4, backgroundColor: 'transparent', color: '#8c8c8c', cursor: 'pointer', fontSize: 14 }}>
+            清空
+          </button>
+        </div>
       </Modal>
     </div>
   )
