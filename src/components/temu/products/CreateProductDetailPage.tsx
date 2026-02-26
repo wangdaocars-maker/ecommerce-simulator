@@ -1284,10 +1284,14 @@ export default function CreateProductDetailPage() {
                               padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
                               backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
                             }}>+ 翻译多语言并上传（0/35）</button>
-                          <button style={{
+                          <label style={{
                             padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
                             backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
-                          }}>+ 上传文件（0/35）</button>
+                            display: 'inline-block',
+                          }}>
+                            + 上传文件（0/35）
+                            <input type="file" accept=".pdf" style={{ display: 'none' }} />
+                          </label>
                         </div>
                         <div style={{ fontSize: 13, color: '#8c8c8c' }}>
                           1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
@@ -1454,9 +1458,14 @@ export default function CreateProductDetailPage() {
               onClick={() => setTranslateModalVisible(true)}
               style={{ padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333' }}
             >+ 翻译多语言并上传（0/35）</button>
-            <button style={{ padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333' }}>
+            <label style={{
+              padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+              backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+              display: 'inline-block',
+            }}>
               + 上传文件（0/35）
-            </button>
+              <input type="file" accept=".pdf" style={{ display: 'none' }} />
+            </label>
           </div>
           <div style={{ fontSize: 13, color: '#8c8c8c', lineHeight: '22px' }}>
             <div>1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉</div>
