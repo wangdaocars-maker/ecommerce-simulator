@@ -1046,9 +1046,9 @@ export default function CreateProductDetailPage() {
                   <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>申报价格(USD)
                 </div>
                 {/* 库存 */}
-                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
-                  <div>库存</div>
-                  <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: '18px' }}>（选填，若未填写则默认认为0，请在发布前修改）</div>
+                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', textAlign: 'center', borderRight: '1px solid #e8e8e8' }}>
+                  <div style={{ fontWeight: 500 }}>库存</div>
+                  <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: '18px' }}>未填写则默认认为0，请在发布前修改</div>
                 </div>
                 {/* SKU分类 */}
                 <div style={{ width: 320, flexShrink: 0, padding: '12px 12px', fontSize: 13, color: '#333', borderRight: '1px solid #e8e8e8' }}>
@@ -1095,7 +1095,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 库存 */}
-                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                   <span style={{ fontSize: 13, color: '#333' }}>{skuStock || '-'}</span>
                   <EditOutlined
                     style={{ color: BLUE, cursor: 'pointer', fontSize: 14 }}
@@ -1106,7 +1106,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* SKU分类 */}
-                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 320, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Select
                     value={skuCategoryVal}
                     onChange={v => setSkuCategoryVal(v)}
