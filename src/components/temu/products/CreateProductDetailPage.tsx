@@ -275,7 +275,7 @@ export default function CreateProductDetailPage() {
       </div>
 
       {/* 内容区 */}
-      <div style={{ maxWidth: 1100, margin: '24px auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: 1400, margin: '24px auto', padding: '0 24px' }}>
         {/* 右上角链接 */}
         <div style={{ textAlign: 'right', fontSize: 13, color: '#666', marginBottom: 12 }}>
           不知道如何发品？<a href="#" style={{ color: BLUE }}>查看发品攻略</a>
@@ -603,7 +603,7 @@ export default function CreateProductDetailPage() {
       </div>
 
       {/* 敏感属性与体积重量 */}
-      <div style={{ maxWidth: 1100, margin: '16px auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
           <div style={{ display: 'flex' }}>
             {/* 左侧 label */}
@@ -831,7 +831,7 @@ export default function CreateProductDetailPage() {
       </div>
 
       {/* SKU 信息 */}
-      <div style={{ maxWidth: 1100, margin: '16px auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
 
           {/* 标题行 */}
@@ -1064,7 +1064,7 @@ export default function CreateProductDetailPage() {
 
           {/* 表格（横向滚动） */}
           <div style={{ overflowX: 'auto', border: '1px solid #e8e8e8', borderRadius: 4 }}>
-            <div style={{ minWidth: 1100 }}>
+            <div style={{ minWidth: 1200 }}>
 
               {/* 表头行 */}
               <div style={{ display: 'flex', backgroundColor: '#fafafa', borderBottom: '1px solid #e8e8e8' }}>
