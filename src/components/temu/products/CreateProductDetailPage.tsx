@@ -723,10 +723,10 @@ export default function CreateProductDetailPage() {
               </div>
 
               {/* 三列字段区 */}
-              <div style={{ display: 'flex', gap: 0, border: '1px solid #e8e8e8', borderRadius: 4 }}>
+              <div style={{ display: 'flex', gap: 0, border: '1px solid #e8e8e8', borderRadius: 4, overflow: 'hidden' }}>
 
                 {/* 第一列：敏感属性 */}
-                <div style={{ flex: '0 0 340px', padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '1 1 300px', minWidth: 0, padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
                   <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>敏感属性{' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>说明及测量示例</a>
@@ -761,12 +761,12 @@ export default function CreateProductDetailPage() {
                 </div>
 
                 {/* 第二列：体积 */}
-                <div style={{ flex: 1, padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
+                <div style={{ flex: '2 1 0', minWidth: 0, padding: '16px 20px', borderRight: '1px solid #e8e8e8', overflow: 'hidden' }}>
                   <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>体积(单位:cm){' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                     {/* 最长边 */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>最长边</span>
@@ -807,7 +807,7 @@ export default function CreateProductDetailPage() {
                 </div>
 
                 {/* 第三列：重量 */}
-                <div style={{ flex: '0 0 200px', padding: '16px 20px' }}>
+                <div style={{ flex: '0 0 180px', flexShrink: 0, padding: '16px 20px' }}>
                   <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>重量{' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
