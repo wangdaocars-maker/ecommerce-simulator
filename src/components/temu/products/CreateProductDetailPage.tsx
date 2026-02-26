@@ -204,6 +204,12 @@ export default function CreateProductDetailPage() {
   const [videoModalVisible, setVideoModalVisible] = useState(false)
   const [mainVideoUrl, setMainVideoUrl] = useState<string>('')
   const [originCountry, setOriginCountry] = useState<string>('')
+  const [sensitiveYesNo, setSensitiveYesNo] = useState<string>('否')
+  const [sensitiveProperty, setSensitiveProperty] = useState<string | undefined>(undefined)
+  const [volumeL, setVolumeL] = useState('')
+  const [volumeM, setVolumeM] = useState('')
+  const [volumeS, setVolumeS] = useState('')
+  const [productWeight, setProductWeight] = useState('')
 
   const langOptions = ['英语', '西班牙语', '法语', '阿拉伯语', '韩语']
 
@@ -544,6 +550,169 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
 
+        </div>
+      </div>
+
+      {/* 敏感属性与体积重量 */}
+      <div style={{ maxWidth: 1100, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
+          <div style={{ display: 'flex' }}>
+            {/* 左侧 label */}
+            <label style={{
+              width: 110, fontSize: 13, color: '#333', textAlign: 'right',
+              paddingRight: 12, flexShrink: 0, paddingTop: 4, lineHeight: '20px',
+            }}>
+              敏感属性<br />与体积重量
+            </label>
+
+            {/* 右侧内容 */}
+            <div style={{ flex: 1 }}>
+              {/* 警告条 */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                backgroundColor: '#fffbe6', border: '1px solid #ffe58f',
+                borderRadius: 4, padding: '8px 12px', marginBottom: 16,
+              }}>
+                <ExclamationCircleFilled style={{ color: '#faad14', fontSize: 15, flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: '#595959' }}>
+                  您填写的重量体积数据将会用于消费者售后环节，请务必如实准确填写。
+                </span>
+              </div>
+
+              {/* SKU 表头行 */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                <Select
+                  defaultValue="SKU"
+                  size="middle"
+                  style={{ width: 120 }}
+                  options={[{ value: 'SKU', label: 'SKU' }]}
+                  suffixIcon={<span style={{ fontSize: 10, color: '#999' }}>▼</span>}
+                />
+                <Select
+                  defaultValue="sensitive"
+                  size="middle"
+                  style={{ width: 120 }}
+                  options={[{ value: 'sensitive', label: '敏感属性' }]}
+                />
+                <Select
+                  defaultValue="volume"
+                  size="middle"
+                  style={{ width: 120 }}
+                  options={[{ value: 'volume', label: '体积重量' }]}
+                />
+                <button style={{
+                  border: '1px solid #d9d9d9', borderRadius: 4, padding: '5px 16px',
+                  backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                }}>
+                  批量填写
+                </button>
+              </div>
+
+              {/* 三列字段区 */}
+              <div style={{ display: 'flex', gap: 0, border: '1px solid #e8e8e8', borderRadius: 4 }}>
+
+                {/* 第一列：敏感属性 */}
+                <div style={{ flex: '0 0 340px', padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
+                  <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
+                    <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>敏感属性{' '}
+                    <a href="#" style={{ color: BLUE, fontWeight: 400 }}>说明及测量示例</a>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <Select
+                      value={sensitiveYesNo}
+                      onChange={v => setSensitiveYesNo(v)}
+                      size="middle"
+                      style={{ width: 72 }}
+                      options={[
+                        { value: '否', label: '否' },
+                        { value: '是', label: '是' },
+                      ]}
+                    />
+                    <Select
+                      value={sensitiveProperty}
+                      onChange={v => setSensitiveProperty(v)}
+                      placeholder="请选择敏感属性"
+                      size="middle"
+                      style={{ flex: 1 }}
+                      disabled={sensitiveYesNo === '否'}
+                      options={[
+                        { value: 'battery', label: '含锂电池' },
+                        { value: 'magnetic', label: '含磁铁' },
+                        { value: 'liquid', label: '含液体' },
+                        { value: 'powder', label: '含粉末' },
+                        { value: 'cream', label: '含膏体' },
+                      ]}
+                    />
+                  </div>
+                </div>
+
+                {/* 第二列：体积 */}
+                <div style={{ flex: 1, padding: '16px 20px', borderRight: '1px solid #e8e8e8' }}>
+                  <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
+                    <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>体积(单位:cm){' '}
+                    <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {/* 最长边 */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>最长边</span>
+                      <Input
+                        value={volumeL}
+                        onChange={e => setVolumeL(e.target.value)}
+                        placeholder="请输入"
+                        size="middle"
+                        style={{ width: 80 }}
+                      />
+                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
+                    </div>
+                    {/* 次长边 */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>次长边</span>
+                      <Input
+                        value={volumeM}
+                        onChange={e => setVolumeM(e.target.value)}
+                        placeholder="请输入"
+                        size="middle"
+                        style={{ width: 80 }}
+                      />
+                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
+                    </div>
+                    {/* 最短边 */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>最短边</span>
+                      <Input
+                        value={volumeS}
+                        onChange={e => setVolumeS(e.target.value)}
+                        placeholder="请输入"
+                        size="middle"
+                        style={{ width: 80 }}
+                      />
+                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 第三列：重量 */}
+                <div style={{ flex: '0 0 200px', padding: '16px 20px' }}>
+                  <div style={{ marginBottom: 12, fontSize: 13, fontWeight: 500 }}>
+                    <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>重量{' '}
+                    <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <Input
+                      value={productWeight}
+                      onChange={e => setProductWeight(e.target.value)}
+                      placeholder="请输入"
+                      size="middle"
+                      style={{ flex: 1 }}
+                    />
+                    <span style={{ fontSize: 13, color: '#555' }}>g</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
