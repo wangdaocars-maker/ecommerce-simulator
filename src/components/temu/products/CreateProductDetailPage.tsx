@@ -282,7 +282,7 @@ export default function CreateProductDetailPage() {
         </div>
 
         {/* 白色卡片 */}
-        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
 
           {/* 经营站点 & 商品分类 */}
           <div style={{ marginBottom: 24, fontSize: 14 }}>
@@ -604,7 +604,7 @@ export default function CreateProductDetailPage() {
 
       {/* 敏感属性与体积重量 */}
       <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
-        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
           <div style={{ display: 'flex' }}>
             {/* 左侧 label */}
             <label style={{
@@ -801,7 +801,7 @@ export default function CreateProductDetailPage() {
 
       {/* SKU 信息 */}
       <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
-        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
 
           {/* 标题行 */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -1075,7 +1075,7 @@ export default function CreateProductDetailPage() {
               {/* 数据行 */}
               <div style={{ display: 'flex', alignItems: 'flex-start', borderBottom: '1px solid #f0f0f0', minHeight: 72 }}>
                 {/* 参考链接 */}
-                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 220, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuRefLink}
                     onChange={e => setSkuRefLink(e.target.value)}
@@ -1085,7 +1085,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 申报价格 */}
-                <div style={{ flex: '13 1 0', minWidth: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 220, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Input
                     value={skuDeclarePrice}
                     onChange={e => setSkuDeclarePrice(e.target.value)}
@@ -1095,7 +1095,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* 库存 */}
-                <div style={{ width: 320, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <div style={{ width: 200, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                   <span style={{ fontSize: 13, color: '#333' }}>{skuStock || '-'}</span>
                   <EditOutlined
                     style={{ color: BLUE, cursor: 'pointer', fontSize: 14 }}
@@ -1106,7 +1106,7 @@ export default function CreateProductDetailPage() {
                   />
                 </div>
                 {/* SKU分类 */}
-                <div style={{ width: 320, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: 260, flexShrink: 0, padding: '12px 12px', borderRight: '1px solid #e8e8e8', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>
                   <Select
                     value={skuCategoryVal}
                     onChange={v => setSkuCategoryVal(v)}
