@@ -605,18 +605,13 @@ export default function CreateProductDetailPage() {
       {/* 敏感属性与体积重量 */}
       <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
-          <div style={{ display: 'flex' }}>
-            {/* 左侧 label */}
-            <label style={{
-              width: 110, fontSize: 13, color: '#333', textAlign: 'right',
-              paddingRight: 12, flexShrink: 0, paddingTop: 4, lineHeight: '20px',
-            }}>
-              敏感属性<br />与体积重量
-            </label>
+          {/* 标题行 */}
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{ width: 4, height: 18, backgroundColor: BLUE, borderRadius: 2, marginRight: 8 }} />
+            <span style={{ fontSize: 15, fontWeight: 600 }}>敏感属性与体积重量</span>
+          </div>
 
-            {/* 右侧内容 */}
-            <div style={{ flex: 1 }}>
-              {/* 警告条 */}
+          {/* 警告条 */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 backgroundColor: '#fffbe6', border: '1px solid #ffe58f',
@@ -794,8 +789,6 @@ export default function CreateProductDetailPage() {
                 </div>
 
               </div>
-            </div>
-          </div>
         </div>
       </div>
 
