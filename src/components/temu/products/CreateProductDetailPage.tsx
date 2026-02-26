@@ -766,43 +766,34 @@ export default function CreateProductDetailPage() {
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>体积(单位:cm){' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'nowrap' }}>
-                    {/* 最长边 */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>最长边</span>
-                      <Input
-                        value={volumeL}
-                        onChange={e => setVolumeL(e.target.value)}
-                        placeholder="请输入"
-                        size="middle"
-                        style={{ width: 72 }}
-                      />
-                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
-                    </div>
-                    {/* 次长边 */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>次长边</span>
-                      <Input
-                        value={volumeM}
-                        onChange={e => setVolumeM(e.target.value)}
-                        placeholder="请输入"
-                        size="middle"
-                        style={{ width: 72 }}
-                      />
-                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
-                    </div>
-                    {/* 最短边 */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-                      <span style={{ fontSize: 12, color: '#888', whiteSpace: 'nowrap' }}>最短边</span>
-                      <Input
-                        value={volumeS}
-                        onChange={e => setVolumeS(e.target.value)}
-                        placeholder="请输入"
-                        size="middle"
-                        style={{ width: 72 }}
-                      />
-                      <span style={{ fontSize: 13, color: '#555' }}>cm</span>
-                    </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'nowrap' }}>
+                    <Input
+                      addonBefore="最长边"
+                      addonAfter="cm"
+                      value={volumeL}
+                      onChange={e => setVolumeL(e.target.value)}
+                      placeholder="请输入"
+                      size="middle"
+                      style={{ width: 180 }}
+                    />
+                    <Input
+                      addonBefore="次长边"
+                      addonAfter="cm"
+                      value={volumeM}
+                      onChange={e => setVolumeM(e.target.value)}
+                      placeholder="请输入"
+                      size="middle"
+                      style={{ width: 180 }}
+                    />
+                    <Input
+                      addonBefore="最短边"
+                      addonAfter="cm"
+                      value={volumeS}
+                      onChange={e => setVolumeS(e.target.value)}
+                      placeholder="请输入"
+                      size="middle"
+                      style={{ width: 180 }}
+                    />
                   </div>
                 </div>
 
@@ -812,16 +803,14 @@ export default function CreateProductDetailPage() {
                     <span style={{ color: '#ff4d4f', marginRight: 2 }}>*</span>重量{' '}
                     <a href="#" style={{ color: BLUE, fontWeight: 400 }}>查看测量示例</a>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <Input
-                      value={productWeight}
-                      onChange={e => setProductWeight(e.target.value)}
-                      placeholder="请输入"
-                      size="middle"
-                      style={{ flex: 1 }}
-                    />
-                    <span style={{ fontSize: 13, color: '#555' }}>g</span>
-                  </div>
+                  <Input
+                    addonAfter="g"
+                    value={productWeight}
+                    onChange={e => setProductWeight(e.target.value)}
+                    placeholder="请输入"
+                    size="middle"
+                    style={{ width: '100%' }}
+                  />
                 </div>
 
               </div>
