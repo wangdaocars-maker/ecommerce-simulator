@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Button, Checkbox, Input, Modal, Popover, Radio, Select, Space } from 'antd'
+import { Button, Checkbox, Input, message, Modal, Popover, Radio, Select, Space } from 'antd'
 import {
   CheckOutlined,
   DeleteOutlined,
@@ -273,6 +273,70 @@ export default function CreateProductDetailPage() {
   const [savedDecorateBlocks, setSavedDecorateBlocks] = useState<DecorateBlock[]>([])
   const [deliveryTime, setDeliveryTime] = useState<string>('')
   const [shippingTemplate, setShippingTemplate] = useState<string>('')
+  const [submitting, setSubmitting] = useState(false)
+
+  const productId = searchParams.get('productId')
+  const isEditMode = !!productId
+
+  const handleSubmit = async (status: 'active' | 'draft') => {
+    if (!productName) {
+      message.error('请填写商品名称')
+      return
+    }
+    setSubmitting(true)
+    try {
+      const body = {
+        title: productName,
+        images: carouselImages[currentLang] || [],
+        mainImage: (carouselImages[currentLang] || [])[0] || '',
+        language: currentLang === '英语' ? 'en' : 'zh',
+        countries: [originCountry || 'CN'],
+        countryTitles: {},
+        countryImages: {},
+        status,
+        price: 0,
+        stock: 0,
+        minUnit: '1',
+        salesMethod: 'fixed',
+        isPresale: false,
+        productType: 'normal',
+        selectedSizes: [],
+        plugTypes: [],
+        shippingLocations: [],
+        customAttributes: [],
+        wholesaleEnabled: false,
+        selectedRegions: [],
+        regionalPrices: {},
+        priceAdjustMethod: 'fixed',
+        regionalPriceAdjustments: {},
+        description: '',
+        descriptionLang: 'zh',
+        customWeight: false,
+        priceIncludesTax: 'no',
+        saleType: 'normal',
+        inventoryDeduction: 'paid',
+        alipaySupported: false,
+      }
+      const url = isEditMode ? `/api/products/${productId}` : '/api/products'
+      const method = isEditMode ? 'PUT' : 'POST'
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      const json = await res.json()
+      if (json.success) {
+        message.success(status === 'draft' ? '草稿保存成功' : '商品提交成功')
+        router.push('/temu/products')
+      } else {
+        message.error(json.error || '操作失败，请重试')
+      }
+    } catch {
+      message.error('网络错误，请重试')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1566,13 +1630,32 @@ export default function CreateProductDetailPage() {
         boxShadow: '0 -2px 8px rgba(0,0,0,0.06)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16,
       }}>
-        <Button size="large" style={{ width: 120 }}
-          onClick={() => router.back()}>
-          上一步
-        </Button>
-        <Button type="primary" size="large" style={{ width: 160 }}>
-          提交
-        </Button>
+        {isEditMode ? (
+          <>
+            <Button type="primary" size="large" style={{ width: 120 }}
+              loading={submitting}
+              onClick={() => handleSubmit('active')}>
+              创建
+            </Button>
+            <Button size="large" style={{ width: 120 }}
+              loading={submitting}
+              onClick={() => handleSubmit('draft')}>
+              保存草稿
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button size="large" style={{ width: 120 }}
+              onClick={() => router.back()}>
+              上一步
+            </Button>
+            <Button type="primary" size="large" style={{ width: 160 }}
+              loading={submitting}
+              onClick={() => handleSubmit('active')}>
+              提交
+            </Button>
+          </>
+        )}
       </div>
 
       {/* 轮播图素材中心弹窗 */}

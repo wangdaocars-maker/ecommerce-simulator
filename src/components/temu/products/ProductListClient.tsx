@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Button, Input, Select, Pagination } from 'antd'
 import type { TableColumnsType } from 'antd'
 import {
@@ -386,7 +386,9 @@ function SearchForm() {
 }
 
 // ==================== 表格列配置 ====================
-const columns: TableColumnsType<Product> = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function buildColumns(router: any): TableColumnsType<Product> {
+  return [
   {
     title: '商品信息',
     dataIndex: 'id',
@@ -632,21 +634,67 @@ const columns: TableColumnsType<Product> = [
     dataIndex: 'operations',
     fixed: 'right',
     width: 120,
-    render: (ops: string[]) => (
+    render: (ops: string[], record: Product) => (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {(ops || []).map((op) => (
-          <a key={op} href="#" style={{ color: BLUE, fontSize: 12, lineHeight: '20px' }}>{op}</a>
+          <a key={op} href="#"
+            style={{ color: BLUE, fontSize: 12, lineHeight: '20px' }}
+            onClick={(e) => {
+              e.preventDefault()
+              if (op === '编辑') {
+                router.push(`/temu/products/create/detail?productId=${record.id}`)
+              }
+            }}
+          >{op}</a>
         ))}
       </div>
     ),
   },
-]
+  ]
+}
 
 // ==================== 主组件 ====================
 export default function ProductListClient() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch('/api/products')
+      .then(res => res.json())
+      .then(json => {
+        if (json.success && json.data?.items) {
+          const mapped: Product[] = json.data.items.map((item: {
+            id: string
+            title?: string
+            image?: string
+            price?: { amount?: string }
+            stock?: number
+            editTime?: { created?: string; edited?: string }
+          }) => ({
+            id: parseInt(item.id),
+            hasImage: !!item.image && item.image !== '/placeholder.png',
+            image: item.image !== '/placeholder.png' ? item.image : undefined,
+            title: item.title,
+            sku: item.id,
+            sites: [],
+            attributes: [],
+            sizeChart: '',
+            price: item.price?.amount ? parseFloat(item.price.amount.replace(/[^0-9.]/g, '')) : null,
+            createdAt: item.editTime?.created,
+            operations: ['编辑', '上传原图', '复制到其他站点', '修改库存', '库存流水记录'],
+          }))
+          setProducts(mapped)
+        }
+      })
+      .catch(() => {/* 静默失败，保持空数组 */})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const columns = buildColumns(router)
 
   const tabs = [
     { key: 'all', label: '全部', count: 15054 },
@@ -757,7 +805,8 @@ export default function ProductListClient() {
         <div style={{ padding: '0 16px' }}>
           <Table<Product>
             columns={columns}
-            dataSource={mockProducts}
+            dataSource={products}
+            loading={loading}
             rowKey="id"
             size="small"
             scroll={{ x: 3100 }}
