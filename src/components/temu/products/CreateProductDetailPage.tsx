@@ -270,6 +270,7 @@ export default function CreateProductDetailPage() {
   const [selectedDecorateBlockId, setSelectedDecorateBlockId] = useState<number | null>(null)
   const [decorateImagePickerVisible, setDecorateImagePickerVisible] = useState(false)
   const [decorateBlockCounter, setDecorateBlockCounter] = useState(0)
+  const [savedDecorateBlocks, setSavedDecorateBlocks] = useState<DecorateBlock[]>([])
 
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
@@ -1369,13 +1370,29 @@ export default function CreateProductDetailPage() {
                   <div style={{ padding: '10px 14px', borderBottom: '1px solid #e8e8e8', fontSize: 13, color: '#333' }}>
                     页面预览
                   </div>
-                  <div style={{
-                    height: 420, display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center',
-                    backgroundColor: '#fff',
-                  }}>
-                    <div style={{ fontSize: 56, marginBottom: 8, opacity: 0.5 }}>📦</div>
-                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>暂未编辑详情页</div>
+                  <div style={{ minHeight: 420, backgroundColor: '#fff', overflowY: 'auto' }}>
+                    {savedDecorateBlocks.length === 0 ? (
+                      <div style={{ height: 420, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ fontSize: 56, marginBottom: 8, opacity: 0.5 }}>📦</div>
+                        <div style={{ fontSize: 13, color: '#8c8c8c' }}>暂未编辑详情页</div>
+                      </div>
+                    ) : (
+                      savedDecorateBlocks.map(block => (
+                        <div key={block.id}>
+                          {block.type === 'image' ? (
+                            block.imageUrl
+                              ? <img src={block.imageUrl} alt="" style={{ width: '100%', display: 'block' }} />
+                              : <div style={{ height: 80, backgroundColor: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                  <span style={{ fontSize: 12, color: '#bbb' }}>图片未设置</span>
+                                </div>
+                          ) : (
+                            <div style={{ padding: '12px 14px', backgroundColor: block.bgColor, minHeight: 40 }}>
+                              <span style={{ fontSize: block.fontSize, color: block.color, textAlign: block.align, lineHeight: '1.6', whiteSpace: 'pre-wrap', display: 'block' }}>{block.text || ''}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -2020,7 +2037,8 @@ export default function CreateProductDetailPage() {
         </div>
         {/* 底部操作栏 */}
         <div style={{ height: 56, borderTop: '1px solid #e8e8e8', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '0 24px', gap: 12, backgroundColor: '#fff', flexShrink: 0 }}>
-          <button style={{ padding: '7px 24px', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 500 }}>
+          <button style={{ padding: '7px 24px', border: 'none', borderRadius: 4, backgroundColor: BLUE, color: '#fff', cursor: 'pointer', fontSize: 14, fontWeight: 500 }}
+            onClick={() => { setSavedDecorateBlocks([...decorateBlocks]); setDecorateModalVisible(false) }}>
             保存
           </button>
           <button style={{ padding: '7px 24px', border: '1px solid #d9d9d9', borderRadius: 4, backgroundColor: '#fff', color: '#333', cursor: 'pointer', fontSize: 14 }}
