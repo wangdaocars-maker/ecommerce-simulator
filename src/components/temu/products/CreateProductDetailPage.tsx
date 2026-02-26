@@ -245,6 +245,10 @@ export default function CreateProductDetailPage() {
   const [retailCurrencyOpen, setRetailCurrencyOpen] = useState(false)
   const [skuCatDropOpen, setSkuCatDropOpen] = useState(false)
 
+  // 电子说明书
+  const [manualUploadType, setManualUploadType] = useState<'update' | 'supplement'>('update')
+  const [manualFileTab, setManualFileTab] = useState<'local' | 'tool'>('local')
+
   const CURRENCY_OPTIONS = [
     { value: 'USD', label: 'USD（$）' },
     { value: 'CNY', label: 'CNY（¥）' },
@@ -595,6 +599,94 @@ export default function CreateProductDetailPage() {
               <div style={{ fontSize: 13, color: '#666', lineHeight: '22px' }}>
                 <div>1.&nbsp;<span style={{ color: ORANGE, fontWeight: 500 }}>发货时可能会被海关检验</span>，如海关要求提供产地证明卖家需配合提供</div>
                 <div>2. 商品产地将展示给消费者；上传含产地信息的实拍图，有机会获得平台"优质产地"标签，提升转化。</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: '1px solid #f5f5f5', margin: '0 -32px 24px' }} />
+
+          {/* 详情视频 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 2 }}>
+              详情视频
+            </label>
+            <div style={{ flex: 1 }}>
+              {/* 上传按钮 */}
+              <div style={{
+                width: 90, height: 90, border: '1px dashed #d9d9d9', borderRadius: 4,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', backgroundColor: '#fafafa', marginBottom: 12,
+              }}>
+                <UploadOutlined style={{ fontSize: 20, color: '#8c8c8c', marginBottom: 6 }} />
+                <span style={{ fontSize: 13, color: '#595959' }}>上传视频</span>
+              </div>
+              {/* 提示 */}
+              <div style={{ fontSize: 13, color: '#8c8c8c', lineHeight: '24px' }}>
+                <div>1. 使用1:1或3:4或16:9视频，时长600秒内，大小500M内，内容实用功能详实，非PPT、无黑边、无水印&nbsp;<a href="#" style={{ color: BLUE }}>查看视频要求</a></div>
+                <div>2. 详情视频展示在详情图文顶部</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: '1px solid #f5f5f5', margin: '0 -32px 24px' }} />
+
+          {/* 电子说明书 */}
+          <div style={{ display: 'flex', marginBottom: 28 }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 2 }}>
+              电子说明书
+            </label>
+            <div style={{ flex: 1 }}>
+              <div style={{ border: '1px solid #e8e8e8', borderRadius: 4, padding: '20px 24px' }}>
+                {/* 上传类型 */}
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+                  <span style={{ width: 64, fontSize: 13, color: '#595959', textAlign: 'right', paddingRight: 12, flexShrink: 0 }}>上传类型</span>
+                  <Radio.Group value={manualUploadType} onChange={e => setManualUploadType(e.target.value)}>
+                    <Radio value="update">更新说明书文件</Radio>
+                    <Radio value="supplement">补充或修改【安装/使用说明】和【安全信息说明】</Radio>
+                  </Radio.Group>
+                </div>
+                {/* 说明书文件 */}
+                <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <span style={{ width: 64, fontSize: 13, color: '#595959', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 7 }}>说明书文件</span>
+                  <div style={{ flex: 1 }}>
+                    {/* Tabs */}
+                    <div style={{ display: 'flex', alignItems: 'flex-end', borderBottom: '1px solid #e8e8e8', marginBottom: 20 }}>
+                      <button
+                        onClick={() => setManualFileTab('local')}
+                        style={{
+                          padding: '6px 16px', fontSize: 13, cursor: 'pointer',
+                          color: manualFileTab === 'local' ? '#333' : '#8c8c8c',
+                          border: '1px solid #e8e8e8',
+                          borderBottom: manualFileTab === 'local' ? '2px solid #fff' : '1px solid #e8e8e8',
+                          borderRadius: '4px 4px 0 0', backgroundColor: '#fff',
+                          marginBottom: -1, position: 'relative',
+                        }}
+                      >从本地上传</button>
+                      <button
+                        onClick={() => setManualFileTab('tool')}
+                        style={{
+                          padding: '6px 16px', fontSize: 13, cursor: 'pointer',
+                          color: BLUE, border: 'none', backgroundColor: 'transparent',
+                        }}
+                      >从说明书制作工具选择</button>
+                    </div>
+                    {/* 上传按钮 */}
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+                      <button style={{
+                        padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                        backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                      }}>+ 翻译多语言并上传（0/35）</button>
+                      <button style={{
+                        padding: '7px 16px', border: '1px solid #d9d9d9', borderRadius: 4,
+                        backgroundColor: '#fff', cursor: 'pointer', fontSize: 13, color: '#333',
+                      }}>+ 上传文件（0/35）</button>
+                    </div>
+                    {/* 提示 */}
+                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>
+                      1. 说明书尽可能覆盖更多语言将有效提高转化和降低客诉
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
