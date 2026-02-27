@@ -1,18 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   CheckCircleFilled, InfoCircleFilled, CloseOutlined,
-  UserOutlined, PlusOutlined,
+  UserOutlined, PlusOutlined, DeleteOutlined,
 } from '@ant-design/icons'
 import { Input, Button, Select, Radio, DatePicker, Checkbox, message } from 'antd'
 
-// 上传占位框
+// 上传框（支持本地图片选择与预览）
 function UploadBox({ label, width = 200, height = 160 }: { label: string; width?: number; height?: number }) {
+  const [preview, setPreview] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const url = URL.createObjectURL(file)
+    setPreview(url)
+  }
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setPreview(null)
+    if (inputRef.current) inputRef.current.value = ''
+  }
+
   return (
     <div
+      onClick={() => inputRef.current?.click()}
       style={{
-        border: '1px dashed #d0d0d0',
+        border: preview ? '1px solid #d0e4ff' : '1px dashed #d0d0d0',
         borderRadius: 4,
         display: 'flex',
         flexDirection: 'column',
@@ -21,12 +38,48 @@ function UploadBox({ label, width = 200, height = 160 }: { label: string; width?
         width,
         height,
         cursor: 'pointer',
-        backgroundColor: '#fafafa',
+        backgroundColor: preview ? '#fff' : '#fafafa',
         flexShrink: 0,
+        overflow: 'hidden',
+        position: 'relative',
       }}
     >
-      <PlusOutlined style={{ fontSize: 20, color: '#bbb' }} />
-      <span style={{ color: '#bbb', fontSize: 12, marginTop: 8, textAlign: 'center', padding: '0 8px' }}>{label}</span>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/jpg,application/pdf"
+        style={{ display: 'none' }}
+        onChange={handleChange}
+        onClick={(e) => e.stopPropagation()}
+      />
+      {preview ? (
+        <>
+          <img src={preview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          {/* 删除按钮 */}
+          <div
+            onClick={handleRemove}
+            style={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              width: 22,
+              height: 22,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(0,0,0,0.45)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <DeleteOutlined style={{ color: '#fff', fontSize: 12 }} />
+          </div>
+        </>
+      ) : (
+        <>
+          <PlusOutlined style={{ fontSize: 20, color: '#bbb' }} />
+          <span style={{ color: '#bbb', fontSize: 12, marginTop: 8, textAlign: 'center', padding: '0 8px' }}>{label}</span>
+        </>
+      )}
     </div>
   )
 }
