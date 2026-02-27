@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Select } from 'antd'
+import { Button, Select, message } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 
@@ -264,8 +264,14 @@ export default function ShopRegisterTypePage() {
           <Button
             type="primary"
             size="large"
-            style={{ backgroundColor: '#1677ff', minWidth: 100 }}
-            onClick={() => router.push('/login')}
+            style={{ backgroundColor: selected ? '#1677ff' : '#a0b4d6', minWidth: 100 }}
+            onClick={() => {
+              if (!selected) {
+                message.warning('请先选择一种店铺开业类型')
+                return
+              }
+              router.push('/shop-register/verify')
+            }}
           >
             下一个
           </Button>
