@@ -85,7 +85,7 @@ function LoginForm() {
               {current.title}
             </h1>
             <p className="text-gray-500 mt-2">
-              {platform === 'aliexpress' ? '请登录您的账号' : '系统建设中，敬请期待'}
+              请登录您的账号
             </p>
           </div>
 

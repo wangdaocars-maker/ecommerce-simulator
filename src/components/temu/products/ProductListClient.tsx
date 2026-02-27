@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Table, Button, Input, Select, Pagination } from 'antd'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Table, Button, Input, Select, Pagination, Modal, InputNumber, message } from 'antd'
 import type { TableColumnsType } from 'antd'
 import {
   PlusOutlined,
   DownOutlined,
   ExclamationCircleFilled,
   EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 
@@ -334,7 +335,12 @@ function QuickFilter() {
 }
 
 // ==================== 搜索表单 ====================
-function SearchForm() {
+function SearchForm({ keyword, onKeywordChange, onSearch, onReset }: {
+  keyword: string
+  onKeywordChange: (v: string) => void
+  onSearch: () => void
+  onReset: () => void
+}) {
   return (
     <div style={{
       backgroundColor: '#fff', border: '1px solid #f0f0f0',
@@ -368,7 +374,14 @@ function SearchForm() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{ fontSize: 13, color: '#333', flexShrink: 0 }}>商品名称</span>
-          <Input size="small" placeholder="请输入" style={{ flex: 1 }} />
+          <Input
+            size="small"
+            placeholder="请输入"
+            style={{ flex: 1 }}
+            value={keyword}
+            onChange={e => onKeywordChange(e.target.value)}
+            onPressEnter={onSearch}
+          />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{ fontSize: 13, color: '#333', flexShrink: 0 }}>商品分类</span>
@@ -377,8 +390,8 @@ function SearchForm() {
         </div>
       </div>
       <div style={{ display: 'flex', gap: 8 }}>
-        <Button type="primary" size="small" style={{ backgroundColor: BLUE, borderColor: BLUE }}>查询</Button>
-        <Button size="small">重置</Button>
+        <Button type="primary" size="small" style={{ backgroundColor: BLUE, borderColor: BLUE }} onClick={onSearch}>查询</Button>
+        <Button size="small" onClick={onReset}>重置</Button>
         <Button size="small">展开 <DownOutlined /></Button>
       </div>
     </div>
@@ -387,7 +400,11 @@ function SearchForm() {
 
 // ==================== 表格列配置 ====================
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildColumns(router: any): TableColumnsType<Product> {
+function buildColumns(router: any, handlers: {
+  onInventory: (id: number, stock: number) => void
+  onDelete: (id: number, title: string) => void
+  onRefresh: () => void
+}): TableColumnsType<Product> {
   return [
   {
     title: '商品信息',
@@ -636,19 +653,24 @@ function buildColumns(router: any): TableColumnsType<Product> {
     dataIndex: 'operations',
     fixed: 'right',
     width: 120,
-    render: (ops: string[], record: Product) => (
+    render: (_ops: string[], record: Product) => (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {(ops || []).map((op) => (
-          <a key={op} href="#"
+        {[
+          { label: '编辑', action: () => router.push(`/temu/products/create/detail?productId=${record.id}`) },
+          { label: '上传原图', action: () => router.push(`/temu/products/create/detail?productId=${record.id}`) },
+          { label: '复制到其他站点', action: () => message.info('演示模式：商品将被复制到其他站点') },
+          { label: '修改库存', action: () => handlers.onInventory(record.id, record.inventory ?? 0) },
+          { label: '库存流水记录', action: () => message.info('演示模式：暂无库存流水数据') },
+        ].map(({ label, action }) => (
+          <a key={label} href="#"
             style={{ color: BLUE, fontSize: 12, lineHeight: '20px' }}
-            onClick={(e) => {
-              e.preventDefault()
-              if (op === '编辑') {
-                router.push(`/temu/products/create/detail?productId=${record.id}`)
-              }
-            }}
-          >{op}</a>
+            onClick={(e) => { e.preventDefault(); action() }}
+          >{label}</a>
         ))}
+        <a href="#"
+          style={{ color: '#ff4d4f', fontSize: 12, lineHeight: '20px' }}
+          onClick={(e) => { e.preventDefault(); handlers.onDelete(record.id, record.title || '') }}
+        >删除</a>
       </div>
     ),
   },
@@ -660,85 +682,172 @@ export default function ProductListClient() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize] = useState(20)
   const [products, setProducts] = useState<Product[]>([])
+  const [total, setTotal] = useState(0)
+  const [tabCounts, setTabCounts] = useState<Record<string, number>>({ all: 0, on_sale: 0, not_published: 0, off_shelf: 0 })
   const [loading, setLoading] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const [activeKeyword, setActiveKeyword] = useState('')
 
-  useEffect(() => {
+  // 修改库存弹窗
+  const [invOpen, setInvOpen] = useState(false)
+  const [invProductId, setInvProductId] = useState<number | null>(null)
+  const [invValue, setInvValue] = useState<number>(0)
+  const [invLoading, setInvLoading] = useState(false)
+
+  // Tab → API status 映射
+  const TAB_STATUS: Record<string, string> = {
+    on_sale: 'active',
+    not_published: 'draft',
+    off_shelf: 'inactive',
+  }
+
+  const mapItem = (item: {
+    id: string; title?: string; image?: string
+    price?: { amount?: string }; stock?: number
+    editTime?: { created?: string; edited?: string }; weight?: number
+  }): Product => {
+    const numId = parseInt(item.id)
+    const priceUSD = item.price?.amount ? parseFloat(item.price.amount.replace(/[^0-9.]/g, '')) : null
+    const spu = String(6000000000 + numId * 137 + 31467)
+    const skc = String(31000000000 + numId * 491 + 193)
+    const skuId = String(58000000000 + numId * 1234567 + 874)
+    const skuBarcode = `6-1-N${(numId * 30971 + 303200).toString().padStart(9, '0')}`
+    return {
+      id: numId,
+      hasImage: !!item.image && item.image !== '/placeholder.png',
+      image: item.image !== '/placeholder.png' ? item.image : undefined,
+      title: item.title,
+      category: '家居用品',
+      spu, skc,
+      sku: skuBarcode,
+      sites: ['美国站'],
+      attributes: ['材质: 人造板', '材料: 其他材料', '供电方式: 无需接电使用', '树种: 硬木'],
+      sizeChart: '-',
+      docStatus: '处理成功', docElectronic: '11', docPaper: '去制作', docLang: '英文',
+      skuId, spec: '颜色: 原木色',
+      shippingMode: '卖家自发货',
+      inventory: item.stock ?? 0,
+      showInventory: '展示', unpaidInventory: 0, shippingOrigin: '美国',
+      productCode: '-', vol: '30cm*20cm*10cm',
+      weight: item.weight ? `${item.weight}g` : '500g',
+      platformMeasure: '-', sensitiveAttr: '非敏感品', sensitiveStatus: '待提交',
+      skuClass: '单品', skuCount: '1件', skuNetWeight: '100克', skuBarcode,
+      price: priceUSD,
+      priceCNY: priceUSD ? Math.round(priceUSD * 6.9779 * 100) / 100 : null,
+      marketing: '暂无推荐',
+      createdAt: item.editTime?.created,
+      operations: [],
+    }
+  }
+
+  const fetchProducts = useCallback((page: number, tab: string, kw: string) => {
     setLoading(true)
-    fetch('/api/products')
-      .then(res => res.json())
+    const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) })
+    if (TAB_STATUS[tab]) params.set('status', TAB_STATUS[tab])
+    if (kw.trim()) params.set('search', kw.trim())
+    fetch(`/api/products?${params}`)
+      .then(r => r.json())
       .then(json => {
         if (json.success && json.data?.items) {
-          const mapped: Product[] = json.data.items.map((item: {
-            id: string
-            title?: string
-            image?: string
-            price?: { amount?: string }
-            stock?: number
-            editTime?: { created?: string; edited?: string }
-            weight?: number
-          }) => {
-            const numId = parseInt(item.id)
-            const priceUSD = item.price?.amount ? parseFloat(item.price.amount.replace(/[^0-9.]/g, '')) : null
-            // 生成随机但固定的 SPU / SKC / SKU ID（基于商品 id 保证稳定）
-            const spu = String(6000000000 + numId * 137 + 31467)
-            const skc = String(31000000000 + numId * 491 + 193)
-            const skuId = String(58000000000 + numId * 1234567 + 874)
-            const skuBarcode = `6-1-N${(numId * 30971 + 303200).toString().padStart(9, '0')}`
-            return {
-              id: numId,
-              hasImage: !!item.image && item.image !== '/placeholder.png',
-              image: item.image !== '/placeholder.png' ? item.image : undefined,
-              title: item.title,
-              category: '家居用品',
-              spu,
-              skc,
-              sku: skuBarcode,
-              sites: ['美国站'],
-              attributes: ['材质: 人造板', '材料: 其他材料', '供电方式: 无需接电使用', '树种: 硬木'],
-              sizeChart: '-',
-              docStatus: '处理成功',
-              docElectronic: '11',
-              docPaper: '去制作',
-              docLang: '英文',
-              skuId,
-              spec: '颜色: 原木色',
-              shippingMode: '卖家自发货',
-              inventory: item.stock ?? 0,
-              showInventory: '展示',
-              unpaidInventory: 0,
-              shippingOrigin: '美国',
-              productCode: '-',
-              vol: '30cm*20cm*10cm',
-              weight: item.weight ? `${item.weight}g` : '500g',
-              platformMeasure: '-',
-              sensitiveAttr: '非敏感品',
-              sensitiveStatus: '待提交',
-              skuClass: '单品',
-              skuCount: '1件',
-              skuNetWeight: '100克',
-              skuBarcode,
-              price: priceUSD,
-              priceCNY: priceUSD ? Math.round(priceUSD * 6.9779 * 100) / 100 : null,
-              marketing: '暂无推荐',
-              createdAt: item.editTime?.created,
-              operations: ['编辑', '上传原图', '复制到其他站点', '修改库存', '库存流水记录'],
-            }
-          })
-          setProducts(mapped)
+          setProducts(json.data.items.map(mapItem))
+          setTotal(json.data.total ?? 0)
         }
       })
-      .catch(() => {/* 静默失败，保持空数组 */})
+      .catch(() => {})
       .finally(() => setLoading(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize])
+
+  // 获取各 tab 数量
+  const fetchTabCounts = useCallback(() => {
+    const tabs = [
+      { key: 'all', status: '' },
+      { key: 'on_sale', status: 'active' },
+      { key: 'not_published', status: 'draft' },
+      { key: 'off_shelf', status: 'inactive' },
+    ]
+    Promise.all(tabs.map(t => {
+      const p = new URLSearchParams({ page: '1', pageSize: '1' })
+      if (t.status) p.set('status', t.status)
+      return fetch(`/api/products?${p}`).then(r => r.json()).then(j => ({ key: t.key, count: j.data?.total ?? 0 }))
+    })).then(results => {
+      const counts: Record<string, number> = {}
+      results.forEach(r => { counts[r.key] = r.count })
+      setTabCounts(counts)
+    }).catch(() => {})
   }, [])
 
-  const columns = buildColumns(router)
+  useEffect(() => {
+    fetchProducts(currentPage, activeTab, activeKeyword)
+  }, [fetchProducts, currentPage, activeTab, activeKeyword])
+
+  useEffect(() => { fetchTabCounts() }, [fetchTabCounts])
+
+  const handleSearch = () => { setActiveKeyword(keyword); setCurrentPage(1) }
+  const handleReset = () => { setKeyword(''); setActiveKeyword(''); setCurrentPage(1) }
+
+  const handleTabChange = (tab: string) => { setActiveTab(tab); setCurrentPage(1) }
+
+  const handlePageChange = (page: number) => { setCurrentPage(page) }
+
+  // 修改库存
+  const handleInventory = (id: number, stock: number) => {
+    setInvProductId(id); setInvValue(stock); setInvOpen(true)
+  }
+  const handleInvSubmit = async () => {
+    if (!invProductId) return
+    setInvLoading(true)
+    try {
+      const res = await fetch(`/api/products/${invProductId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stock: invValue }),
+      })
+      const json = await res.json()
+      if (json.success) {
+        message.success('库存修改成功')
+        setInvOpen(false)
+        fetchProducts(currentPage, activeTab, activeKeyword)
+        fetchTabCounts()
+      } else {
+        message.error(json.error || '修改失败')
+      }
+    } catch { message.error('网络错误') }
+    finally { setInvLoading(false) }
+  }
+
+  // 删除商品
+  const handleDelete = (id: number, title: string) => {
+    Modal.confirm({
+      title: '确认删除',
+      icon: <DeleteOutlined style={{ color: '#ff4d4f' }} />,
+      content: `确定要删除商品「${title.substring(0, 30)}...」吗？此操作不可恢复。`,
+      okText: '删除',
+      okButtonProps: { danger: true },
+      cancelText: '取消',
+      onOk: async () => {
+        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
+        const json = await res.json()
+        if (json.success) {
+          message.success('商品已删除')
+          fetchProducts(currentPage, activeTab, activeKeyword)
+          fetchTabCounts()
+        } else {
+          message.error(json.error || '删除失败')
+        }
+      },
+    })
+  }
+
+  const columns = buildColumns(router, { onInventory: handleInventory, onDelete: handleDelete, onRefresh: () => fetchProducts(currentPage, activeTab, activeKeyword) })
 
   const tabs = [
-    { key: 'all', label: '全部', count: 15054 },
-    { key: 'on_sale', label: '在售中', count: 230 },
-    { key: 'not_published', label: '未发布到站点', count: 11879 },
-    { key: 'off_shelf', label: '已下架/已终止', count: 2945 },
+    { key: 'all', label: '全部' },
+    { key: 'on_sale', label: '在售中' },
+    { key: 'not_published', label: '未发布到站点' },
+    { key: 'off_shelf', label: '已下架/已终止' },
   ]
 
   const regions = [
@@ -778,7 +887,7 @@ export default function ProductListClient() {
       <NoticeBar />
       <TodoBar />
       <QuickFilter />
-      <SearchForm />
+      <SearchForm keyword={keyword} onKeywordChange={setKeyword} onSearch={handleSearch} onReset={handleReset} />
 
       {/* 表格容器 */}
       <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '0 0 16px' }}>
@@ -790,7 +899,7 @@ export default function ProductListClient() {
         }}>
           <div style={{ display: 'flex' }}>
             {tabs.map((tab) => (
-              <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
+              <button key={tab.key} onClick={() => handleTabChange(tab.key)} style={{
                 padding: '12px 16px', border: 'none', backgroundColor: 'transparent',
                 cursor: 'pointer', fontSize: 14,
                 borderBottom: activeTab === tab.key ? `2px solid ${ORANGE}` : '2px solid transparent',
@@ -800,7 +909,7 @@ export default function ProductListClient() {
               }}>
                 {tab.label}&nbsp;
                 <span style={{ color: activeTab === tab.key ? ORANGE : '#999', fontSize: 13 }}>
-                  {tab.count.toLocaleString()}
+                  {(tabCounts[tab.key] ?? 0).toLocaleString()}
                 </span>
               </button>
             ))}
@@ -858,18 +967,47 @@ export default function ProductListClient() {
           marginTop: 16, paddingRight: 16,
           display: 'flex', justifyContent: 'flex-end', alignItems: 'center',
         }}>
-          <span style={{ fontSize: 13, color: '#666', marginRight: 12 }}>共有 15054 条</span>
+          <span style={{ fontSize: 13, color: '#666', marginRight: 12 }}>共有 {total.toLocaleString()} 条</span>
           <Pagination
             current={currentPage}
-            total={15054}
-            pageSize={20}
-            showSizeChanger
+            total={total}
+            pageSize={pageSize}
+            showSizeChanger={false}
             showQuickJumper
-            onChange={setCurrentPage}
+            onChange={handlePageChange}
             size="small"
           />
         </div>
       </div>
+
+      {/* 修改库存弹窗 */}
+      <Modal
+        title="修改库存"
+        open={invOpen}
+        onOk={handleInvSubmit}
+        onCancel={() => setInvOpen(false)}
+        confirmLoading={invLoading}
+        okText="确认"
+        cancelText="取消"
+        width={360}
+      >
+        <div style={{ padding: '16px 0' }}>
+          <div style={{ marginBottom: 12, color: '#666', fontSize: 13 }}>
+            当前库存：<span style={{ color: '#333', fontWeight: 500 }}>{invValue}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 13, color: '#333', flexShrink: 0 }}>新库存数量</span>
+            <InputNumber
+              min={0}
+              max={99999}
+              value={invValue}
+              onChange={v => setInvValue(v ?? 0)}
+              style={{ width: '100%' }}
+              size="large"
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
