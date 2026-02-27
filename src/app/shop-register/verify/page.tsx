@@ -8,7 +8,10 @@ export default function ShopRegisterVerifyPage() {
   const router = useRouter()
 
   const handleVerify = () => {
-    message.success('这是模拟环境，认证演示完成')
+    message.success('认证成功')
+    setTimeout(() => {
+      router.push('/shop-register/company')
+    }, 1000)
   }
 
   return (
