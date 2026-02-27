@@ -164,13 +164,13 @@ export default function ShopRegisterTypePage() {
                     <h2 className="text-lg font-semibold mb-1" style={{ color: '#1a1a2e' }}>
                       {type.title}
                     </h2>
-                    <p className="text-sm text-gray-500 mb-5 pb-4" style={{ borderBottom: '1px dashed #e5e7eb' }}>
+                    <p className="text-sm text-gray-500 mb-5 pb-4" style={{ borderBottom: '1px dashed #e5e7eb', minHeight: '2.8rem' }}>
                       {type.desc}
                     </p>
                     <div className="flex flex-col gap-4">
                       {type.features.map((feature, i) => (
-                        <div key={i} className="flex gap-2">
-                          <StarFilled style={{ color: '#1677ff', fontSize: 16, marginTop: 2, flexShrink: 0 }} />
+                        <div key={i} className="flex gap-2" style={{ alignItems: 'flex-start' }}>
+                          <StarFilled style={{ color: '#1677ff', fontSize: 16, marginTop: 3, flexShrink: 0 }} />
                           <div>
                             <div className="text-sm font-medium text-gray-800">{feature.title}</div>
                             {feature.desc && (
