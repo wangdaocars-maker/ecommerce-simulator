@@ -287,10 +287,11 @@ export default function CreateProductDetailPage() {
         if (!json.success) { message.error(json.error || '加载商品失败'); return }
         const d = json.data
         if (d.title) setProductName(d.title)
-        // 图片：用英语 tab 回填
-        if (Array.isArray(d.images) && d.images.length > 0) {
-          setCarouselImages({ '英语': d.images })
-        }
+        // 图片：用英语 tab 回填（images 优先，fallback 到 mainImage）
+        const imgList: string[] = Array.isArray(d.images) && d.images.length > 0
+          ? d.images
+          : d.mainImage ? [d.mainImage] : []
+        if (imgList.length > 0) setCarouselImages({ '英语': imgList })
         if (d.video) setMainVideoUrl(d.video)
         if (Array.isArray(d.countries) && d.countries[0]) setOriginCountry(d.countries[0])
         if (d.weight != null) setProductWeight(String(d.weight))
@@ -386,7 +387,7 @@ export default function CreateProductDetailPage() {
       <div style={{ backgroundColor: '#fff', borderBottom: '1px solid #f0f0f0', padding: '16px 32px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
           <div style={{ width: 4, height: 20, backgroundColor: BLUE, borderRadius: 2 }} />
-          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>新建商品</h2>
+          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>{isEditMode ? '编辑商品' : '新建商品'}</h2>
         </div>
         <StepBar />
       </div>
