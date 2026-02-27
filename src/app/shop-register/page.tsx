@@ -13,12 +13,17 @@ export default function ShopRegisterPage() {
   const [emailCountdown, setEmailCountdown] = useState(0)
   const [phoneCountdown, setPhoneCountdown] = useState(0)
 
+  const randomCode = () => String(Math.floor(100000 + Math.random() * 900000))
+
   const sendEmailCode = () => {
     const email = form.getFieldValue('email')
     if (!email) {
       message.error('请输入邮箱')
       return
     }
+    const code = randomCode()
+    setEmailCode(code)
+    form.setFieldsValue({ emailCode: code })
     message.success('验证码已发送至邮箱')
     setEmailCountdown(60)
     const timer = setInterval(() => {
@@ -38,6 +43,9 @@ export default function ShopRegisterPage() {
       message.error('请输入手机号')
       return
     }
+    const code = randomCode()
+    setPhoneCode(code)
+    form.setFieldsValue({ phoneCode: code })
     message.success('验证码已发送至手机')
     setPhoneCountdown(60)
     const timer = setInterval(() => {
