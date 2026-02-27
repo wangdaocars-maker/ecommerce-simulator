@@ -59,14 +59,6 @@ export default function ShopRegisterPage() {
     }, 1000)
   }
 
-  const onFinish = (values: any) => {
-    console.log('注册信息:', values)
-    message.success('这是模拟环境，注册演示完成')
-    setTimeout(() => {
-      router.push('/shop-register/type')
-    }, 1500)
-  }
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#E8EAF6' }}>
       {/* Header */}
@@ -110,7 +102,7 @@ export default function ShopRegisterPage() {
 
             <h2 className="text-xl font-semibold mb-6">填写注册信息</h2>
 
-            <Form form={form} onFinish={onFinish} layout="vertical">
+            <Form form={form} layout="vertical">
               {/* 国家/地区 */}
               <Form.Item
                 label={
@@ -327,10 +319,15 @@ export default function ShopRegisterPage() {
               <Form.Item>
                 <Button
                   type="primary"
-                  htmlType="submit"
                   size="large"
                   className="w-full"
                   style={{ backgroundColor: '#1677ff', height: 48 }}
+                  onClick={() => {
+                    message.success('这是模拟环境，注册演示完成')
+                    setTimeout(() => {
+                      router.push('/shop-register/type')
+                    }, 1500)
+                  }}
                 >
                   注册
                 </Button>
