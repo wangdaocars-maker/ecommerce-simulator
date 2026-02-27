@@ -262,6 +262,7 @@ export default function ShopRegisterCompanyPage() {
                       size="large"
                       style={{ maxWidth: 340 }}
                       disabled={longValid}
+                      allowEmpty={[true, true]}
                       placeholder={['开始日期', '结束日期']}
                     />
                     <Checkbox checked={longValid} onChange={(e) => setLongValid(e.target.checked)}>长期有效</Checkbox>
