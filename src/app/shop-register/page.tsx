@@ -63,7 +63,7 @@ export default function ShopRegisterPage() {
     console.log('注册信息:', values)
     message.success('这是模拟环境，注册演示完成')
     setTimeout(() => {
-      router.push('/login')
+      router.push('/shop-register/type')
     }, 1500)
   }
 
