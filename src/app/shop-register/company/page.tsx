@@ -208,7 +208,7 @@ export default function ShopRegisterCompanyPage() {
                     <DatePicker.RangePicker
                       size="large"
                       style={{ maxWidth: 340 }}
-                      disabled={longValid ? [true, true] : [false, false]}
+                      disabled={longValid}
                       placeholder={['开始日期', '结束日期']}
                     />
                     <Checkbox checked={longValid} onChange={(e) => setLongValid(e.target.checked)}>长期有效</Checkbox>
