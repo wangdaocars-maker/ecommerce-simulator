@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   UserOutlined, CloseOutlined, PlusOutlined,
@@ -63,23 +63,46 @@ function UploadBox({
   blue?: boolean
   label: string
 }) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [preview, setPreview] = useState<string | null>(null)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) setPreview(URL.createObjectURL(file))
+  }
+
   return (
     <div>
+      <input
+        type="file"
+        ref={inputRef}
+        accept="image/jpeg,image/png"
+        style={{ display: 'none' }}
+        onChange={handleChange}
+      />
       <div style={{ fontSize: 12, color: '#262626', marginBottom: 6 }}>
         {required && <span style={{ color: '#ff4d4f' }}>* </span>}
         {label}
       </div>
       <div
-        className="flex flex-col items-center justify-center cursor-pointer rounded-lg"
+        className="flex flex-col items-center justify-center cursor-pointer rounded-lg overflow-hidden"
         style={{
           width: 120,
           height: 100,
-          border: `1px dashed ${blue ? '#1677ff' : '#d9d9d9'}`,
+          border: `1px dashed ${preview ? 'transparent' : (blue ? '#1677ff' : '#d9d9d9')}`,
           backgroundColor: blue ? '#f0f7ff' : '#fafafa',
+          position: 'relative',
         }}
+        onClick={() => inputRef.current?.click()}
       >
-        <PlusOutlined style={{ fontSize: 20, color: blue ? '#1677ff' : '#bfbfbf', marginBottom: 8 }} />
-        <span style={{ fontSize: 12, color: blue ? '#1677ff' : '#8c8c8c' }}>上传图片</span>
+        {preview ? (
+          <img src={preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <>
+            <PlusOutlined style={{ fontSize: 20, color: blue ? '#1677ff' : '#bfbfbf', marginBottom: 8 }} />
+            <span style={{ fontSize: 12, color: blue ? '#1677ff' : '#8c8c8c' }}>上传图片</span>
+          </>
+        )}
       </div>
       <div style={{ fontSize: 11, color: '#8c8c8c', marginTop: 4 }}>支持jpg/png，不超过5M</div>
     </div>
@@ -87,8 +110,23 @@ function UploadBox({
 }
 
 function SellPlan({ index }: { index: number }) {
+  const imgInputRef = useRef<HTMLInputElement>(null)
+  const [imgPreview, setImgPreview] = useState<string | null>(null)
+
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) setImgPreview(URL.createObjectURL(file))
+  }
+
   return (
     <div className="rounded-lg mb-4 p-4" style={{ backgroundColor: '#f9fafc', border: '1px solid #f0f0f0' }}>
+      <input
+        type="file"
+        ref={imgInputRef}
+        accept="image/jpeg,image/png"
+        style={{ display: 'none' }}
+        onChange={handleImgChange}
+      />
       <div className="font-medium mb-3" style={{ fontSize: 13, color: '#262626' }}>售卖计划 - {index}</div>
       <div className="grid grid-cols-2 gap-x-8 gap-y-4">
         <div>
@@ -108,11 +146,18 @@ function SellPlan({ index }: { index: number }) {
             <span style={{ color: '#ff4d4f' }}>* </span>商品图
           </label>
           <div
-            className="flex flex-col items-center justify-center cursor-pointer rounded"
-            style={{ width: 80, height: 80, border: '1px dashed #d9d9d9', backgroundColor: '#fafafa' }}
+            className="flex flex-col items-center justify-center cursor-pointer rounded overflow-hidden"
+            style={{ width: 80, height: 80, border: imgPreview ? '1px solid #e8e8e8' : '1px dashed #d9d9d9', backgroundColor: '#fafafa' }}
+            onClick={() => imgInputRef.current?.click()}
           >
-            <PlusOutlined style={{ fontSize: 16, color: '#bfbfbf' }} />
-            <span style={{ fontSize: 11, color: '#8c8c8c', marginTop: 4 }}>上传</span>
+            {imgPreview ? (
+              <img src={imgPreview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <>
+                <PlusOutlined style={{ fontSize: 16, color: '#bfbfbf' }} />
+                <span style={{ fontSize: 11, color: '#8c8c8c', marginTop: 4 }}>上传</span>
+              </>
+            )}
           </div>
         </div>
         <div>
@@ -151,6 +196,20 @@ export default function BusinessPage() {
 
   const addEcomExp = () => {
     setEcomExps(prev => [...prev, { platform: null, url: '' }])
+  }
+
+  // 品牌资质证明文件
+  const brandFileRef = useRef<HTMLInputElement>(null)
+  const [brandFileName, setBrandFileName] = useState<string | null>(null)
+
+  // 证明文件（支持多文件）
+  const proofFileRef = useRef<HTMLInputElement>(null)
+  const [proofFiles, setProofFiles] = useState<Array<{ name: string; url: string }>>([])
+  const handleProofChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    const newFiles = files.map(f => ({ name: f.name, url: URL.createObjectURL(f) }))
+    setProofFiles(prev => [...prev, ...newFiles])
+    e.target.value = ''
   }
 
   return (
@@ -292,13 +351,28 @@ export default function BusinessPage() {
                         </Radio.Group>
                       </td>
                       <td style={{ border: '1px solid #e8e8e8', padding: '8px 12px' }}>
-                        <div
-                          className="inline-flex items-center gap-1 cursor-pointer rounded px-2 py-1"
-                          style={{ border: '1px dashed #d9d9d9', backgroundColor: '#fafafa', fontSize: 12, color: '#595959' }}
-                        >
-                          <PlusOutlined style={{ fontSize: 11 }} />
-                          上传文件
-                        </div>
+                        <input
+                          type="file"
+                          ref={brandFileRef}
+                          accept="image/jpeg,image/png,application/pdf"
+                          style={{ display: 'none' }}
+                          onChange={e => {
+                            const f = e.target.files?.[0]
+                            if (f) setBrandFileName(f.name)
+                          }}
+                        />
+                        {brandFileName ? (
+                          <span style={{ fontSize: 12, color: '#262626' }}>{brandFileName}</span>
+                        ) : (
+                          <div
+                            className="inline-flex items-center gap-1 cursor-pointer rounded px-2 py-1"
+                            style={{ border: '1px dashed #d9d9d9', backgroundColor: '#fafafa', fontSize: 12, color: '#595959' }}
+                            onClick={() => brandFileRef.current?.click()}
+                          >
+                            <PlusOutlined style={{ fontSize: 11 }} />
+                            上传文件
+                          </div>
+                        )}
                       </td>
                     </tr>
                   </tbody>
@@ -486,30 +560,58 @@ export default function BusinessPage() {
               <label className="block mb-2" style={{ fontSize: 13, color: '#262626' }}>
                 <span style={{ color: '#ff4d4f' }}>* </span>证明文件
               </label>
+              <input
+                type="file"
+                ref={proofFileRef}
+                accept="image/jpeg,image/png,application/pdf"
+                multiple
+                style={{ display: 'none' }}
+                onChange={handleProofChange}
+              />
               <div className="flex items-start gap-4">
-                <div
-                  className="flex flex-col items-center justify-center cursor-pointer rounded-lg flex-shrink-0"
-                  style={{ width: 100, height: 80, border: '1px dashed #d9d9d9', backgroundColor: '#fafafa' }}
-                >
-                  <PlusOutlined style={{ fontSize: 18, color: '#bfbfbf', marginBottom: 6 }} />
-                  <span style={{ fontSize: 11, color: '#8c8c8c' }}>上传文件</span>
-                </div>
-                <div>
-                  <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: 1.9, marginBottom: 4 }}>
-                    请上传证明公司年成交额的材料，支持jpg/png/pdf格式，不超过10M，最多上传10个文件
+                {/* 已上传的文件缩略图 */}
+                {proofFiles.map((f, idx) => (
+                  <div
+                    key={idx}
+                    className="flex-shrink-0 rounded overflow-hidden"
+                    style={{ width: 80, height: 80, border: '1px solid #e8e8e8', position: 'relative' }}
+                  >
+                    {f.name.toLowerCase().endsWith('.pdf') ? (
+                      <div className="w-full h-full flex flex-col items-center justify-center"
+                        style={{ backgroundColor: '#fff2f0' }}>
+                        <span style={{ fontSize: 11, color: '#ff4d4f', fontWeight: 600 }}>PDF</span>
+                        <span style={{ fontSize: 10, color: '#8c8c8c', marginTop: 2, maxWidth: 70, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
+                      </div>
+                    ) : (
+                      <img src={f.url} alt={f.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    )}
                   </div>
-                  <div style={{ fontSize: 12, color: '#ff4d4f', lineHeight: 1.9 }}>
-                    参考材料：
-                    <span className="cursor-pointer" style={{ color: '#1677ff' }}>增值税发票</span>
-                    、
-                    <span className="cursor-pointer" style={{ color: '#1677ff' }}>海关报关单</span>
-                    、
-                    <span className="cursor-pointer" style={{ color: '#1677ff' }}>外汇收款凭证</span>
-                    、
-                    <span className="cursor-pointer" style={{ color: '#1677ff' }}>第三方平台订单截图</span>
-                    等可证明年成交额的材料
+                ))}
+                {/* 上传按钮 */}
+                {proofFiles.length < 10 && (
+                  <div
+                    className="flex flex-col items-center justify-center cursor-pointer rounded-lg flex-shrink-0"
+                    style={{ width: 80, height: 80, border: '1px dashed #d9d9d9', backgroundColor: '#fafafa' }}
+                    onClick={() => proofFileRef.current?.click()}
+                  >
+                    <PlusOutlined style={{ fontSize: 18, color: '#bfbfbf', marginBottom: 6 }} />
+                    <span style={{ fontSize: 11, color: '#8c8c8c' }}>上传文件</span>
                   </div>
-                </div>
+                )}
+              </div>
+              <div style={{ fontSize: 12, color: '#8c8c8c', lineHeight: 1.9, marginTop: 8, marginBottom: 4 }}>
+                请上传证明公司年成交额的材料，支持jpg/png/pdf格式，不超过10M，最多上传10个文件
+              </div>
+              <div style={{ fontSize: 12, color: '#ff4d4f', lineHeight: 1.9 }}>
+                参考材料：
+                <span className="cursor-pointer" style={{ color: '#1677ff' }}>增值税发票</span>
+                、
+                <span className="cursor-pointer" style={{ color: '#1677ff' }}>海关报关单</span>
+                、
+                <span className="cursor-pointer" style={{ color: '#1677ff' }}>外汇收款凭证</span>
+                、
+                <span className="cursor-pointer" style={{ color: '#1677ff' }}>第三方平台订单截图</span>
+                等可证明年成交额的材料
               </div>
             </div>
           </section>
