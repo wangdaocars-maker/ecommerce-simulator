@@ -142,7 +142,7 @@ const STEPS = [
 const ILLUSTRATIONS = [
   <AstronautIllustration key="astronaut" />,
   <CategoryIllustration key="category" />,
-  null,
+  <CategoryIllustration key="category2" />,
   null,
 ]
 
