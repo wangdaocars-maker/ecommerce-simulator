@@ -150,6 +150,7 @@ function ActivateContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const currentStep = parseInt(searchParams.get('step') || '1', 10)
+  const review = searchParams.get('review')
   const remaining = 5 - currentStep
 
   return (
@@ -267,6 +268,7 @@ function ActivateContent() {
               }
 
               if (isActive) {
+                const isReviewing = review === '1' && i === 2
                 return (
                   <div
                     key={i}
@@ -281,13 +283,25 @@ function ActivateContent() {
                         <p className="mb-5" style={{ fontSize: 13, color: '#8c8c8c', lineHeight: 1.6 }}>
                           {step.desc}
                         </p>
-                        <Button
-                          type="primary"
-                          style={{ backgroundColor: '#1677ff', minWidth: 88, height: 34, fontSize: 13 }}
-                          onClick={() => router.push(step.route)}
-                        >
-                          去填写
-                        </Button>
+                        {isReviewing ? (
+                          <div className="flex items-center gap-2">
+                            <span style={{
+                              width: 8, height: 8, borderRadius: '50%',
+                              backgroundColor: '#1677ff', display: 'inline-block', flexShrink: 0,
+                            }} />
+                            <span style={{ fontSize: 13, color: '#1677ff' }}>
+                              审核中，预计5个工作日内，请耐心等待。
+                            </span>
+                          </div>
+                        ) : (
+                          <Button
+                            type="primary"
+                            style={{ backgroundColor: '#1677ff', minWidth: 88, height: 34, fontSize: 13 }}
+                            onClick={() => router.push(step.route)}
+                          >
+                            去填写
+                          </Button>
+                        )}
                       </div>
                       {ILLUSTRATIONS[i] && (
                         <div className="flex-shrink-0 ml-4 self-center">
