@@ -108,10 +108,10 @@ export default function UBOPage() {
       </div>
 
       {/* 主内容区 */}
-      <div className="flex gap-5 items-start px-6 py-6" style={{ maxWidth: 1400 }}>
+      <div className="px-6 py-6" style={{ maxWidth: 960, margin: '0 auto' }}>
 
-        {/* 左侧主体 */}
-        <div className="flex-1">
+        {/* 主体 */}
+        <div>
 
           {/* 页面标题 */}
           <h1 className="font-bold mb-5" style={{ fontSize: 20, color: '#1a1a2e' }}>资金账户UBO信息</h1>
@@ -286,12 +286,13 @@ export default function UBOPage() {
           </section>
         </div>
 
-        {/* 右侧 FAQ */}
-        <div className="bg-white rounded-xl p-5 flex-shrink-0"
-          style={{ width: 200, boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginTop: 56 }}>
-          <h3 className="font-semibold mb-3" style={{ fontSize: 14, color: '#1a1a2e' }}>FAQ</h3>
-          <p className="text-sm cursor-pointer" style={{ color: '#1677ff' }}>· AE店铺激活常见问题</p>
-        </div>
+      </div>
+
+      {/* FAQ - fixed 定位，不影响主体宽度 */}
+      <div className="fixed bg-white rounded-xl p-5"
+        style={{ right: 24, top: 80, width: 200, boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+        <h3 className="font-semibold mb-3" style={{ fontSize: 14, color: '#1a1a2e' }}>FAQ</h3>
+        <p className="text-sm cursor-pointer" style={{ color: '#1677ff' }}>· AE店铺激活常见问题</p>
       </div>
 
       {/* 底部固定工具栏 */}
