@@ -98,6 +98,75 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
+// ===== 下拉选项常量 =====
+
+const ADDRESS_OPTIONS = [
+  { value: '广东省广州市天河区', label: '广东省 / 广州市 / 天河区' },
+  { value: '广东省广州市越秀区', label: '广东省 / 广州市 / 越秀区' },
+  { value: '广东省深圳市南山区', label: '广东省 / 深圳市 / 南山区' },
+  { value: '广东省深圳市福田区', label: '广东省 / 深圳市 / 福田区' },
+  { value: '广东省深圳市龙华区', label: '广东省 / 深圳市 / 龙华区' },
+  { value: '广东省东莞市南城区', label: '广东省 / 东莞市 / 南城区' },
+  { value: '北京市朝阳区', label: '北京市 / 朝阳区' },
+  { value: '北京市海淀区', label: '北京市 / 海淀区' },
+  { value: '北京市丰台区', label: '北京市 / 丰台区' },
+  { value: '上海市浦东新区', label: '上海市 / 浦东新区' },
+  { value: '上海市黄浦区', label: '上海市 / 黄浦区' },
+  { value: '上海市静安区', label: '上海市 / 静安区' },
+  { value: '浙江省杭州市西湖区', label: '浙江省 / 杭州市 / 西湖区' },
+  { value: '浙江省杭州市滨江区', label: '浙江省 / 杭州市 / 滨江区' },
+  { value: '浙江省宁波市鄞州区', label: '浙江省 / 宁波市 / 鄞州区' },
+  { value: '浙江省义乌市', label: '浙江省 / 义乌市' },
+  { value: '江苏省南京市鼓楼区', label: '江苏省 / 南京市 / 鼓楼区' },
+  { value: '江苏省苏州市工业园区', label: '江苏省 / 苏州市 / 工业园区' },
+  { value: '福建省厦门市思明区', label: '福建省 / 厦门市 / 思明区' },
+  { value: '福建省泉州市丰泽区', label: '福建省 / 泉州市 / 丰泽区' },
+  { value: '河南省郑州市金水区', label: '河南省 / 郑州市 / 金水区' },
+  { value: '湖北省武汉市武昌区', label: '湖北省 / 武汉市 / 武昌区' },
+  { value: '四川省成都市武侯区', label: '四川省 / 成都市 / 武侯区' },
+  { value: '陕西省西安市雁塔区', label: '陕西省 / 西安市 / 雁塔区' },
+  { value: '山东省青岛市市南区', label: '山东省 / 青岛市 / 市南区' },
+]
+
+const REGISTRATION_OFFICE_OPTIONS = [
+  { value: '广州市天河区市场监督管理局', label: '广州市天河区市场监督管理局' },
+  { value: '广州市越秀区市场监督管理局', label: '广州市越秀区市场监督管理局' },
+  { value: '深圳市南山区市场监督管理局', label: '深圳市南山区市场监督管理局' },
+  { value: '深圳市福田区市场监督管理局', label: '深圳市福田区市场监督管理局' },
+  { value: '深圳市龙华区市场监督管理局', label: '深圳市龙华区市场监督管理局' },
+  { value: '北京市朝阳区市场监督管理局', label: '北京市朝阳区市场监督管理局' },
+  { value: '北京市海淀区市场监督管理局', label: '北京市海淀区市场监督管理局' },
+  { value: '上海市浦东新区市场监督管理局', label: '上海市浦东新区市场监督管理局' },
+  { value: '上海市黄浦区市场监督管理局', label: '上海市黄浦区市场监督管理局' },
+  { value: '杭州市西湖区市场监督管理局', label: '杭州市西湖区市场监督管理局' },
+  { value: '杭州市滨江区市场监督管理局', label: '杭州市滨江区市场监督管理局' },
+  { value: '义乌市市场监督管理局', label: '义乌市市场监督管理局' },
+  { value: '南京市鼓楼区市场监督管理局', label: '南京市鼓楼区市场监督管理局' },
+  { value: '厦门市思明区市场监督管理局', label: '厦门市思明区市场监督管理局' },
+  { value: '郑州市金水区市场监督管理局', label: '郑州市金水区市场监督管理局' },
+  { value: '成都市武侯区市场监督管理局', label: '成都市武侯区市场监督管理局' },
+  { value: '武汉市武昌区市场监督管理局', label: '武汉市武昌区市场监督管理局' },
+]
+
+const NATIONALITY_OPTIONS = [
+  { value: 'CN', label: '中国' },
+  { value: 'HK', label: '中国香港' },
+  { value: 'TW', label: '中国台湾' },
+  { value: 'SG', label: '新加坡' },
+  { value: 'MY', label: '马来西亚' },
+  { value: 'US', label: '美国' },
+  { value: 'GB', label: '英国' },
+  { value: 'AU', label: '澳大利亚' },
+  { value: 'CA', label: '加拿大' },
+  { value: 'JP', label: '日本' },
+  { value: 'KR', label: '韩国' },
+  { value: 'TH', label: '泰国' },
+  { value: 'ID', label: '印度尼西亚' },
+  { value: 'PH', label: '菲律宾' },
+  { value: 'VN', label: '越南' },
+  { value: 'IN', label: '印度' },
+]
+
 export default function ShopRegisterCompanyPage() {
   const [creditCode, setCreditCode] = useState('')
   const [confirmed, setConfirmed] = useState(false)
@@ -270,7 +339,7 @@ export default function ShopRegisterCompanyPage() {
                 <div className="mb-6">
                   <FieldLabel><Req />企业注册地址</FieldLabel>
                   <div style={{ maxWidth: 480 }}>
-                    <Select size="large" placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} />
+                    <Select size="large" showSearch placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} options={ADDRESS_OPTIONS} />
                     <Input size="large" placeholder="详细地址，具体到门牌号" />
                   </div>
                 </div>
@@ -279,7 +348,7 @@ export default function ShopRegisterCompanyPage() {
                 <div className="mb-6">
                   <FieldLabel><Req />企业经营地址</FieldLabel>
                   <div style={{ maxWidth: 480 }}>
-                    <Select size="large" placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} />
+                    <Select size="large" showSearch placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} options={ADDRESS_OPTIONS} />
                     <Input size="large" placeholder="详细地址，具体到门牌号" />
                   </div>
                 </div>
@@ -302,7 +371,7 @@ export default function ShopRegisterCompanyPage() {
                 {/* 登记机关 */}
                 <div className="mb-6">
                   <FieldLabel><Req />登记机关</FieldLabel>
-                  <Select size="large" showSearch placeholder="搜索机构名称或地址" style={{ maxWidth: 480, width: '100%' }} options={[]} />
+                  <Select size="large" showSearch placeholder="搜索机构名称或地址" style={{ maxWidth: 480, width: '100%' }} options={REGISTRATION_OFFICE_OPTIONS} />
                 </div>
 
                 {/* 手持营业执照 */}
@@ -370,7 +439,7 @@ export default function ShopRegisterCompanyPage() {
                 <div className="mb-6">
                   <FieldLabel><Req />法人国籍</FieldLabel>
                   <Select size="large" placeholder="请选择" style={{ maxWidth: 300, width: '100%' }}
-                    options={[{ value: 'CN', label: '中国' }, { value: 'US', label: '美国' }, { value: 'HK', label: '中国香港' }]}
+                    options={NATIONALITY_OPTIONS}
                   />
                 </div>
 
@@ -378,7 +447,7 @@ export default function ShopRegisterCompanyPage() {
                 <div className="mb-8">
                   <FieldLabel><Req />法人居住地址</FieldLabel>
                   <div style={{ maxWidth: 480 }}>
-                    <Select size="large" placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} />
+                    <Select size="large" showSearch placeholder="国家 / 省 / 市 / 区" style={{ width: '100%', marginBottom: 8 }} options={ADDRESS_OPTIONS} />
                     <Input size="large" placeholder="详细地址，具体到门牌号" />
                   </div>
                 </div>
