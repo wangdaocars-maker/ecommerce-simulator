@@ -106,6 +106,36 @@ export default function ShopRegisterCompanyPage() {
   const [phoneType, setPhoneType] = useState('other')
   const [emailType, setEmailType] = useState('other')
   const [longValid, setLongValid] = useState(true)
+  const [phoneCode, setPhoneCode] = useState('')
+  const [phoneCountdown, setPhoneCountdown] = useState(0)
+  const [emailCode, setEmailCode] = useState('')
+  const [emailCountdown, setEmailCountdown] = useState(0)
+
+  const randomCode = () => String(Math.floor(100000 + Math.random() * 900000))
+
+  const startCountdown = (setter: React.Dispatch<React.SetStateAction<number>>) => {
+    setter(60)
+    const timer = setInterval(() => {
+      setter((prev: number) => {
+        if (prev <= 1) { clearInterval(timer); return 0 }
+        return prev - 1
+      })
+    }, 1000)
+  }
+
+  const sendPhoneCode = () => {
+    const code = randomCode()
+    setPhoneCode(code)
+    startCountdown(setPhoneCountdown)
+    message.success('验证码已发送至手机')
+  }
+
+  const sendEmailCode = () => {
+    const code = randomCode()
+    setEmailCode(code)
+    startCountdown(setEmailCountdown)
+    message.success('验证码已发送至邮箱')
+  }
 
   const handleConfirm = () => {
     if (!creditCode.trim()) {
@@ -378,13 +408,18 @@ export default function ShopRegisterCompanyPage() {
                         <label className="text-xs text-gray-600 mb-1 block"><Req />新手机号码</label>
                         <div className="flex items-center gap-2">
                           <Input addonBefore="+86" size="large" placeholder="请输入" style={{ maxWidth: 220 }} />
-                          <span style={{ color: '#1677ff', fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap' }}>获取验证码</span>
+                          <span
+                            style={{ color: phoneCountdown > 0 ? '#aaa' : '#1677ff', fontSize: 13, cursor: phoneCountdown > 0 ? 'default' : 'pointer', whiteSpace: 'nowrap' }}
+                            onClick={phoneCountdown > 0 ? undefined : sendPhoneCode}
+                          >
+                            {phoneCountdown > 0 ? `${phoneCountdown}s` : '获取验证码'}
+                          </span>
                         </div>
                       </div>
                       <div>
                         <label className="text-xs text-gray-600 mb-1 block"><Req />验证码</label>
                         <div className="flex items-center gap-2">
-                          <Input size="large" placeholder="请输入" style={{ maxWidth: 180 }} />
+                          <Input size="large" placeholder="请输入" value={phoneCode} onChange={e => setPhoneCode(e.target.value)} style={{ maxWidth: 180 }} />
                           <span style={{ color: '#1677ff', fontSize: 13, cursor: 'pointer' }}>校验</span>
                         </div>
                       </div>
@@ -405,13 +440,18 @@ export default function ShopRegisterCompanyPage() {
                         <label className="text-xs text-gray-600 mb-1 block"><Req />新邮箱</label>
                         <div className="flex items-center gap-2">
                           <Input size="large" placeholder="请输入" style={{ maxWidth: 220 }} />
-                          <span style={{ color: '#1677ff', fontSize: 13, cursor: 'pointer', whiteSpace: 'nowrap' }}>获取验证码</span>
+                          <span
+                            style={{ color: emailCountdown > 0 ? '#aaa' : '#1677ff', fontSize: 13, cursor: emailCountdown > 0 ? 'default' : 'pointer', whiteSpace: 'nowrap' }}
+                            onClick={emailCountdown > 0 ? undefined : sendEmailCode}
+                          >
+                            {emailCountdown > 0 ? `${emailCountdown}s` : '获取验证码'}
+                          </span>
                         </div>
                       </div>
                       <div>
                         <label className="text-xs text-gray-600 mb-1 block"><Req />验证码</label>
                         <div className="flex items-center gap-2">
-                          <Input size="large" placeholder="请输入" style={{ maxWidth: 180 }} />
+                          <Input size="large" placeholder="请输入" value={emailCode} onChange={e => setEmailCode(e.target.value)} style={{ maxWidth: 180 }} />
                           <span style={{ color: '#1677ff', fontSize: 13, cursor: 'pointer' }}>校验</span>
                         </div>
                       </div>
