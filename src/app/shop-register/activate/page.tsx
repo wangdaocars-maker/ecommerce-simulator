@@ -1,45 +1,56 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
-// 宇航员 SVG 插图
+// 已完成印章
+function DoneStamp() {
+  return (
+    <div style={{
+      position: 'absolute',
+      top: 14,
+      left: 14,
+      width: 54,
+      height: 54,
+      borderRadius: '50%',
+      border: '2px dashed #52c41a',
+      backgroundColor: 'rgba(82,196,26,0.07)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transform: 'rotate(-18deg)',
+      zIndex: 1,
+    }}>
+      <span style={{ fontSize: 12, fontWeight: 700, color: '#52c41a', lineHeight: 1.2, textAlign: 'center' }}>
+        已完成
+      </span>
+    </div>
+  )
+}
+
+// 宇航员 SVG 插图（第一步）
 function AstronautIllustration() {
   return (
     <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* 身体阴影 */}
       <ellipse cx="55" cy="100" rx="28" ry="7" fill="#C8DFF5" opacity="0.5" />
-      {/* 宇航服身体 */}
       <ellipse cx="55" cy="80" rx="26" ry="22" fill="#C5DCF2" />
-      {/* 身体高光 */}
       <ellipse cx="48" cy="72" rx="8" ry="10" fill="#D9ECFF" opacity="0.6" />
-      {/* 腰部装备带 */}
       <rect x="32" y="80" width="46" height="7" rx="3.5" fill="#A8CBE8" />
-      {/* 中央模块 */}
       <rect x="47" y="81" width="16" height="5" rx="2.5" fill="#7BADD4" />
       <circle cx="55" cy="83.5" r="2.5" fill="#5A90C0" />
-      {/* 左手臂 */}
       <ellipse cx="28" cy="75" rx="9" ry="6" fill="#C5DCF2" transform="rotate(-20 28 75)" />
       <ellipse cx="22" cy="80" rx="6" ry="5" fill="#BDD5EF" />
-      {/* 右手臂 */}
       <ellipse cx="82" cy="75" rx="9" ry="6" fill="#C5DCF2" transform="rotate(20 82 75)" />
       <ellipse cx="88" cy="80" rx="6" ry="5" fill="#BDD5EF" />
-      {/* 头盔外圈（暗色） */}
       <circle cx="55" cy="42" r="27" fill="#B8D4ED" />
-      {/* 头盔主体（浅蓝白） */}
       <circle cx="55" cy="42" r="24" fill="url(#helmetGrad)" />
-      {/* 头盔玻璃面罩区域 */}
       <ellipse cx="55" cy="44" rx="16" ry="17" fill="#A0C8E8" opacity="0.55" />
-      {/* 玻璃反光1（大） */}
       <ellipse cx="47" cy="34" rx="7" ry="5" fill="white" opacity="0.45" transform="rotate(-25 47 34)" />
-      {/* 玻璃反光2（小） */}
       <ellipse cx="60" cy="30" rx="3" ry="2" fill="white" opacity="0.3" />
-      {/* 头盔边缘连接圈 */}
       <circle cx="55" cy="42" r="24" stroke="#A0C4E0" strokeWidth="1.5" fill="none" />
-      {/* 肩膀连接 */}
       <ellipse cx="55" cy="64" rx="18" ry="5" fill="#B8D4ED" />
-
       <defs>
         <radialGradient id="helmetGrad" cx="40%" cy="35%" r="65%">
           <stop offset="0%" stopColor="#EAF4FF" />
@@ -51,7 +62,37 @@ function AstronautIllustration() {
   )
 }
 
-// 平台图标 SVG（简化版 logo）
+// 类目选择 3D 图标（第二步）
+function CategoryIllustration() {
+  return (
+    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* 阴影 */}
+      <ellipse cx="48" cy="96" rx="26" ry="5" fill="#B0CEEA" opacity="0.4" />
+      {/* 顶面 */}
+      <path d="M12 24 L24 14 L84 14 L72 24 Z" fill="#7EC4F8" />
+      {/* 右侧面 */}
+      <path d="M72 24 L84 14 L84 78 L72 88 Z" fill="#2A7BC8" />
+      {/* 正面 */}
+      <rect x="12" y="24" width="60" height="64" rx="6" fill="url(#catGrad)" />
+      {/* 正面内容 */}
+      <circle cx="30" cy="44" r="8" fill="white" opacity="0.65" />
+      <path d="M50 37 L59 51 L41 51 Z" fill="white" opacity="0.65" />
+      <rect x="20" y="57" width="44" height="6" rx="3" fill="white" opacity="0.45" />
+      <rect x="20" y="67" width="32" height="5" rx="2.5" fill="white" opacity="0.3" />
+      <rect x="20" y="76" width="38" height="5" rx="2.5" fill="white" opacity="0.2" />
+      {/* 光标箭头 */}
+      <path d="M74 66 L74 82 L78 77 L81 84 L84 82 L81 75 L86 75 Z" fill="#1F2937" opacity="0.7" />
+      <defs>
+        <linearGradient id="catGrad" x1="12" y1="24" x2="72" y2="88" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#5BAEF5" />
+          <stop offset="100%" stopColor="#2B78D4" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+// 平台图标 SVG
 function PlatformIcon({ type }: { type: 'ae' | 'lazada' | 'daraz' | 'miravia' }) {
   const configs = {
     ae: { bg: '#FF4422', text: 'AE', textColor: '#fff' },
@@ -79,23 +120,38 @@ const STEPS = [
   {
     title: '第一步：填写资金账户UBO信息',
     desc: '请提供持股比例超过25%的股东信息，和相关资金账户信息',
+    route: '/shop-register/activate/ubo',
   },
   {
     title: '第二步：选择店铺主要售卖类目',
     desc: '请选择店铺主要售卖类目，审核通过后，需缴纳售卖类目对应的保证金',
+    route: '/shop-register/activate/category',
   },
   {
     title: '第三步：经营信息填报',
     desc: '请完整填写企业基础信息内容，便于平台对您的企业资质进行审核',
+    route: '/shop-register/activate/business',
   },
   {
     title: '第四步：缴纳店铺保证金',
     desc: '根据选择的主要售卖类目缴纳店铺保证金，即刻激活店铺',
+    route: '/shop-register/activate/deposit',
   },
 ]
 
-export default function ShopActivatePage() {
+const ILLUSTRATIONS = [
+  <AstronautIllustration key="astronaut" />,
+  <CategoryIllustration key="category" />,
+  null,
+  null,
+]
+
+function ActivateContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const currentStep = parseInt(searchParams.get('step') || '1', 10)
+  const remaining = 5 - currentStep
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F0F5FF' }}>
 
@@ -167,14 +223,13 @@ export default function ShopActivatePage() {
           {/* 标题栏 */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              {/* 地图钉图标 */}
               <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
                 <path d="M10 0C4.477 0 0 4.477 0 10c0 7.5 10 14 10 14S20 17.5 20 10C20 4.477 15.523 0 10 0z" fill="#FF4422" />
                 <circle cx="10" cy="10" r="4" fill="white" />
               </svg>
               <h1 className="font-bold" style={{ fontSize: 20, color: '#1a1a2e' }}>
                 距离成功激活AliExpress店铺，仅剩{' '}
-                <span style={{ color: '#1677ff' }}>4</span>{' '}步！
+                <span style={{ color: '#1677ff' }}>{remaining}</span>{' '}步！
               </h1>
             </div>
             <div className="flex items-center gap-3 text-sm" style={{ color: '#8c8c8c' }}>
@@ -189,52 +244,88 @@ export default function ShopActivatePage() {
 
           {/* 步骤卡片 */}
           <div className="flex flex-col gap-3">
+            {STEPS.map((step, i) => {
+              const isCompleted = i < currentStep - 1
+              const isActive = i === currentStep - 1
 
-            {/* 第一步：激活当前步骤 */}
-            <div className="bg-white rounded-xl p-7 relative overflow-hidden"
-              style={{ boxShadow: '0 4px 16px rgba(22,119,255,0.14)' }}>
-              <div className="flex items-start justify-between">
-                <div style={{ flex: 1 }}>
-                  <h3 className="font-semibold mb-2" style={{ fontSize: 16, color: '#1a1a2e' }}>
-                    {STEPS[0].title}
-                  </h3>
-                  <p className="mb-5" style={{ fontSize: 13, color: '#8c8c8c', lineHeight: 1.6 }}>
-                    {STEPS[0].desc}
-                  </p>
-                  <Button
-                    type="primary"
-                    style={{ backgroundColor: '#1677ff', minWidth: 88, height: 34, fontSize: 13 }}
-                    onClick={() => router.push('/shop-register/activate/ubo')}
+              if (isCompleted) {
+                return (
+                  <div
+                    key={i}
+                    className="bg-white rounded-xl px-7 py-5 relative overflow-hidden"
+                    style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
                   >
-                    去填写
-                  </Button>
-                </div>
-                {/* 宇航员插图 */}
-                <div className="flex-shrink-0 ml-4 self-center">
-                  <AstronautIllustration />
-                </div>
-              </div>
-            </div>
+                    <DoneStamp />
+                    <h3 className="font-semibold mb-1" style={{ fontSize: 15, color: '#bfbfbf' }}>
+                      {step.title}
+                    </h3>
+                    <p style={{ fontSize: 13, color: '#d9d9d9', lineHeight: 1.6 }}>
+                      {step.desc}
+                    </p>
+                  </div>
+                )
+              }
 
-            {/* 第二、三、四步：禁用 */}
-            {STEPS.slice(1).map((step, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl px-7 py-5"
-                style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
-              >
-                <h3 className="font-semibold mb-1" style={{ fontSize: 15, color: '#bfbfbf' }}>
-                  {step.title}
-                </h3>
-                <p style={{ fontSize: 13, color: '#d9d9d9', lineHeight: 1.6 }}>
-                  {step.desc}
-                </p>
-              </div>
-            ))}
+              if (isActive) {
+                return (
+                  <div
+                    key={i}
+                    className="bg-white rounded-xl p-7 relative overflow-hidden"
+                    style={{ boxShadow: '0 4px 16px rgba(22,119,255,0.14)' }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div style={{ flex: 1 }}>
+                        <h3 className="font-semibold mb-2" style={{ fontSize: 16, color: '#1a1a2e' }}>
+                          {step.title}
+                        </h3>
+                        <p className="mb-5" style={{ fontSize: 13, color: '#8c8c8c', lineHeight: 1.6 }}>
+                          {step.desc}
+                        </p>
+                        <Button
+                          type="primary"
+                          style={{ backgroundColor: '#1677ff', minWidth: 88, height: 34, fontSize: 13 }}
+                          onClick={() => router.push(step.route)}
+                        >
+                          去填写
+                        </Button>
+                      </div>
+                      {ILLUSTRATIONS[i] && (
+                        <div className="flex-shrink-0 ml-4 self-center">
+                          {ILLUSTRATIONS[i]}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              }
 
+              // 未激活
+              return (
+                <div
+                  key={i}
+                  className="bg-white rounded-xl px-7 py-5"
+                  style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
+                >
+                  <h3 className="font-semibold mb-1" style={{ fontSize: 15, color: '#bfbfbf' }}>
+                    {step.title}
+                  </h3>
+                  <p style={{ fontSize: 13, color: '#d9d9d9', lineHeight: 1.6 }}>
+                    {step.desc}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ShopActivatePage() {
+  return (
+    <Suspense>
+      <ActivateContent />
+    </Suspense>
   )
 }

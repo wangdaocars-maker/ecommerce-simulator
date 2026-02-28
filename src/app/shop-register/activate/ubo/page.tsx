@@ -411,7 +411,7 @@ export default function UBOPage() {
         <Button size="large" style={{ minWidth: 72 }} onClick={() => router.back()}>返回</Button>
         <div className="flex gap-3">
           <Button size="large" style={{ minWidth: 72 }}>保存</Button>
-          <Button type="primary" size="large" style={{ minWidth: 72, backgroundColor: '#1677ff' }}>提交</Button>
+          <Button type="primary" size="large" style={{ minWidth: 72, backgroundColor: '#1677ff' }} onClick={() => router.push('/shop-register/activate?step=2')}>提交</Button>
         </div>
       </div>
     </div>
