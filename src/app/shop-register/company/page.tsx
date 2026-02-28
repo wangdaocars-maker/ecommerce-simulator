@@ -5,7 +5,7 @@ import {
   CheckCircleFilled, InfoCircleFilled, CloseOutlined,
   UserOutlined, PlusOutlined, DeleteOutlined,
 } from '@ant-design/icons'
-import { Input, Button, Select, Radio, DatePicker, Checkbox, message } from 'antd'
+import { Input, Button, Select, Radio, DatePicker, Checkbox, message, Space } from 'antd'
 
 // 上传框（支持本地图片选择与预览）
 function UploadBox({ label, width = 200, height = 160 }: { label: string; width?: number; height?: number }) {
@@ -407,7 +407,10 @@ export default function ShopRegisterCompanyPage() {
                       <div>
                         <label className="text-xs text-gray-600 mb-1 block"><Req />新手机号码</label>
                         <div className="flex items-center gap-2">
-                          <Input addonBefore="+86" size="large" placeholder="请输入" style={{ maxWidth: 220 }} />
+                          <Space.Compact size="large" style={{ maxWidth: 220 }}>
+                            <Input value="+86" readOnly style={{ width: 60, textAlign: 'center', color: '#555' }} />
+                            <Input placeholder="请输入" style={{ flex: 1 }} />
+                          </Space.Compact>
                           <span
                             style={{ color: phoneCountdown > 0 ? '#aaa' : '#1677ff', fontSize: 13, cursor: phoneCountdown > 0 ? 'default' : 'pointer', whiteSpace: 'nowrap' }}
                             onClick={phoneCountdown > 0 ? undefined : sendPhoneCode}
