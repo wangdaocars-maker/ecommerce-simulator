@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   CheckCircleFilled, InfoCircleFilled, CloseOutlined,
   UserOutlined, PlusOutlined, DeleteOutlined,
@@ -168,6 +169,7 @@ const NATIONALITY_OPTIONS = [
 ]
 
 export default function ShopRegisterCompanyPage() {
+  const router = useRouter()
   const [creditCode, setCreditCode] = useState('')
   const [confirmed, setConfirmed] = useState(false)
   const [noticeClosed, setNoticeClosed] = useState(false)
@@ -550,7 +552,10 @@ export default function ShopRegisterCompanyPage() {
           style={{ height: 64, borderTop: '1px solid #e8e8e8', boxShadow: '0 -2px 8px rgba(0,0,0,0.06)' }}>
           <Button size="large" style={{ minWidth: 80 }}>保存</Button>
           <Button type="primary" size="large" style={{ minWidth: 80, backgroundColor: '#1677ff' }}
-            onClick={() => message.success('提交成功，等待审核')}>
+            onClick={() => {
+              message.success('提交成功，等待审核')
+              setTimeout(() => router.push('/shop-register/review'), 800)
+            }}>
             提交
           </Button>
         </div>
