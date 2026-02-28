@@ -1,52 +1,97 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { InfoCircleFilled, UserOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons'
 import { Radio, Select, Input, Checkbox, Button, Modal } from 'antd'
 
-// 协议内容
-const AGREEMENT_CONTENT = {
-  enhanced: {
-    title: '新商孵化方案（增强版）',
-    content: `1、自动化大促报名：
+// 协议标题
+const AGREEMENT_TITLES: Record<'enhanced' | 'standard', string> = {
+  enhanced: '新商孵化方案（增强版）',
+  standard: '新商孵化方案（标准版）',
+}
 
-1.1 报名活动范围：包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；增强版额外覆盖核心场域自动化报名：Super Deals（含brand+场域）、N元N件活动等，以及营销工具自动化加入：新品闪电推服务、营销智投计划等；
+// 颜色高亮组件
+const O = ({ children }: { children: ReactNode }) => <span style={{ color: '#FA541C' }}>{children}</span>  // 橙色警告
+const B = ({ children }: { children: ReactNode }) => <span style={{ color: '#1677ff' }}>{children}</span>  // 蓝色链接
+const R = ({ children }: { children: ReactNode }) => <span style={{ color: '#ff4d4f' }}>{children}</span>  // 红色
 
-1.2 最低折扣率要求：商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
+function SectionTitle({ children }: { children: ReactNode }) {
+  return <p className="font-bold mt-4 mb-1" style={{ fontSize: 13, color: '#262626' }}>{children}</p>
+}
+function Para({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <p className="mb-3" style={{ fontSize: 13, color: '#595959', lineHeight: 1.8 }}>
+      <strong style={{ color: '#262626' }}>{label}</strong>{children}
+    </p>
+  )
+}
+function PlainPara({ children }: { children: ReactNode }) {
+  return <p className="mb-3" style={{ fontSize: 13, color: '#595959', lineHeight: 1.8 }}>{children}</p>
+}
 
-1.3 退出规则：为保障商家活动商品经营的延续性，通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动，其他场景原则上不予以支持退出活动。
+function EnhancedAgreementBody() {
+  return (
+    <div>
+      <SectionTitle>1、自动化大促报名：</SectionTitle>
+      <Para label="1.1 报名活动范围：">
+        包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；增强版额外覆盖核心场域自动化报名：Super Deals（含brand+场域）、N元N件活动等，以及营销工具自动化加入：新品闪电推服务、营销智投计划等；
+      </Para>
+      <Para label="1.2 最低折扣率要求：">
+        商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，<O>折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off</O>；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
+      </Para>
+      <Para label="1.3 退出规则：">
+        为保障商家活动商品经营的延续性，<B>通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动</B>，其他场景原则上不予以支持退出活动。
+      </Para>
+      <SectionTitle>2、自动开启智能营销工具：</SectionTitle>
+      <Para label="2.1 智能营销工具范围：">
+        包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能；
+      </Para>
+      <Para label="2.2 退出规则：">
+        商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
+      </Para>
+      <SectionTitle>3、基础孵化服务费：</SectionTitle>
+      <PlainPara>
+        增强版基础孵化服务费率为<R>0%</R>（活动期间），平台将按照实际协议费率收取基础孵化服务费，更多细则请参考<B>《全球速卖通新商家孵化基础服务费规则》</B>。
+      </PlainPara>
+      <SectionTitle>4、协议效期：</SectionTitle>
+      <PlainPara>
+        自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。<O>在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。</O>商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，<R>如商家未提前通知终止，则本服务自动顺延，顺延次数不限。</R>
+      </PlainPara>
+    </div>
+  )
+}
 
-2、自动开启智能营销工具：
-
-2.1 智能营销工具范围：包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能；
-
-2.2 退出规则：商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
-
-3、基础孵化服务费：增强版基础孵化服务费率为0%（活动期间），平台将按照实际协议费率收取基础孵化服务费，更多细则请参考《全球速卖通新商家孵化基础服务费规则》。
-
-4、协议效期：自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，如商家未提前通知终止，则本服务自动顺延，顺延次数不限。`,
-  },
-  standard: {
-    title: '新商孵化方案（标准版）',
-    content: `1、自动化大促报名：
-
-1.1 报名活动范围：包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；
-
-1.2 最低折扣率要求：商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
-
-1.3 退出规则：为保障商家活动商品经营的延续性，通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动，其他场景原则上不予以支持退出活动。
-
-2、自动开启智能营销工具：
-
-2.1 智能营销工具范围：包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能
-
-2.2 退出规则：商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
-
-3、基础孵化服务费：平台将按照商品成交金额的2%收取基础孵化服务费，更多细则请参考《全球速卖通新商家孵化基础服务费规则》。
-
-4、协议效期：自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，如商家未提前通知终止，则本服务自动顺延，顺延次数不限。`,
-  },
+function StandardAgreementBody() {
+  return (
+    <div>
+      <SectionTitle>1、自动化大促报名：</SectionTitle>
+      <Para label="1.1 报名活动范围：">
+        包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；
+      </Para>
+      <Para label="1.2 最低折扣率要求：">
+        商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，<O>折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off</O>；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
+      </Para>
+      <Para label="1.3 退出规则：">
+        为保障商家活动商品经营的延续性，<B>通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动</B>，其他场景原则上不予以支持退出活动。
+      </Para>
+      <SectionTitle>2、自动开启智能营销工具：</SectionTitle>
+      <Para label="2.1 智能营销工具范围：">
+        包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能
+      </Para>
+      <Para label="2.2 退出规则：">
+        商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
+      </Para>
+      <SectionTitle>3、基础孵化服务费：</SectionTitle>
+      <PlainPara>
+        平台将按照商品成交金额的<R>2%</R>收取基础孵化服务费，更多细则请参考<B>《全球速卖通新商家孵化基础服务费规则》</B>。
+      </PlainPara>
+      <SectionTitle>4、协议效期：</SectionTitle>
+      <PlainPara>
+        自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。<O>在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。</O>商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，<R>如商家未提前通知终止，则本服务自动顺延，顺延次数不限。</R>
+      </PlainPara>
+    </div>
+  )
 }
 
 const INDUSTRY_OPTIONS = [
@@ -349,18 +394,15 @@ export default function UBOPage() {
       <Modal
         open={!!modalPlan}
         onCancel={() => setModalPlan(null)}
-        title={modalPlan ? AGREEMENT_CONTENT[modalPlan].title : ''}
+        title={modalPlan ? AGREEMENT_TITLES[modalPlan] : ''}
         footer={
           <Button onClick={() => setModalPlan(null)}>关闭</Button>
         }
         width={600}
         styles={{ body: { maxHeight: 480, overflowY: 'auto' } }}
       >
-        {modalPlan && (
-          <div className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: '#333' }}>
-            {AGREEMENT_CONTENT[modalPlan].content}
-          </div>
-        )}
+        {modalPlan === 'enhanced' && <EnhancedAgreementBody />}
+        {modalPlan === 'standard' && <StandardAgreementBody />}
       </Modal>
 
       {/* 底部固定工具栏 */}
