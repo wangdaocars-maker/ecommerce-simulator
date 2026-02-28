@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
@@ -94,6 +95,7 @@ const STEPS = [
 ]
 
 export default function ShopActivatePage() {
+  const router = useRouter()
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F0F5FF' }}>
 
@@ -202,6 +204,7 @@ export default function ShopActivatePage() {
                   <Button
                     type="primary"
                     style={{ backgroundColor: '#1677ff', minWidth: 88, height: 34, fontSize: 13 }}
+                    onClick={() => router.push('/shop-register/activate/ubo')}
                   >
                     去填写
                   </Button>
