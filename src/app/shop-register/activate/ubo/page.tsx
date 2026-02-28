@@ -206,8 +206,8 @@ export default function UBOPage() {
               <div
                 className="flex-1 rounded-lg p-5 cursor-pointer"
                 style={{
-                  border: selectedPlan === 'enhanced' ? '2px solid #1677ff' : '1px dashed #91CAFF',
-                  backgroundColor: selectedPlan === 'enhanced' ? '#f0f7ff' : '#fff',
+                  border: selectedPlan === 'enhanced' ? '2px solid #1677ff' : '1px solid #5B9CF5',
+                  backgroundColor: selectedPlan === 'enhanced' ? '#E6F4FF' : '#F0F7FF',
                 }}
                 onClick={() => setSelectedPlan('enhanced')}
               >
@@ -254,8 +254,8 @@ export default function UBOPage() {
               <div
                 className="flex-1 rounded-lg p-5 cursor-pointer"
                 style={{
-                  border: selectedPlan === 'standard' ? '2px solid #1677ff' : '1px solid #e8e8e8',
-                  backgroundColor: selectedPlan === 'standard' ? '#f0f7ff' : '#fff',
+                  border: selectedPlan === 'standard' ? '2px solid #1677ff' : '1px solid #5B9CF5',
+                  backgroundColor: selectedPlan === 'standard' ? '#E6F4FF' : '#F0F7FF',
                 }}
                 onClick={() => setSelectedPlan('standard')}
               >
