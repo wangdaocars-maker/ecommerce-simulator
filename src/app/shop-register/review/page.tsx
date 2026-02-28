@@ -204,7 +204,7 @@ export default function ShopRegisterReviewPage() {
                     type="primary"
                     size="large"
                     style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', minWidth: 160, height: 44, fontSize: 15 }}
-                    onClick={() => router.push('/products')}
+                    onClick={() => router.push('/shop-register/activate')}
                   >
                     进入工作台
                   </Button>
