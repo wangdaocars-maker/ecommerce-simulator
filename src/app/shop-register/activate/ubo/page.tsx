@@ -3,7 +3,51 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { InfoCircleFilled, UserOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons'
-import { Radio, Select, Input, Checkbox, Button } from 'antd'
+import { Radio, Select, Input, Checkbox, Button, Modal } from 'antd'
+
+// 协议内容
+const AGREEMENT_CONTENT = {
+  enhanced: {
+    title: '新商孵化方案（增强版）',
+    content: `1、自动化大促报名：
+
+1.1 报名活动范围：包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；增强版额外覆盖核心场域自动化报名：Super Deals（含brand+场域）、N元N件活动等，以及营销工具自动化加入：新品闪电推服务、营销智投计划等；
+
+1.2 最低折扣率要求：商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
+
+1.3 退出规则：为保障商家活动商品经营的延续性，通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动，其他场景原则上不予以支持退出活动。
+
+2、自动开启智能营销工具：
+
+2.1 智能营销工具范围：包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能；
+
+2.2 退出规则：商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
+
+3、基础孵化服务费：增强版基础孵化服务费率为0%（活动期间），平台将按照实际协议费率收取基础孵化服务费，更多细则请参考《全球速卖通新商家孵化基础服务费规则》。
+
+4、协议效期：自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，如商家未提前通知终止，则本服务自动顺延，顺延次数不限。`,
+  },
+  standard: {
+    title: '新商孵化方案（标准版）',
+    content: `1、自动化大促报名：
+
+1.1 报名活动范围：包含不限于S级/A+级别大促入围活动及外围活动，核心频道玩法（如SuperDeals、百亿补贴等），并有机会享受全链路大促氛围打标、大促平台Code权益；
+
+1.2 最低折扣率要求：商品报名时将以符合每个具体活动要求门槛的最低折扣率报名，折扣率数值非固定值，以具体的活动报名要求为准。参考2024年大促最低折扣率要求，折扣率集中在30/90天最低价+"3%~12%"off，个别大促折扣率在30/90天最低价+"8%~18%"off；您可以登录跨境商家工作台【平台活动】-【大促自动化报名计划】-【已报名活动】查看平台代报名的活动明细，进入对应活动报名商品列表页面；
+
+1.3 退出规则：为保障商家活动商品经营的延续性，通过自动化报名的商品如商家退出平台经营、商品原材料上涨、商品停供（缺货），等客观原因在商家提供相关证明材料后，经过平台审核准予退出活动，其他场景原则上不予以支持退出活动。
+
+2、自动开启智能营销工具：
+
+2.1 智能营销工具范围：包含不限于店铺上新通知、高潜客户速卖通活动通知、咨询客户催下单（即时）、自动催单催付、下单未付款客户催付等，以助力提升商品转化；您可以登录跨境商家工作台【营销】-【智能营销】专区管理和维护相关场景和功能
+
+2.2 退出规则：商家可自行至智能营销页面，点击申请关闭所有智能营销工具功能，暂不支持关闭单个功能。
+
+3、基础孵化服务费：平台将按照商品成交金额的2%收取基础孵化服务费，更多细则请参考《全球速卖通新商家孵化基础服务费规则》。
+
+4、协议效期：自商家选择新商孵化方案后的180天持续有效，但商家在180天内更换新商孵化方案的除外。在180天期间内商家只能选择更换新商孵化方案，而不能退出所有新商孵化方案。商家不更换新商孵化方案的，可于期间届满前7天通知速卖通终止本协议，后续速卖通将不再于期间届满后继续提供基础服务给商家，如商家未提前通知终止，则本服务自动顺延，顺延次数不限。`,
+  },
+}
 
 const INDUSTRY_OPTIONS = [
   { value: '1', label: '制造或销售车辆、飞机或其他运输设备（包括零件和配件）' },
@@ -56,6 +100,12 @@ export default function UBOPage() {
   const [agreed1, setAgreed1] = useState(false)
   const [agreed2, setAgreed2] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<'enhanced' | 'standard' | null>(null)
+  const [modalPlan, setModalPlan] = useState<'enhanced' | 'standard' | null>(null)
+
+  const openAgreement = (e: React.MouseEvent, plan: 'enhanced' | 'standard') => {
+    e.stopPropagation()
+    setModalPlan(plan)
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fff', paddingBottom: 72 }}>
@@ -246,7 +296,7 @@ export default function UBOPage() {
                 </ul>
                 <p className="text-sm" style={{ color: '#8c8c8c' }}>
                   我已阅读并同意{' '}
-                  <span style={{ color: '#1677ff', cursor: 'pointer' }}>《速卖通新商家基础孵化服务协议（增强版）》</span>
+                  <span style={{ color: '#1677ff', cursor: 'pointer' }} onClick={e => openAgreement(e, 'enhanced')}>《速卖通新商家基础孵化服务协议（增强版）》</span>
                 </p>
               </div>
 
@@ -279,7 +329,7 @@ export default function UBOPage() {
                 </ul>
                 <p className="text-sm" style={{ color: '#8c8c8c' }}>
                   我已阅读并同意{' '}
-                  <span style={{ color: '#1677ff', cursor: 'pointer' }}>《速卖通新商家基础孵化服务协议（标准版）》</span>
+                  <span style={{ color: '#1677ff', cursor: 'pointer' }} onClick={e => openAgreement(e, 'standard')}>《速卖通新商家基础孵化服务协议（标准版）》</span>
                 </p>
               </div>
             </div>
@@ -294,6 +344,24 @@ export default function UBOPage() {
         <h3 className="font-semibold mb-3" style={{ fontSize: 14, color: '#1a1a2e' }}>FAQ</h3>
         <p className="text-sm cursor-pointer" style={{ color: '#1677ff' }}>· AE店铺激活常见问题</p>
       </div>
+
+      {/* 协议弹窗 */}
+      <Modal
+        open={!!modalPlan}
+        onCancel={() => setModalPlan(null)}
+        title={modalPlan ? AGREEMENT_CONTENT[modalPlan].title : ''}
+        footer={
+          <Button onClick={() => setModalPlan(null)}>关闭</Button>
+        }
+        width={600}
+        styles={{ body: { maxHeight: 480, overflowY: 'auto' } }}
+      >
+        {modalPlan && (
+          <div className="text-sm leading-relaxed whitespace-pre-wrap" style={{ color: '#333' }}>
+            {AGREEMENT_CONTENT[modalPlan].content}
+          </div>
+        )}
+      </Modal>
 
       {/* 底部固定工具栏 */}
       <div className="fixed bottom-0 left-0 right-0 bg-white flex items-center justify-between px-6"
