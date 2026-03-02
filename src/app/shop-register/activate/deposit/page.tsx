@@ -2,14 +2,39 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { UserOutlined, CloseOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons'
-import { Button, Input, Modal } from 'antd'
+import { UserOutlined, CloseOutlined, PlusOutlined, QuestionCircleOutlined, CheckCircleFilled } from '@ant-design/icons'
+import { Button } from 'antd'
+
+// 成功状态：已缴纳
+function PaidSuccess({ onEnter }: { onEnter: () => void }) {
+  return (
+    <div className="flex flex-col items-center py-10">
+      <CheckCircleFilled style={{ fontSize: 56, color: '#52c41a', marginBottom: 20 }} />
+      <div className="font-bold mb-2" style={{ fontSize: 20, color: '#1a1a2e' }}>保证金缴纳成功！</div>
+      <div className="mb-8" style={{ fontSize: 14, color: '#8c8c8c' }}>
+        恭喜！CNH 10,000.00 保证金已缴纳，店铺即将激活。
+      </div>
+      <Button
+        type="primary"
+        size="large"
+        style={{ backgroundColor: '#52c41a', borderColor: '#52c41a', minWidth: 160, height: 44, fontSize: 15 }}
+        onClick={onEnter}
+      >
+        进入商铺
+      </Button>
+    </div>
+  )
+}
 
 export default function DepositPage() {
   const router = useRouter()
-  const [alipayAccount, setAlipayAccount] = useState('')
-  const [bound, setBound] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  // paid = true 表示绑定+缴纳已完成
+  const [paid, setPaid] = useState(false)
+
+  const handleBind = () => {
+    // 一键完成：绑定支付宝 + 缴纳保证金
+    setPaid(true)
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F5F6FA' }}>
@@ -67,61 +92,56 @@ export default function DepositPage() {
           {/* 主卡片 */}
           <div className="flex-1 bg-white rounded-xl" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.06)', padding: '28px 36px' }}>
 
-            {/* 店铺信息 */}
-            <div className="mb-6">
-              <h2 className="font-semibold mb-4" style={{ fontSize: 15, color: '#1a1a2e' }}>店铺信息</h2>
-              <div className="flex gap-16">
-                <div>
-                  <div style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 8 }}>开店类型</div>
-                  <span className="px-2 py-0.5 rounded text-sm font-medium"
-                    style={{ backgroundColor: '#FFF7E6', color: '#FA8C16', border: '1px solid #FFD591' }}>
-                    自运营店铺
-                  </span>
+            {paid ? (
+              <PaidSuccess onEnter={() => router.push('/login')} />
+            ) : (
+              <>
+                {/* 店铺信息 */}
+                <div className="mb-6">
+                  <h2 className="font-semibold mb-4" style={{ fontSize: 15, color: '#1a1a2e' }}>店铺信息</h2>
+                  <div className="flex gap-16">
+                    <div>
+                      <div style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 8 }}>开店类型</div>
+                      <span className="px-2 py-0.5 rounded text-sm font-medium"
+                        style={{ backgroundColor: '#FFF7E6', color: '#FA8C16', border: '1px solid #FFD591' }}>
+                        自运营店铺
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1" style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 8 }}>
+                        经营类目
+                        <QuestionCircleOutlined style={{ fontSize: 12, color: '#bfbfbf', cursor: 'pointer' }} />
+                      </div>
+                      <span style={{ fontSize: 14, color: '#262626' }}>母婴玩具</span>
+                    </div>
+                  </div>
                 </div>
+
+                <div style={{ borderBottom: '1px solid #f0f0f0', marginBottom: 24 }} />
+
+                {/* 保证金信息 */}
                 <div>
-                  <div className="flex items-center gap-1" style={{ fontSize: 13, color: '#8c8c8c', marginBottom: 8 }}>
-                    经营类目
+                  <h2 className="font-semibold mb-4" style={{ fontSize: 15, color: '#1a1a2e' }}>保证金信息</h2>
+
+                  <div className="flex items-center gap-1 mb-2" style={{ fontSize: 13, color: '#8c8c8c' }}>
+                    保证金标准
                     <QuestionCircleOutlined style={{ fontSize: 12, color: '#bfbfbf', cursor: 'pointer' }} />
                   </div>
-                  <span style={{ fontSize: 14, color: '#262626' }}>母婴玩具</span>
-                </div>
-              </div>
-            </div>
 
-            <div style={{ borderBottom: '1px solid #f0f0f0', marginBottom: 24 }} />
-
-            {/* 保证金信息 */}
-            <div>
-              <h2 className="font-semibold mb-4" style={{ fontSize: 15, color: '#1a1a2e' }}>保证金信息</h2>
-
-              <div className="flex items-center gap-1 mb-2" style={{ fontSize: 13, color: '#8c8c8c' }}>
-                保证金标准
-                <QuestionCircleOutlined style={{ fontSize: 12, color: '#bfbfbf', cursor: 'pointer' }} />
-              </div>
-
-              <div className="font-bold mb-5" style={{ fontSize: 22, color: '#1a1a2e' }}>
-                CNH 10,000.00
-              </div>
-
-              {/* 绑定支付宝 */}
-              {!bound ? (
-                <Button
-                  type="primary"
-                  style={{ backgroundColor: '#1677ff', minWidth: 140, height: 36 }}
-                  onClick={() => setModalOpen(true)}
-                >
-                  绑定支付宝账号
-                </Button>
-              ) : (
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 px-3 py-2 rounded"
-                    style={{ backgroundColor: '#f6ffed', border: '1px solid #b7eb8f' }}>
-                    <span style={{ fontSize: 13, color: '#52c41a' }}>✓ 支付宝已绑定</span>
-                    <span style={{ fontSize: 13, color: '#8c8c8c' }}>{alipayAccount}</span>
+                  <div className="font-bold mb-5" style={{ fontSize: 22, color: '#1a1a2e' }}>
+                    CNH 10,000.00
                   </div>
+
+                  <Button
+                    type="primary"
+                    style={{ backgroundColor: '#1677ff', minWidth: 140, height: 36 }}
+                    onClick={handleBind}
+                  >
+                    绑定支付宝账号
+                  </Button>
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </div>
 
           {/* FAQ */}
@@ -132,48 +152,17 @@ export default function DepositPage() {
           </div>
         </div>
 
-        {/* 底部按钮（非fixed，在卡片下方） */}
-        <div className="flex items-center justify-between mt-4 py-3"
-          style={{ borderTop: '1px solid #e8e8e8', backgroundColor: '#fff', borderRadius: 12, padding: '12px 20px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-          <Button size="large" style={{ minWidth: 72 }} onClick={() => router.back()}>返回</Button>
-          <Button
-            size="large"
-            type="primary"
-            disabled={!bound}
-            style={{ minWidth: 100, backgroundColor: bound ? '#1677ff' : undefined }}
-            onClick={() => router.push('/shop-register/activate/deposit/success')}
-          >
-            缴纳保证金
-          </Button>
-        </div>
+        {/* 底部按钮（未缴纳时才显示） */}
+        {!paid && (
+          <div className="flex items-center justify-between mt-4"
+            style={{ backgroundColor: '#fff', borderRadius: 12, padding: '12px 20px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+            <Button size="large" style={{ minWidth: 72 }} onClick={() => router.back()}>返回</Button>
+            <Button size="large" type="primary" disabled style={{ minWidth: 100 }}>
+              缴纳保证金
+            </Button>
+          </div>
+        )}
       </div>
-
-      {/* 绑定支付宝弹窗 */}
-      <Modal
-        title="绑定支付宝账号"
-        open={modalOpen}
-        onCancel={() => setModalOpen(false)}
-        onOk={() => {
-          if (alipayAccount.trim()) {
-            setBound(true)
-            setModalOpen(false)
-          }
-        }}
-        okText="确认绑定"
-        cancelText="取消"
-        okButtonProps={{ style: { backgroundColor: '#1677ff' } }}
-      >
-        <div className="py-2">
-          <label className="block mb-2" style={{ fontSize: 13, color: '#262626' }}>
-            <span style={{ color: '#ff4d4f' }}>* </span>支付宝账号（手机号或邮箱）
-          </label>
-          <Input
-            placeholder="请输入支付宝账号"
-            value={alipayAccount}
-            onChange={e => setAlipayAccount(e.target.value)}
-          />
-        </div>
-      </Modal>
     </div>
   )
 }
