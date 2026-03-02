@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
@@ -153,6 +153,20 @@ function ActivateContent() {
   const review = searchParams.get('review')
   const remaining = 5 - currentStep
 
+  // 第三步审核中：5秒后自动跳第四步
+  const isReviewingStep3 = review === '1' && currentStep === 3
+  const [reviewCountdown, setReviewCountdown] = useState(isReviewingStep3 ? 5 : 0)
+
+  useEffect(() => {
+    if (!isReviewingStep3) return
+    if (reviewCountdown <= 0) {
+      router.push('/shop-register/activate?step=4')
+      return
+    }
+    const t = setTimeout(() => setReviewCountdown(prev => prev - 1), 1000)
+    return () => clearTimeout(t)
+  }, [isReviewingStep3, reviewCountdown, router])
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F0F5FF' }}>
 
@@ -291,6 +305,11 @@ function ActivateContent() {
                             }} />
                             <span style={{ fontSize: 13, color: '#1677ff' }}>
                               审核中，预计5个工作日内，请耐心等待。
+                              {reviewCountdown > 0 && (
+                                <span style={{ color: '#8c8c8c', marginLeft: 8, fontSize: 12 }}>
+                                  （{reviewCountdown}s 后自动通过）
+                                </span>
+                              )}
                             </span>
                           </div>
                         ) : (
