@@ -66,7 +66,7 @@ export default function Header() {
         <div>
           <div style={{ fontWeight: 600 }}>{session?.user?.name || '未命名店铺'}</div>
           <div style={{ fontSize: 12, color: '#8c8c8c' }}>
-            角色: {session?.user?.role === 'admin' ? '管理员' : session?.user?.role === 'teacher' ? '教师' : '学员'}
+            角色: {session?.user?.role === 'admin' ? '管理员' : session?.user?.role === 'teacher' ? '讲师' : '学员'}
           </div>
         </div>
       ),

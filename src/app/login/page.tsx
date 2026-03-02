@@ -151,8 +151,8 @@ function LoginForm() {
 
           <div className="mt-6 p-4 bg-gray-50 rounded text-sm text-gray-600">
             <p className="font-semibold mb-2">测试账号：</p>
-            <p>学生: student1 / 123456</p>
-            <p>教师: teacher / teacher123</p>
+            <p>学员: student1 / 123456</p>
+            <p>讲师: teacher / teacher123</p>
             <p>管理员: admin / admin123</p>
           </div>
         </div>

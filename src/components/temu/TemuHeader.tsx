@@ -36,7 +36,7 @@ export default function TemuHeader() {
   const avatarLetter = userName.charAt(0).toUpperCase()
   const roleLabel =
     session?.user?.role === 'admin' ? '管理员' :
-    session?.user?.role === 'teacher' ? '教师' : '学员'
+    session?.user?.role === 'teacher' ? '讲师' : '学员'
 
   const userMenuItems: MenuProps['items'] = [
     {
