@@ -17,28 +17,36 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
-  // 验证登录状态
-  const session = await auth()
-  if (!session?.user?.id) {
-    return new NextResponse('Unauthorized', { status: 401 })
-  }
-
   const segments = (await params).path
   // 防止路径穿越攻击
   if (segments.some(s => s.includes('..') || s.includes('\0'))) {
     return new NextResponse('Forbidden', { status: 403 })
   }
 
-  // 路径格式为 /{userId}/{filename}，验证访问者只能访问自己的文件
-  // teacher/admin 可访问所有用户文件
-  const fileOwnerIdStr = segments[0]
-  const currentUserId = String(parseInt(session.user.id))
-  const role = (session.user as { role?: string }).role
-  if (role === 'student' && fileOwnerIdStr !== currentUserId) {
-    return new NextResponse('Forbidden', { status: 403 })
+  // demo 目录公开访问，无需登录
+  const isDemo = segments[0] === 'demo'
+
+  if (!isDemo) {
+    // 验证登录状态
+    const session = await auth()
+    if (!session?.user?.id) {
+      return new NextResponse('Unauthorized', { status: 401 })
+    }
+
+    // 路径格式为 /{userId}/{filename}，验证访问者只能访问自己的文件
+    // teacher/admin 可访问所有用户文件
+    const fileOwnerIdStr = segments[0]
+    const currentUserId = String(parseInt(session.user.id))
+    const role = (session.user as { role?: string }).role
+    if (role === 'student' && fileOwnerIdStr !== currentUserId) {
+      return new NextResponse('Forbidden', { status: 403 })
+    }
   }
 
-  const filePath = path.join(process.cwd(), 'public', 'uploads', ...segments)
+  // demo 图片在项目根 uploads/demo/，用户图片在 public/uploads/{userId}/
+  const filePath = isDemo
+    ? path.join(process.cwd(), 'uploads', ...segments)
+    : path.join(process.cwd(), 'public', 'uploads', ...segments)
 
   try {
     await access(filePath)
