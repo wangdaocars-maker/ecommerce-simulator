@@ -27,7 +27,7 @@ function VerifyPage() {
   const name = searchParams.get('name') || '法定代表人'
 
   const [agreed, setAgreed] = useState(false)
-  const [qrKey, setQrKey] = useState(Date.now())
+  const [qrKey, setQrKey] = useState('simulate')
   const [qrStatus, setQrStatus] = useState<QrStatus>('waiting')
 
   const qrValue = `https://verify.example.com/auth?token=${qrKey}&phone=${phone}`
@@ -40,7 +40,7 @@ function VerifyPage() {
   }, [qrKey])
 
   const handleRefresh = () => {
-    setQrKey(Date.now())
+    setQrKey(`r_${Date.now()}`)
     setQrStatus('waiting')
   }
 
