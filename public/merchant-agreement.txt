@@ -1,0 +1,1048 @@
+商家协议
+
+（V4.6版本 发布日期：2025年9月8日）
+
+签约须知：
+
+本协议（定义见下）是（i）由线上平台的运营方及/或为商家提供本协议项下服务的主体（具体签约主体见附件，下称“我们”或“甲方”）与（ii）使用本协议项下服务的商家（下称“您”、“商家”或“乙方”，并与甲方合称“双方”）达成的各项条款。
+
+请知悉，本协议包含重要信息，其中包括对本协议先前版本的重要变更和更新。在此特别提醒您，请您在接受前仔细阅读、充分理解本协议各项条款内容，如您注册商家账户或实际使用我们提供的本协议项下服务，即视为您已完全理解并同意接受本协议各项条款约束。您进一步确认，您已被提醒且您已知悉本协议中以加粗字体显示的全部内容及条款。在无损上述的前提下，您亦确认您已充分阅读、理解并同意受该加粗字体显示的全部内容及条款约束。
+
+本协议内容包括签约须知、商家协议正文、附件，以及甲方已经发布的及/或将来发布的各类规则、规范、条款、政策、准则、须知和其他类似文件（以下合称“商家规则”）。
+
+ 
+
+1.    概述
+
+1.1.    协议构成。以上签约须知、附件及商家规则均为本协议不可分割的一部分，与商家协议正文具有同等法律效力。为免疑义，凡“协议”之引用应包括本协议中包含的条款以及商家规则。双方特此确认，除非对生效日期另有约定，或商家规则对此另有规定，本协议于生效日（定义见附件）生效，并取代我们与乙方之间的关于使用商家服务的任何在先协议。
+
+1.2.    协议变更及生效。我们可能不时因政策变动、监管要求、功能变动、反欺诈及/或业务需要等原因变更（包括但不限于修订、增加、废止、重述）签约须知、商家协议正文、附件及/或商家规则（变更后协议下称“修订条款”），并将以在规则中心公示发布的形式通知您，或在特定功能或服务页面提示您在线确认。如您在修订条款中记载的发布日期后继续使用我们提供的服务或通过点击“我已阅读并同意”按钮确认（前述按钮的语言及表述可能会调整，以商家中心页面展示为准），即表示您接受该修订条款。如您不同意修订条款，您将被视为同意不再使用我们提供的服务，并按照本协议的约定终止本协议。在不违反前述约定的前提下，且除非商家规则另有约定，本协议的任何变更均须以书面形式并经双方签署，否则无效。
+
+1.3.    服务提供。本协议项下服务的实际提供方可能为我们、或我们的任何一个或多个关联公司及/或第三方服务商，但该等情形不会影响本协议的效力、或本协议项下双方的权利和义务。为免疑义，我们可自行或委托（包括通过必要时的转委托安排）我们的关联公司或第三方服务商为乙方提供服务，但仍由我们行使本协议项下权利，并独立承担本协议项下义务和责任（另有约定除外）。
+
+2.    服务范围
+
+2.1.    服务范围。乙方可根据本协议条款通过线上平台销售产品或提供服务。线上平台的运营载体包括但不限于应用程序，网站，即商家可根据本协议在线上平台为买家提供商品或服务，买家可通过线上平台访问，下单购买商家商品或服务，以下简称“平台”。我们于本协议项下向您提供的服务包括但不限于与在平台上销售产品或提供服务相关的互联网信息技术服务及相关软件技术服务、电子商务交易处理服务及其他服务（合称“商家服务”）。
+
+3.    资格、信息及合规要求
+
+3.1.    经营资格。乙方陈述并保证具有订立本协议及履行本协议下义务所需的权利能力以及所有必要的资质、授权、批准、许可、备案等。
+
+3.2.    信息提交。乙方陈述并保证其提交至我们、我们的合作伙伴以及我们的关联公司的所有资料和信息均合法、有效、真实、准确、完整且无误导，符合适用的法律法规及本协议约定，且不侵犯任何第三方合法权益。如相关资料或信息发生变更的，乙方应及时在商家中心更新相关资料和信息。我们可能不时向乙方请求资料或信息，乙方应在我们指定期限内予以提供。
+
+3.3.    乙方信息。乙方陈述并保证其提交的身份信息及联系方式，诸如电子邮件地址、联系电话、联系地址及邮政编码，均为合法、有效、真实、准确、完整并且是最新的，陈述并保证我们可以通过上述联系方式与您联系。如相关身份信息或联系方式发生变更的，乙方应及时在商家中心更新相关身份信息和联系方式。
+
+3.4.    账户保管。乙方应妥善保管、使用任何由乙方为使用本协议项下服务而开通的商家账户，包括主账号、及任何子账号（统称为“乙方账户”或“商家账户”），乙方应对任何通过乙方账户进行、采取或完成的操作、行为或承诺承担全部责任。乙方理解并同意，乙方账户可使乙方访问甲方的机密和专有数据及信息，例如经营分析、专题工具、市场分析（具体以乙方账户内显示的信息为准），作为甲方向乙方提供服务的一部分。您理解并同意，甲方在根据本协议向您提供服务过程中可能向您披露的数据及信息具有商业价值，构成甲方的商业秘密，并根据本协议属于保密信息。您承诺对该等数据和信息进行严格保密。您承诺不会以任何形式向任何第三方转让、出租、出借、出售、泄露、披露、或以其他任何方式提供乙方账户。您不得为他人开设子账号，亦不得直接或间接将通过乙方账户获得或访问的各项数据或信息向任何第三方披露、转让、出售、许可或以任何其他方式提供给第三方。您应妥善保管乙方账户用户登录名、密码，并对其使用及其遗失自行承担责任。如您的账号密码被泄露或盗用，必须立即更改您的密码，并立即通知我们。
+
+3.5.    乙方保证。乙方陈述并保证其经营符合所有适用的法律法规之规定。商品履约应由乙方独立承担责任。
+
+3.6.    在本协议中，法律法规包括由任何行政，政府，监管，司法或其他机关或组织发布的全部相关法律法规、规章、标准、政策、及准则，包括现行有效的版本以及其后续补充、修订、或重述，以及纳入其中或将其取代的各项其他的内容（统称为“法律法规”）。此外，在本协议中，适用的法律法规应包括任何适用的司法管辖区（包括但不限于乙方所在地、买家所在地、商品原产地、销售目的地、出口地）的法律法规（统称为“适用的法律法规”）。
+
+4.    保证金
+
+4.1.    保证金缴纳。乙方应当根据商家规则及/或商家中心提示的金额和方式缴纳保证金（具体名称以商家中心页面展示为准），用于担保乙方对本协议的履行。我们无需就该等保证金支付任何利息。
+
+4.2.    保证金调整。本协议期限内，我们可以随时根据包括但不限于平台运营情况的变化、乙方经营状况变化、乙方违约情形、乙方实际赔付情况、潜在赔付风险等各项因素，单方调整乙方应缴纳的保证金金额。如乙方的保证金余额低于其应缴纳的保证金金额，我们有权要求乙方在我们指定期限内缴纳一定金额使得保证金余额等于或多于其应缴纳的金额，同时乙方特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）自乙方的账户资金中扣除相应的金额以补足差额。若乙方未在我们指定期限内补足差额，或乙方的账户资金余额不足以补足差额的，则乙方授权我们可中止或终止本协议项下的部分或全部服务，或者终止本协议。
+
+4.3.    保证金扣除。若乙方违反本协议、任何适用规则、任何乙方与我们及/或我们的关联公司之间订立的任何其他协议、任何适用的法律法规或者乙方作为卖方对买家的任何陈述、保证、或承诺，乙方同意我们可立即自保证金内扣除款项用于赔付买家、我们、我们的关联公司及/或其他第三方。如保证金不足以就涵盖该违反行为应付金额，您应当在我们指定期限内予以补足。
+
+5.    商品要求
+
+5.1.    总体要求。乙方陈述并保证其具有在平台销售其商品所需的一切必要的权利和行为能力。乙方陈述并保证乙方及乙方销售的商品符合适用的法律法规、本协议约定及商家规则的具体要求。
+
+5.2.    如实描述。乙方陈述并保证其发布的与商品有关的商品信息及任何其他材料和信息与实物相符，并全权负责证明产品描述的准确性和一致性。乙方在本条款下的义务包括但不限于确保详情页面的文字、图片以及关于商品的任何信息（包括但不限于商品详情、生产日期、保质期、交易附带物件，以及其他类似信息）均为真实、准确、完整、有效、客观且无误导。
+
+5.3.    商品说明。您还应确保您发布的信息及/或说明、您销售的商品（包括包装）符合所有适用的法律法规的具体要求（包括但不限于所有最低年龄、标记和标签要求），并且不包含任何露骨色情内容、诽谤及/或淫秽材料。此外，您需按照所适用的法律法规的具体要求对您销售的商品作必要的提示和警告，例如您的商品销售至美国加利福尼亚州的，您须按照《安全饮用水和有毒物质强制执行法案》（简称“加州65号提案”）规定，在适用品类的商品详情部分展示相应的警告信息。
+
+5.4.    正品及非侵权商品保证。乙方陈述并保证：（i）其在平台发布及销售的商品均为正品且非假冒商品；（ii）其在平台发布及销售的商品、商品的构成材料及与商品有关的任何信息（包括产品名称、产品描述、产品设计、说明书、包装以及其他任何伴随销售列表或商品本身的元素）未侵犯任何第三方的商标权、商品外观设计权、标准或短期专利权、著作权及/或其他适用的法律法规下的合法权益，包括但不限于公开权；且（iii）其在平台发布及销售的商品不存在伪造商品产地，伪造或未经授权使用他人厂名、厂址、认证标志、质量标志、名优标志、包装或装潢的情形。
+
+5.5.    品质保证。乙方陈述并保证其销售商品：（i）符合所有适用的法律法规，包括但不限于国家标准、行业标准或其他相关标准（当标准不一致时，以更严格标准为准），并具有适用的法律法规要求的相关文件；（ii）完全符合商品描述；（iii）能够达到买家的合理预期、买家质量要求以及与商家产品描述一致的使用目的；且（iv）确保正常使用不会导致财产损失或人身损害。
+
+5.6.    商品处置。如乙方销售的商品不符合任一适用的法律法规、本协议约定及/或商家规则规定，或者乙方销售的商品因任何其他原因被退回，考虑到相关成本、法规要求、监管政策等诸多因素，乙方认可、同意并指示我们，在无损我们可能享有的任何其他权利或救济的前提下，可参考我们合理的商业判断、乙方反馈和/或我们合作伙伴的合理建议在法律允许的范围内对前述商品采取措施，该等措施包括但不限于通知买家将该商品销毁或退回，取消订单、退还订单款项，或委托第三方销毁、处置、转寄商品。为免疑义，乙方明确认可并同意，前述约定不代表我们有义务处置任何前述商品。除非另有约定，我们没有，并且我们明确排除，乙方在平台上销售的商品在销售前、销售期间或销售后的任何所有权；在任何情况下，商品所有权仅归属于乙方，并由乙方自行承担商品损失的风险，同时处置前述商品的义务及前述商品相关的任何责任最终由乙方自行承担。若任何商品根据本5.6条被处置或销毁，您同意不因任何原因向我们主张任何补偿或赔偿。您应当积极配合我们采取前述各项措施，并同意承担由此给买家、我们、我们的关联公司及/或其他的第三方造成的任何损失以及由此产生的任何费用。
+
+5.7.    商品召回及/或风险提示。乙方应按适用的法律法规的要求及时配合所有监管部门及/或第三方组织的问询和调查（包括我们收到的与乙方活动、商品或服务相关的监管部门及/或第三方组织的问询和调查），包括但不限于及时提供商品安全相关的文件，并执行监管部门要求的措施。乙方应对乙方的任何不合格或缺陷商品、公开或私下召回、建议召回或安全警告负责。若您的商品或与您的商品有关的其他商品收到任何公开或私下召回、建议召回或安全警告，您应立即通知我们。如前述商品被监管部门及/或第三方组织发出召回指令、召回要求、召回建议、任何其他安全警告或风险提示指令的，考虑到相关成本、法规要求、监管政策等诸多因素，乙方认可、同意并指示我们，在无损我们可能享有的任何其他权利或救济的前提下，可依照我们合理的商业判断和/或我们合作伙伴的合理建议在法律允许的范围内对前述商品采取措施，该等措施包括但不限于积极配合监管部门及/或第三方组织的各项要求、请求或建议，从平台下架商品，向买家发出风险提示，通知买家或其他相关方并要求其将该商品销毁或退回，取消订单、退还订单款项，或委托第三方销毁、处置商品。为免疑义，乙方明确认可并同意，前述约定不代表我们有义务处置任何前述商品。除非另有约定，我们没有，并且我们明确排除，乙方在平台上销售的商品在销售前、销售期间或销售后的任何所有权；在任何情况下，商品所有权仅归属于乙方，并由乙方自行承担商品损失的风险，同时处置前述商品的义务及前述商品相关的任何责任最终由乙方自行承担。若任何商品根据本5.7条被处置或销毁，您同意不因任何原因向我们主张任何补偿或赔偿。您应当积极遵守及配合监管部门及/或第三方组织和我们的各项要求、请求及建议，并同意承担由此给买家、我们、我们的关联公司及/或其他第三方造成的损失以及由此产生的任何费用。此外，乙方应承担监管部门及/或第三方组织采取调查及/或其他措施产生的任何费用（包括但不限于商品检测费及快递费），该等费用由相关部门或组织确定。如我们或我们的关联公司被要求承担或我们选择承担该等费用，乙方应就该等费用向我们及我们的关联公司提供弥偿。
+
+6.    货款结算
+
+6.1.    货款结算。正常经营的情况下，商家货款满足结算条件后会自动计入乙方的账户资金记录，乙方可按照本协议约定及商家中心提示向收款服务商申请货款支付。为免疑义，货款支付给乙方指定的收款服务商，即表示相关货款结算完成。
+
+6.2.    乙方理解并同意，我们及/或我们的关联公司、相关合作方可能会将乙方的货款和其他款项合并，用于投资或相关法律法规允许的其他目的。为免疑义，乙方确认任何时候均不会向我们及/或我们的关联公司、相关合作方主张持有货款及/或其他相关款项时所产生的利息或其他收入。
+
+6.3.    服务费用。乙方理解并确认，我们会就我们提供的服务向乙方收取服务费用。就特定服务的具体费用以相关协议约定及/或商家规则、以及我们及/或我们关联公司系统记录为准。乙方在此授权我们根据行业发展及其他情况调整服务费费率和/或结算方式。若某订单发生退款的，则就退款不另行收取服务费，但任何已收取的服务费可不予退还。乙方特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）自乙方的账户资金（包括但不限于货款、保证金，“账户资金”）中扣除相关服务费。如前述账户资金不足以覆盖相关扣除金额的，您应当在我们指定期限内予以补足。
+
+6.4.    在不违反适用法律和甲乙双方已有的特别约定的前提下，仅为以下之目的，乙方明确指定甲方及其不时委派的代理人为其：（i）收取因乙方商品或服务销售所支付的款项；以及（ii）通过由甲方引入的合格并有资质的第三方支付服务提供商（“第三方PSP”）将扣除任何适用款项后的金额交付给乙方。您确认，我们收到该等款项即视为买方已充分履行向您付款的义务。我们可能会向您提供某些与第三方PSP支付服务相关的管理和技术等服务，包括：（i）协助乙方进行第三方PSP平台的相关注册及认证；（ii）向第三方PSP提供与乙方对应的货款相关的信息；（iii）向乙方提供一个用于查看与支付相关的交易和/或账户数据的界面；以及（iv）第三方PSP完成支付服务所需的任何其他活动。乙方确认并同意向我们提供第三方PSP为完成前述支付服务所需的所有信息和授权。
+
+7.    税务条款
+
+7.1.    您应负责承担依法应由您承担的税款，并及时配合税务机关和我们的要求全面履行法定义务，遵守全部适用的税法及税务政策。您根据本协议向我们支付的所有费用和款项均不包括任何适用的税费、扣除额或预扣税。
+
+7.2.    除了服务费外，您需自行支付及/或承担因为使用本服务及/或违反本协议而产生的任何费用或款项，以及由此产生的任何税项、关税、政府征费或财务费用。若我们应法律要求或业务需要须代扣代缴任何税项、关税、政府征费或财务费用，您需向我们另行支付服务费外的该等税项、关税、政府征费或财务费用。您特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）自乙方的账户资金中扣除代扣代缴金额。如前述账户资金不足以扣除相应的代扣代缴金额的，您应当在我们指定期限内予以补足。
+
+8.    售后及客户服务
+
+8.1.    您应依据本协议以及平台各销售站点的退货退款政策，负责处理与您在平台上销售的商品有关的全部客服事项，如处理退货、退款等，并应定期查阅及遵守不时更新的退货退款政策。如您收到买家的售后和/或客户服务需求，您应按照适用的法律法规及商家规则的要求，积极响应并及时回复处理。考虑到时差、语言等诸多因素，为保障买家体验，您授权并指示我们代表您处理前述事宜。在向买家支付退款及/或其他款项时，乙方特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）自乙方的账户资金中扣除向买家支付的款项。如乙方的账户资金不足以赔付、补偿买家的，乙方应当按我们确定的方式在我们指定期限内补足差额。为免疑义，乙方明确认可并同意，前述约定并未对甲方施加任何处理客服相关事宜的义务，处理客服相关事宜的义务及责任最终由乙方自行承担。然而，若我们代表或协助乙方处理任何客服相关事宜，乙方同意不因任何原因向我们主张任何补偿或赔偿。
+
+9.    乙方承诺和保证以及其他义务
+
+9.1.    遵守协议与承诺。乙方同意严格遵守本协议及商家规则，不从事任何损害我们、我们的关联公司，及/或其他第三方利益的行为，亦不得实施任何虚假或恶意行为、不正当竞争行为或扰乱平台运营或业务流程的行为。乙方应履行其向我们、我们的关联公司及/或其他第三方（包括买家）所作的陈述、保证及合同义务。同时，乙方应在适当的时间内，按照适用的法律法规或监管机构的要求，就与本协议项下服务相关的任何调查或法律程序（如有），同我们配合。
+
+9.2.    违法行为的禁止。乙方签署及履行本协议过程中应当遵守适用的法律法规以及其他任何对其适用的规定，不得利用平台从事任何违法活动，包括但不限于侵害任何第三方的合法权益（包括但不限于著作权、商标权、专利权或任何其他知识产权）或者获取任何不正当利益，乙方应就其实施的行为承担全部责任。
+
+9.3.    不诋毁。乙方不得，并应尽力确保其合作的第三方不得以任何方式（包括但不限于通过社交软件、媒体平台或公开网站）实施任何有损我们、我们的关联公司及前述主体旗下品牌的商业信誉和/或声誉的行为。
+
+10.  违约及赔偿条款
+
+10.1.    您应对我们、我们的关联公司，以及前述主体的管理人员、董事、法定代表人、股东、顾问、代理、雇员（含正式雇员及临时雇员）、工作人员、供应商及辅助履行协议的主体及其工作人员（统称为“受偿方”），因下列事项而产生或与之相关的任何指控、索赔、要求、诉讼、损失、损害、和解、成本、费用或其他责任（统称为“负担”）配合处理，提供弥偿，并使其免受损害（无论负担是否可预见）：（i）任何声称您的商品、服务、您提供的信息资料及/或与之相关的行为侵犯任何第三方的知识产权； （ii）因您销售的商品或提供的服务存在缺陷或产品质量问题而引起的或与之相关的任何第三方索赔；（iii）因您的行为或疏忽而产生的或与之相关的任何财产损失；（iv）因您的商品、服务、您提供的信息资料及/或与之相关的行为导致受偿方与第三方产生纠纷或被投诉、查处等； 或（v）任何其他作为或不作为违反任何本协议下的约定、承诺、保证或适用的法律法规。我们根据该等负担而向您提出的弥偿申索将被视为一笔经我们要求即到期须付给的债项申索，无需我们另行提供损失证明，并不受任何普通法下关于损害赔偿可预见性及/或减损责任的原则的约束。
+
+10.2.    如您根据本协议及/或商家规则之约定需承担违约及赔偿责任或需承担相关费用的，您特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）自乙方的账户资金中扣除相应金额以承担前述责任及/或费用。依据本10.2条约定对乙方的账户资金进行的扣除，不影响我们在本协议任何其他条款项下的权利。如您的账户资金不足以承担前述责任及/或费用的，您应当在我们指定期限内予以补足。
+
+10.3.    买家赔付。乙方违反本协议约定及/或商家规则之规定，需承担买家赔付责任的，乙方特此授权我们在法律允许的范围内确定赔付方式（包括但不限于向买家发放代金券、优惠券或其他形式的补偿），相关买家赔付的成本由乙方承担，且乙方特此无条件并不可撤销地同意并授权我们直接或通知相关合作方（包括但不限于收款服务商）从乙方的账户资金中予以扣除。
+
+10.4.    在不影响第10.1条的前提下，乙方的违约行为致使我们及/或我们的关联公司遭受损失的，乙方应赔偿我们及/或我们的关联公司的该等损失（含直接损失和间接损失）。上述损失包括但不限于直接经济损失、用户流失损失、商誉损失、机会损失、业务损失、利润损失、储蓄损失、管理成本、向第三方支付的经济补偿/赔偿、由此导致的行政罚款，以及我们及/或我们的关联公司为减少损失、防止损失扩大、收集证据、维权或者追究乙方法律责任所支出的诉讼费、仲裁费、保全费、保全保险费、公证费、律师费、调查取证费用、交通差旅费、评估费、鉴定费、审计费等一切有关费用和支出。
+
+10.5.    违约处理措施。乙方认可并同意，如我们知晓或有理由怀疑乙方违反任一适用的法律法规、本协议、商家规则或乙方与我们及/或我们的关联公司达成的任何其他协议项下任一条款之约定，或违反乙方作出的任一承诺或保证的，在无损我们可能享有的任何其他权利或救济的前提下，我们可自行及/或通知我们的关联公司及/或相关合作方对乙方采取如下一项或多项处理措施：
+
+（i）中止、限制或终止部分或全部服务；
+
+（ii）关闭或限制部分或全部账户功能、权限（含提现功能）；
+
+（iii）限制部分或全部账户资金提现；
+
+（iv）根据适用的法律法规、本协议、商家规则及/或乙方和我们及/或我们的关联公司之间的其他相关协议，要求乙方赔偿买家、我们、我们的关联公司及/或其他第三方因此遭受的全部损失；
+
+（v）根据适用的法律法规、本协议、商家规则及/或乙方和我们及/或我们的关联公司之间的其他相关协议，要求乙方支付约定损害赔偿金及/或任何其他形式的损害赔偿；
+
+（vi）自乙方的账户资金中扣除欠付的费用、款项等（包括但不限于前述损失、约定损害赔偿金及/或任何其他形式的损害赔偿，及以代金券、优惠券及/或其他形式向买家进行赔付的款项）；
+
+（vii）扣除部分或全部保证金或账户预留金额；
+
+（viii）根据适用的法律法规、本协议、商家规则及/或乙方和我们及/或我们的关联公司之间的其他相关协议，通知买家并召回商品，向买家退款及/或采取其他措施；
+
+（ix）中止或终止本协议；
+
+（x）限制乙方注册其他账户；及/或
+
+（xi）根据适用的法律法规、本协议、商家规则及/或乙方和我们及/或我们的关联公司之间的其他相关协议，采取其他处理措施。
+
+乙方认可并特此确认本协议及/或商家规则项下应付的约定损害赔偿金（1）与我们的正当利益包括但不限于保护买家合法权益、及保护及保障我们的名誉及商业运作在内相称，及/或（2）反映了我们、我们的关联公司可能因乙方违规行为而承担的财务成本及损失、名誉损失及其他损失，而且（3）反映了双方的合同意图是赔偿我们因乙方违约可能对我们造成的损失，而非惩罚乙方。乙方认可并确认我们因其违约而遭受的损失难以在订立本协议之时做出准确预估，应付约定损害赔偿金的金额是对我们可能遭受的预期或实际损失的公平合理预估，且与我们合法利益相称。乙方进一步认可并确认其已有足够机会审阅并对此寻求独立法律意见。为免疑义，我们要求乙方支付约定损害赔偿金不影响我们就乙方违约违规行为按照法律规定、本协议及/或商家规则采取任何其他救济措施。
+
+10.6.    违约认定。乙方特此授权我们可根据掌握的信息和材料（包括但不限于乙方提供的信息、买家或权利人的投诉、我们调查获得的信息、监管部门的反馈以及其他第三方提供的材料）判断乙方是否存在违约行为并采取相应处理措施。如乙方对甲方的判断或处理措施有异议，应在我们通知中的指定期限内（如未指定，接到相关通知后的15个日历日内）以书面形式向甲方提出，并详细说明异议理由及提供真实、充分的证据以支持其异议。逾期未提出异议或未能提供真实、充分的证据材料的，视为乙方对违约认定及甲方处理措施无异议。
+
+10.7.    与我们产生纠纷。乙方与我们产生纠纷的，包括但不限于我们及/或我们的关联公司收到乙方索赔的函件，司法或仲裁机构、其他执法部门等发送的与该等纠纷相关的法律文书等，鉴于双方合作基础已出现变化及可能的进一步纠纷，除本协议另有约定外，乙方认可并同意，在无损我们可能享有的任何其他权利或救济的前提下，我们可自行及/或通知我们的关联公司及/或相关合作方对乙方采取如下一项或多项处理措施：（1）关闭或限制乙方账户权限、功能（含提现功能）；（2）限制乙方部分或全部账户资金提现；（3）终止本协议；（4）我们认为必要的其他处理措施。
+
+10.8.    违约责任范围。乙方有义务对其合同履约、行为及人员进行有效管理，乙方保证乙方及其代表、代理（不包括我们及/或我们的关联公司根据本协议代表乙方的情形）、受托人，以及乙方及其关联方的管理人员、董事、法定代表人、股东、顾问、代理、雇员（含正式雇员及临时雇员）、工作人员及辅助履行协议的人员及其工作人员和任何相关人员均不会实施任何违反本协议的行为，前述任何人员或主体实施的行为均视为乙方行为，若该等行为违反本协议约定，则由乙方按本协议约定承担违约责任或其他责任。
+
+10.9.    余额不足以赔付的处理。乙方特此理解并同意，当乙方的账户资金余额不足以抵扣本协议项下乙方应当支付的款项（包括但不限于费用、约定损害赔偿金、任何其他形式的损害赔偿、或其他合同违约补偿或其他补偿）时，乙方的账户资金余额可能以负数展示，同时在无损我们可能享有的任何其他权利或救济的前提下，我们有权自行及/或通知我们的关联公司及/或相关合作方对乙方采取如下一项或多项处理措施：
+
+（1）要求乙方在我们指定期限内补足不足部分；
+
+（2）关闭或限制乙方账户权限、功能（含提现功能）；
+
+（3）限制乙方部分或全部账户资金提现；
+
+（4）终止本协议；及
+
+（5）采取我们基于实际情况认为必要的其他处理措施。
+
+乙方声明，乙方理解并特此授权我们可自行及/或通知相关合作方（包括但不限于收款服务商）在乙方的账户资金余额中限制一定金额提现且可自行酌情调整该限制资金金额。
+
+10.10.    累积救济。我们在本协议下的权利和救济是额外的且不排除我们在相关法律法规下的法定权利或救济。如乙方同时违反本协议、商家规则及/或任何其他相关协议的，我们依据本协议、商家规则及/或其他相关协议采取任一处理措施不影响我们依据该等规则或协议，或相关法律法规而采取的其他措施。
+
+11.   关联关系账户
+
+11.1.    关联关系账户。关联关系账户是指具备关联关系的、使用我们及/或我们的关联公司旗下产品或服务而注册的账户。前述关联关系包括以下任一情形：
+
+（1）账户管理人、紧急联系人、退货信息、账户主体及/或主体信息等任一登记信息存在直接/间接交叉（包括账户主体之间互为关联方；若前述任何信息发生过变更，则在判定关联关系时，变更前后的主体及相关信息会被纳入考量范围）；
+
+（2）提现银行账户、与提现银行账户绑定的手机号码等存在信息交叉；
+
+（3）账户的登陆IP、登陆设备号等任一信息存在直接/间接交叉；及/或
+
+（4）我们自行酌情决定存在其他类似性质的信息交叉或关联关系证据。
+
+11.2.    乙方特此授权我们可对其关联关系账户采取统一措施，包括但不限于统一增加或扣减信誉值、统一扣除保证金及/或账户资金、统一中止/终止服务。
+
+11.3.    关联关系账户的处理。若我们知晓或有理由怀疑乙方的任一关联关系账户违反任一适用的法律法规、本协议、商家规则或与我们及/或我们的关联公司达成的任何其他协议项下任一条款之约定，乙方理解并在此认可，我们可要求乙方对关联关系账户间的关联关系做出正式的书面解释，并特此授权我们判定各账户间的关联关系；同时，乙方认可并同意，在无损我们可能享有的任何其他权利或救济的前提下，我们有权自行及/或通知我们的关联公司及/或相关合作方立即暂停所有关联关系账户的部分或全部功能，并根据适用的法律法规、本协议、商家规则及/或乙方和我们及/或我们的关联公司之间的其他相关协议对乙方、乙方的所有关联关系账户统一采取处理措施，包括但不限于在作出适用于本条款的修正后的第10.5条所规定的措施。
+
+12.   免责条款与责任限制
+
+12.1.    我们可自行酌情决定对关于买家和/或第三方与您相关的纠纷及投诉（以下统称“投诉”）进行调解和处理，但我们无法保证处理结果符合您的期望，也不对投诉调处结果承担任何责任。您理解并同意我们没有义务调解或处理相关投诉。您应承担您、买家或其他第三方所提供信息、数据的准确性所涉及的风险和责任。如您因该等信息及数据遭受损失，您同意自行向相关方索赔。
+
+12.2.    您了解我们仅在“现状”、“现有”且包括一切瑕疵的基础上提供服务。我们明确否认对所有权、不侵权、适销性和特定用途适用性的任何保证，以及履行过程、交易过程或贸易惯例所暗示的任何保证。我们不保证：(ⅰ) 服务在任何特定时间或地点都是安全的或可用的；(ⅱ) 任何缺陷或错误都将得到纠正；(ⅲ) 服务不含病毒或其他有害材料；或 (ⅳ) 使用服务的结果将满足您的期望。您使用商家服务、商家中心及乙方账户的风险由您自行承担。
+
+12.3.    我们不对因为我们无法控制的原因（包括但不限于互联网连接故障、计算机系统故障、通讯故障、电力故障、电脑病毒、黑客入侵）及/或不可抗力事件，包括但不限于流行病、大流行病、罢工、劳资纠纷或劳动争议、工业行动或停工、恐怖袭击、暴乱、起义、骚乱、武装冲突、实施制裁、禁运、天灾、火灾、洪水、风暴、干旱、地震或其他自然灾害、核污染、化学或生物污染、音爆、爆炸、战争、战争威胁或准备、任何法律、法院、政府或公共机构采取的任何行动或不作为（包括但不限于实施出口或进口限制、配额或禁令，或未能授予必要的许可或同意）、建筑物倒塌或事故、公用设施服务中断或故障，而导致我们不能履行、被妨碍履行或延迟履行我们在本协议项下的任何义务而承担任何责任且本协议不会因上述原因自动终止，且履行此类义务的时间应相应延长。
+
+12.4.    在法律允许的最大范围内，鉴于现有技术水平及现实中经济和实物条件的限制，我们不对平台应用程序或网站、商家中心、乙方账户或软件的缺陷或故障所造成的任何损失承担任何责任，包括但不限于利润的损失、数据的丢失、商业中断或者其他无论什么原因造成的任何损害或损失。乙方了解并同意，基于乙方在立约时所知悉、预料或理应知悉或理应预料到的情况，加入本12.4条是公平合理的。
+
+12.5.    在法律允许的最大范围内，我们因本协议或任何预期交易而产生或与之相关的总责任在任何时候都不会超过您在提出索赔前六个月期间内就引起索赔的特定服务向我们支付的总金额。乙方了解并同意，基于乙方在立约时所知悉、预料或理应知悉或理应预料到的情况，加入本12.5条是公平合理的。
+
+12.6.    本第12条中提及的免责条款与责任限制适用于根据本协议或与本协议相关的可能由我们承担的所有责任，包括但不限于合同责任、侵权责任、弥偿责任或其他责任。
+
+13.   保密条款
+
+13.1.    您承诺您对在谈判、磋商、签订及履行本协议过程中获知或接触到的我们及/或我们的关联公司、相关合作方及/或其他方的任何信息、文件、数据或资料（合称“保密信息”），包括但不限于本协议及任何补充协议的内容、商家规则所述内容、经营信息、商业秘密、技术信息、雇员信息、职位信息，通过乙方账户获得或访问的任何信息以及同我们合作过程中涉及的其他秘密信息进行保密，上述保密信息不对外公开且具有商业价值，您不得以任何形式向第三方披露。
+
+13.2.    您需对保密信息严格保密，严格禁止您为除履行本协议外的任何其他目的或为本协议之外的任何其他主体或交易使用保密信息。未经我们事先书面同意，您不得擅自直接或间接地披露、使用、复制、转移或许可任何第三方使用任何保密信息。前述条款不限制您在法律规定的范围内与对您有管辖权的法院、政府实体或监管机构共享保密信息的权利，前提是您在披露前与我们联系并保证将披露限制在必要的最低限度，并向该等法院、政府实体或监管机构明确表明共享信息的机密性质。
+
+13.3.    您应采取所有合理必要措施以保护保密信息免于被未经授权使用或披露。
+
+13.4.    我们有权随时要求您立即返还或者予以永久销毁和删除保密信息，您应立即配合并予以履行。
+
+13.5.    本协议项下本保密条款在本协议被撤销、被宣告无效、失效、解除、中止、终止后继续完全有效且适用。
+
+13.6.    在不影响我们根据本协议在发生违约时可能采取的任何其他措施的前提下，并考虑到第10.5条款和保密信息的商业敏感性、对我们全球业务的重要性及该等违约可能对我们造成的损失的严重性，您认可并同意，如果您违反第13条或任何其他关于保护保密信息的条款（包括但不限于第3.4条关于账户保管的条款），您应向我们支付100万美元作为约定损害赔偿金；如果该等违反致使我们遭受严重损失或损害，您应向我们支付200万美元作为约定损害赔偿金。您认可并确认，尽管我们因您违约而遭受的损失难以在订立本协议之时作出准确预估，但该约定损害赔偿金的金额是对我们可能遭受的实际损失（包括但不限于通过法律途径维护我们利益的相关成本）的公平合理的预估，且与我们的合法利益相称。您进一步认可并确认已有足够机会审阅并对此寻求独立法律意见。
+
+14.   知识产权与数据
+
+14.1.    未经我们事先书面同意，您及您的关联方不得擅自披露、使用、复制、转移或许可第三方使用我们及我们的关联公司的名称、商标、标志、商业信息、技术及其他资料。您及您的关联方应当维护我们、我们的关联公司、我们及我们的关联公司旗下品牌的商业信誉和声誉，不得在公开渠道（包括但不限于社交软件、媒体平台及公开网站等）发布任何我们或我们的关联公司的负面信息或发表任何有损我们、我们的关联公司声誉的言论。未经我们书面授权，您不得以我们、我们的关联公司或我们及我们的关联公司旗下品牌名义，或以前述主体合作方的名义对外发布(包括但不限于发布、发表、传播、披露、引用或转载)以下任何消息:（i）在任何渠道和场景发布任何包含我们、我们的关联公司或我们及我们的关联公司旗下品牌的言论、文章、音频、视频、素材、图片、照片、信息、文件或数据；或（ii）对外宣称系我们及我们的关联公司旗下品牌合作方；或（iii）与我们及/或我们的关联公司旗下品牌存在商业联合、许可使用、商业冠名、广告代言等联系。
+
+14.2.    您声明并在此保证，您拥有或已合法取得（如通过许可使用等）您使用我们服务所上架售卖、推广或销售的所有商品相关的全部知识产权或其他相关权利。您声明并在此保证，对于您在经营期间上传至商家中心，或提供给我们及/或我们的关联公司的任何资料及信息（包括但不限于图片、视频、视像、影片、图案、版面设计、外观设计、专利、商标、标识、商业名称、商号、域名、文本、软件、广告或宣传资料），您拥有所有相关的知识产权，已完成所有必要的知识产权许可，及/或已就该等知识产权的使用自权利人处获得明确授权；且该等资料不存在违反任何适用的法律法规，侵犯任何第三方知识产权（包括但不限于著作权、商标权、专利权或商业秘密）及/或其他相关权益（包括但不限于公开权）的情形。本协议履行过程中，因商品发布售卖或商品销售侵犯任何第三方知识产权及/或其他相关权益发生的或引起的任何索赔或纠纷，均由您自行负责处理，并就该等侵权独立承担全部的责任及义务。我们不就您发布或销售的商品侵犯（或被声称侵犯）任何第三方权利而导致的索赔承担任何责任或义务。如因此造成我们及/或我们关联公司损失的，您应就此向我们及我们关联公司提供弥偿。
+
+14.3.    您在此授予我们及我们关联公司全球范围的、非排他的、可再许可的、版税免费的许可（下称“该等许可”）。该等许可包括将您上传至商家中心，或提供给我们及/或我们的关联公司的任何信息及/或资料，用于履行本协议，或用于我们及/或我们的关联公司向商家及/或买家提供的各项服务中。
+
+14.4.    您保证您有权授予我们第14.3条所述的许可，保证我们不会因使用相关信息而受到任何第三方的投诉、索赔或处罚。
+
+14.5.    “我们的知识产权及信息”系指我们或我们的关联公司拥有、控制、使用或者对之享有其他权利的一切知识产权、工业产权和专有权利，包括但不限于商号、商标、标识、著作权、域名、社交媒体账号、公众号、图案、人物形象、艺术作品，由我们或我们的关联公司保留完整的权利。未经我们事先书面批准，您不得自行使用或者许可任何第三方使用我们的知识产权及信息。
+
+14.6.    您应遵守所有关于个人资料保护的适用的法律法规（以下统称“个人资料保护法律”）以及本协议的约定，并且确保您的政策、程序和操作符合个人资料保护法律的要求。该等合规措施包括但不限于：(i)采取所有合理的步骤保证收集的数据的准确性和安全性；(ii)培训负责处理数据的乙方人员；并且(iii)通过合同要求第三方数据处理者符合所有关于个人资料保护法律的规定，包括采取安全措施保护收集到的数据。
+
+14.7.    您同意并承诺，若您注册与我们或我们的关联公司相同或近似的商标、标识、标志、社交媒体账号、公众号、域名，则应当在我们或我们的关联公司提出相关要求时，（i）无偿将相关商标、标识、标志、社交媒体账号、公众号、域名转让给我们或我们的关联公司；（ii）撤回申请；及/或（iii）及时注销账号。如由此给我们及/或我们的关联公司造成损失的，您应赔偿相关方全部损失并消除给我们及/或我们的关联公司造成的不良影响。同时您理解并同意我们可自行及/或通知相关合作方（包括但不限于收款服务商）限制乙方部分或全部账户资金提现，并采取终止本协议、终止与您的合作等本协议约定的违约处理措施。
+
+14.8.    在不影响我们根据本协议在发生违约时可能采取的任何其他措施的前提下，并考虑到第10.5条款和知识产权的商业敏感性、对我们全球业务的重要性及该等违约可能对我们造成的损失的严重性，您认可并同意，如果您违反第14条或任何其他关于保护知识产权及数据的条款，您应向我们支付100万美元作为约定损害赔偿金。您认可并确认，尽管我们因您违约而遭受的损失难以在订立本协议之时作出准确预估，但该约定损害赔偿金的金额是对我们可能遭受的实际损失（包括但不限于通过法律途径维护我们利益的相关成本）的公平合理的预估，且与我们的合法利益相称。您进一步认可并确认已有足够机会审阅并对此寻求独立法律意见。
+
+15.  反商业贿赂及利益冲突
+
+15.1.    您特此承诺并保证，您方人员会严格遵守本第15条的全部约定，不得从事任何违约行为。“您方人员”是指您、您的关联方，以及您及/或您的关联方的管理人员、董事、法定代表人、股东、顾问、代理、雇员（含正式雇员及临时雇员）、工作人员、服务人员、辅助人员及其他相关人员等。如您方人员为达成本协议或在生效日期后实施了违反本条款任何规定的行为，该等违反行为将依据本条款处理，您应当承担全部相关责任。
+
+15.2.    “我方人员”指我们、我们的关联公司，我们及/或我们的关联公司的顾问、代理、雇员（含正式雇员及临时雇员）、工作人员，及曾在我们及/或我们的关联公司工作的人员。“密切关系人”指与当事人有密切个人或业务关系的任何人，包括但不限于当事人的配偶、亲属、情侣、师生、同学、朋友、同事、前同事、合伙人、投资人、顾问、律师、中介、代理人。
+
+15.3.    您方人员不得以任何名义向我方人员或其密切关系人直接或间接地、明示或暗示地提议、许诺、同意、默认、追认、输送任何形式的利益，包括但不限于金钱物品、消费卡券、干股分红、有价证券、股权债权、金融产品、虚拟财产、礼品样品、回扣佣金、招待宴请、娱乐旅游、消费安排、财物借用、债务抵扣、费用减免、劳务服务、就业置业、就医就学、荣誉头衔、资格资质评定、任何特殊的待遇或利益（以下简称“本条款下的利益”）。
+
+15.4.    您方人员不得以任何名义与我方人员或其密切关系人发生任何形式的财务往来（包括但不限于借贷投资、借用租用、担保抵押）或合作（包括但不限于入股、顾问、雇佣关系）。
+
+15.5.    您方人员不得为我方人员或其密切关系人寻求、获取、掩饰、隐瞒本条款下的利益提供任何形式的帮助，包括但不限于居间斡旋、托管代持、出借账户、销毁凭据、虚构事实、隐匿资产行为及提供实施前述行为的便利条件。
+
+15.6.    您方人员不得寻求、获取因我方人员或其密切关系人的个人关系或不当行为而产生的任何利益或竞争优势。
+
+15.7.    您方人员应（i）配合我们及我们的关联公司的调查，并为此提供所有相关信息和协助（包括但不限于参加任何要求的访谈、提供详细的相关账目和证明材料），及（ii）配合及协助我们及/或我们的关联公司的任何合规审计和调查。
+
+（1）如您方人员拒绝配合，或拒绝按照我们及/或我们的关联公司的要求披露相关信息或材料，或在我们指定期限内未进行合理解释及举证，或经举证仍不能有效证明未有相关违规行为的，您理解并同意我们可直接判定您违反本条款约定，存在违规行为。
+
+（2）您陈述与保证，您方人员在我们调查或访谈时提供的所有信息真实、合法、有效，不存在任何虚假内容。
+
+（3）您陈述与保证，在我们调查、访谈或协助过程中，非经我们及/或我们的关联公司事先书面确认您方人员不会将任何相关的信息以任何形式泄露给任何第三方。
+
+15.8.    您方人员发现我方人员或其密切关系人索取或收受本条款下的利益，您方人员应及时向我们举报并提供相关证据至我们的专用邮箱。
+
+15.9.    利益冲突的报备。您应披露任何可能出现利益冲突的情况，并自相关情况出现之日起三个日历日内以书面形式报备至我们指定的邮箱并根据我们的评估意见采取相应处理措施（包括但不限于立即终止任何形式的合作等），相关情况包括但不限于：
+
+（1）您方人员与我方人员或其密切关系人以任何形式进行合作，包括但不限于合伙、合作、入股、咨询顾问、代理、雇佣、录用；
+
+（2）您方人员与我方人员之间存在任何其他利益关系、密切关系或个人关系的，包括但不限于债权债务关系、恋爱关系、（曾经）共事关系、好友关系、师生关系、同学关系。
+
+15.10.    利益冲突的防范。乙方承诺在本协议生效期间均积极采取有效措施对可能发生利益冲突的情况进行识别、防范与管理，包括但不限于：
+
+（1）采取有效措施确保乙方及/或乙方关联方、乙方人员不以任何直接或间接的形式主动招揽、诱导、推荐、或雇佣、录用我方人员；
+
+（2）采取有效措施确保乙方及/或乙方关联方、乙方人员不以任何直接或间接的形式与我方人员建立包括但不限于劳动雇佣、录用、合伙、合作、入伙、咨询顾问、代理等任何形式的合作关系；及
+
+（3）如可能发生或已发生本条约定情形之一的，乙方应立即书面告知甲方，如甲方评估后判定可能存在利益冲突的，乙方应按照甲方意见立即采取相应措施，包括但不限于与前述我方人员终止任何形式的合作洽谈或合作关系，并采取有效措施降低利益冲突可能产生的不利影响等。
+
+15.11.    在不影响我们根据本协议在发生违约时可能采取的任何其他措施的前提下，并考虑到第10.5条款和声誉、监管风险的高度敏感性及任何贿赂和利益冲突相关违约可能对我们造成的严重的商业、声誉及监管等损害，您认可并同意，如果您违反第15条或任何其他关于贿赂和利益冲突的条款，您应向我们支付100万美元作为约定损害赔偿金。您认可并确认，尽管我们因您违约而遭受的损失难以在订立本协议之时作出准确预估，但该约定损害赔偿金的金额是对我们可能遭受的实际损失（包括但不限于通过法律途径维护我们利益的相关成本）的公平合理的预估，且与我们的合法利益相称。您进一步认可并确认已有足够机会审阅并对此寻求独立法律意见。
+
+16.   经济制裁与进出口管制
+
+16.1.    您同意在履行本协议的过程中，遵守所有适用的进出口管制法律、法规和条例，包括但不限于《出口管理条例》（《出口管理条例》，15 C.F.R. 730-774）以及美国财政部海外资产控制办公室（“OFAC”）条例（31 C.F.R. 第V章及其后续章节），以及由欧盟、英国、您或您的关联方所处国家及地区管理的相关制裁法律和法规。这包括但不限于您不得从以下来源采购任何物品的要求：（i）任何被美国国务院或财政部全面禁运的地区；（ii）位于全面禁运地区的任何个人或实体，或由位于这些地区的实体所有的其他实体；（iii）美国财政部“特别指定国民与被封锁人员名单”或美国政府、欧盟、英国及您或您的关联方所处国家及地区其他适用的禁止方名单所列的任何个人或实体。无论交易在当地法律下是否合法，本条款依然适用。
+
+16.2.    您在此声明并保证：
+
+（1）您及您的关联方始终遵守由美国、欧盟、英国、您或您的关联方所处国家及地区、或任何其他政府机构实施的经济制裁和贸易禁运法律（“经济制裁法律”），包括对指定国家（“禁运国家”）、政权、实体和个人（统称为“禁运目标”）的相关规定；
+
+（2）您及您的关联方不是也从未成为禁运目标或其他任何经济制裁法律的对象；
+
+（3）您或您的任何关联方均未：(i) 直接或间接由目前包含在OFAC特别指定国民与被封锁人员名单或美国、欧盟、英国、您或您的关联方所处国家及地区、或任何其他政府机构维护的类似名单上的任何人所有或控制，或(ii) 直接或间接由位于、组织于或居住于受美国国务院或财政部或任何其他政府机构制裁的国家或地区（或其政府）的任何人所有或控制；
+
+（4）如果您或您的任何关联方直接或间接被上述第（3）款所述的任何人所有或控制，您应立即通知我们；
+
+（5）您或您的任何关联方通过平台销售和提供销售的所有产品均未被列入由美国商务部管理的《出口管理条例》中的《商业管制清单》；
+
+（6）您及您的关联方及其任何高管、董事、经理、代理人或员工不是：(i) 目前由美国、欧盟、英国、您或您的关联方所处国家/地区、或任何其他实施经济制裁或贸易禁运的政府机构调查的对象（“制裁调查”），或(ii) 直接或间接由当前是制裁调查对象的任何人所有或控制；及
+
+（7）如果(i) 您或您的任何关联方，或其任何高管、董事、经理、代理人或员工成为任何制裁调查的对象，或(ii) 任何直接或间接拥有或控制您或您的任何关联方的人成为制裁调查的对象，您应立即通知我们。
+
+17.   协议期限及终止
+
+17.1.    您可通过商家中心申请退店，退店完成后本协议即终止。但下列任一情形下，您同意不发起退店申请且我们不会处理任何在下列情况存续的情况下发出的退店申请：
+
+（1）您向我们作出了承诺，但未完成前述承诺；
+
+（2）您违反本协议、商家规则或存在正在处理过程中的与买家或第三方的争议；或
+
+（3）商家中心提示的不得发起退店申请的其他情形。
+
+17.2.    在不影响我们根据本协议的其他条款终止本协议的权利的前提下，我们有权在下列情况下立即终止本协议：
+
+（1）您违反本协议、商家规则、或者您和我们的关联公司的任何其他协议的任何条款，或您与我们或我们的关联公司产生纠纷；
+
+（2）您向我们提交虚假、欺骗或者伪造的文件或者材料；
+
+（3）您销售的商品及/或提供的服务被多次投诉的，或给买家造成财产或人身损害的；
+
+（4）您的保证金不足额，且未能补足，及/或未能在我们指定期限时间内补足的；
+
+（5）您未能按期全额支付您对我们及/或我们的关联公司的任何到期应付款，且在我们指定期限内仍未支付；
+
+（6）您破产或无力偿债，或者进入自愿或者强制的清算，或者召开债权人会议，或者您的所有或者部分财产被破产管理人接管，或者您因任何原因暂停、停止或不再经营全部或大部分业务，或威胁暂停、停止或不再经营全部或大部分业务；
+
+（7）某人获得任命接管人接管您的全部或部分资产的权利，或接管人被任命接管您的全部或部分资产；
+
+（8）您超过连续90个日历日未登录乙方账户的；
+
+（9）您不具备继续经营或使用商家服务需要满足的要求；或
+
+（10）我们决定不再继续与您合作。
+
+17.3.    协议终止后事项处理。
+
+（1）本协议终止后，您理解并在此同意我们及为您提供服务的关联公司可保留与乙方及其经营相关的资料或信息，并可依据相关法律法规确定保留期限（例如欧盟《数字服务法案》规定我们应以安全的方式存储乙方及其经营相关资料或信息至协议终止后6个月）或者基于保护我们、我们的关联公司、您及/或第三方权益等需要而延长保留期限。除适用于我们的法律法规明确规定外，我们没有义务为您保留任何信息，或转发任何信息给任何第三方，亦不就终止本协议而对您或任何第三方承担任何责任。
+
+（2）即使本协议终止，在协议终止生效日前基于本协议约定所产生的义务，您必须继续履行完毕，并就协议终止生效日前因您的行为所导致的任何损失和损害独立承担责任。
+
+（3）您理解并在此同意我们可自行决定是否对乙方账户功能作出限制以及作出何种限制，并可自行决定是否关闭乙方账户。若我们未对乙方账户作出限制，您仅可使用相关账户向我们、买家及/或第三方付款。您应在我们要求的时限内妥善处理完毕所有的问题、付款和结账事项。
+
+（4）乙方特此无条件并不可撤销地同意并授权，在本协议终止后我们仍可直接或通知相关合作方（包括但不限于收款服务商）限制乙方的账户资金余额及/或保证金提现，直至您和我们、买家及/或第三方之间纠纷已经全部处理完毕。
+
+（5）本协议终止后，您应立即停止使用我们及我们关联公司的所有资料、保密信息和知识产权，不得以我们、我们关联公司或合作伙伴的名义、商标或品牌从事任何活动，并将所有上述所有的物品归还至指定的地点，按照我们及我们关联公司的要求删除所有电子版保密信息或资料且不得留存备份。
+
+（6）我们及我们的关联公司无需因行使法律规定或本协议约定的终止或解除权而承担任何违约责任。
+
+18.   法律适用与争议解决
+
+18.1.    本协议适用香港法律管辖且按照香港法律解释，任何香港的法律冲突原则不适用于本协议。双方明确在相关国际公约允许的范围内排除任何国际公约（包括但不限于《联合国国际货物销售合同公约》）。凡因本协议及/或商家规则引起的或与之相关的任何争议、纠纷、分歧或索赔，包括合同的存在、效力、解释、履行、违反、终止或解除，或因该等协议及/或规则引起的或与之相关的任何非合同性争议（以下简称“争议”），应根据本18条中规定的程序解决，该程序应为解决任何争议的唯一和专属程序。为避免疑义，除非本条款另有规定，本条款中的“各方”指实际争议的各方。通过达成本协议，本协议各方同意本第18条将取代任何商家规则中与本18条有冲突的法律适用与争议解决条款。
+
+18.2.    首先，启动调解或仲裁程序前各方应向本协议的所有其他方送达书面协商请求并尝试通过保密协商解决任何争议。
+
+18.3.    任何一方根据第18.2条书面协商请求的日期后28天内未解决的争议，或在各方书面另行同意的其他期限内未解决的争议，在启动仲裁之前，应提交香港国际仲裁中心（“HKIAC”）根据其当时的调解规则进行调解。任何一方可以书面请求调解，并向其他方和HKIAC提交副本，其他方有义务根据当时的调解规则参与调解。除非各方另有协议，调解地应为香港，并以英语进行。各方同意受达成的任何和解协议的约束。
+
+18.4.    根据第18.2条进行的协商和根据第18.3条进行的调解期间的所有通信应：（i）保密，（ii）被视为在协商及和解谈判过程中进行的，及（iii）适用于相关证据规则和法律下全部适用的保密、职业保密和特权保护。
+
+18.5.    如果调解被放弃、结束和/或被调解员以其他方式终止且争议未能最终解决，或在任何一方启动调解后56天或双方书面同意的其他期限内未能最终解决，则该争议应提交HKIAC管理的机构仲裁，并按照提交仲裁通知时有效的、经本仲裁条款而修订的《香港国际仲裁中心机构仲裁规则》（“《规则》”）最终解决。
+
+（1）  本仲裁条款适用的法律为香港法律。
+
+（2）  仲裁地应为香港。
+
+（3）  仲裁员人数为三（3）名。
+
+（4）  仲裁程序应按照英文来进行。
+
+（5）  尽管《规则》另有规定，但只有在甲方于相关仲裁程序正式启动后向HKIAC或仲裁庭提供了书面同意的情况下，HKIAC或仲裁庭方可将正在进行的两个或多个仲裁合并。
+
+（6）  双方同意，只有在甲方于争议发生后提供了书面同意的情况下，方可在单个仲裁中提出源于或涉及多于一份的协议的请求。
+
+（7）  仲裁庭作出的任何裁决和/或命令可在任何具有司法管辖权的法院执行。
+
+19.   其他事项
+
+19.1.    通知及送达。
+
+（1） 本协议项下我们对您所作的任何通知或其他通信（包括但不限于纠纷处理各阶段中相关法律文书）可以下述任一方式送达：
+
+（i）电子送达：向乙方账户发送系统消息或站内信信息，发布公告，向您在我们处留档的联系电话发送手机短信，或者向您在我们处留档的电子邮件地址发送电子邮件。通知或其他通信在发送成功即视为送达。
+
+（ii）线下送达：以纸质载体发出书面通知，通过专人派送、特快专递、快递或挂号信送至您在我们处留档的地址（包括但不限于您的注册地址、经营地址、退货地址以及其他联系地址）。通知或其他通信在交邮后的第五个日历日即视为送达。
+
+（2）如我们或第三方通过线下方式向您送达，您同意指定您在我们处留档的地址作为纠纷处理各阶段中相关法律文书的送达地址。司法机关及/或仲裁机构向上述联系地址发出法律文书即视为有效送达。
+
+（3）若您（无论是否根据我们的要求）提交您的服务商及/或代理人的地址，则该等地址应视同您的地址，适用于本协议项下对您的一切通知和法律文书送达。
+
+19.2.    转让。未经我们事先书面同意，您不得转让、转移、抵押、押记、分包、委托、宣布信托或以任何其他方式处理您在本协议下的任何权利及义务。在不影响上述规定的前提下，我们有权自行决定转让、转移、抵押、押记、分包、委托、宣布信托或以任何其他方式处理我们在本协议项下的全部或部分权利或义务。
+
+19.3.    完整协议和非有效变更。本协议是您与我们之间关于提供和使用本协议项下服务完整、唯一的约定，所有在本协议订立之前我们的人员与您的人员之间的沟通、承诺、声明、陈述和解释均被本协议取代。双方认可，在签订本协议时，并未依赖于本协议中未列出的任何声明、陈述、保证或担保（无论是无意还是疏忽所作），并且对这些声明、陈述、保证或担保不享有任何救济。任何我们的人员与您的人员之间的沟通、承诺、声明、陈述与解释等均不构成对本协议内容的有效变更。
+
+19.4.    可分割性。本协议任何条款或部分条款被认为是违法的、无执行力的或者无效的，该条款或部分条款应按法律容许的最大范围执行，且这不影响本协议其余部分的有效性和可执行性。
+
+19.5.    不视为权利放弃。除非甲方以书面形式经签署后明确放弃任何权利、权力或救济，乙方不得依赖甲方之言词或行为来主张甲方放弃了任何本协议及/或任何适用的商家规则下的相关权利、权力或救济。甲方若未行使或延迟行使任何权利或救济，该等延迟或不作为不得视为对该权利或任何其他权利或救济的放弃。同样，任何对权利或救济的单次或部分行使不得视为对该权利或任何其他权利或救济的放弃，且并不限制或阻止甲方进一步行使该权利或任何其他权利或救济。
+
+19.6.    条标作用。本协议条款的标题仅作参考使用，不界定、影响或限制本协议条款的含义、描述及解释。条标与对应条款不一致的，以条款约定的内容为准。
+
+19.7.    存续。本协议中任何明示或暗示将在本协议终止时或之后生效或继续有效的条款 [包括但不限于第6.3条（服务费用）、第7条（税务条款）、第9条（乙方承诺和保证以及其他义务）、第10条（违约及赔偿条款）、第11条（关联关系账户）、第12条（免责条款与责任限制）、第13条（保密条款）、第14条（知识产权与数据）、第15条（反商业贿赂及利益冲突）、第17条（协议期限及终止）、第18条（法律适用与争议解决）、第19条（其他事项）] 应在本协议终止时或之后继续完全有效。
+
+19.8.    权利保留。本协议的终止不会影响我们在终止之前已取得或累积的任何权利和救济（或您在终止之前已产生或累积的任何义务和责任），包括我们针对终止之前存在的任何违反协议的行为索赔的权利。
+
+19.9.    第三方权利。除非本协议另有明确规定，本协议不会产生根据香港法例第623章《合约（第三方权利）条例》第三方执行本协议任何条款的任何权利。
+
+19.10.    无合伙或代理关系。除非本协议另有明确规定，本协议的任何内容均无意、亦不应被视为在任何一方之间建立任何合伙、合资、特许经营、销售代表或雇佣关系、或使任何一方成为另一方的代理人、或授权任何一方为或代表任何其他方作出或达成任何承诺。
+
+19.11.    任何跟在“包括”、“包含”、“特别是”、“例如”或任何类似表述后面的词语应被解释为说明性的，并且不应限制这些词语之前的词语、描述、定义、短语或术语的含义。
+
+19.12.    本协议的最终版本以英文文本为准。如本协议的任何翻译版本与英文版本存在任何歧义、差异或冲突，应以英文版本为准。
+
+19.13.    除非本协议另有明确规定，对法律或法律条款的引用亦包括对其修订、延长或重新颁布的引用。
+
+ 
+
+ 
+
+附件
+
+
+1. 本协议所称的“我们”及“甲方”是指以下主体：
+
+（1）如您销售商品至美国，“我们”及“甲方”是指 Whaleco Inc.；
+
+（2）如您销售商品至美国以外的国家或地区，“我们”及“甲方”是指Whaleco Technology Limited、Elementary Innovation Pte. Ltd.、Prince September Pte. Ltd.及Radiance Sea Hong Kong Limited。
+
+ 
+
+2. 相关定义：除非本协议另有注明，以下词语应具有下述含义。
+
+（1）“商家中心”，是指提供给乙方的在线入口页面和工具（具体语言和名称以商家中心页面展示为准），便于乙方操作和管理乙方账户，查看相关数据和信息。
+
+（2）第1.1条所称 [“本协议于生效日（定义见附件）生效”]中的“生效日”，是指乙方在线点击同意本协议之日或实际使用本协议项下服务之日（以较早者为准）。
+
+（3）某一主体的“关联公司”或“关联方”，是指由该主体控制、受同一实体控制或控制该主体的公司、组织或其他主体。前述“控制”是指，直接或间接拥有的权力，从而通过行使表决权、合同或其他方式决定或影响某一方的管理或决策方向。
+
+ 
+
+ 
+
+Merchant Agreement
+
+(Version 4.6, Release Date: 8 September 2025)
+
+ 
+
+Notice Before Signing:
+
+This Agreement (defined below) is entered into by and between (i) the operator of Online Platform and/or the entity providing the services under this Agreement, the specific contracting parties being listed in the Appendix, hereinafter referred to as “we”, “us”, “our”, or “Party A”, and (ii) the merchant using the services under this Agreement (hereinafter "you", "Seller", or "Party B", and together with Party A, the "Parties").
+
+ 
+
+Please note that this Agreement contains important information, which includes important changes and updates to prior versions of this Agreement. We hereby specifically remind you to carefully read and fully understand all the terms of this Agreement before accepting. By registering a Seller Account or actually using the services we provide under this Agreement, you will be deemed to have fully understood and agreed to be bound by all terms of this Agreement. You further acknowledge that you have been reminded of, and you have notice of all bold-formatted content and terms in the Agreement. Without prejudice to the foregoing, you also confirm that you have fully read, understood, and agreed to be bound by such bold-formatted content and terms.
+
+ 
+
+This Agreement comprises this Notice Before Signing, the text of the Merchant Agreement, the Appendix, and also the various rules, terms, policies, codes, guidelines, and other similar documents that have been issued and/or those that will be issued by Party A in the future (hereinafter collectively referred to as the "Merchant Rules").
+
+ 
+
+ 1.         Overview
+
+ 
+
+ 1.1. Agreement Composition. The Notice Before Signing above, the Appendix, and the Merchant Rules are integral parts of this Agreement and have the same legal effect as the text of the Merchant Agreement. For the avoidance of doubt, references to "Agreement" shall include the provisions contained herein as well as the Merchant Rules. The Parties hereby confirm that, unless otherwise agreed, or stipulated in the Merchant Rules, this Agreement shall take effect on the Effective Date (which is defined in the Appendix) and shall supersede any prior agreements between us and Party B regarding the use of Seller Services.
+
+ 
+
+ 1.2. Agreement Amendments and Effectiveness. We may, from time to time, amend (including but not limited to revising, adding, repealing, or reinstating) Notice Before Signing, the text of the Merchant Agreement, the Appendix, and/or the Merchant Rules (agreement so amended is hereinafter referred to as "Amended Terms") due to reasons including but not limited to policy changes, regulatory requirements, functionality changes, anti-fraud, and/or business needs, and will notify you through publications on the Rules Centre or by prompting you to confirm online through specific functional or service pages. Your continued use of the services provided by us after the release date set forth in the Amended Terms or by clicking the "I have read and agree" button (the precise language and description of which are subject to change and shall be subject to the version as displayed on the Seller Center interface) constitutes your acceptance of the Amended Terms. If you do not agree to the Amended Terms, you will be deemed to have agreed to cease using our services and to terminate this Agreement in accordance with the terms of this Agreement. Subject to the foregoing and unless otherwise provided under the Merchant Rules, no variation of this Agreement shall be effective unless it is in writing and signed by both Parties.
+
+ 
+
+ 1.3. Provision of Service. The actual provider of the services under this Agreement may be us, or any one or more of our Affiliated Companies, and/or third-party service providers, but such circumstances shall not affect the validity of this Agreement, or the rights and obligations of the Parties under this Agreement. For the avoidance of doubt, we may either provide the services to Party B ourselves or delegate (including through sub-delegate arrangements where required) the provision of such services to our Affiliated Companies or third-party service providers, but the rights under this Agreement shall still be exercised by us and the obligations and responsibilities under this Agreement shall be borne by us independently, unless otherwise agreed.
+
+ 
+
+ 2.         Service Scope
+
+ 
+
+ 2.1. Service Scope. Party B may sell products and/or provide services through the Online Platform in accordance with the terms of this Agreement. The operational channels of the Online Platform include, but are not limited to, the application and the website, namely, the Seller may, pursuant to this Agreement, provide products or services to consumers through the Online Platform, and consumers may access through the Online Platform and place orders for the Seller’s products or services, hereinafter referred to as the “Platform”. The services that we provide to you under this Agreement include but are not limited to internet information technology services and related software technology services, e-commerce transaction processing services, and other services related to the sale and purchase of products and/or services through the Platform (collectively referred to as the “Seller Services”).
+
+ 
+
+ 3.         Qualification, Information, and Compliance Requirements
+
+ 
+
+ 3.1. Business Qualifications. Party B represents and warrants that it has the legal capacity and all necessary qualifications, authorizations, approvals, permits, or filings required to enter into this Agreement and to perform its obligations under this Agreement.
+
+ 
+
+ 3.2. Information Submission. Party B represents and warrants that all documents and information submitted to us, our partners, and our Affiliated Companies are legal, valid, true, accurate, complete, and not misleading, comply with Applicable Laws and Regulations and the provisions of this Agreement, and do not infringe upon any third party's legal rights and interests. If there are any changes to the relevant documents or information, Party B shall promptly update the relevant documents and information on the Seller Center. We may request documents or information from Party B from time to time, which Party B shall provide within the period at our request.
+
+ 
+
+ 3.3. Party B Information. Party B represents and warrants that the identity information and contact information that it submits, such as email address, contact phone number, contact address, and postal code, are legal, valid, true, accurate, complete, and up-to-date, and represents and warrants that we can contact you through the above contact information. If there are any changes to the relevant identity information or contact information, Party B shall promptly update the relevant identity information and contact information on the Seller Center.
+
+ 
+
+ 3.4. Account Security. Party B shall properly maintain and use any seller account opened by Party B to use the services under this Agreement, including the main account or any sub-accounts (together, the “Party B Account” or “Seller Account”), and Party B shall be fully responsible for any operations, actions, or commitments carried out, taken, or completed through the Party B Account. Party B understands and agrees that the Party B Account provides Party B with access to Party A’s confidential and proprietary data and information, such as business analysis, thematic tools, and market analysis (specific information is subject to the information displayed in the Party B Account), as part of the services provided by Party A to Party B. You understand and acknowledge that Party A’s data and information that may be disclosed to you in the course of providing services to you under this Agreement have commercial value, constitute Party A’s trade secrets, and constitute Confidential Information in accordance with this Agreement. You undertake to strictly maintain the confidentiality of such data and information. You undertake not to transfer, lease, lend, sell, disclose, or otherwise provide the Party B Account to any third party in any form. You shall not create sub-accounts for others, nor shall you, directly or indirectly, disclose, transfer, sell, license, or otherwise provide to any third party any data or information obtained through or otherwise accessible on the Party B Account. You shall properly secure the user login name and password of the Party B Account, and shall be solely responsible for their use and loss. If your account password is leaked or misused, you must immediately change your password and notify us immediately.
+
+ 
+
+ 3.5. Party B Warranty. Party B represents and warrants that its business complies with all Applicable Laws and Regulations. The responsibility for product fulfillment shall be independently borne by Party B.
+
+ 
+
+ 3.6. For the purposes of this Agreement, “Laws and Regulations” shall include all applicable laws, regulations, rules, standards, policies, and guidelines issued by any administrative, governmental, regulatory, judicial, or other authority or body, including those currently in force, as well as any subsequent supplements, amendments, restatements, or replacements thereof, together with any other provisions incorporated into or substituting them (collectively, the “Laws and Regulations”). In addition, as used in this Agreement, “Applicable Laws and Regulations” shall include the Laws and Regulations of any applicable jurisdiction, including but not limited to the jurisdiction where Party B is located, where the consumers are located, the place of origin of the products, the destination of sale, and the place of export (collectively, the “Applicable Laws and Regulations”).
+
+ 
+
+ 4.         Security Deposit
+
+ 
+
+ 4.1. Security Deposit Payment. Party B shall pay the security deposit (the precise language and description of which shall be subject to the version as displayed on the Seller Center interface), according to the Merchant Rules and/or the amount and method prompted in the Seller Center, as a security for Party B's performance of this Agreement. No interest shall be payable by us on any such security deposit.
+
+ 
+
+ 4.2. Security Deposit Adjustment. During the term of this Agreement, we may unilaterally adjust the security deposit amount required of Party B at any time based on various factors, including but not limited to the operation changes to the Platform, changes in Party B's business status, Party B's breach of contract, the actual compensation liabilities, and potential compensation risks. If the security deposit balance of Party B is lower than the required security deposit amount, we are entitled to demand payment from the Party B within a period at our request such that the security deposit balance is equal to or exceeds the required amount. Simultaneously, Party B hereby unconditionally and irrevocably agrees and authorizes us to directly, or to notify the relevant partners (including but not limited to the payment service provider) to, deduct the corresponding amount from the Account Funds of Party B to make good the shortfall. If Party B fails to make good the shortfall within the period at our request, or if the balance of the Account Funds of Party B is insufficient to cover the shortfall, Party B authorizes us to suspend or terminate part or all of the services under this Agreement, or terminate this Agreement.
+
+ 
+
+ 4.3. Security Deposit Deduction. If Party B has violated this Agreement, any applicable rules, any other agreement made between any of Party B, us, and/or our Affiliated Companies, any Applicable Laws and Regulations, or any representation, warranty, or commitment made by Party B as a seller to a consumer, Party B agrees that we may immediately deduct funds from the security deposit to compensate consumers, us, our Affiliated Companies, and/or other third parties. If the security deposit is insufficient to cover the amounts payable arising out of such violations, you shall make good the shortfall within the period at our request.
+
+ 
+
+ 5.         Product Requirements
+
+ 
+
+ 5.1. General Requirements. Party B represents and warrants that it has all necessary rights and capacity to sell any products it offers on the Platform. Party B represents and warrants that both Party B and the products sold by Party B comply with the specific requirements of the Applicable Laws and Regulations, the provisions of this Agreement, and the Merchant Rules.
+
+ 
+
+ 5.2. Accurate Description. Party B represents and warrants that the product information and any other materials and information published concerning the products are consistent with the actual products, and shall be solely responsible for proving the accuracy and consistency of the product description. The obligation of Party B under this Article includes but is not limited to ensuring the text, pictures, and any information about the products on the detail page (including but not limited to product details, production date, shelf life, transaction attachments, and other similar information) are true, accurate, complete, valid, objective, and not misleading.
+
+ 
+
+ 5.3. Product Instructions. You shall also ensure that the information and/or instructions you publish and the products you sell (including packaging) comply with all specific requirements of the Applicable Laws and Regulations (including but not limited to all minimum age, marking, and labeling requirements), and do not contain any explicit pornographic content, defamatory, and/or obscene materials. In addition, you shall provide necessary prompts and warnings for the products you sell in accordance with the specific requirements of the Applicable Laws and Regulations. For example, if your products are sold to the State of California of the United States, you must display the corresponding warning information in the product details section of the applicable categories in accordance with the Safe Drinking Water and Toxic Enforcement Act (referred to as "California Proposition 65").
+
+ 
+
+ 5.4. Genuine and Non-Infringing Product Warranty. Party B represents and warrants that: (i) the products it lists and sells on the Platform are genuine and not counterfeit; (ii) the products, the materials constituting the products, and any information associated with the products listed and sold on the Platform (including the product names, product descriptions, product design, instruction manuals, packaging, and any other elements that accompany a sales listing or the products themselves) do not infringe upon any third party’s trademark, design rights, standard or short-term patent rights, copyrights, and/or other legal rights and interests under Applicable Laws and Regulations, including but not limited to the right of publicity; and (iii) there is no fabrication of the origin of the products listed and sold on the Platform or fabrication or unauthorized use of others' factory names, factory addresses, certification marks, quality marks, famous and high-quality product marks, packaging, or decoration.
+
+ 
+
+ 5.5. Quality Warranty. Party B represents and warrants that the products it sells (i) comply with all Applicable Laws and Regulations, including but not limited to national standards, industry standards, or other relevant standards (when the standards are inconsistent, the strictest standard shall prevail), and possess all documentation required by Applicable Laws and Regulations; (ii) are fully consistent with the product description; (iii) can meet the consumer's reasonable expectations, quality requirements, and usage purposes consistent with the Seller’s product description; and (iv) ensure that normal use will not cause property damage or personal injury.
+
+ 
+
+ 5.6. Disposal of Products. If the products sold by Party B do not comply with any Applicable Laws and Regulations, the provisions of this Agreement, and/or the Merchant Rules, or if the products sold by Party B are returned for any other reasons, considering various factors such as relevant costs, regulatory requirements, and regulatory policies, Party B acknowledges, agrees, and requests us, without prejudice to any other rights or remedies which we may be entitled to, to take measures as to aforementioned products within the scope permitted by law having regard to our reasonable business judgment, Party B’s feedback, and/or reasonable suggestions from our partners. Such measures may include but are not limited to notifying the consumer to destroy or return the products, canceling the order, refunding the order, or engaging a third party to destroy, dispose of, or forward the products. For the avoidance of doubt, Party B explicitly acknowledges and agrees that the foregoing provisions do not mean that we have the obligation to dispose of any aforementioned products. Unless otherwise provided, we do not have, and we expressly disclaim, any ownership rights in the products sold by Party B before, during, or after their sale on the Platform; and under all circumstances, Party B retains sole ownership over and risk of loss for the products, and the obligation to dispose of aforementioned products and any responsibilities related to such products shall be borne solely by Party B. If any products are disposed of or destroyed according to this Article 5.6, you agree not to claim any compensation or damages from us for any reason whatsoever. You shall actively cooperate with us in taking such various measures and agree to bear any losses caused to consumers, us, our Affiliated Companies, and/or other third parties, as well as any costs arising therefrom.
+
+ 
+
+ 5.7. Product Recall and/or Risk Warning. Party B shall timely cooperate with all inquiries and investigations from regulatory authorities and/or third-party organizations (including those inquiries and investigations relating to Party B’s activities, products, or services received by us), in accordance with Applicable Laws and Regulations. This includes, without limitation, the timely provision of product safety documentation and implementation of measures required by regulatory authorities. Party B shall be responsible for any of its unqualified or defective products, public or private recalls, recall recommendations, or safety warnings. If your products or other products related to your products are subject to any public or private recall, recall recommendation, or safety warning, you must notify us immediately. If the aforementioned products are subject to a recall order, recall request, recall recommendation, any other safety warning, or risk alert issued by the regulatory authorities and/or third-party organizations, then, considering various factors such as relevant costs, regulatory requirements, and regulatory policies, Party B acknowledges, agrees, and requests us, without prejudice to any other rights or remedies which we may be entitled to, to take measures as to aforementioned products within the scope permitted by law in accordance with our reasonable business judgment and/or reasonable suggestions from our partners. Such measures may include but are not limited to actively cooperating with the requirements, requests, or recommendations of the regulatory authorities and/or third-party organizations, removing the products from the Platform, issuing risk warnings to consumers, notifying consumers or other relevant parties and requiring them to destroy or return the products, canceling the order, refunding the order, or engaging a third party to destroy or dispose of the products. For the avoidance of doubt, Party B explicitly acknowledges and agrees that the foregoing provisions do not mean that we have the obligation to dispose of any aforementioned products. Unless otherwise provided, we do not have, and we expressly disclaim, any ownership rights in the products sold by Party B before, during, or after their sale on the Platform; and under all circumstances, Party B retains sole ownership over and risk of loss for the products, and the obligation to dispose of aforementioned products and any responsibilities related to such products shall be borne solely by Party B. If any products are disposed of or destroyed according to this Article 5.7, you agree not to claim any compensation or damages from us for any reason whatsoever. You shall actively comply with the requirements, requests, and recommendations of and cooperate with the regulatory authorities and/or third-party organizations and us, and agree to bear any losses caused to consumers, us, our Affiliated Companies, and/or other third parties, as well as any costs arising therefrom. In addition, Party B shall bear any costs incurred by the regulatory authorities and/or third-party organizations in conducting investigations and/or other measures (including but not limited to product testing fees and express fees), as imposed by such authorities or organizations. If we or our Affiliated Companies are required to or decide to bear such costs, Party B shall indemnify us and our Affiliated Companies.
+
+ 
+
+ 6.         Sales Proceeds Settlement
+
+ 
+
+ 6.1. Sales Proceeds Settlement. Under normal business operations, after the Seller’s sales proceeds meet the settlement conditions, it will be automatically added to the record of the Account Funds of Party B, and Party B can apply for payment of an amount of sales proceeds to a payment service provider according to the provisions of this Agreement and as prompted by the Seller Center. For the avoidance of doubt, the payment of sales proceeds to the payment service provider designated by Party B constitutes the completion of the settlement of relevant sales proceeds.
+
+ 
+
+ 6.2. Party B understands and agrees that we and/or our Affiliated Companies or relevant partners may combine Party B’s sales proceeds and other funds, for investment or other purposes permitted by relevant Laws and Regulations. For the avoidance of doubt, Party B confirms that it will not now or in the future claim from us and/or our Affiliated Companies or relevant partners any interest or other income generated from holding the sales proceeds and/or other related funds.
+
+ 
+
+ 6.3. Service Fees. Party B understands and acknowledges that we charge certain service fees for the services we provide. The specific fees for a particular service are subject to the relevant agreement and/or the Merchant Rules and our and/or our Affiliated Companies’ system records. Party B hereby authorizes us to adjust the service fee rate and/or settlement method based on industry developments and other circumstances. If an order is refunded, no additional service fee will be charged for the refund, but any service fee(s) already charged may not be refunded. Party B hereby unconditionally and irrevocably agrees and authorizes us to directly, or notify the relevant partners (including but not limited to the payment service provider) to, deduct the relevant service fee from the account funds (including but not limited to sales proceeds and security deposit, the “Account Funds”) of Party B. If the aforementioned Account Funds are insufficient to cover the relevant deduction, you shall make good the shortfall within the period at our request.
+
+ 
+
+ 6.4. Subject to applicable laws and any specific arrangements put in place between Party A and Party B, Party B expressly appoints Party A and its agent(s) from time to time as its agent(s) only for the purposes of (i) collecting sums paid in connection with the sale of the goods and services of Party B; and (ii) delivering such amounts (less any applicable deductions) to Party B through qualified and licensed third-party payment service providers engaged by Party A ("Third-Party PSPs"). You acknowledge that receipt of such funds by us is good discharge of the buyer’s payment obligation to you. We may provide certain management and technical services to you related to the payment services of Third-Party PSPs, including: (i) assisting Party B in the relevant registration and verification of the Third-Party PSPs’ platform; (ii) providing the Third-Party PSPs with information related to the sales proceeds relating to Party B; (iii) providing Party B with an interface for viewing transaction and/or account data related to payments; and (iv) any other activities required for the Third-Party PSPs to complete the payment services. Party B confirms and agrees to provide us with all information and authorization required for Third-Party PSPs to complete the aforementioned payment services.
+
+ 
+
+ 7.         Tax Provisions
+
+ 
+
+ 7.1. You are solely responsible for bearing the taxes that you are legally required to bear, and you shall also timely comply with requests made by any tax authorities as well as us to fully fulfill your legal obligations and comply with all applicable tax laws and policies. All fees and payments you pay to us under this Agreement do not include any applicable taxes, deductions, or withholding taxes.
+
+ 
+
+ 7.2. In addition to the service fee, you shall pay and/or bear any fees or payments arising from the use of this service and/or the violation of this Agreement, as well as any taxes, duties, government levies, or financial expenses arising therefrom. If we are required by law or business needs to withhold and pay any taxes, duties, government levies, or financial expenses, you shall pay us such taxes, duties, government levies, or financial expenses in addition to the service fee. You hereby unconditionally and irrevocably agree and authorize us to directly, or notify the relevant partners (including but not limited to the payment service provider) to, deduct the withholding amount from the Account Funds of Party B. If the aforementioned Account Funds are insufficient to cover the corresponding deduction, you shall make good the shortfall within the period at our request.
+
+ 
+
+ 8.         After-Sales and Customer Service
+
+ 
+
+ 8.1. You shall be responsible for handling all customer service matters relating to your products sold on the Platform, such as returns and refunds, in accordance with this Agreement and the return and refund policy on each sales site of the Platform. You shall also regularly review and comply with such return and refund policies as updated from time to time. If you receive after-sales and/or customer service requests from consumers, you shall respond promptly and handle them in a timely manner in accordance with the requirements of any Applicable Laws and Regulations, as well as all applicable Merchant Rules. Considering factors such as time difference and language, in order to ensure the consumer experience, you authorize and request us to represent you in handling the aforementioned matters. When paying refunds and/or other amounts to consumers, Party B hereby unconditionally and irrevocably agrees and authorizes us to directly, or notify the relevant partners (including but not limited to the payment service provider) to, deduct the amounts paid to consumers from the Account Funds of Party B. If the Account Funds of Party B are insufficient to compensate or reimburse the consumer, Party B shall make good the shortfall in the manner determined by us within the time period at our request. For the avoidance of doubt, Party B explicitly acknowledges and agrees that the foregoing provisions impose no obligation on Party A to handle customer service-related matters. The obligation and responsibility for handling customer service-related matters shall ultimately be borne solely by Party B. However, if we represent or assist Party B in handling any customer service matters, Party B agrees not to claim any compensation or damages from us for any reason whatsoever.
+
+ 
+
+ 9.         Party B's Commitments, Representations and Warranties, and Other Obligations
+
+ 
+
+ 9.1. Compliance with the Agreement and Commitments. Party B agrees to strictly comply with this Agreement and the Merchant Rules. Party B shall not engage in any behavior that harms the interests of us, our Affiliated Companies, and/or other third parties, nor shall it engage in any false, malicious, anti-competitive or any other behavior that disrupts the operations or business processes of the Platform. Party B shall fulfill its representations, warranties, and contractual obligations made to us, our Affiliated Companies, and/or other third parties (including consumers). Party B shall also cooperate with us in a timely manner, as provided by Applicable Laws and Regulations, or regulatory authorities, in connection with any investigations or legal proceedings (if any) relating to the services under this Agreement.
+
+ 
+
+ 9.2. Prohibition of Illegal Activities. Party B shall comply with the Applicable Laws and Regulations and any other applicable provisions during the signing and performance of this Agreement, and shall not use the Platform to engage in any illegal activities, including but not limited to infringing upon the legal rights and interests of any third party (including but not limited to copyrights, trademark rights, patent rights, or any other intellectual property rights) or obtaining any improper benefits. Party B shall be fully responsible for its actions.
+
+ 
+
+ 9.3. No Disparagement. Party B shall not, and shall use its best efforts to ensure that third parties it cooperates with do not, in any way (including but not limited to through social software, media platforms, or public websites), engage in any behavior that damages the business reputation and/or reputation of us, our Affiliated Companies, and the brands under the aforementioned entities.
+
+ 
+
+ 10.       Breach and Compensation Clauses
+
+ 
+
+ 10.1. You shall cooperate in handling, indemnify, and hold harmless us, our Affiliated Companies, and the aforementioned entities' management personnel, directors, legal representatives, shareholders, consultants, agents, employees (including permanent and temporary employees), staff, suppliers, and entities that assist in performing the Agreement and their staff (collectively referred to as the "Indemnified Parties") from any allegations, claims, demands, lawsuits, losses, damages, settlements, costs, expenses, or other liabilities (collectively referred to as "Burden") arising from or related to the following matters (regardless of whether such Burden is foreseeable or not): (i) any claim that alleges your products, services, any information or materials you provide, and/or any related conduct infringe upon any third party's intellectual property rights; (ii) any third-party claims arising from or related to defects or quality issues in the products you sell or the services you provide; (iii) any property damage arising from or related to your actions or negligence; (iv) any disputes between the Indemnified Parties and third parties, or any complaints, investigations, etc. initiated against the Indemnified Parties, arising from your products, services, any information or materials you provide, and/or any related conduct; or (v) any other actions or omissions that violate any provisions, commitments, representations or warranties of this Agreement, or Applicable Laws and Regulations. Any indemnification claim that we make against you pursuant to such Burden shall be deemed a due and payable debt claim without any further requirement for us to provide proof of loss, and shall not be subject to any common law principles regarding the foreseeability of damages and/or the duty to mitigate losses.
+
+ 
+
+10.2. If you are liable for breach of contract and compensation or bear related financial obligations in accordance with the provisions of this Agreement and/or the Merchant Rules, you hereby unconditionally and irrevocably agree and authorize us to directly, or notify the relevant partners (including but not limited to the payment service provider) to, deduct the corresponding amount from the Account Funds of Party B to bear the aforementioned liability and/or financial obligations. The deduction of the Account Funds of Party B in accordance with this Article 10.2 shall not affect our rights under any other provisions of this Agreement. If your Account Funds are insufficient to bear the aforementioned liability and/or expenses, you shall make good the shortfall within the period at our request.
+
+ 
+
+ 10.3. Consumer Compensation. If Party B violates the provisions of this Agreement and/or the Merchant Rules and are liable to compensate the consumer, Party B hereby authorizes us to determine the compensation method (including but not limited to issuing vouchers, coupons, or other forms of compensation to consumers) within the scope permitted by law, and the cost of relevant consumer compensation shall be borne by Party B. Party B hereby unconditionally and irrevocably agrees and authorizes us to directly, or notify the relevant partners (including but not limited to the payment service provider) to, deduct the compensation from the Account Funds of Party B.
+
+ 
+
+ 10.4. Without prejudice to Article 10.1, if your breach of contract causes losses to us and/or our Affiliated Companies, you shall compensate us and/or our Affiliated Companies for such losses (including direct losses and indirect losses). The aforementioned losses include but are not limited to direct economic losses, user attrition losses, reputation losses, opportunity losses, business losses, profit losses, savings losses, management costs, economic compensation or damages paid to third parties, and administrative fines caused thereby, as well as litigation fees, arbitration fees, preservation fees, preservation insurance fees, notarization fees, attorney fees, investigation and evidence collection fees, travel expenses, evaluation fees, appraisal fees, audit fees, and all other related fees and expenses incurred by us and/or our Affiliated Companies to reduce losses, prevent the expansion of losses, collect evidence, protect rights, or claim for your liabilities.
+
+ 
+
+10.5. Breach Handling Measures. Party B acknowledges and agrees that if we become aware or have reason to believe Party B violates any Applicable Laws and Regulations; any provision of this Agreement, the Merchant Rules, or any other agreement entered into between Party B and us and/or our Affiliated Companies; or violates any commitment or representation or warranty made by Party B, without prejudice to any other rights or remedies which we may be entitled to, we may take, or notify our Affiliated Companies and/or relevant partners to take, one or more of the following measures against Party B:
+(i) Suspend, restrict or terminate part or all of services;
+(ii) Terminate or restrict part or all of the functionalities and permissions of the account (including withdrawal functions);
+(iii) Restrict the withdrawal of part or all of the Account Funds;
+(iv) Require Party B to compensate for all losses suffered by consumers, us, our Affiliated Companies and/or other third parties, in accordance with Applicable Laws and Regulations, this Agreement, the Merchant Rules, and/or other relevant agreements between Party B and us and/or or our Affiliated Companies;
+(v) Require Party B to pay the liquidated damages and/or damages in any other form, in accordance with Applicable Laws and Regulations, this Agreement, the Merchant Rules, and/or other relevant agreements between Party B and us and/or our Affiliated Companies;
+(vi) Deduct any unpaid fees, payments and the like from the Account Funds of Party B (including but not limited to the aforementioned losses, liquidated damages and/or damages in any other form, and the amounts paid to the consumer in the form of vouchers, coupons, and/or other forms);
+(vii) Deduct part or all of the security deposit or account reserve amount;
+(viii) Notify consumers and recall the products, refund consumers, and/or take other measures, in accordance with Applicable Laws and Regulations, this Agreement, the Merchant Rules, and/or other relevant agreements between Party B and us and/or our Affiliated Companies;
+(ix) Suspend or terminate this Agreement;
+(x) Restrict Party B’s registration of other accounts; and/or
+(xi) Take any other measures in accordance with Applicable Laws and Regulations, this Agreement, the Merchant Rules, and/or other relevant agreements between Party B and us and/or our Affiliated Companies.
+Party B acknowledges and hereby confirms that any liquidated damages payable under this Agreement and/or the Merchant Rules (1) is commensurate with our legitimate interests in, among others, protecting consumers’ legitimate rights and interests, and protecting and safeguarding our reputation and our business operations, and/or (2) reflects the financial costs, losses, reputational damage, and other harm that we and/or our Affiliated Companies may incur due to the Party B’s breach, and (3) reflects the Parties' intention to compensate us, and not to punish Party B, for the harm that might arise from Party's B breach. Party B acknowledges and confirms that any harm we suffer arising from its breach is difficult to estimate with accuracy at the time of entering into this Agreement and that the amount of liquidated damages payable is a fair and reasonable estimate of the anticipated or actual harm that we may suffer and is proportionate to our legitimate interests. Party B further acknowledges and confirms that it has had sufficient opportunity to review and seek independent legal advice on this matter. For the avoidance of doubt, our demand for Party B to pay liquidated damages does not affect our right to seek any other remedies available for Party B’s violations under law, this Agreement and/or the Merchant Rules.
+
+ 
+
+10.6. Breach Determination. Party B hereby authorizes Party A to determine, based on the information and materials available (including but not limited to those provided by Party B, complaints from buyers or rights holders, findings from Party A’s investigations, feedback from regulatory authorities, and information provided by other third parties), whether Party B has committed a breach of contract and to take corresponding measures accordingly. If Party B disputes Party A’s determination or measures, it shall submit a written objection to Party A within the period specified in the relevant notice (or, if no such period is specified, within fifteen (15) calendar days upon receipt of the notice), clearly stating the grounds for its objection with sufficient and authentic supporting evidence. Failure to submit an objection within the applicable period, or failure to provide authentic and sufficient supporting materials, shall be deemed as Party B’s acceptance of the breach determination made and corresponding measures taken by Party A.
+
+ 
+
+10.7. Disputes with Us. If Party B has a dispute with us, including but not limited to we and/or our Affiliated Companies receiving a letter of claim from Party B, legal documents related to such dispute sent by judicial or arbitration institutions, other law enforcement departments. In light of changes in the basis of cooperation between the Parties and the potential for further disputes, unless otherwise agreed in this Agreement, Party B acknowledges and agrees that without prejudice to any other rights or remedies which we may be entitled to, we may take, or notify our Affiliated Companies and/or relevant partners to take, one or more of the following measures against Party B: (1) close or restrict the permissions and functions of the Party B Account (including the withdrawal function); (2) restrict the withdrawal of part or all of the Account Funds of Party B; (3) terminate this Agreement; (4) other handling measures we deem necessary.
+
+ 
+
+10.8. Scope of Liability for Breach of Contract. Party B has the obligation to effectively manage its performance of contracts, behavior, and personnel. Party B represents and warrants that Party B, Party B’s representatives, agents (excluding us and/or the Affiliated Companies representing Party B in accordance with this Agreement), and trustees, and Party B and its Affiliates' management personnel, directors, legal representatives, shareholders, consultants, agents, employees (including permanent and temporary employees), staff, and personnel who assist in performing the obligations of the Agreement, as well as their staff and any other relevant personnel will not engage in any behavior that violates this Agreement. The behavior of any of the aforementioned persons or entities shall be deemed the behavior of Party B. If such behavior violates the provisions of this Agreement, Party B shall be liable, for breach of contract or otherwise, in accordance with the provisions of this Agreement.
+
+ 
+
+10.9. Handling of Insufficient Balance for Compensation. Party B hereby understands and agrees that when the balance of the Account Funds of Party B is insufficient to offset the payments that Party B is obligated to pay under this Agreement (including but not limited to fees, liquidated damages, damages in any other form, or other compensation for breach of contract or otherwise), the balance of the Account Funds of Party B may be displayed as a negative number, and without prejudice to any other rights or remedies which we may be entitled to, we shall have the right to take, or notify our Affiliated Companies and/or relevant partners to take, one or more of the following measures against Party B:
+
+ (1) Require Party B to make good the shortfall within the period at our request;
+
+ (2) Close or restrict the permissions and functions of the Party B Account (including the withdrawal function);
+
+ (3) Restrict the withdrawal of part or all of the Account Funds of Party B;
+
+ (4) Terminate this Agreement; and
+
+ (5) Take other handling measures we deem necessary based on the circumstances.
+
+Party B states that it understands and hereby authorizes us to directly and/or notify relevant partners (including but not limited to the payment service provider) to impose restrictions on the withdrawal of a certain amount of Account Funds of Party B and to adjust the amount of such restricted funds at our sole discretion.
+
+ 
+
+ 10.10. Cumulative Remedies. Our rights and remedies provided under this Agreement are in addition to, and not exclusive of, any rights or remedies provided by relevant Laws and Regulations. If you simultaneously violate this Agreement, the Merchant Rules, and/or any other relevant agreements, the fact that we take any measures in accordance with this Agreement, the Merchant Rules and/or other relevant agreements shall not prejudice our rights to take other measures in accordance such rules and agreements or under relevant Laws and Regulations.
+
+ 
+
+ 11.      Affiliated Accounts
+
+ 
+
+ 11.1. Affiliated Accounts. The Affiliated Accounts refer to accounts that have an affiliated relationship and are registered for the use of the products or services of us and/or our Affiliated Companies. Such an affiliated relationship includes any of the following circumstances:
+
+(1) There is any direct or indirect overlap in the account manager, emergency contact, return information, account entity, and/or entity information and other registration information (including cases where the account entities are Affiliates; if there has been a change to any of the aforementioned information, the entity and related information before and after the change will be taken into account when determining the affiliated relationship);
+
+(2) There is any information overlap in the withdrawal bank account, the mobile phone number bound to the withdrawal bank account, or other bank-account information;
+
+(3) There is any direct or indirect overlap in the login IP, login device number, and other information of the account; and/or
+
+(4) There is other overlap in similar information or evidence of affiliated relationship as determined in our sole discretion.
+
+ 
+
+ 11.2. Party B hereby authorizes us to take unified actions regarding its Affiliated Accounts, including but not limited to uniformly increasing or decreasing credit ratings, uniformly deducting security deposit and/or Account Funds, and uniformly suspending/terminating services.
+
+ 
+
+ 11.3. Handling of Affiliated Accounts. If we become aware or have reason to believe any of Party B’s Affiliated Account violates any Applicable Laws and Regulations, or any provision of this Agreement, the Merchant Rules, or any other agreement with us and/or our Affiliated Companies, Party B understands and hereby acknowledges that we may require Party B to provide a formal written explanation of the affiliated relationship between the Affiliated Accounts, and Party B hereby authorizes us to determine the affiliated relationship between the accounts. In addition, Party B acknowledges and agrees that without prejudice to any other rights or remedies which we may be entitled to, we may directly, or notify our Affiliated Companies and/or relevant partners to, immediately suspend part or all of the functions of all Affiliated Accounts, and take unified handling measures against Party B and/or Party B’s all Affiliated Accounts in accordance with Applicable Laws and Regulations, this Agreement, the Merchant Rules, and/or other relevant agreements between Party B and us and/or our Affiliated Companies, including but not limited to the measures set out in Article 10.5 mutatis mutandis.
+
+ 
+
+ 12.      Disclaimer and Limitation of Liability
+
+ 
+
+ 12.1. We may, at our sole discretion, mediate and handle disputes with and complaints from the consumer and/or third-parties in connection with you (hereinafter collectively "Complaints"), but we cannot guarantee that the results will meet your expectations, nor do we bear any responsibility for the results of mediating the Complaints. You understand and acknowledge that we are under no obligation to mediate or handle the Complaints. You shall bear the risks and responsibilities involving the accuracy of the information and data provided by you, consumers, or other third parties. If you suffer losses as a result of such information and data, you agree to claim compensation from the relevant parties on your own.
+
+ 
+
+ 12.2. You understand that we only provide services on an "as is" and "as available" basis, including all defects. We expressly disclaim any warranties of ownership, non-infringement, merchantability, and fitness for a particular purpose, as well as any warranties implied by the course of performance, course of dealing, or usage of trade. We do not guarantee that: (i) the services will be safe or available at any specific time or place; (ii) any defects or errors will be corrected; (iii) the services will be free of viruses or other harmful materials; or (iv) the results of using the services will meet your expectations. You bear the risks of using Seller Services, the Seller Center, and the Party B Account.
+
+ 
+
+ 12.3. We shall not be liable for and this Agreement shall not be automatically terminated by reason of any failure, hindrance, or delay in performing any obligations on our part under this Agreement due to reasons beyond our control (including but not limited to Internet connection failures, computer system failures, communication failures, power failures, computer viruses, or hacker attacks) and/or force majeure events [including but not limited to epidemics, pandemics, strikes, labor disputes, industrial actions or shutdowns, terrorist attacks, riots, uprisings, armed conflicts, sanctions, embargoes, natural disasters, fires, floods, storms, droughts, earthquakes or other natural disasters, nuclear pollution, chemical or biological pollution, sonic booms, explosions, wars, war threats or preparations, any actions or omissions taken by any laws, courts, governments, or public institutions (including but not limited to the implementation of export or import restrictions, quotas, or bans, or the failure to grant necessary permits or consents), building collapses or accidents, utility service interruptions or failures], and the time for performing such obligations shall be extended accordingly.
+
+ 
+
+ 12.4. To the maximum extent permitted by law, given the limitations of existing technology and economic and material conditions in the world, we shall not be liable for any losses arising from any defects or failures of the Platform Application or website, Seller Center, Party B Account, or software, including but not limited to loss of profits, loss of data, business interruption, or any other damages or losses caused by any reason. Party B understands and agrees that, based on the circumstances known, expected, or reasonably known or reasonably expected by Party B at the time of entering into this Agreement, the inclusion of this Article 12.4 is fair and reasonable.
+
+ 
+
+ 12.5. To the maximum extent permitted by law, our total liability arising out of or relating to this Agreement or any anticipated transaction shall at no time exceed the total amount you paid to us for the specific service that caused any claim during the six months prior to such claim. Party B understands and agrees that, based on the circumstances known, expected, or reasonably known or reasonably expected by Party B at the time of entering into this Agreement, the inclusion of this Article 12.5 is fair and reasonable.
+
+ 
+
+ 12.6. The disclaimers and limitations of liability mentioned in this Article 12 apply to all liabilities that we may bear under this Agreement or relating to this Agreement, including but not limited to contractual liability, tortious liability, indemnification, or other liabilities.
+
+ 
+
+ 13.      Confidentiality Clause
+
+ 
+
+ 13.1. You promise to keep confidential any information, documents, data, or materials (collectively "Confidential Information"), including but not limited to the contents of this Agreement and any supplementary agreements, the Merchant Rules, business information, trade secrets, technical information, employee information, position information, any information obtained through or accessible on the Party B Account, and other secret information involved in cooperation with us, that you have obtained or accessed during the negotiation, consultation, signing, and performance of this Agreement, regarding us, our Affiliated Companies, relevant partners, and/or other parties. The aforementioned Confidential Information is not in the public domain and has commercial value. You shall not disclose it to any third party in any form.
+
+ 
+
+ 13.2. You shall keep the Confidential Information in strict confidence and be strictly prohibited from using the Confidential Information for any purpose other than the performance of this Agreement or for any other subject or transaction that is not contemplated hereunder. Without our prior written consent, you shall not, directly or indirectly, disclose, use, copy, transfer, or license any third party to use any Confidential Information. The aforementioned provisions do not limit your right to share Confidential Information with courts, government agencies, or regulatory authorities that have jurisdiction over you within the scope permitted by law, provided that you contact us before disclosure and ensure that the disclosure is limited to the minimum necessary, and clearly indicate the confidential nature of the shared information to such courts, government agencies, or regulatory authorities.
+
+ 
+
+ 13.3. You shall take all reasonably necessary measures to protect the Confidential Information from unauthorized use or disclosure.
+
+ 
+
+ 13.4. We may require you to immediately return or permanently destroy and delete the Confidential Information at any time, and you shall immediately cooperate and perform accordingly.
+
+ 
+
+ 13.5. This Confidentiality Clause under this Agreement shall survive and remain valid despite the revocation, invalidation, expiration, rescission, suspension, or termination of this Agreement.
+
+ 
+
+ 13.6. Without prejudice to any other measures we may take pursuant to this Agreement in the event of a breach, and having regard to Article 10.5, the commercial sensitivity of the Confidential Information, the importance of such information to our global business, and the severity of the losses or damages that may be caused to us by such breach, you acknowledge and agree that you shall be liable to pay us US$1 million as liquidated damages in the event you breach Article 13 "Confidentiality Clause" or any other provision concerning the protection of Confidential Information (including but not limited to Article 3.4 regarding account security); and you shall be liable to pay us US$2 million as liquidated damages in the event such breach results in serious loss or damage to us. You acknowledge and confirm that although any harm we suffer from your breach is difficult to estimate with accuracy at the time of entering into this Agreement, the amount of the liquidated damages payable is a fair and reasonable estimate of the actual harm that we may suffer (including, without limitation, costs we incur in protecting our interests) and is proportionate to our legitimate interests. You further acknowledge and confirm that you have had sufficient opportunity to review and seek independent legal advice on this matter.
+
+ 
+
+ 14.      Intellectual Property and Data
+
+ 
+
+ 14.1. Without our prior written consent, you and your Affiliates shall not disclose, use, copy, transfer, or license any third party to use our and our Affiliated Companies' names, trademarks, logos, business information, technology, and other materials. You and your Affiliates shall maintain the business reputation and reputation of us, our Affiliated Companies, and the brands under us and our Affiliated Companies, and shall not publish any negative information about us or our Affiliated Companies or make any remarks that damage the reputation of us or our Affiliated Companies on public channels (including but not limited to social software, media platforms, and public websites). Without our written authorization, you shall not, under the name of us, our Affiliated Companies, the brands under us and our Affiliated Companies, or the aforementioned entities' partners, release any messages publicly (including but not limited to publishing, posting, disseminating, disclosing, quoting, or reprinting) that: (i) contain any remarks, articles, audio, video, materials, pictures, photos, information, documents, or data of us, our Affiliated Companies, the brands under us and our Affiliated Companies on any channels or scenes; or (ii) claim to be a partner of the brands under us and our Affiliated Companies; or (iii) claim to have business cooperation, licenses, commercial naming rights, advertising endorsements, or other connections with the brands under us and/or our Affiliated Companies.
+
+ 
+
+ 14.2. You represent and hereby warrant that you own or have legally obtained the right (through license or otherwise) all intellectual property rights or other related rights associated with all products you list for sale, advertise, or sell using our services. You represent and hereby warrant that, for any materials and information (including but not limited to pictures, videos, images, films, patterns, layout designs, appearance designs, patents, trademarks, logos, trade names, business names, domain names, texts, software, advertisements, or promotional materials) that you upload to the Seller Center or provide to us and/or our Affiliated Companies during the business period, you own all relevant intellectual property rights, have conducted all necessary intellectual property right clearances, and/or are using such intellectual property with express authorization from the rightsholder; and such materials do not violate any Applicable Laws and Regulations, infringe any third party’s intellectual property rights (including but not limited to copyrights, trademark rights, patent rights, or trade secrets), and/or other related rights and interests (including but not limited to rights of publicity). You shall be solely responsible for handling any claims or disputes arising from or caused by the listing for sale or the sale of products that infringe (or are alleged to have infringed) any third party’s intellectual property rights and/or other related rights and interests during the performance of this Agreement, and for all responsibility and liability for such infringement. We bear no liability or responsibility for any claim that the products you list for sale or sell infringe any third party’s rights. If we and/or our Affiliated Companies suffer losses as a result of such a claim, you shall fully indemnify us and our Affiliated Companies for such losses.
+
+ 
+
+ 14.3. You hereby grant us and our Affiliated Companies a worldwide, non-exclusive, sublicensable, and royalty-free license (hereinafter the "License"). The License includes any information and/or materials that you upload to the Seller Center or provide to us and/or our Affiliated Companies for the performance of this Agreement, or for the various services provided by us and/or our Affiliated Companies to merchants and/or consumers.
+
+ 
+
+ 14.4. You represent and warrant that you have the right to grant us the License mentioned in Article 14.3, and that we will not be subject to any complaints, claims, or penalties from any third party due to the use of the relevant information.
+
+ 
+
+ 14.5. The term “Our Intellectual Property and Information” refers to all intellectual property rights, industrial property rights, and proprietary rights we or our Affiliated Companies own, control, use, or have other rights to, including but not limited to trade names, trademarks, logos, copyrights, domain names, social media accounts, public accounts, patterns, character images, and works of art, which we or our Affiliated Companies retain complete rights. Without our prior written approval, you shall not use or license any third party to use Our Intellectual Property and Information.
+
+ 
+
+ 14.6. You shall comply with all Applicable Laws and Regulations on personal data protection (hereinafter collectively referred to as "Personal Data Protection Laws") and the provisions of this Agreement, and ensure that your policies, procedures, and operations comply with the requirements of Personal Data Protection Laws. Such compliance measures shall include but are not limited to: (i) taking all reasonable steps to ensure the accuracy and security of the collected data; (ii) training the Party B personnel responsible for processing the data; and (iii) requiring third-party data processors to comply with all provisions of Personal Data Protection Laws through contracts, including taking security measures to protect the collected data.
+
+ 
+
+ 14.7. You agree and undertake that if you register trademarks, logos, marks, social media accounts, public accounts, or domain names that are identical to or similar to those of us or our Affiliated Companies, you shall, upon our or our Affiliated Companies' request, (i) transfer the relevant trademarks, logos, marks, social media accounts, public accounts, or domain names to us or our Affiliated Companies free of charge, (ii) withdraw the application, and/or (iii) cancel the account in a timely manner. If we and/or our Affiliated Companies suffer losses as a result, you shall compensate the relevant party for all losses and eliminate the adverse effects caused to us and/or our Affiliated Companies. You also understand and acknowledge that we may directly and/or notify the relevant partners (including but not limited to the payment service provider) to restrict the withdrawal of part or all of the Account Funds of Party B, and take breach handling measures stipulated in this Agreement, such as terminating this Agreement and terminating cooperation with you.
+
+ 
+
+ 14.8. Without prejudice to any other measures we may take pursuant to this Agreement in the event of a breach, and having regard to Article 10.5, the commercial sensitivity of the intellectual property, the importance of such right to our global business, and the severity of the losses or damages that may be caused to us by such breach, you acknowledge and agree that you shall be liable to pay us US$1 million as liquidated damages in the event you breach Article 14 or any other provisions concerning the protection of intellectual property and data. You acknowledge and confirm that although any harm we suffer from your breach is difficult to estimate with accuracy at the time of entering into this Agreement, the amount of the liquidated damages payable is a fair and reasonable estimate of the actual harm that we may suffer (including, without limitation, costs we incur in protecting our interests) and is proportionate to our legitimate interests. You further acknowledge and confirm that you have had sufficient opportunity to review and seek independent legal advice on this matter. 
+
+ 
+
+ 15.      Anti-Commercial Bribery and Conflict of Interests
+
+ 
+
+ 15.1. You hereby represent and warrant that Your Personnel shall strictly comply with all the provisions of this Article 15 and shall not engage in any breach of contract. The term "Your Personnel" refers to you, your Affiliates, as well as your and/or your Affiliates' management personnel, directors, legal representatives, shareholders, consultants, agents, employees (including permanent and temporary employees), staff, service personnel, auxiliary personnel, and other relevant personnel. If Your Personnel violate any provisions of this Article for entering into this Agreement or after the Effective Date, their violation shall be handled in accordance with this Article, and you shall bear any such responsibility.
+
+ 
+
+ 15.2. The term "Our Personnel" refers to us, our Affiliated Companies, and our and/or our Affiliated Companies' consultants, agents, employees (including permanent and temporary employees), staff, and former employees. The term “close relatives” refers to anyone who has a close personal or business relationship with the party, including but not limited to the party's spouse, relatives, lovers, teachers and students, classmates, friends, colleagues, former colleagues, partners, investors, consultants, lawyers, intermediaries, or agents.
+
+ 
+
+ 15.3. Your Personnel shall not, under any name, directly or indirectly, explicitly or implicitly, propose, promise, agree, acquiesce, ratify, or convey any form of benefits to Our Personnel or their close relatives, including but not limited to money and products, consumption cards and vouchers, shares and dividends, securities, equity and debt, financial products, virtual assets, gift samples, rebates and commissions, hospitality and banquets, entertainment and tourism, consumption arrangements, borrowing of property, debt offset, fee reduction, labor services, employment and housing, medical and educational services, honorary titles, qualification and certification evaluation, special treatment or benefit of any kind (hereinafter "Benefits under this Article").
+
+ 
+
+ 15.4. Your Personnel shall not, under any name, have any form of financial dealings (including but not limited to borrowing and investment, borrowing and leasing, or guarantee and mortgage) or cooperation (including but not limited to shareholding, consulting, or employment relationships) with Our Personnel or their close relatives.
+
+ 
+
+ 15.5. Your Personnel shall not provide any form of assistance to Our Personnel or their close relatives in seeking, obtaining, concealing, or hiding Benefits under this Article, including but not limited to intermeddling, acting as trustee or nominee, lending accounts, destroying vouchers, fabricating facts, concealing assets, and facilitating the implementation of any such aforementioned behaviors.
+
+ 
+
+ 15.6. Your Personnel shall not seek or obtain any benefits or competitive advantages arising from the personal relationships or improper behaviors of Our Personnel or their close relatives.
+
+ 
+
+ 15.7. Your Personnel shall (i) cooperate with our and our Affiliated Companies' investigations, and provide all relevant information and assistance (including but not limited to attending any requested interviews, providing detailed relevant accounts and proof materials); and (ii) cooperate with and assist in any compliance audits and investigations by us and/or our Affiliated Companies.
+
+ (1) If Your Personnel refuse to cooperate, or refuse to disclose relevant information or materials as requested by us and/or our Affiliated Companies, or fail to provide reasonable explanations and evidence within the period at our request, or still cannot effectively prove that there are no relevant violations after providing evidence, you understand and acknowledge that we may directly determine that you have violated the provisions of this Article and have engaged in violations.
+
+ (2) You represent and warrant that all information provided by Your Personnel during our investigation or interview is true, legal, and valid, and there is no false content.
+
+ (3) You represent and warrant that during our investigation, interview, or assistance process, Your Personnel will not disclose any relevant information to any third party in any form without the prior written confirmation of us and/or our Affiliated Companies.
+
+ 
+
+ 15.8. If Your Personnel discover that Our Personnel or their close relatives have solicited or accepted Benefits under this Article, Your Personnel shall report to us in a timely manner and provide relevant evidence to our dedicated email.
+
+ 
+
+ 15.9. Disclosure of Conflicts of Interest. You shall disclose any situations that may cause conflicts of interest, and report to our designated email in writing within three calendar days from the date of the occurrence of the relevant situations. You shall also take relevant remedial actions based on our evaluation (including, but not limited to, immediate termination of any form of cooperation). The relevant situations include but are not limited to:
+
+ (1) Your Personnel cooperating with Our Personnel or their close relatives in any form, including but not limited to partnership, cooperation, shareholding, consulting, agency, employment, or employment offer;
+
+ (2) Your Personnel having any other interest, relationships, close relationships, or personal relationships with Our Personnel, including but not limited to creditor-debtor relationships, romantic relationships, (former) colleague relationships, friendships, teacher-student relationships, or alumni connections.
+
+ 
+
+ 15.10. Prevention of Conflicts of Interest. Party B undertakes to actively identify, prevent, and manage potential conflicts of interest during the term of this Agreement. Such efforts include, but are not limited to:
+
+(1) Taking effective measures to ensure that Party B and/or its Affiliates or personnel do not, directly or indirectly, solicit, induce, recommend, hire, or engage Our Personnel;
+
+(2) Taking effective measures to ensure that Party B and/or its Affiliates or personnel do not, directly or indirectly, establish any form of cooperation relationship with Our Personnel, including but not limited to employment, employment offer, partnership, joint operation, equity participation, consultancy, or agency; and
+
+(3) In the event that any of the circumstances described in this clause may occur or have occurred, Party B must immediately notify Party A in writing. If Party A evaluates that a conflict of interest may exist, Party B shall promptly take relevant remedial actions based on Party A’s instructions, including but not limited to terminating any negotiations or cooperation with the aforesaid Our Personnel and taking effective steps to mitigate the potential adverse impact of such conflicts.
+
+ 
+
+ 15.11. Without prejudice to any other measures we may take pursuant to this Agreement in the event of a breach, and having regard to Article 10.5, the heightened sensitivity of reputational and regulatory risks, and the serious commercial, reputational, and regulatory harm that any breach involving bribery or conflicts of interest may cause to us, you acknowledge and agree that you shall be liable to pay us US$1 million as liquidated damages in the event you breached Article 15 or any other provisions concerning bribery and conflict of interests. You acknowledge and confirm that although any harm we suffer from your breach is difficult to estimate with accuracy at the time of entering into this Agreement, the amount of the liquidated damages payable is a fair and reasonable estimate of the actual harm that we may suffer (including, without limitation, costs we incur in protecting our interests) and is proportionate to our legitimate interests. You further acknowledge and confirm that you have had sufficient opportunity to review and seek independent legal advice on this matter.
+
+ 
+
+ 16.      Economic Sanctions and Import / Export Control
+
+ 
+
+ 16.1. You agree to comply with all applicable import and export control laws, regulations, and ordinances during the performance of this Agreement, including but not limited to the Export Administration Regulations (EAR, 15 C.F.R. 730-774) and the regulations of the Office of Foreign Assets Control (OFAC) of the U.S. Department of the Treasury (31 C.F.R. Chapter V and subsequent chapters), as well as relevant sanctions laws and regulations managed by the European Union, the United Kingdom, and the country and region where you or your Affiliates are located. This includes but is not limited to the requirement that you shall not purchase any items from the following sources: (i) any region subject to a comprehensive embargo by the U.S. Department of State or the U.S. Department of the Treasury; (ii) any individual or entity located in a comprehensively embargoed region, or any other entity owned by an entity located in such regions; (iii) any individual or entity listed on the "Specially Designated Nationals and Blocked Persons List" of the U.S. Department of the Treasury or other applicable prohibited party lists of the U.S. government, the European Union, the United Kingdom, and the country and region where you or your Affiliates are located. This Article applies regardless of whether the transaction is legal under local laws.
+
+ 
+
+ 16.2. You hereby represent and warrant that:
+
+(1) You and your Affiliates always comply with the economic sanctions and trade embargo laws ("Economic Sanctions Laws") implemented by the United States, the European Union, the United Kingdom, the country and region where you or your Affiliates are located, or any other government agencies, including relevant provisions on designated countries ("Embargoed Countries"), regimes, entities, and individuals (collectively referred to as "Embargoed Targets");
+
+(2) You and your Affiliates are not and have never been Embargoed Targets or the subject of any other Economic Sanctions Laws;
+
+(3) You or any of your Affiliates are not: (i) directly or indirectly owned or controlled by anyone currently included in the OFAC Specially Designated Nationals and Blocked Persons List or similar lists maintained by the United States, the European Union, the United Kingdom, the country and region where you or your Affiliates are located, or any other government agencies, or (ii) directly or indirectly owned or controlled by anyone located, organized, or residing in a country or region (or its government) that is sanctioned by U.S. Department of State or the U.S. Department of the Treasury or any other government agencies;
+
+(4) You shall notify us immediately if you or any of your Affiliates are directly or indirectly owned or controlled by anyone mentioned in the aforementioned item (3);
+
+(5) All products offered for sale and sold by you or any of your Affiliates through the Platform are not listed on the Commerce Control List of the Export Administration Regulations as administered by the United States Department of Commerce;
+
+(6) You and your Affiliates and any of your senior executives, directors, managers, agents, or employees are not: (i) currently the subject of any investigation by the United States, the European Union, the United Kingdom, the country or region where you or your Affiliates are located, or any other government agencies implementing economic sanctions or trade embargoes ("Sanctions Investigations"), or (ii) directly or indirectly owned or controlled by anyone who is currently the subject of Sanctions Investigations; and
+
+(7) You shall notify us immediately if (i) you or any of your Affiliates, or any of your senior executives, directors, managers, agents, or employees become the subject of any Sanctions Investigations, or (ii) anyone who directly or indirectly owns or controls you or any of your Affiliates becomes the subject of Sanctions Investigations.
+
+ 
+
+ 17.      Agreement Term and Termination
+
+ 
+
+ 17.1. You may apply to close your store through the Seller Center. After completion of the store closure process, this Agreement shall be terminated. However, you agree not to initiate a store closure application under any of the following circumstances and any store closure application submitted when any of the circumstances subsists will not be processed by us:
+
+ (1) You have made a commitment to us but have not fulfilled the aforementioned commitment;
+
+ (2) You have violated this Agreement, the Merchant Rules, or have disputes with any consumer(s) or third parties that are being processed; or
+
+ (3) Any other circumstances under which the Seller Center indicates that store closure application may not be initiated.
+
+ 
+
+ 17.2. Without prejudice to our right to terminate this Agreement in accordance with other provisions herein, we shall have the right to terminate this Agreement immediately when:
+
+ (1) You violate any provision of this Agreement, the Merchant Rules, or any provision of any other agreement between you and our Affiliated Companies, or you have dispute with us or our Affiliated Companies;
+
+ (2) You submit false, deceptive, or forged documents or materials to us;
+
+ (3) The products you sell and/or the services you provide have been the subject of multiple complaints, or have caused property or personal damage to consumers;
+
+ (4) Your security deposit is insufficient, and you have failed to make good the shortfall, and/or have failed to make good the shortfall within the period at our request;
+
+ (5) You fail to pay the full amount of any payment due to us and/or our Affiliated Companies on time, and fail to pay within the period as specified by us;
+
+ (6) You are bankrupt or insolvent, or enter into voluntary or compulsory liquidation, or convene a creditors' meeting, or all or part of your property is taken over by a bankruptcy administrator, or you suspend, stop, or no longer operate all or most of your business for any reason, or threaten to suspend, stop, or no longer operate all or most of your business;
+
+ (7) Someone obtains the right to appoint a receiver to take over all or part of your assets, or a receiver is appointed to take over all or part of your assets;
+
+ (8) You have not logged in to the Party B Account for more than 90 consecutive calendar days;
+
+ (9) You do not meet the requirements for continuing to operate or using Seller Services; or
+
+ (10) We decide not to continue cooperating with you.
+
+ 
+
+ 17.3. Handling of Matters After Agreement Termination.
+
+ (1) After the termination of this Agreement, you understand and hereby acknowledge that we and our Affiliated Companies providing services to you may retain the materials or information related to Party B and Party B's business, and may determine the retention period in accordance with the relevant Laws and Regulations (e.g., the EU Digital Services Act stipulates that we shall store the materials or information related to Party B and Party B's business in a secure manner until 6 months after the termination of the Agreement) or extend the retention period based on the need to protect the rights and interests of us, our Affiliated Companies, you, and/or third parties. Except as expressly stipulated by the Laws and Regulations applicable to us, we have no obligation to retain any information for you, or forward any information to any third party, nor shall we assume any responsibility to you or any third party for the termination of this Agreement.
+
+ (2) Even if this Agreement is terminated, you must continue to fulfill the obligations arising from this Agreement before the effective termination date of the Agreement, and you must remain solely liable for any losses or damage caused by your actions before the effective termination date of the Agreement.
+
+ (3) You understand and hereby acknowledge that we may decide whether to restrict the functions of the Party B Account and what restrictions to impose, and may decide whether to close the Party B Account. If we do not impose restrictions on the Party B Account, you can only use such account to pay us, consumers, and/or third parties. You shall properly handle all issues, payments, and settlement matters within the time limit at our request.
+
+ (4) Party B hereby unconditionally and irrevocably agrees and authorizes that, despite the termination of this Agreement, we may directly, or notify the relevant partners (including but not limited to the payment service provider) to, restrict the withdrawal of the balance of the Account Funds of Party B and/or the security deposit until all disputes between you and us, consumers, and/or third parties have been fully resolved.
+
+ (5) After the termination of this Agreement, you shall immediately stop using all materials, confidential information, and intellectual property of us and our Affiliated Companies, shall not engage in any activities under the name, trademarks, or branding of us, our Affiliated Companies, or partners, and shall return all the aforementioned items to the designated location, and delete all electronic versions of confidential information or materials as required by us and our Affiliated Companies, and shall not keep backups.
+
+ (6) We and our Affiliated Companies shall not bear any liability for breach of contract due to the exercise of the right of termination or rescission stipulated by law or this Agreement.
+
+ 
+
+ 18.      Governing Law and Dispute Resolution
+
+ 
+
+ 18.1. This Agreement shall be governed by and construed in accordance with the laws of Hong Kong, and any principles of conflict of laws in Hong Kong shall not apply to this Agreement. The Parties expressly exclude, to the extent allowed under the relevant international conventions, the application of any international conventions (including but not limited to United Nations Convention on Contracts for the International Sale of Goods). Any dispute, controversy, difference, or claim arising out of or relating to this Agreement and/or the Merchant Rules, including the existence, validity, interpretation, performance, breach, termination, or rescission of the contract, or any non-contractual dispute arising out of or relating to this Agreement and/or the Merchant Rules (hereinafter "Dispute"), shall be resolved in accordance with the procedures specified in this Article 18, which shall be the sole and exclusive procedures for resolving any Dispute. For the avoidance of doubt, unless otherwise stipulated in this Article, the "parties" in this Article refer to the parties to the actual Dispute. By entering into this Agreement, the parties of this Agreement agree that this Article 18 shall replace any provisions on governing law and dispute resolution in the Merchant Rules that conflict with this Article 18.
+
+ 
+
+ 18.2. First, the parties shall, before commencing mediation or arbitral proceedings, attempt to resolve any Dispute through confidential negotiation by serving a written request for negotiation on all other parties to this Agreement.
+
+ 
+
+ 18.3. Any such Dispute which remains unresolved 28 days after the date of a written request for negotiation under Article 18.2, or within such other period as the parties may otherwise agree in writing, and before commencing arbitration shall be submitted for mediation to the Hong Kong International Arbitration Centre ("HKIAC") in accordance with its then current Mediation Rules. Any party may submit a written request for mediation to the other party with copies to HKIAC upon which the other party will be bound to participate in the mediation in accordance with the then current Mediation Rules. Unless otherwise agreed between the parties, the mediation shall take place in Hong Kong and will be conducted in English. The parties agree to be bound by any settlement agreement reached.
+
+ 
+
+ 18.4. All communications during negotiation pursuant to Article 18.2 and mediation pursuant to Article 18.3 shall (i) be confidential, and (ii) be treated as made in the course of compromise and settlement negotiations, and (iii) be subject to all applicable confidentiality and professional secrecy protections, as well as all applicable privilege protections, provided by the relevant evidence rules and applicable laws.
+
+ 
+
+ 18.5. If the mediation is abandoned, concluded and/or otherwise terminated by the mediator without the Dispute having been finally resolved, or if the Dispute has not been finally resolved within 56 days after any party has initiated mediation or within such other period as the parties may agree in writing, then such Dispute shall be referred to and finally resolved by arbitration administered by the HKIAC under the HKIAC Administered Arbitration Rules in force when the Notice of Arbitration is submitted ("Rules"), as amended by this arbitration clause.
+
+ (1) The law applicable to this arbitration clause is the laws of Hong Kong.
+
+ (2) The seat of arbitration shall be Hong Kong.
+
+ (3) The number of arbitrators shall be three (3).
+
+ (4) The arbitration proceedings shall be conducted in English.
+
+ (5) Notwithstanding what is provided under the Rules, two or more arbitrations may be consolidated by the HKIAC or the Tribunal only if Party A provides written consent to the HKIAC or the Tribunal after the relevant arbitrations have been properly commenced.
+
+ (6) The Parties agree that claims arising out of or relating to more than one agreement may be raised in a single arbitration only if Party A provides written consent after the Dispute occurs.
+
+ (7) Any award and/or order made by the Tribunal may be enforced in any court of competent jurisdiction.
+
+ 
+
+ 19.      Miscellaneous Terms
+
+ 
+
+ 19.1.      Notices and Service.
+
+ 
+
+ (1) Any notice or other communication (including but not limited to legal documents at all stages of dispute resolution) we make to you under this Agreement may be served in any of the following ways:
+
+ (i) Electronic Service: Sending a system message or in-platform message to the Party B Account, publishing an announcement, sending a text message to the contact phone number you have on file with us, or sending an email to the email address you have on file with us. The notice or communication shall be deemed served upon successful sending.
+
+ (ii) Offline Service: Issuing a written notice in paper form, and delivering it by hand, express delivery, courier, or registered mail to the address you have on file with us (including but not limited to your registered address, business address, return address, and other contact addresses). The notice or communication shall be deemed served on the fifth calendar day after mailing.
+
+ (2) In the event that we or any third party serve documents to you via offline delivery, you agree to designate the address you have on file with us as the service address for legal documents at all stages of dispute resolution. The judicial and/or arbitration institution's service of legal documents to the above contact address shall be deemed as effective service.
+
+ (3) If you submit the address of your service provider and/or agent (whether or not at our request), such address shall be deemed as your address and shall apply to all notices and service of legal documents to you under this Agreement.
+
+ 
+
+ 19.2. Assignment. You shall not assign, transfer, mortgage, pledge, subcontract, delegate, declare trust, or otherwise dispose of any of your rights and obligations under this Agreement without our prior written consent. Without prejudice to the foregoing, we have the right to assign, transfer, mortgage, pledge, subcontract, delegate, declare trust, or otherwise dispose of any part of or the whole of our rights or obligations under this Agreement at our sole discretion.
+
+ 
+
+ 19.3. Entire Agreement and Invalid Amendments. This Agreement is the entire and only agreement between you and us regarding the provision and use of the services under this Agreement, and all communication, commitment, statement, representation and explanation between our personnel and your personnel before this Agreement are hereby superseded. Each party acknowledges that in entering into this Agreement it does not rely on and shall have no remedies in respect of any statement, representation, assurance or warranty (whether made innocently or negligently) that is not set out in this Agreement. Any communication, commitment, statement, representation and explanation between our personnel and your personnel shall not constitute a valid amendment to the contents of this Agreement.
+
+ 
+
+ 19.4. Severability. If any provision or part of a provision of this Agreement is deemed illegal, unenforceable, or invalid, such provision or part of a provision shall be enforced to the maximum extent permitted by law, and this shall not affect the validity and enforceability of the remaining provisions of this Agreement.
+
+ 
+
+ 19.5. No waiver. Unless Party A expressly waives any right, power, or remedy in a written document duly signed, Party B shall not rely on any verbal or other conduct of Party A to assert that Party A has waived any of its rights, powers, or remedies under this Agreement and/or any applicable Merchant Rules. Any failure or delay by Party A in exercising any right or remedy shall not be deemed a waiver of such right or any other right or remedy. Likewise, any single or partial exercise of any right or remedy shall not be deemed a waiver of such right or any other right or remedy, nor shall it prevent or restrict Party A from further exercising such right or any other right or remedy.
+
+ 
+
+ 19.6. Headings. The headings of the provisions of this Agreement are for reference only and do not define, affect, or limit the meaning, description, and interpretation of the provisions of this Agreement. If the headings are inconsistent with the corresponding provisions, the provisions shall prevail.
+
+ 
+
+ 19.7. Survival. Any provisions of this Agreement that expressly or by implication are intended to take effect or continue to be effective at or after the termination of this Agreement [including but not limited to Article 6.3 (Service Fees), Article 7 (Tax Provisions), Article 9 (Party B's Commitments, Representations and Warranties, and Other Obligations), Article 10 (Breach and Compensation Clauses), Article 11 (Affiliated Accounts), Article 12 (Disclaimer and Limitation of Liability), Article 13 (Confidentiality Clause), Article 14 (Intellectual Property and Data), Article 15 (Anti-Commercial Bribery and Conflict of Interests), Article 17 (Agreement Term and Termination), Article 18 (Governing Law and Dispute Resolution), Article 19 (Miscellaneous Terms)] shall continue in full force and effect at or after the termination of this Agreement.
+
+ 
+
+ 19.8. Reservation of Rights. The termination of this Agreement shall not affect any rights and remedies we have acquired or accumulated before the termination (or any obligations and responsibilities you have acquired or accumulated before the termination), including our right to claim for any breach of contract that existed before the termination.
+
+ 
+
+ 19.9. Third-Party Rights. Unless otherwise expressly stipulated in this Agreement, this Agreement shall not create any rights for any third party to enforce any provisions of this Agreement in accordance with the Contracts (Rights of Third Parties) Ordinance (Chapter 623 of the Laws of Hong Kong).
+
+ 
+
+ 19.10. No Partnership or Agency Relationship. Unless otherwise expressly stipulated in this Agreement, nothing in this Agreement is intended to, or shall be deemed to, establish any partnership, joint venture, franchise, sales representative, or employment relationship between any of the Parties, or make any Party an agent of the other Party, or authorize any Party to make or enter into any commitments on behalf of or in the name of any other Party.
+
+ 
+
+ 19.11. Any words following "including", "include", "in particular", "for example", or any similar expression shall be interpreted as illustrative and shall not limit the meaning of the words, descriptions, definitions, phrases, or terms preceding them.
+
+ 
+
+ 19.12. The final version of this Agreement is the English version. In the event of any ambiguities, discrepancies or conflicts between any translated version and the English version of this Agreement, the English version shall prevail.
+
+ 
+
+ 19.13. Unless otherwise expressly stipulated in this Agreement, references to laws or legal provisions include their amendments, extensions, or re-enactments.
+
+ 
+
+ 
+
+Appendix
+
+ 
+
+1. The terms “we”, “us”, “our”, and “Party A” under this Agreement refer to the following entities:
+
+(1) If you sell products to the United States, “we”, “us”, “our”, and “Party A” refer to Whaleco Inc.;
+
+(2) If you sell products to countries or regions other than the United States, “we”, “us”, “our”, and “Party A” refer to Whaleco Technology Limited, Elementary Innovation Pte. Ltd., Prince September Pte. Ltd., and Radiance Sea Hong Kong Limited.
+
+ 
+
+2. Relevant Definitions: Unless otherwise specified in this Agreement, the following terms shall have the meanings below.
+
+(1)  “Seller Center” refers to the online entrance page and tools provided to Party B (the specific language and name of which are subject to the version as displayed on the Seller Center interface), to facilitate Party B to operate and manage the Party B Account, and view relevant data and information.
+
+(2)  The "Effective Date" mentioned in Article 1.1 ["this Agreement shall take effect on the Effective Date (which is defined in the Appendix)"] refers to the date when Party B clicks to agree to this Agreement online or the date when Party B actually uses the services under this Agreement (whichever is earlier).
+
+(3)  "Affiliated Company" or "Affiliate" of a certain entity refers to a company, organization, or other entity that is controlled by such entity, is under the control of the same entity, or controls such entity. The aforementioned "control" refers to the power, directly or indirectly held, to determine or influence the management or decision-making direction of a party through the exercise of voting rights, contracts, or other means.
+
+ 
+
+ 
+
+ 
+
+ 

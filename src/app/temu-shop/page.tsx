@@ -1,8 +1,15 @@
 'use client'
 
-import { useState, useRef, Suspense } from 'react'
+import { useState, useRef, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { message } from 'antd'
+
+const MERCHANT_RULES = [
+  'Temu代发政策', '商家客户服务管理规则', '禁售商品及信息规范',
+  '生产者延伸责任相关服务条款', 'Temu商家行为准则', '订单包邮服务条款',
+  '虚假交易处理规则', 'Temu商家售后规则', '运输标签服务条款',
+  'Temu商品安全与合规政策', 'Temu商品质量事故处理规则', 'Temu商家履约规则', '保证金规则',
+]
 
 const PRODUCT_CATEGORIES = [
   'CD和黑胶唱片', '办公用品', '宠物用品', '家电', '电子', '工业和科学',
@@ -115,6 +122,21 @@ function ShopPage() {
   const [inviteCode] = useState('fhfpdv')
   const [agreed, setAgreed] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  // 协议弹框
+  const [showAgreement, setShowAgreement] = useState(false)
+  const [agreementText, setAgreementText] = useState('')
+  const [innerAgreed, setInnerAgreed] = useState(false)
+  // 确认对话框
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  useEffect(() => {
+    if (showAgreement && !agreementText) {
+      fetch('/merchant-agreement.txt')
+        .then(r => r.text())
+        .then(t => setAgreementText(t))
+        .catch(() => setAgreementText('协议加载失败，请重试。'))
+    }
+  }, [showAgreement, agreementText])
 
   const pickLogo = useFilePicker(src => setLogoSrc(src))
 
@@ -176,10 +198,27 @@ function ShopPage() {
 
   const selectedCats = [...new Set(productRows.map(r => r.category))]
 
-  const handleSubmit = () => {
-    if (!agreed) { message.error('请阅读并同意协议'); return }
+  const handleOpenAgreement = (e: React.MouseEvent | React.ChangeEvent) => {
+    e.preventDefault()
+    setShowAgreement(true)
+  }
+
+  const handleAgreementConfirm = () => {
+    if (!innerAgreed) { message.warning('请先勾选同意以上协议'); return }
+    setAgreed(true)
+    setShowAgreement(false)
+    setShowConfirm(true)
+  }
+
+  const handleFinalSubmit = () => {
+    setShowConfirm(false)
     message.success('店铺信息已提交，等待审核')
     setTimeout(() => router.push('/login'), 1500)
+  }
+
+  const handleSubmit = () => {
+    if (!agreed) { setShowAgreement(true); return }
+    setShowConfirm(true)
   }
 
   return (
@@ -533,20 +572,22 @@ function ShopPage() {
       }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontSize: 12, color: '#595959', marginBottom: 10, lineHeight: 1.6 }}>
-            <label style={{ display: 'flex', alignItems: 'flex-start', gap: 6, cursor: 'pointer' }}>
+            <label
+              style={{ display: 'flex', alignItems: 'flex-start', gap: 6, cursor: 'pointer' }}
+              onClick={handleOpenAgreement}
+            >
               <input
-                type="checkbox" checked={agreed}
-                onChange={e => setAgreed(e.target.checked)}
-                style={{ marginTop: 2, flexShrink: 0 }}
+                type="checkbox" checked={agreed} readOnly
+                style={{ marginTop: 2, flexShrink: 0, cursor: 'pointer' }}
               />
               <span>
                 我已阅读并同意接受
-                <a href="#" style={{ color: '#1677ff' }}>《数字证书使用协议》</a>、
-                <a href="#" style={{ color: '#1677ff' }}>《全球数据保护附件》</a>、
-                <a href="#" style={{ color: '#1677ff' }}>《商家履约规则》</a>、
-                <a href="#" style={{ color: '#1677ff' }}>《虚假交易处理规则》</a>
+                <span style={{ color: '#1677ff' }}>《数字证书使用协议》</span>、
+                <span style={{ color: '#1677ff' }}>《全球数据保护附件》</span>、
+                <span style={{ color: '#1677ff' }}>《商家履约规则》</span>、
+                <span style={{ color: '#1677ff' }}>《虚假交易处理规则》</span>
                 ，授权平台与其合作第三方机构（包括但不限于上海付赢通支付服务有限公司及其关联公司）共享本人提交的注册信息用于完成身份认证，并以电子签章形式签订
-                <a href="#" style={{ color: '#1677ff' }}>《付赢通跨境资金结算服务协议》</a>
+                <span style={{ color: '#1677ff' }}>《付赢通跨境资金结算服务协议》</span>
               </span>
             </label>
           </div>
@@ -572,6 +613,152 @@ function ShopPage() {
           </div>
         </div>
       </div>
+
+      {/* ====== 协议弹框 ====== */}
+      {showAgreement && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{
+            background: 'white', borderRadius: 4, width: 620, maxHeight: '85vh',
+            display: 'flex', flexDirection: 'column', boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+          }}>
+            {/* 标题栏 */}
+            <div style={{
+              padding: '16px 24px', textAlign: 'center', position: 'relative',
+              borderBottom: '1px solid #f0f0f0',
+            }}>
+              <span style={{ fontSize: 15, fontWeight: 600, color: '#262626' }}>
+                如要入驻商家中心，请签署以下协议。
+              </span>
+              <button
+                onClick={() => setShowAgreement(false)}
+                style={{
+                  position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
+                  background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: '#8c8c8c',
+                  lineHeight: 1,
+                }}
+              >✕</button>
+            </div>
+
+            {/* 协议内容 */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '20px 28px' }}>
+              {/* 协议文本 */}
+              <div style={{ fontSize: 13, color: '#262626', lineHeight: 2, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+                {agreementText || '加载中...'}
+              </div>
+
+              {/* 商家规则 */}
+              <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#262626', marginBottom: 12 }}>
+                  商家规则 / Merchant Rules:
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {MERCHANT_RULES.map(rule => (
+                    <a key={rule} href="#" style={{ color: '#1677ff', fontSize: 13, textDecoration: 'none' }}>
+                      {rule}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 底部操作区 */}
+            <div style={{
+              padding: '14px 28px', borderTop: '1px solid #f0f0f0',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12,
+            }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 13, color: '#262626' }}>
+                <input
+                  type="checkbox" checked={innerAgreed}
+                  onChange={e => setInnerAgreed(e.target.checked)}
+                />
+                我已阅读并同意以上协议
+              </label>
+              <button
+                onClick={handleAgreementConfirm}
+                style={{
+                  padding: '8px 48px', border: 'none', borderRadius: 4,
+                  background: innerAgreed ? '#1677ff' : '#d9d9d9',
+                  color: 'white', cursor: innerAgreed ? 'pointer' : 'not-allowed',
+                  fontSize: 14, fontWeight: 500,
+                }}
+              >
+                确认入驻
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ====== 确认提交对话框 ====== */}
+      {showConfirm && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1001,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{
+            background: 'white', borderRadius: 4, width: 440,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+          }}>
+            {/* 标题 */}
+            <div style={{
+              padding: '16px 20px 12px', display: 'flex', alignItems: 'center', gap: 8,
+              borderBottom: '1px solid #f0f0f0',
+            }}>
+              <span style={{ fontSize: 18, color: '#fa8c16' }}>⚠</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#262626' }}>
+                店铺类别提交后不可修改，确认提交吗？
+              </span>
+            </div>
+
+            {/* 内容 */}
+            <div style={{ padding: '16px 20px', fontSize: 13, color: '#262626', lineHeight: 1.8 }}>
+              您当前创建的是
+              <strong style={{ color: '#1677ff' }}>
+                {storeType === 'consignment' ? ' 半托管店铺' : ' 常规店铺'}
+              </strong>
+              {storeType === 'consignment' ? '，即自配送模式。' : '。'}
+              {storeType === 'consignment' && (
+                <span>
+                  此类店铺下的商品，需要卖家
+                  <strong>在销售目的地或境外指定区域有库存</strong>
+                  并
+                  <strong>从相应境外仓库自行发货配送至消费者</strong>
+                </span>
+              )}
+            </div>
+
+            {/* 按钮 */}
+            <div style={{
+              padding: '12px 20px 16px',
+              display: 'flex', justifyContent: 'flex-end', gap: 12,
+            }}>
+              <button
+                onClick={handleFinalSubmit}
+                style={{
+                  padding: '7px 20px', border: 'none', borderRadius: 4,
+                  background: '#1677ff', color: 'white', cursor: 'pointer', fontSize: 13, fontWeight: 500,
+                }}
+              >
+                确认无误，提交
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                style={{
+                  padding: '7px 20px', border: '1px solid #d9d9d9', borderRadius: 4,
+                  background: 'white', color: '#262626', cursor: 'pointer', fontSize: 13,
+                }}
+              >
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
