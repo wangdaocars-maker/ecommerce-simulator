@@ -273,7 +273,7 @@ function VerifyPage() {
             <Button
               type="primary"
               disabled={!agreed || qrStatus !== 'verified'}
-              onClick={() => message.success('入驻申请已提交，请等待审核')}
+              onClick={() => router.push(`/temu-shop?phone=${encodeURIComponent(phone)}`)}
               style={{ minWidth: 140 }}
             >
               入驻成功，下一步
