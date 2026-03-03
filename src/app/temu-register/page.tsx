@@ -56,11 +56,7 @@ export default function TemuRegisterPage() {
           name: `Temu卖家_${phone.slice(-4)}`,
         }),
       })
-      const data = await res.json()
-      if (!res.ok) {
-        message.error(data.error || '注册失败')
-        return
-      }
+      // 模拟环境：不管是否已存在，都视为注册成功直接进入下一步
       message.success('注册成功！')
       setTimeout(() => router.push(`/temu-settle?phone=${encodeURIComponent(phone)}`), 1500)
     } catch {
