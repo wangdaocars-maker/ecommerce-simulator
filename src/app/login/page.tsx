@@ -142,6 +142,19 @@ function LoginForm() {
               </Form.Item>
             )}
 
+            {platform === 'temu' && (
+              <Form.Item>
+                <Button
+                  type="default"
+                  className="w-full"
+                  size="large"
+                  onClick={() => router.push('/temu/register')}
+                >
+                  店铺注册模拟
+                </Button>
+              </Form.Item>
+            )}
+
             <div className="text-center">
               <a href="/register" style={{ color: current.color }}>
                 还没有账号？立即注册

@@ -8,6 +8,11 @@ import TemuSidebar from '@/components/temu/TemuSidebar'
 export default function TemuLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const showSidebar = !pathname.startsWith('/temu/products/create')
+  const isRegister = pathname === '/temu/register'
+
+  if (isRegister) {
+    return <>{children}</>
+  }
 
   return (
     <SessionProvider>
