@@ -27,6 +27,9 @@ function EnterpriseForm() {
   // 证件有效期
   const [idForever, setIdForever] = useState(false)
 
+  // 法定代表人姓名（传给下一页）
+  const [legalName, setLegalName] = useState('')
+
   // 邮箱验证码
   const [emailCode, setEmailCode] = useState('')
   const [emailCountdown, setEmailCountdown] = useState(0)
@@ -56,7 +59,7 @@ function EnterpriseForm() {
   }
 
   const handleSubmit = () => {
-    message.success('提交成功！信息已保存。')
+    router.push(`/temu-verify?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(legalName || '法定代表人')}`)
   }
 
   return (
@@ -281,7 +284,7 @@ function EnterpriseForm() {
 
               {/* 姓名 */}
               <Form.Item label="姓名" required>
-                <Input placeholder="请输入法定代表人姓名" />
+                <Input placeholder="请输入法定代表人姓名" value={legalName} onChange={e => setLegalName(e.target.value)} />
               </Form.Item>
 
               {/* 证件号 */}
