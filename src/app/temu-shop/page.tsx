@@ -213,7 +213,7 @@ function ShopPage() {
   const handleFinalSubmit = () => {
     setShowConfirm(false)
     message.success('店铺信息已提交，等待审核')
-    setTimeout(() => router.push('/shop-register/activate/deposit'), 1500)
+    setTimeout(() => router.push(`/temu-confirm?phone=${encodeURIComponent(phone)}`), 1500)
   }
 
   const handleSubmit = () => {
