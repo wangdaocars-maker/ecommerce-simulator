@@ -39,7 +39,8 @@ import { normalizeCategoryResponse } from '@/lib/category-utils'
 import { buildProductPayload, resolveImageTargetKey, resolveSubmitImages } from '@/lib/product-submit'
 import { resolveCreateFlow } from '@/lib/product-edit'
 import type { Category } from '@/types/category'
-import { SelectionModal, PlugTypeModal, ShippingLocationModal } from './components'
+import { SelectionModal, PlugTypeModal, ShippingLocationModal, ProductSpecSection, SizeChartModal } from './components'
+import type { SpecParent, SizeChartData } from './components'
 import {
   countryOptions,
   imageLabels,
@@ -101,6 +102,11 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
   const [productAttribute, setProductAttribute] = useState<string | undefined>(undefined)
   const [completionLevel, setCompletionLevel] = useState<string | undefined>(undefined)
   const [materialAttr, setMaterialAttr] = useState<string | undefined>(undefined)
+
+  // 商品规格
+  const [specs, setSpecs] = useState<SpecParent[]>([])
+  const [sizeChartData, setSizeChartData] = useState<SizeChartData | null>(null)
+  const [showSizeChartModal, setShowSizeChartModal] = useState(false)
 
   // 认证弹窗
   const [certificationModalVisible, setCertificationModalVisible] = useState(false)
@@ -2446,6 +2452,24 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
               </div>
             </div>
           </div>
+        </Card>
+
+        {/* 商品规格 */}
+        <Card variant="borderless" title={<span style={{ fontSize: 11, fontWeight: 'bold' }}>商品规格</span>} style={{ fontSize: 12, marginTop: 17 }}>
+          <ProductSpecSection
+            specs={specs}
+            onSpecsChange={setSpecs}
+            onOpenSizeChart={() => setShowSizeChartModal(true)}
+            sizeChartAdded={!!sizeChartData}
+            onDeleteSizeChart={() => setSizeChartData(null)}
+            onViewSizeChart={() => setShowSizeChartModal(true)}
+          />
+          <SizeChartModal
+            open={showSizeChartModal}
+            initialData={sizeChartData}
+            onConfirm={(data) => { setSizeChartData(data); setShowSizeChartModal(false) }}
+            onCancel={() => setShowSizeChartModal(false)}
+          />
         </Card>
 
         {/* 海关监管属性 */}
