@@ -34,6 +34,22 @@ function EnterpriseForm() {
   const [emailCode, setEmailCode] = useState('')
   const [emailCountdown, setEmailCountdown] = useState(0)
 
+  // 受控字段（传给确认页）
+  const [licenseCode, setLicenseCode] = useState('')
+  const [companyNameZh, setCompanyNameZh] = useState('')
+  const [companyNameEn, setCompanyNameEn] = useState('')
+  const [addressZhRegion, setAddressZhRegion] = useState<string[]>([])
+  const [addressZhDetail, setAddressZhDetail] = useState('')
+  const [addressEnRegion, setAddressEnRegion] = useState('')
+  const [addressEnDetail, setAddressEnDetail] = useState('')
+  const [licenseExpiry, setLicenseExpiry] = useState('')
+  const [foundDate, setFoundDate] = useState('')
+  const [officeRegion, setOfficeRegion] = useState<string[]>([])
+  const [officeDetail, setOfficeDetail] = useState('')
+  const [companySize, setCompanySize] = useState('')
+  const [idNumber, setIdNumber] = useState('')
+  const [idExpiry, setIdExpiry] = useState('')
+
   const pickLocalImage = (setter: (url: string) => void) => {
     const input = document.createElement('input')
     input.type = 'file'
@@ -59,7 +75,30 @@ function EnterpriseForm() {
   }
 
   const handleSubmit = () => {
-    router.push(`/temu-verify?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(legalName || '法定代表人')}`)
+    const data = {
+      phone,
+      licenseImage,
+      licenseCode,
+      companyNameZh,
+      companyNameEn,
+      addressZhRegion,
+      addressZhDetail,
+      addressEnDetail,
+      licenseExpiry: licenseForever ? '长期' : licenseExpiry,
+      licenseForever,
+      foundDate,
+      officeRegion,
+      officeDetail,
+      companySize,
+      idFrontImage,
+      idBackImage,
+      legalName,
+      idNumber,
+      idExpiry: idForever ? '长期' : idExpiry,
+      idForever,
+    }
+    sessionStorage.setItem('temuEnterpriseData', JSON.stringify(data))
+    router.push(`/temu-confirm?phone=${encodeURIComponent(phone)}`)
   }
 
   return (
@@ -172,7 +211,7 @@ function EnterpriseForm() {
 
               {/* 统一社会信用代码 */}
               <Form.Item label="统一社会信用代码" required>
-                <Input placeholder="请输入统一社会信用代码" maxLength={18} />
+                <Input placeholder="请输入统一社会信用代码" maxLength={18} value={licenseCode} onChange={e => setLicenseCode(e.target.value)} />
               </Form.Item>
 
               {/* 公司名称 */}
@@ -181,11 +220,11 @@ function EnterpriseForm() {
                   <span style={{ width: 36, fontSize: 13, color: '#262626', flexShrink: 0 }}>
                     <span style={{ color: '#ff4d4f' }}>*</span>中文
                   </span>
-                  <Input placeholder="请输入公司名称（中文）" />
+                  <Input placeholder="请输入公司名称（中文）" value={companyNameZh} onChange={e => setCompanyNameZh(e.target.value)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 36, fontSize: 13, color: '#8c8c8c', flexShrink: 0 }}>英文</span>
-                  <Input placeholder="输入中文后自动翻译，也可手动填写" />
+                  <Input placeholder="输入中文后自动翻译，也可手动填写" value={companyNameEn} onChange={e => setCompanyNameEn(e.target.value)} />
                 </div>
               </Form.Item>
 
@@ -195,25 +234,25 @@ function EnterpriseForm() {
                   <span style={{ width: 36, fontSize: 13, color: '#262626', flexShrink: 0 }}>
                     <span style={{ color: '#ff4d4f' }}>*</span>中文
                   </span>
-                  <Cascader options={regionData} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
-                  <Input placeholder="请输入详细地址（中文）" />
+                  <Cascader options={regionData} value={addressZhRegion} onChange={val => setAddressZhRegion(val as string[])} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="请输入详细地址（中文）" value={addressZhDetail} onChange={e => setAddressZhDetail(e.target.value)} />
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 36, fontSize: 13, color: '#8c8c8c', flexShrink: 0 }}>英文</span>
-                  <Input disabled placeholder="根据中文自动翻译" style={{ width: 180, flexShrink: 0 }} />
-                  <Input placeholder="输入中文后自动翻译，也可手动填写" />
+                  <Input disabled placeholder="根据中文自动翻译" value={addressZhRegion.join('/')} style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="输入中文后自动翻译，也可手动填写" value={addressEnDetail} onChange={e => setAddressEnDetail(e.target.value)} />
                 </div>
               </Form.Item>
 
               {/* 成立日期 */}
               <Form.Item label="成立日期" required>
-                <DatePicker style={{ width: '100%' }} placeholder="请选择成立日期" />
+                <DatePicker style={{ width: '100%' }} placeholder="请选择成立日期" onChange={(_, dateStr) => setFoundDate(dateStr as string)} />
               </Form.Item>
 
               {/* 营业执照有效期 */}
               <Form.Item label="营业执照有效期" required>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <DatePicker disabled={licenseForever} style={{ flex: 1 }} placeholder="请选择到期日期" />
+                  <DatePicker disabled={licenseForever} style={{ flex: 1 }} placeholder="请选择到期日期" onChange={(_, dateStr) => setLicenseExpiry(dateStr as string)} />
                   <Checkbox checked={licenseForever} onChange={e => setLicenseForever(e.target.checked)}>长期</Checkbox>
                 </div>
               </Form.Item>
@@ -221,14 +260,14 @@ function EnterpriseForm() {
               {/* 办公地址 */}
               <Form.Item label="办公地址" required>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Cascader options={regionData} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
-                  <Input placeholder="请输入详细地址，比如街道、楼层号" />
+                  <Cascader options={regionData} value={officeRegion} onChange={val => setOfficeRegion(val as string[])} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="请输入详细地址，比如街道、楼层号" value={officeDetail} onChange={e => setOfficeDetail(e.target.value)} />
                 </div>
               </Form.Item>
 
               {/* 经营规模 */}
               <Form.Item label="经营规模" required>
-                <Select placeholder="请选择经营规模" options={[
+                <Select placeholder="请选择经营规模" value={companySize || undefined} onChange={val => setCompanySize(val)} options={[
                   { value: '1-10', label: '1~10人' },
                   { value: '11-30', label: '11~30人' },
                   { value: '31-50', label: '31~50人' },
@@ -289,13 +328,13 @@ function EnterpriseForm() {
 
               {/* 证件号 */}
               <Form.Item label="证件号" required>
-                <Input placeholder="请输入证件号码" maxLength={18} />
+                <Input placeholder="请输入证件号码" maxLength={18} value={idNumber} onChange={e => setIdNumber(e.target.value)} />
               </Form.Item>
 
               {/* 证件有效期 */}
               <Form.Item label="证件有效期" required>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <DatePicker disabled={idForever} style={{ flex: 1 }} placeholder="请选择到期日期" />
+                  <DatePicker disabled={idForever} style={{ flex: 1 }} placeholder="请选择到期日期" onChange={(_, dateStr) => setIdExpiry(dateStr as string)} />
                   <Checkbox checked={idForever} onChange={e => setIdForever(e.target.checked)}>长期</Checkbox>
                 </div>
               </Form.Item>
