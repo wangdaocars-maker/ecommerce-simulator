@@ -120,7 +120,13 @@ function SettlePage() {
                     <div style={{ fontSize: 12, color: '#8c8c8c' }}>{item.desc}</div>
                   </div>
                   <button
-                    onClick={() => message.info('这是模拟环境，该功能暂未开放')}
+                    onClick={() => {
+                      if (item.title === '企业主体') {
+                        router.push(`/temu-enterprise?phone=${encodeURIComponent(phone)}`)
+                      } else {
+                        message.info('这是模拟环境，该功能暂未开放')
+                      }
+                    }}
                     style={{
                       padding: '6px 20px',
                       backgroundColor: '#1677ff',
