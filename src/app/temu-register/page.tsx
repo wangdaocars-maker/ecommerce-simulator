@@ -61,8 +61,8 @@ export default function TemuRegisterPage() {
         message.error(data.error || '注册失败')
         return
       }
-      message.success('注册成功！请登录')
-      setTimeout(() => router.push('/login'), 1500)
+      message.success('注册成功！')
+      setTimeout(() => router.push(`/temu-settle?phone=${encodeURIComponent(phone)}`), 1500)
     } catch {
       message.error('注册失败，请稍后重试')
     } finally {
