@@ -212,6 +212,7 @@ function ShopPage() {
 
   const handleFinalSubmit = () => {
     setShowConfirm(false)
+    sessionStorage.setItem('temuShopName', shopName)
     message.success('店铺信息已提交，等待审核')
     setTimeout(() => router.push(`/temu-confirm?phone=${encodeURIComponent(phone)}`), 1500)
   }

@@ -83,7 +83,7 @@ function ConfirmPage() {
   }, [])
 
   const handleSubmit = () => {
-    router.push(`/temu-verify?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(data?.legalName || '法定代表人')}`)
+    router.push(`/temu-pending?phone=${encodeURIComponent(phone)}`)
   }
 
   const addressZh = data
