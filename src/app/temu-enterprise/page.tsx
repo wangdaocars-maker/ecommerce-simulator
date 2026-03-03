@@ -3,8 +3,7 @@
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Form, Input, Select, DatePicker, Checkbox, Cascader, Button, Steps, message } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import ImageUploadModal from '@/components/ImageUploadModal'
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons'
 import { regionData } from '@/data/regions'
 
 function maskPhone(phone: string) {
@@ -17,12 +16,10 @@ function EnterpriseForm() {
   const router = useRouter()
   const phone = searchParams.get('phone') || ''
 
-  // 图片上传状态
+  // 图片上传状态（本地预览 URL）
   const [licenseImage, setLicenseImage] = useState('')
   const [idFrontImage, setIdFrontImage] = useState('')
   const [idBackImage, setIdBackImage] = useState('')
-  const [imageModalVisible, setImageModalVisible] = useState(false)
-  const [currentImageTarget, setCurrentImageTarget] = useState<'license' | 'id-front' | 'id-back'>('license')
 
   // 营业执照有效期
   const [licenseForever, setLicenseForever] = useState(false)
@@ -34,20 +31,15 @@ function EnterpriseForm() {
   const [emailCode, setEmailCode] = useState('')
   const [emailCountdown, setEmailCountdown] = useState(0)
 
-  const openImageModal = (target: 'license' | 'id-front' | 'id-back') => {
-    setCurrentImageTarget(target)
-    setImageModalVisible(true)
-  }
-
-  const handleImageConfirm = (images: string[]) => {
-    if (images.length > 0) {
-      switch (currentImageTarget) {
-        case 'license': setLicenseImage(images[0]); break
-        case 'id-front': setIdFrontImage(images[0]); break
-        case 'id-back': setIdBackImage(images[0]); break
-      }
+  const pickLocalImage = (setter: (url: string) => void) => {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/jpeg,image/jpg,image/png'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) setter(URL.createObjectURL(file))
     }
-    setImageModalVisible(false)
+    input.click()
   }
 
   const sendEmailCode = () => {
@@ -156,31 +148,13 @@ function EnterpriseForm() {
               {/* 营业执照图片 */}
               <Form.Item label="营业执照图片" required>
                 <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                  <div
-                    onClick={() => openImageModal('license')}
-                    style={{
-                      width: 120,
-                      height: 120,
-                      border: '1px dashed #d9d9d9',
-                      borderRadius: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      backgroundColor: '#fafafa',
-                      flexShrink: 0,
-                      overflow: 'hidden',
-                    }}
-                  >
-                    {licenseImage ? (
-                      <img src={licenseImage} alt="营业执照" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <div style={{ textAlign: 'center', color: '#8c8c8c' }}>
-                        <PlusOutlined style={{ fontSize: 24, display: 'block', marginBottom: 4 }} />
-                        <span style={{ fontSize: 12 }}>上传</span>
-                      </div>
-                    )}
-                  </div>
+                  <ImageBox
+                    src={licenseImage}
+                    width={120} height={120}
+                    label="上传"
+                    onPick={() => pickLocalImage(setLicenseImage)}
+                    onRemove={() => setLicenseImage('')}
+                  />
                   <div style={{ fontSize: 12, color: '#8c8c8c', paddingTop: 4 }}>
                     仅支持JPG/JPEG/PNG格式
                   </div>
@@ -264,60 +238,24 @@ function EnterpriseForm() {
               {/* 证件照 */}
               <Form.Item label="证件照" required>
                 <div style={{ display: 'flex', gap: 16 }}>
-                  {/* 正面 */}
                   <div>
-                    <div
-                      onClick={() => openImageModal('id-front')}
-                      style={{
-                        width: 180,
-                        height: 120,
-                        border: '1px dashed #d9d9d9',
-                        borderRadius: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        backgroundColor: '#fafafa',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {idFrontImage ? (
-                        <img src={idFrontImage} alt="证件正面" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ textAlign: 'center', color: '#8c8c8c' }}>
-                          <PlusOutlined style={{ fontSize: 24, display: 'block', marginBottom: 4 }} />
-                          <span style={{ fontSize: 12 }}>上传正面</span>
-                        </div>
-                      )}
-                    </div>
+                    <ImageBox
+                      src={idFrontImage}
+                      width={180} height={120}
+                      label="上传正面"
+                      onPick={() => pickLocalImage(setIdFrontImage)}
+                      onRemove={() => setIdFrontImage('')}
+                    />
                     <div style={{ textAlign: 'center', fontSize: 12, color: '#8c8c8c', marginTop: 4 }}>人像面</div>
                   </div>
-                  {/* 反面 */}
                   <div>
-                    <div
-                      onClick={() => openImageModal('id-back')}
-                      style={{
-                        width: 180,
-                        height: 120,
-                        border: '1px dashed #d9d9d9',
-                        borderRadius: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        backgroundColor: '#fafafa',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {idBackImage ? (
-                        <img src={idBackImage} alt="证件反面" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ textAlign: 'center', color: '#8c8c8c' }}>
-                          <PlusOutlined style={{ fontSize: 24, display: 'block', marginBottom: 4 }} />
-                          <span style={{ fontSize: 12 }}>上传反面</span>
-                        </div>
-                      )}
-                    </div>
+                    <ImageBox
+                      src={idBackImage}
+                      width={180} height={120}
+                      label="上传反面"
+                      onPick={() => pickLocalImage(setIdBackImage)}
+                      onRemove={() => setIdBackImage('')}
+                    />
                     <div style={{ textAlign: 'center', fontSize: 12, color: '#8c8c8c', marginTop: 4 }}>国徽面</div>
                   </div>
                 </div>
@@ -478,17 +416,48 @@ function EnterpriseForm() {
         <Button type="primary" onClick={handleSubmit} style={{ minWidth: 100 }}>下一步</Button>
       </div>
 
-      {/* 图片上传弹窗（共用一个实例） */}
-      <ImageUploadModal
-        visible={imageModalVisible}
-        onClose={() => setImageModalVisible(false)}
-        onConfirm={handleImageConfirm}
-        maxCount={1}
-        sizeLimit={5}
-        minDimensions={currentImageTarget === 'license' ? { width: 800, height: 800 } : { width: 200, height: 200 }}
-        acceptFormats={['jpg', 'jpeg', 'png']}
-        folder="企业入驻"
-      />
+    </div>
+  )
+}
+
+function ImageBox({
+  src, width, height, label, onPick, onRemove,
+}: {
+  src: string; width: number; height: number; label: string
+  onPick: () => void; onRemove: () => void
+}) {
+  return (
+    <div
+      onClick={onPick}
+      style={{
+        width, height,
+        border: '1px dashed #d9d9d9',
+        borderRadius: 4,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        cursor: 'pointer', backgroundColor: '#fafafa', overflow: 'hidden', position: 'relative',
+      }}
+    >
+      {src ? (
+        <>
+          <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <div
+            onClick={(e) => { e.stopPropagation(); onRemove() }}
+            style={{
+              position: 'absolute', top: 4, right: 4,
+              background: 'rgba(0,0,0,0.45)', borderRadius: '50%',
+              width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <DeleteOutlined style={{ fontSize: 11, color: 'white' }} />
+          </div>
+        </>
+      ) : (
+        <div style={{ textAlign: 'center', color: '#8c8c8c' }}>
+          <PlusOutlined style={{ fontSize: 24, display: 'block', marginBottom: 4 }} />
+          <span style={{ fontSize: 12 }}>{label}</span>
+        </div>
+      )}
     </div>
   )
 }
