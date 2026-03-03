@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const isLoggedIn = !!sessionToken
 
   // 公开路径
-  const publicPaths = ['/login', '/register', '/shop-register', '/api/auth', '/api/temu', '/temu']
+  const publicPaths = ['/login', '/register', '/shop-register', '/api/auth', '/api/temu', '/api/merchant-agreement', '/temu']
   const isPublicPath = publicPaths.some(path => pathname.startsWith(path))
 
   // 如果未登录且访问受保护路径，重定向到登录页
