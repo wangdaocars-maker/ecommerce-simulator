@@ -139,11 +139,17 @@ function EnterpriseForm() {
         <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
           {/* 左侧表单 */}
           <div style={{ flex: 1, backgroundColor: 'white', borderRadius: 4, padding: '24px 32px' }}>
-            <Form layout="vertical">
+            <Form
+              layout="horizontal"
+              labelCol={{ style: { width: 130, minWidth: 130, textAlign: 'right' } }}
+              wrapperCol={{ style: { flex: 1 } }}
+            >
               {/* ===== 营业执照信息 ===== */}
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#262626', marginBottom: 20 }}>
-                营业执照信息
-              </div>
+              <Form.Item wrapperCol={{ style: { width: '100%' } }} style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#262626', borderLeft: '3px solid #1677ff', paddingLeft: 8 }}>
+                  · 营业执照信息
+                </div>
+              </Form.Item>
 
               {/* 营业执照图片 */}
               <Form.Item label="营业执照图片" required>
@@ -229,9 +235,11 @@ function EnterpriseForm() {
               </Form.Item>
 
               {/* ===== 法定代表人信息 ===== */}
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#262626', margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
-                法定代表人信息
-              </div>
+              <Form.Item wrapperCol={{ style: { width: '100%' } }} style={{ margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#262626', borderLeft: '3px solid #1677ff', paddingLeft: 8 }}>
+                  · 法定代表人信息
+                </div>
+              </Form.Item>
 
               {/* 证件类型 */}
               <Form.Item label="证件类型" required>
@@ -290,9 +298,11 @@ function EnterpriseForm() {
               </Form.Item>
 
               {/* ===== 经营合规信息 ===== */}
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#262626', margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
-                经营合规信息
-              </div>
+              <Form.Item wrapperCol={{ style: { width: '100%' } }} style={{ margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#262626', borderLeft: '3px solid #1677ff', paddingLeft: 8 }}>
+                  · 经营合规信息
+                </div>
+              </Form.Item>
 
               {/* 商家类型 */}
               <Form.Item label="商家类型" required>
@@ -314,9 +324,11 @@ function EnterpriseForm() {
               </Form.Item>
 
               {/* ===== 邮箱信息 ===== */}
-              <div style={{ fontSize: 16, fontWeight: 600, color: '#262626', margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
-                邮箱信息
-              </div>
+              <Form.Item wrapperCol={{ style: { width: '100%' } }} style={{ margin: '24px 0 16px', paddingTop: 16, borderTop: '1px solid #f0f0f0' }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: '#262626', borderLeft: '3px solid #1677ff', paddingLeft: 8 }}>
+                  · 邮箱信息
+                </div>
+              </Form.Item>
 
               {/* 联系邮箱 */}
               <Form.Item label="联系邮箱" required>
