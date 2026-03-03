@@ -46,24 +46,21 @@ export default function TemuRegisterPage() {
     if (!agreed) { message.error('请阅读并同意协议'); return }
 
     setLoading(true)
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: phone,
-          password,
-          name: `Temu卖家_${phone.slice(-4)}`,
-        }),
-      })
-      // 模拟环境：不管是否已存在，都视为注册成功直接进入下一步
-      message.success('注册成功！')
-      setTimeout(() => router.push(`/temu-settle?phone=${encodeURIComponent(phone)}`), 1500)
-    } catch {
-      message.error('注册失败，请稍后重试')
-    } finally {
+    // 模拟环境：静默保存，不管结果直接跳转下一步
+    fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: phone,
+        password,
+        name: `Temu卖家_${phone.slice(-4)}`,
+      }),
+    }).catch(() => {})
+    message.success('注册成功！')
+    setTimeout(() => {
       setLoading(false)
-    }
+      router.push(`/temu-settle?phone=${encodeURIComponent(phone)}`)
+    }, 1000)
   }
 
   return (
