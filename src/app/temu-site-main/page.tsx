@@ -90,7 +90,7 @@ function SiteMainPage() {
         body: JSON.stringify({ phone, shopName }),
       })
       // 登录并跳转商品列表
-      await signIn('credentials', { username: phone, password: phone, callbackUrl: '/products' })
+      await signIn('credentials', { username: phone, password: phone, callbackUrl: '/temu/products' })
     } catch {
       setEntering(false)
     }
