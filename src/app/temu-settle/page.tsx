@@ -2,7 +2,6 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
-import { message } from 'antd'
 
 function maskPhone(phone: string) {
   if (!phone || phone.length < 7) return phone
@@ -120,13 +119,7 @@ function SettlePage() {
                     <div style={{ fontSize: 12, color: '#8c8c8c' }}>{item.desc}</div>
                   </div>
                   <button
-                    onClick={() => {
-                      if (item.title === '企业主体') {
-                        router.push(`/temu-enterprise?phone=${encodeURIComponent(phone)}`)
-                      } else {
-                        message.info('这是模拟环境，该功能暂未开放')
-                      }
-                    }}
+                    onClick={() => router.push(`/temu-enterprise?phone=${encodeURIComponent(phone)}`)}
                     style={{
                       padding: '6px 20px',
                       backgroundColor: '#1677ff',
@@ -175,7 +168,7 @@ function SettlePage() {
                     <div style={{ fontSize: 12, color: '#8c8c8c' }}>{item.desc}</div>
                   </div>
                   <button
-                    onClick={() => message.info('这是模拟环境，该功能暂未开放')}
+                    onClick={() => router.push(`/temu-enterprise?phone=${encodeURIComponent(phone)}`)}
                     style={{
                       padding: '6px 20px',
                       backgroundColor: '#1677ff',
