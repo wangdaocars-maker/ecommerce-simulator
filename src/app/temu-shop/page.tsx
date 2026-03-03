@@ -132,8 +132,12 @@ function ShopPage() {
   useEffect(() => {
     if (showAgreement && !agreementText) {
       fetch('/merchant-agreement.txt')
-        .then(r => r.text())
-        .then(t => setAgreementText(t))
+        .then(r => r.arrayBuffer())
+        .then(buf => {
+          const decoder = new TextDecoder('utf-8')
+          const text = decoder.decode(buf).replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+          setAgreementText(text)
+        })
         .catch(() => setAgreementText('协议加载失败，请重试。'))
     }
   }, [showAgreement, agreementText])
