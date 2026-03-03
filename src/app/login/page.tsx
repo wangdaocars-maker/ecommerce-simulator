@@ -148,7 +148,7 @@ function LoginForm() {
                   type="default"
                   className="w-full"
                   size="large"
-                  onClick={() => router.push('/temu/register')}
+                  onClick={() => router.push('/temu-register')}
                 >
                   店铺注册模拟
                 </Button>
