@@ -143,7 +143,7 @@ function EnterpriseForm() {
       </div>
 
       {/* 主体内容 */}
-      <div style={{ position: 'relative', zIndex: 1, padding: '24px 40px', paddingBottom: 80 }}>
+      <div style={{ position: 'relative', zIndex: 1, padding: '24px 60px', paddingBottom: 80, maxWidth: 1400, margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
           {/* 左侧表单 */}
           <div style={{ flex: 1, backgroundColor: 'white', borderRadius: 4, padding: '24px 32px' }}>
