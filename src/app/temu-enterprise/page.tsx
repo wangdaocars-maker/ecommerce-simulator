@@ -168,20 +168,32 @@ function EnterpriseForm() {
 
               {/* 公司名称 */}
               <Form.Item label="公司名称" required>
-                <Input placeholder="请输入公司名称（中文）" style={{ marginBottom: 8 }} />
-                <Input placeholder="请输入公司名称（英文）" />
-                <div style={{ fontSize: 12, color: '#8c8c8c', marginTop: 4 }}>输入中文后自动翻译</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <span style={{ width: 36, fontSize: 13, color: '#262626', flexShrink: 0 }}>
+                    <span style={{ color: '#ff4d4f' }}>*</span>中文
+                  </span>
+                  <Input placeholder="请输入公司名称（中文）" />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 36, fontSize: 13, color: '#8c8c8c', flexShrink: 0 }}>英文</span>
+                  <Input placeholder="输入中文后自动翻译，也可手动填写" />
+                </div>
               </Form.Item>
 
               {/* 营业执照地址 */}
               <Form.Item label="营业执照地址" required>
-                <Cascader
-                  options={regionData}
-                  placeholder="请选择省/市/区"
-                  style={{ width: '100%', marginBottom: 8 }}
-                />
-                <Input placeholder="请输入详细地址（中文）" style={{ marginBottom: 8 }} />
-                <Input placeholder="请输入详细地址（英文）" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <span style={{ width: 36, fontSize: 13, color: '#262626', flexShrink: 0 }}>
+                    <span style={{ color: '#ff4d4f' }}>*</span>中文
+                  </span>
+                  <Cascader options={regionData} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="请输入详细地址（中文）" />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 36, fontSize: 13, color: '#8c8c8c', flexShrink: 0 }}>英文</span>
+                  <Input disabled placeholder="根据中文自动翻译" style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="输入中文后自动翻译，也可手动填写" />
+                </div>
               </Form.Item>
 
               {/* 成立日期 */}
@@ -199,12 +211,10 @@ function EnterpriseForm() {
 
               {/* 办公地址 */}
               <Form.Item label="办公地址" required>
-                <Cascader
-                  options={regionData}
-                  placeholder="请选择省/市/区"
-                  style={{ width: '100%', marginBottom: 8 }}
-                />
-                <Input placeholder="请输入详细地址" />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Cascader options={regionData} placeholder="省/市/区" style={{ width: 180, flexShrink: 0 }} />
+                  <Input placeholder="请输入详细地址，比如街道、楼层号" />
+                </div>
               </Form.Item>
 
               {/* 经营规模 */}
