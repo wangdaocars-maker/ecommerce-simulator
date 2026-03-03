@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 function maskPhone(phone: string) {
   if (!phone || phone.length < 7) return phone
@@ -71,11 +72,29 @@ function SiteMainPage() {
   const phone = searchParams.get('phone') || ''
   const [shopName, setShopName] = useState('')
   const [authorized, setAuthorized] = useState(true)
+  const [entering, setEntering] = useState(false)
 
   useEffect(() => {
     const name = sessionStorage.getItem('temuShopName') || 'My Store'
     setShopName(name)
   }, [])
+
+  const handleEnter = async () => {
+    if (entering) return
+    setEntering(true)
+    try {
+      // 用手机号自动注册账号（手机号=账号=密码）
+      await fetch('/api/temu/activate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, shopName }),
+      })
+      // 登录并跳转商品列表
+      await signIn('credentials', { username: phone, password: phone, callbackUrl: '/products' })
+    } catch {
+      setEntering(false)
+    }
+  }
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f0f2f5', position: 'relative' }}>
@@ -191,15 +210,17 @@ function SiteMainPage() {
                   )}
                   {!region.subtitle && <div style={{ height: 20, marginBottom: 0 }} />}
                   <button
+                    onClick={handleEnter}
+                    disabled={entering}
                     style={{
                       width: '100%', padding: '8px 0',
-                      backgroundColor: '#1677ff', color: 'white',
+                      backgroundColor: entering ? '#69b1ff' : '#1677ff', color: 'white',
                       border: 'none', borderRadius: 4,
-                      fontSize: 14, fontWeight: 500, cursor: 'pointer',
+                      fontSize: 14, fontWeight: 500, cursor: entering ? 'not-allowed' : 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
                     }}
                   >
-                    进入 <span style={{ fontSize: 12 }}>›</span>
+                    {entering ? '登录中...' : <>{`进入 `}<span style={{ fontSize: 12 }}>›</span></>}
                   </button>
                 </div>
               ))}
