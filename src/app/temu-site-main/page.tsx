@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import { SessionProvider, signIn } from 'next-auth/react'
 
 function maskPhone(phone: string) {
   if (!phone || phone.length < 7) return phone
@@ -266,8 +266,10 @@ function SiteMainPage() {
 
 export default function TemuSiteMainPage() {
   return (
-    <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: '#f0f2f5' }} />}>
-      <SiteMainPage />
-    </Suspense>
+    <SessionProvider>
+      <Suspense fallback={<div style={{ minHeight: '100vh', backgroundColor: '#f0f2f5' }} />}>
+        <SiteMainPage />
+      </Suspense>
+    </SessionProvider>
   )
 }
