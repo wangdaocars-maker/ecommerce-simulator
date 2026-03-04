@@ -98,7 +98,7 @@ function EnterpriseForm() {
       idForever,
     }
     sessionStorage.setItem('temuEnterpriseData', JSON.stringify(data))
-    router.push(`/temu-confirm?phone=${encodeURIComponent(phone)}`)
+    router.push(`/temu-verify?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(legalName)}`)
   }
 
   return (
