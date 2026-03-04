@@ -33,7 +33,8 @@ function LoginForm() {
 
   const current = platforms[platform]
 
-  const callbackUrl = rawCallbackUrl || (platform === 'temu' ? '/temu/products' : '/products')
+  // Temu tab 永远跳 /temu/products，不受 rawCallbackUrl 影响（防止 middleware 带入 /products 导致 tab 切换失效）
+  const callbackUrl = platform === 'temu' ? '/temu/products' : (rawCallbackUrl || '/products')
 
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true)
