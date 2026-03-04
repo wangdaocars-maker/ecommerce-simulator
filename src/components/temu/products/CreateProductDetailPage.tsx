@@ -15,6 +15,10 @@ import {
 } from '@ant-design/icons'
 import { useSearchParams, useRouter } from 'next/navigation'
 import TemuMediaModal from '@/components/temu/TemuMediaModal'
+import ProductSpecSection from '@/components/temu/products/ProductSpecSection'
+import SizeChartModal from '@/components/temu/products/SizeChartModal'
+import type { SpecParent } from '@/components/temu/products/ProductSpecSection'
+import type { SizeChartData } from '@/components/temu/products/SizeChartModal'
 
 const BLUE = '#1677ff'
 const ORANGE = '#FA8C16'
@@ -274,6 +278,11 @@ export default function CreateProductDetailPage() {
   const [deliveryTime, setDeliveryTime] = useState<string>('')
   const [shippingTemplate, setShippingTemplate] = useState<string>('')
   const [submitting, setSubmitting] = useState(false)
+
+  // 商品规格
+  const [specs, setSpecs] = useState<SpecParent[]>([])
+  const [sizeChartData, setSizeChartData] = useState<SizeChartData | null>(null)
+  const [showSizeChartModal, setShowSizeChartModal] = useState(false)
 
   const productId = searchParams.get('productId')
   const isEditMode = !!productId
@@ -1294,6 +1303,33 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 商品规格 */}
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
+          <div style={{ display: 'flex' }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 4 }}>
+              <span style={{ color: '#ff4d4f' }}>*</span>商品规格
+            </label>
+            <div style={{ flex: 1 }}>
+              <ProductSpecSection
+                specs={specs}
+                onSpecsChange={setSpecs}
+                onOpenSizeChart={() => setShowSizeChartModal(true)}
+                sizeChartAdded={!!sizeChartData}
+                onDeleteSizeChart={() => setSizeChartData(null)}
+                onViewSizeChart={() => setShowSizeChartModal(true)}
+              />
+              <SizeChartModal
+                open={showSizeChartModal}
+                initialData={sizeChartData}
+                onConfirm={(data) => { setSizeChartData(data); setShowSizeChartModal(false) }}
+                onCancel={() => setShowSizeChartModal(false)}
+              />
             </div>
           </div>
         </div>
