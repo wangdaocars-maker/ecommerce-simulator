@@ -17,9 +17,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  // 如果已登录且访问登录/注册页，重定向到首页
+  // 如果已登录且访问登录/注册页，重定向到 callbackUrl 或默认首页
   if (isLoggedIn && (pathname === '/login' || pathname === '/register')) {
-    return NextResponse.redirect(new URL('/products', request.url))
+    const callbackUrl = request.nextUrl.searchParams.get('callbackUrl')
+    const redirectTo = callbackUrl && callbackUrl.startsWith('/') ? callbackUrl : '/products'
+    return NextResponse.redirect(new URL(redirectTo, request.url))
   }
 
   return NextResponse.next()

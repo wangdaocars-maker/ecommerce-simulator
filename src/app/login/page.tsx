@@ -49,7 +49,6 @@ function LoginForm() {
       } else {
         message.success('登录成功')
         router.push(callbackUrl)
-        router.refresh()
       }
     } catch (error) {
       message.error('登录失败，请稍后重试')
