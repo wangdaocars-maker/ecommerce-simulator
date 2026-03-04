@@ -89,8 +89,13 @@ function SiteMainPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, shopName }),
       })
-      // 登录并跳转商品列表
-      await signIn('credentials', { username: phone, password: phone, callbackUrl: '/temu/products' })
+      // 登录并跳转商品列表（必须用 redirect:false，否则 NextAuth 内部重定向会丢失 callbackUrl，导致 middleware fallback 到 /products）
+      const result = await signIn('credentials', { username: phone, password: phone, redirect: false })
+      if (result?.error) {
+        setEntering(false)
+      } else {
+        window.location.href = '/temu/products'
+      }
     } catch {
       setEntering(false)
     }
