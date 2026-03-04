@@ -729,6 +729,33 @@ export default function CreateProductDetailPage() {
         </div>
       </div>
 
+      {/* 商品规格 */}
+      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
+        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
+          <div style={{ display: 'flex' }}>
+            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 4 }}>
+              <span style={{ color: '#ff4d4f' }}>*</span>商品规格
+            </label>
+            <div style={{ flex: 1 }}>
+              <ProductSpecSection
+                specs={specs}
+                onSpecsChange={setSpecs}
+                onOpenSizeChart={() => setShowSizeChartModal(true)}
+                sizeChartAdded={!!sizeChartData}
+                onDeleteSizeChart={() => setSizeChartData(null)}
+                onViewSizeChart={() => setShowSizeChartModal(true)}
+              />
+              <SizeChartModal
+                open={showSizeChartModal}
+                initialData={sizeChartData}
+                onConfirm={(data) => { setSizeChartData(data); setShowSizeChartModal(false) }}
+                onCancel={() => setShowSizeChartModal(false)}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 敏感属性与体积重量 */}
       <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
@@ -1303,33 +1330,6 @@ export default function CreateProductDetailPage() {
             </div>
           </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 商品规格 */}
-      <div style={{ maxWidth: 1400, margin: '16px auto', padding: '0 24px' }}>
-        <div style={{ backgroundColor: '#fff', borderRadius: 4, padding: '24px 32px', border: '1px solid #e8e8e8' }}>
-          <div style={{ display: 'flex' }}>
-            <label style={{ width: 110, fontSize: 13, color: '#333', textAlign: 'right', paddingRight: 12, flexShrink: 0, paddingTop: 4 }}>
-              <span style={{ color: '#ff4d4f' }}>*</span>商品规格
-            </label>
-            <div style={{ flex: 1 }}>
-              <ProductSpecSection
-                specs={specs}
-                onSpecsChange={setSpecs}
-                onOpenSizeChart={() => setShowSizeChartModal(true)}
-                sizeChartAdded={!!sizeChartData}
-                onDeleteSizeChart={() => setSizeChartData(null)}
-                onViewSizeChart={() => setShowSizeChartModal(true)}
-              />
-              <SizeChartModal
-                open={showSizeChartModal}
-                initialData={sizeChartData}
-                onConfirm={(data) => { setSizeChartData(data); setShowSizeChartModal(false) }}
-                onCancel={() => setShowSizeChartModal(false)}
-              />
             </div>
           </div>
         </div>
