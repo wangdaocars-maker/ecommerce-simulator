@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 富文本编辑器 placeholder */
+.rich-editor-content:empty::before {
+  content: attr(data-placeholder);
+  color: #bfbfbf;
+  pointer-events: none;
+}
+
+/* 富文本编辑器内图片自适应宽度 */
+.rich-editor-content img {
+  max-width: 100%;
+  height: auto;
+}
