@@ -156,7 +156,10 @@ function LoginForm() {
             )}
 
             <div className="text-center">
-              <a href="/register" style={{ color: current.color }}>
+              <a
+                href={platform === 'temu' ? '/temu-register' : '/shop-register'}
+                style={{ color: current.color }}
+              >
                 还没有账号？立即注册
               </a>
             </div>
