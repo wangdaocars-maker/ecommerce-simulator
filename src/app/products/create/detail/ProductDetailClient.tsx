@@ -3745,7 +3745,7 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
                                 background: '#fff',
                                 WebkitOverflowScrolling: 'touch' as any,
                               }}>
-                                {pcDescription && pcDescription.replace(/<[^>]*>/g, '').trim() ? (
+                                {pcDescription && (pcDescription.replace(/<[^>]*>/g, '').trim() || /<img\s/i.test(pcDescription)) ? (
                                   <div
                                     className="app-preview-content"
                                     dangerouslySetInnerHTML={{ __html: pcDescription }}
