@@ -14,3 +14,10 @@
   max-width: 100%;
   height: auto;
 }
+
+/* APP手机预览内图片自适应宽度 */
+.app-preview-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

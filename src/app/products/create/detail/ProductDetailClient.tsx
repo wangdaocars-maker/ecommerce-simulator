@@ -3747,6 +3747,7 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
                               }}>
                                 {pcDescription && pcDescription.replace(/<[^>]*>/g, '').trim() ? (
                                   <div
+                                    className="app-preview-content"
                                     dangerouslySetInnerHTML={{ __html: pcDescription }}
                                     style={{
                                       padding: '12px 14px',
@@ -3754,6 +3755,7 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
                                       lineHeight: 1.7,
                                       color: '#262626',
                                       wordBreak: 'break-word',
+                                      overflowX: 'hidden',
                                     }}
                                   />
                                 ) : (
