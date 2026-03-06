@@ -4735,7 +4735,7 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
         }}
         maxCount={6}
         sizeLimit={5}
-        minDimensions={{ width: 800, height: 800 }}
+        minDimensions={currentUploadTarget === 'marketing-3-4' ? { width: 750, height: 1000 } : { width: 800, height: 800 }}
         acceptFormats={['jpg', 'jpeg', 'png']}
         folder="商品发布"
       />
