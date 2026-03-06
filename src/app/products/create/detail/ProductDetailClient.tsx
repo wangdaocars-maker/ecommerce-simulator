@@ -3636,11 +3636,11 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
                         />
                       </div>
 
-                      {/* APP详描编辑 */}
+                      {/* APP详描编辑 - 手机端预览 */}
                       <div style={{ marginTop: 40 }}>
-                        <div style={{ marginBottom: 8, fontSize: 14, color: '#262626' }}>
+                        <div style={{ marginBottom: 16, fontSize: 14, color: '#262626' }}>
                           APP详描编辑
-                          <Tooltip title="为移动端APP编辑商品详细描述">
+                          <Tooltip title="实时预览商品详细描述在手机端的展示效果">
                             <span style={{ marginLeft: 4, color: '#8c8c8c', cursor: 'help' }}>
                               <svg viewBox="64 64 896 896" focusable="false" width="14" height="14" fill="currentColor">
                                 <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
@@ -3648,141 +3648,163 @@ export default function ProductDetailClient({ productId }: ProductDetailClientPr
                               </svg>
                             </span>
                           </Tooltip>
+                          <span style={{ marginLeft: 8, fontSize: 12, color: '#8c8c8c', fontWeight: 400 }}>
+                            实时预览 PC 详描在手机端的展示效果
+                          </span>
                         </div>
 
-                        {/* 导入PC详描按钮 */}
-                        <div style={{ marginBottom: 24 }}>
-                          <Button
-                            size="small"
-                            style={{
-                              background: '#f5f5f5',
-                              border: '1px solid #d9d9d9',
-                              borderRadius: 4,
-                              color: '#8c8c8c',
-                              padding: '4px 15px'
-                            }}
-                          >
-                            导入PC详描
-                          </Button>
-                        </div>
+                        <div style={{ display: 'flex', gap: 40, alignItems: 'flex-start' }}>
+                          {/* 手机壳 */}
+                          <div style={{
+                            width: 280,
+                            flexShrink: 0,
+                            background: '#1a1a1a',
+                            borderRadius: 44,
+                            padding: '12px 8px',
+                            boxShadow: '0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)',
+                            position: 'relative',
+                          }}>
+                            {/* 侧边按钮装饰 */}
+                            <div style={{ position: 'absolute', left: -3, top: 100, width: 3, height: 32, background: '#333', borderRadius: '2px 0 0 2px' }} />
+                            <div style={{ position: 'absolute', left: -3, top: 144, width: 3, height: 32, background: '#333', borderRadius: '2px 0 0 2px' }} />
+                            <div style={{ position: 'absolute', right: -3, top: 120, width: 3, height: 48, background: '#333', borderRadius: '0 2px 2px 0' }} />
 
-                        {/* 模板选择区域 */}
-                        <div style={{ display: 'flex', gap: 24 }}>
-                          {/* 空白模板 */}
-                          <div
-                            onClick={() => setSelectedAppTemplate('blank')}
-                            style={{
-                              width: 260,
-                              border: selectedAppTemplate === 'blank' ? '2px solid #1677ff' : '1px solid #d9d9d9',
-                              borderRadius: 8,
-                              padding: 24,
-                              cursor: 'pointer',
-                              transition: 'all 0.3s',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              minHeight: 300
-                            }}
-                          >
-                            <svg viewBox="0 0 200 200" width="120" height="120" fill="none" style={{ marginBottom: 16 }}>
-                              <rect x="40" y="20" width="120" height="160" rx="4" stroke="#d9d9d9" strokeWidth="2" fill="#fafafa"/>
-                              <line x1="60" y1="40" x2="140" y2="40" stroke="#d9d9d9" strokeWidth="2"/>
-                              <line x1="60" y1="60" x2="140" y2="60" stroke="#d9d9d9" strokeWidth="2"/>
-                              <line x1="60" y1="80" x2="100" y2="80" stroke="#d9d9d9" strokeWidth="2"/>
-                            </svg>
-                            <div style={{ fontSize: 14, color: '#8c8c8c', textAlign: 'center' }}>空白模板</div>
-                          </div>
-
-                          {/* 玩具行业详描模板 */}
-                          <div
-                            onClick={() => setSelectedAppTemplate('toy')}
-                            style={{
-                              width: 260,
-                              border: selectedAppTemplate === 'toy' ? '2px solid #1677ff' : '1px solid #d9d9d9',
-                              borderRadius: 8,
+                            {/* 屏幕区域 */}
+                            <div style={{
+                              background: '#fff',
+                              borderRadius: 36,
                               overflow: 'hidden',
-                              cursor: 'pointer',
-                              transition: 'all 0.3s',
+                              height: 560,
                               display: 'flex',
                               flexDirection: 'column',
-                              minHeight: 300
-                            }}
-                          >
-                            <div style={{ flex: 1, background: '#fff', padding: 16 }}>
-                              <div style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 8, color: '#262626' }}>
-                                Item Description
-                              </div>
-                              <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 4, color: '#262626' }}>
-                                Selling Point
-                              </div>
-                              <div style={{ fontSize: 12, color: '#8c8c8c', marginBottom: 12, lineHeight: 1.5 }}>
-                                Describe the details of the selling point above, attracting and providing trust to your potential users.
-                              </div>
+                            }}>
+                              {/* 刘海 + 状态栏 */}
                               <div style={{
-                                width: '100%',
-                                height: 160,
-                                background: '#f0f0f0',
-                                borderRadius: 4,
+                                background: '#f8f8f8',
+                                height: 44,
+                                display: 'flex',
+                                alignItems: 'flex-end',
+                                justifyContent: 'space-between',
+                                padding: '0 20px 6px',
+                                flexShrink: 0,
+                                position: 'relative',
+                              }}>
+                                {/* 刘海 */}
+                                <div style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: '50%',
+                                  transform: 'translateX(-50%)',
+                                  width: 90,
+                                  height: 22,
+                                  background: '#1a1a1a',
+                                  borderRadius: '0 0 18px 18px',
+                                }} />
+                                <span style={{ fontSize: 11, fontWeight: 700, color: '#262626' }}>9:41</span>
+                                <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+                                  {/* 信号格 */}
+                                  {[3, 5, 7, 9].map((h, i) => (
+                                    <div key={i} style={{ width: 3, height: h, background: '#262626', borderRadius: 1 }} />
+                                  ))}
+                                  {/* WiFi */}
+                                  <svg width="14" height="10" viewBox="0 0 24 16" fill="#262626" style={{ marginLeft: 2 }}>
+                                    <path d="M12 4C8.3 4 5 5.5 2.6 8L0 5.4C3.1 2 7.3 0 12 0s8.9 2 12 5.4L21.4 8C19 5.5 15.7 4 12 4zm0 6c-2 0-3.8.8-5.1 2.1L4.5 9.7C6.5 7.7 9.1 6.5 12 6.5s5.5 1.2 7.5 3.2l-2.4 2.4C15.8 10.8 14 10 12 10zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                                  </svg>
+                                  {/* 电池 */}
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <div style={{ width: 18, height: 9, border: '1.5px solid #262626', borderRadius: 2, padding: '1px 1.5px' }}>
+                                      <div style={{ width: '85%', height: '100%', background: '#262626', borderRadius: 1 }} />
+                                    </div>
+                                    <div style={{ width: 2, height: 5, background: '#262626', borderRadius: '0 1px 1px 0' }} />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* 顶部导航栏 */}
+                              <div style={{
+                                background: '#fff',
+                                borderBottom: '1px solid #f0f0f0',
+                                padding: '8px 16px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                flexShrink: 0,
+                              }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#262626">
+                                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                                </svg>
+                                <span style={{ fontSize: 13, fontWeight: 600, color: '#262626', flex: 1, textAlign: 'center', marginRight: 24 }}>
+                                  商品详情
+                                </span>
+                              </div>
+
+                              {/* 内容滚动区 */}
+                              <div style={{
+                                flex: 1,
+                                overflowY: 'auto',
+                                background: '#fff',
+                                WebkitOverflowScrolling: 'touch' as any,
+                              }}>
+                                {pcDescription && pcDescription.replace(/<[^>]*>/g, '').trim() ? (
+                                  <div
+                                    dangerouslySetInnerHTML={{ __html: pcDescription }}
+                                    style={{
+                                      padding: '12px 14px',
+                                      fontSize: 12,
+                                      lineHeight: 1.7,
+                                      color: '#262626',
+                                      wordBreak: 'break-word',
+                                    }}
+                                  />
+                                ) : (
+                                  <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                    padding: 24,
+                                    color: '#bfbfbf',
+                                  }}>
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="#d9d9d9" style={{ marginBottom: 10 }}>
+                                      <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                    </svg>
+                                    <span style={{ fontSize: 11, textAlign: 'center', lineHeight: 1.6 }}>
+                                      在上方 PC 详描编辑区<br/>输入内容后在此预览
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* 底部 home 条 */}
+                              <div style={{
+                                height: 28,
+                                background: '#fff',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                position: 'relative'
+                                flexShrink: 0,
                               }}>
-                                <div style={{
-                                  position: 'absolute',
-                                  inset: 0,
-                                  background: 'linear-gradient(135deg, #ffd89b 0%, #19547b 100%)',
-                                  opacity: 0.3
-                                }} />
-                                <svg viewBox="0 0 24 24" width="48" height="48" fill="#8c8c8c">
-                                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
-                                </svg>
+                                <div style={{ width: 48, height: 4, background: '#262626', borderRadius: 2, opacity: 0.3 }} />
                               </div>
-                            </div>
-                            <div style={{
-                              padding: '12px 16px',
-                              background: '#fafafa',
-                              borderTop: '1px solid #d9d9d9',
-                              fontSize: 14,
-                              color: '#262626',
-                              textAlign: 'center',
-                              fontWeight: 500
-                            }}>
-                              玩具行业详描模板
                             </div>
                           </div>
 
-                          {/* 查看更多详描模板 */}
-                          <div
-                            style={{
-                              width: 260,
-                              border: '1px solid #d9d9d9',
-                              borderRadius: 8,
-                              padding: 24,
-                              cursor: 'pointer',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              minHeight: 300,
-                              transition: 'all 0.3s'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.borderColor = '#1677ff'
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.borderColor = '#d9d9d9'
-                            }}
-                          >
-                            <div style={{
-                              fontSize: 18,
-                              color: '#1677ff',
-                              textAlign: 'center',
-                              lineHeight: 1.6,
-                              fontWeight: 500
-                            }}>
-                              查看更<br />多详描<br />模板
+                          {/* 右侧说明 */}
+                          <div style={{ paddingTop: 8 }}>
+                            <div style={{ fontSize: 13, color: '#595959', marginBottom: 12, lineHeight: 1.8 }}>
+                              <div style={{ marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#1677ff', flexShrink: 0 }} />
+                                实时同步 PC 详描内容，所见即所得
+                              </div>
+                              <div style={{ marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#1677ff', flexShrink: 0 }} />
+                                手机屏宽约 375px，字号自动缩小适配
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#1677ff', flexShrink: 0 }} />
+                                支持滚动查看完整内容
+                              </div>
                             </div>
                           </div>
                         </div>
